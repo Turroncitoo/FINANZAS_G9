@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+	layout:decorator="layout">
+<head>
+<title>Proceso de Ejecución Manual</title>
+</head>
+<th:block layout:fragment="style">
+	<link th:href="@{/resources/css/dataTables.bootstrap.min.css}" rel="stylesheet" />
+	<link th:href="@{/resources/css/responsive.bootstrap.min.css}" rel="stylesheet" />
+	<link th:href="@{/resources/css/popupwindow.css}" rel="stylesheet" />
+	<link th:href="@{/resources/css/select2.min.css}" rel="stylesheet" />
+	<link th:href="@{/resources/css/smart_wizard.min.css}" rel="stylesheet" />
+	<link th:href="@{/resources/css/smart_wizard_theme_arrows.min.css}" rel="stylesheet" />
+	<link th:href="@{/resources/css/waitMe.min.css}" rel="stylesheet" />
+</th:block>
+<body>
+	<th:block layout:fragment="content">
+		<div class="page-content-wrap">
+			<div class="row">
+				<div class="col-md-12 col-sm-12 col-xs-12">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h3 class="panel-title">Proceso de Ejecución Manual</h3>
+						</div>
+						<div class="panel-body">
+							<div class="row">
+								<div class="col-xs-12">
+									<br /> <br />
+									<div id="smartwizard">
+										<ul>
+											<th:block th:each="procesoAutomatico, iter : ${procesosAutomaticos}"
+												th:with="recurso=#{__|rec-${procesoAutomatico.codigoGrupo}|__}">
+												<li th:if="${#authorization.expression('hasPermission(#vars.recurso,''6'')')}"><a th:href="|#paso-${iter.count}|">
+														[[|Etapa N° ${iter.count}|]] <br /> <small>[[${procesoAutomatico.descripcionGrupo}]]</small>
+													</a></li>
+											</th:block>
+											<li><a href="#paso-final">
+													Etapa Final<br /> <small>FINALIZACION</small>
+												</a></li>
+										</ul>
+										<div id="pasos">
+											<th:block th:each="procesoAutomatico, iter : ${procesosAutomaticos}"
+												th:with="recurso=#{__|rec-${procesoAutomatico.codigoGrupo}|__}">
+												<th:block th:if="${#authorization.expression('hasPermission(#vars.recurso,''6'')')}">
+													<div th:id="|paso-${iter.count}|">
+														<br />
+														<h2 th:text="|Etapa N° ${iter.count}|"></h2>
+														<div class="table-responsive">
+															<table th:id="${iter.count}" width="100%"
+																class="table table-bordered table-condensed nowrap display table-hover tabla-pasos">
+																<thead>
+																	<tr>
+																		<th>Grupo</th>
+																		<th>Programa</th>
+																		<th>SubMódulo</th>
+																		<th>Orden</th>
+																		<th>Acción</th>
+																	</tr>
+																</thead>
+																<tbody>
+																	<tr th:each="programa : ${procesoAutomatico.programas}">
+																		<td th:text="|${procesoAutomatico.codigoGrupo} - ${procesoAutomatico.descripcionGrupo}|"></td>
+																		<td th:text="|${programa.codigoPrograma} - ${programa.descripcionPrograma}|"></td>
+																		<td th:text="|${programa.codigoSubModulo} - ${programa.descripcionSubModulo}|"></td>
+																		<td th:text="${programa.ordenEjecucion}"></td>
+																		<td class="dt-center">
+																			<button class="btn btn-primary btn-xs ejecutar"
+																				th:attr="data-codigoGrupo=${procesoAutomatico.codigoGrupo}, 
+																			         data-codigoPrograma=${programa.codigoPrograma}, 
+																			         data-codigoSubModulo=${programa.codigoSubModulo}, 
+																			         data-procedimiento=${programa.procedimiento}, 
+																			         data-urlSistema=${programa.urlSistema}"
+																			    th:disabled="${programa.estado == 2}">
+																				<i th:class="fa"
+																					th:classappend="${programa.estado == 2 ? 'fa-spinner fa-pulse fa-fw':'fa-cog'}"></i>
+																				<span th:if="${programa.estado == -1 or programa.estado == 0}">Procesar</span>
+																				<span th:if="${programa.estado == 1}">Reprocesar</span>
+																				<span th:if="${programa.estado == 2}">Procesando</span>
+																			</button>
+																		</td>
+																	</tr>
+																</tbody>
+															</table>
+														</div>
+													</div>
+												</th:block>
+											</th:block>
+											<div id="paso-final">
+												<br />
+												<h2>Etapa Final</h2>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<audio style="display: none !important;" id="audioEjecucionExitosa" controls>
+					<source type="audio/mp3" th:src="@{/resources/media/ejecucion-exitosa.mp3}">
+				</audio>
+				<audio style="display: none !important;" id="audioEjecucionError" controls>
+					<source type="audio/mp3" th:src="@{/resources/media/error-ejecucion.mp3}">
+				</audio>
+			</div>
+		</div>
+	</th:block>
+
+	<th:block layout:fragment="script">
+		<script th:src="@{/resources/js/datatables/jquery.dataTables.min.js}"></script>
+		<script th:src="@{/resources/js/datatables/dataTables.bootstrap.min.js}"></script>
+		<script th:src="@{/resources/js/datatables/dataTables.responsive.min.js}"></script>
+		<script th:src="@{/resources/js/bootstrap/bootstrap-notify.min.js}"></script>
+		<script th:src="@{/resources/js/jquery/jquery.smartWizard.min.js}"></script>
+		<script th:src="@{/resources/js/howler/howler.min.js}"></script>
+		<script th:src="@{/resources/js/waitMe/waitMe.min.js}"></script>
+		<script th:src="@{/resources/js/howler/howler.core.min.js}"></script>
+		<script th:src="@{/resources/js/pagina/proceso/ejecucion/manual.js}"></script>
+	</th:block>
+</body>
+</html>

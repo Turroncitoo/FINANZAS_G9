@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layout">
+<head>
+<title>¡Acceso Denegado!</title>
+</head>
+
+<body>
+	<th:block layout:fragment="content">
+		<div class="page-content-wrap">
+			<div class="row">
+				<div class="col-lg-5 col-lg-offset-3">
+					<div class="jumbotron text-center">
+						<h1>403</h1>
+						<h3>Página prohibida!</h3>
+						<p>No tiene permisos suficientes para acceder a esta página</p>
+						<button class="btn btn-primary" onclick="window.history.back()">
+							<i class="fa fa-left-big"></i> Ir a la página anterior
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</th:block>
+</body>
+</html>

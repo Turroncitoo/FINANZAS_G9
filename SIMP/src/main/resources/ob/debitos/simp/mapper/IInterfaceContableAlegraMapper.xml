@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ob.debitos.simp.mapper.IInterfaceContableAlegraMapper">
+
+	<resultMap type="InterfaceContableAlegraRequest" id="resultComision">
+		<result property="date" column="fechaProceso" />
+		<result property="bankAccount" column="cuentaBanco" />
+		<result property="type" column="type" />
+		<collection property="categories" ofType="Categories">
+			<result property="id" column="cuentaContable" />
+			<result property="cantidad" column="cantidad" />
+			<result property="quantity" column="quantity" />
+			<result property="price" column="comisionSoles" />
+			<result property="observations" column="observations" />
+		</collection>
+	</resultMap>
+
+	<select id="interfaceAlegraComisInCompras" resultMap="resultComision">
+		SELECT * FROM ConsultaInterfaceAlegraComisInCompras
+		<where>
+			<if test="fechaProceso != null">
+				fechaProceso= #{fechaProceso}
+			</if>
+		</where>
+	</select>
+
+	<select id="interfaceAlegraComisOutCompras" resultMap="resultComision">
+		SELECT * FROM ConsultaInterfaceAlegraComisOutCompras
+		<where>
+			<if test="fechaProceso != null">
+				fechaProceso= #{fechaProceso}
+			</if>
+		</where>
+
+	</select>
+
+	<select id="interfaceAlegraCompOutAdquiCompras" resultMap="resultComision">
+		SELECT * FROM ConsultaInterfaceAlegraCompOutAdquiCompras
+		<where>
+			<if test="fechaProceso != null">
+				fechaProceso= #{fechaProceso}
+			</if>
+		</where>
+	</select>
+
+	<select id="interfaceAlegraComisInTHB" resultMap="resultComision">
+		SELECT * FROM ConsultaInterfaceAlegraComisInTHB
+		<where>
+			<if test="fechaProceso != null">
+				fechaProceso= #{fechaProceso}
+			</if>
+		</where>
+	</select>
+	
+	<select id="interfaceAlegraMiscelaneoUBA" resultMap="resultComision">
+		SELECT * FROM ConsultaInterfaceAlegraMiscelaneosUBA
+		<where>
+			<if test="fechaProceso != null">
+				fechaProceso= #{fechaProceso}
+			</if>
+		</where>
+	</select>
+	
+	<select id="interfaceAlegraOtrosConceptosMaximo" resultMap="resultComision">
+		SELECT * FROM ConsultaInterfaceAlegraOtrosConceptosMaximo
+		<where>
+			<if test="fechaProceso != null">
+				fechaProceso= #{fechaProceso}
+			</if>
+		</where>
+	</select>
+
+	<select id="registrarLogAPIAlegra" resultType="String" parameterType="LogInterfaceAlegra">
+		{
+			CALL P_ALEGRA_LOG_API (
+				 #{descripcion, 	jdbcType=VARCHAR, mode=IN}
+				,#{idEnvio, 		jdbcType=VARCHAR, mode=IN}
+				,#{fechaRequest, 	jdbcType=VARCHAR, mode=IN}
+				,#{fechaResponse, 	jdbcType=VARCHAR, mode=IN}
+				,#{uriResquest, 	jdbcType=VARCHAR, mode=IN}
+				,#{httpStatus, 		jdbcType=VARCHAR, mode=IN}
+				,#{jsonRequest, 	jdbcType=VARCHAR, mode=IN}
+				,#{jsonResponse, 	jdbcType=VARCHAR, mode=IN}
+				,#{traceError, 		jdbcType=VARCHAR, mode=IN}
+				,#{exito, 			jdbcType=INTEGER, mode=IN}
+				,#{usuario, 		jdbcType=VARCHAR, mode=IN}
+			)
+		}
+	</select>
+
+</mapper>

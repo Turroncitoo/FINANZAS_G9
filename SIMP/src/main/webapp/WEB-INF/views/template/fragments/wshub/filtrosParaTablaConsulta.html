@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+	<th:block th:fragment="criterioBusqueda" th:with="consulta=${consulta}">
+		<div id="tipoBusqueda" class="col-xs-12 col-md-5 col-lg-4">
+			<fieldset class="well">
+				<legend class="well-legend">Tipo de Búsqueda</legend>
+				<form id="formTipoBusqueda" class="form-horizontal">
+					<div class="form-group">
+						<div class="col-sm-12">
+							
+							<th:block th:if="${consulta != 'clientesTarjetas'}">
+							
+							
+								<label class="radio-inline">
+									<input type="radio" name="tipoBusqueda" value="tipoDocumento">
+									Por Tipo de Documento
+								</label>
+								<label class="radio-inline">
+									<input type="radio" name="tipoBusqueda" value="criterios">
+									Por Criterios
+								</label>
+								</th:block>
+							
+							<label class="radio-inline">
+								<input type="radio" checked="checked" name="tipoBusqueda" value="operaciones">
+								Operaciones
+							</label>
+						</div>
+					</div>
+				</form>
+			</fieldset>
+		</div>
+		<div class="col-xs-12">
+			<fieldset class="well">
+				<legend class="well-legend">Filtro</legend>
+				<div id="tipoDocumento" class="hidden">
+					<form id="formParamIniciales" class="form-horizontal">
+						<div class="form-group">
+							<div class="group">
+								<label class="col-sm-1 control-label">Tipo de Documento</label>
+								<div class="col-sm-3">									
+									<select id="selectTipoDocumento" name="tipoDocumento" class="form-control select2">
+										<option value="" disabled="disabled" selected="selected">Seleccion un Tipo de Documento</option>
+										<option th:each= "documentos : ${tipoDocumentos}" th:value="${documentos.idItem}"
+											th:text="|${documentos.idItem} - ${documentos.descripcionItem}|"></option>
+									</select>
+								</div>
+							</div>
+							<div class="group">
+								<label class="col-sm-1 control-label">Número de Documento</label>
+								<div class="col-sm-2">
+									<input id="txtNumDocumentoCliente" name="numeroDocumento" type="text"
+										placeholder="10002987" class="form-control input-md">
+								</div>
+							</div>
+							<div class="group">
+								<div class="col-sm-4">
+									<button id="btnBuscarPorDocumentoCliente" class="btn btn-primary" type="button">
+										<i class="fa fa-search"></i> Buscar
+									</button>
+									<button id="btnExportarSM-TipoDocumento" class="btn btn-success btnExportarSaldosMovimientos" type="button" th:if="${#vars.permisoReporte}">
+										<i class="fa fa-download"></i> Exportar
+									</button>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+				<div id="criterios" class="hidden" >
+					<form id="formBusquedaCriterios" class="form-horizontal">
+						<th:block
+							th:replace="~{template/fragments/wshub/filtrosParaTablaConsulta:: |${consulta}-criterios|  }?:~{}">
+						</th:block>
+						<div class="form-group">
+							<div class="col-lg-12 text-center">
+								<button id="buscarCriterios" type="button" class="btn btn-primary">
+									<i class="fa fa-search"></i> Buscar
+								</button>
+								<th:block th:if="${consulta}=='saldosMovimientos'">
+									<button id="btnExportarSM-Criterios" class="btn btn-success btnExportarSaldosMovimientos" type="button" th:if="${#vars.permisoReporte}">
+										<i class="fa fa-download"></i> Exportar
+									</button>
+								</th:block>								
+							</div>
+						</div>
+					</form>
+				</div>
+				<div id="operaciones" >
+					<form id="formBusquedaOperaciones" class="form-horizontal">
+						<th:block
+							th:replace="~{template/fragments/wshub/filtrosParaTablaConsulta:: |${consulta}-operaciones| }?:~{}">
+						</th:block>
+						
+					</form>
+				</div>
+			</fieldset>
+		</div>
+	</th:block>
+
+	<th:block th:fragment="saldosMovimientos-criterios">
+		<div class="form-group">
+			<div class="group">
+				<label class="col-sm-1 col-md-1 control-label">Número de Tarjeta</label>
+				<div class="col-sm-3 col-md-3">
+					<input class="form-control filtro" name="numeroTarjeta" />
+				</div>
+			</div>
+			<div class="group">
+				<label class="col-sm-1 control-label">Fechas</label>
+				<div class="col-sm-3 input-group">
+					<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+					<input id="rangoFechaMovimientos" type="text" class="form-control filtro" readonly="readonly" />
+				</div>
+			</div>
+		</div>
+	</th:block>
+	
+	<th:block th:fragment="saldosMovimientos-operaciones">
+		<div class="form-group">
+			<div class="group">
+				<label class="col-sm-1 col-md-1 control-label">Número de Tarjeta</label>
+				<div class="col-sm-2 col-md-2">
+					<input id="tarjetaCriterio" class="form-control filtro" name="numeroTarjeta" />
+				</div>
+			</div>
+			
+		</div>
+		<div class="form-group">
+			<div class="group">
+				<div class="col-sm-2 col-md-2 text-center" th:if="${#vars.permisoActivar}">
+					<button id="activar" type="button" class="btn btn-primary">
+						<i class="fa fa-search"></i> Activar
+					</button>
+				</div>
+			</div>
+			<div class="group">
+				<div class="col-sm-2 col-md-2 text-center" th:if="${#vars.permisoRecargar}">
+					<button id="recargar" type="button" class="btn btn-success">
+						<i class="fa fa-search"></i> Recargar
+					</button>
+				</div>
+			</div>
+			<div class="group">
+				<div class="col-sm-2 col-md-2 text-center" th:if="${#vars.permisoReasignar}">
+					<button id="reasignar" type="button" class="btn btn-warning">
+						<i class="fa fa-search"></i> Reasignar
+					</button>
+				</div>
+			</div>
+			<div class="group">
+				<div class="col-sm-2 col-md-2 text-center" th:if="${#vars.permisoBloquear}">
+					<button id="bloquear" type="button" class="btn btn-danger">
+						<i class="fa fa-search"></i> Bloquear
+					</button>
+				</div>
+			</div>
+			<div class="group">
+				<div class="col-sm-2 col-md-2 text-center" th:if="${#vars.permisoConsulta}">
+					<button id="consultar" type="button" class="btn btn-success">
+						<i class="fa fa-search"></i> Consultar
+					</button>
+				</div>
+			</div>
+		</div>
+	</th:block>
+	
+	<th:block th:fragment="clientesTarjetas-criterios">
+		<div class="form-group">
+			<div class="group">
+				<label class="col-sm-1 control-label">Fecha de Registro</label>
+				<div class="col-sm-3 input-group">
+					<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+					<input id="rangoFechaMovimientos" type="text" class="form-control filtro" readonly="readonly" />
+				</div>
+			</div>
+		</div>
+	</th:block>
+	
+	<th:block th:fragment="clientesTarjetas-operaciones">
+		<div class="form-group">
+			<div class="group">
+				<div class="col-sm-2 col-md-2 text-center" th:if="${#vars.permisoRegistro}">
+					<button id="registrar" type="button" class="btn btn-success">
+						<i class="fa fa-search"></i> Registrar
+					</button>
+				</div>
+			</div>
+			<div class="group">
+				<div class="col-sm-2 col-md-2 text-center" th:if="${#vars.permisoAsociar}">
+					<button id="asociar" type="button" class="btn btn-primary">
+						<i class="fa fa-search"></i> Asociar
+					</button>
+				</div>
+			</div>
+						
+		</div>
+	</th:block>
+	
+	
+	
+</body>
+</html>

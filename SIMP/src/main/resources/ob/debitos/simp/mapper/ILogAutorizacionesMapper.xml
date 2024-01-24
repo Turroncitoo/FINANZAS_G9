@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ob.debitos.simp.mapper.ILogAutorizacionesMapper">
+
+	<select id="buscarAutorizacionesNoConciliadasPorCriterios" resultType="LogAutorizacion"> 
+		SELECT consultaAutorizacionConciliacion.*,
+			    IIF(fechaConciliaLog IS NULL OR 
+			    DATEDIFF(DAY,  #{fechaCorte}, fechaConciliaLog) > 0, 
+				DATEDIFF(DAY, #{fechaCorte}, transmissionDate),
+				DATEDIFF(DAY, fechaConciliaLog, transmissionDate)) AS numeroDias
+		FROM ConsultaMovLogAutorizacionesReporteConciliacion consultaAutorizacionConciliacion
+		  	<where>	
+		  			<if test="numeroDias != null and fechaCorte == null"> 
+			   			  DATEDIFF(DAY, consultaAutorizacionConciliacion.transmissionDate, 
+			   			  (SELECT dFechaProceso FROM MaeParametrosGenerales))  &gt;= #{numeroDias}
+		   			  	  AND consultaAutorizacionConciliacion.conciliaLogContable = 0 
+		  			</if> 
+		  			<if test="numeroDias != null and fechaCorte != null">
+			  			   consultaAutorizacionConciliacion.transmissionDate &lt;= #{fechaCorte} AND 
+			   			   (consultaAutorizacionConciliacion.fechaConciliaLog IS NULL OR
+			   			   
+			   			   DATEDIFF(DAY,  #{fechaCorte}, consultaAutorizacionConciliacion.fechaConciliaLog) > 0 
+			   			   ) AND 	
+			   			  
+			   			  DATEDIFF(DAY, consultaAutorizacionConciliacion.transmissionDate, 
+			   			  				#{fechaCorte})  &gt;= #{numeroDias}  		 
+		  			</if> 	
+			  		<if test="numeroDias == null and fechaCorte != null">
+			   			   consultaAutorizacionConciliacion.transmissionDate &lt;= #{fechaCorte} AND 
+			   			   (consultaAutorizacionConciliacion.fechaConciliaLog IS NULL OR
+			   			   
+			   			   DATEDIFF(DAY,  #{fechaCorte}, consultaAutorizacionConciliacion.fechaConciliaLog) > 0 
+			   			   
+			   			   )  		
+			  		</if> 	
+			  		<if test = "idEmpresa != 'ALL'">
+			  			AND idEmpresa = #{idEmpresa} 
+			  		</if>
+			  		<if test = "idCliente != 'ALL'">
+			  			AND idCliente = #{idCliente}
+			  		</if>
+		  	</where>				   
+
+	</select>
+	
+
+	<select id="buscarAutorizacionesNoConciliadasPorDia" resultType="LogAutorizacionNoConciliadaPorFecha"> 
+		SELECT
+				FORMAT(la.dTransmissionDate, 'dd/MM/yyyy', 'es-PE') 	AS fechaTxn,
+			<if test="tipoBusqueda == 'logContable'"> 
+			    
+			    SUM (IIF (  dFechaConciliaLog IS NULL OR
+		   			   DATEDIFF(DAY,  #{fechaCorte}, dFechaConciliaLog) > 0 , 0, 1))		    AS numeroTxnConciliadas, 
+				SUM (IIF ( dFechaConciliaLog IS NULL OR
+		   			   DATEDIFF(DAY,  #{fechaCorte}, dFechaConciliaLog) > 0, 1, 0))			AS numeroTxnNoConciliadas,
+			
+			</if> 
+				
+			 	COUNT(*)						 					    AS numeroTotal,
+			 	DATEDIFF (DAY, la.dTransmissionDate, (SELECT dFechaProceso FROM MaeParametrosGenerales)) AS numeroDias 
+		FROM 	dbo.MovTxnsSwDmpLog la
+  		<where>	
+  					  nRolTransaccion = 1
+		  		AND   nResponseCode = 0
+		  		AND   vIdProceso IN ('00', '01', '97', '99')
+		  		<if test="numeroDias != null and fechaCorte == null"> 
+		   			AND  DATEDIFF(DAY, la.dTransmissionDate, 
+		   			  (SELECT dFechaProceso FROM MaeParametrosGenerales))   &gt;= #{numeroDias}	
+		  		</if> 
+		  		<if test="numeroDias != null and fechaCorte != null"> 
+		   			AND  DATEDIFF(DAY, la.dTransmissionDate, 
+		   			  #{fechaCorte})   &gt;= #{numeroDias}		
+		  		</if> 
+		  		<if test="numeroDias == null and fechaCorte != null">
+		   			AND   la.dTransmissionDate &lt;= #{fechaCorte}	  
+		  		</if> 
+		  		<if test = "idEmpresa != 'ALL'">
+			  		AND la.vIdEmpresa = #{idEmpresa} 
+			  		</if>
+			  	<if test = "idCliente != 'ALL'">
+			  		AND la.vIdCliente = #{idCliente}
+			  	</if>
+		  </where>		
+  		  GROUP BY la.dTransmissionDate
+	</select>
+
+</mapper>

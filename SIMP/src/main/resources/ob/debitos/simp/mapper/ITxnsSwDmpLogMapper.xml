@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ob.debitos.simp.mapper.ITxnsSwDmpLogMapper">
+    <select id="buscarDetalleTxnsSwDmpLog" resultType="TxnSwDmpLogDetalle">
+        SELECT *
+        FROM ConsultaDetalleSwDmpLog consulta
+        <where>
+            <if test="numeroCuenta != null">
+                AND consulta.numeroCuenta = #{numeroCuenta}
+            </if>
+            <if test="fechaTransmision != null">
+                AND consulta.fechaTransmision = #{fechaTransmision}
+            </if>
+            <if test="numeroRastreo != null">
+                AND consulta.numeroRastreo = #{numeroRastreo}
+            </if>
+            <if test="tipoMensaje != null">
+                AND consulta.tipoMensaje = #{tipoMensaje}
+            </if>
+        </where>
+    </select>
+
+    <select id="buscarTxnsSwDmpLogPaginado" statementType="CALLABLE" resultType="TxnsSwDmpLog"
+            parameterType="CriterioPaginacion">
+        {call CONSULTA_SWDMPLOG_TIPO_DOCUMENTO
+            (
+                #{criterioBusqueda.modo,			        jdbcType=VARCHAR, mode = IN},
+                #{criterioBusqueda.codigoInstitucion, 	    jdbcType=INTEGER, mode = IN},
+                #{criterioBusqueda.tipoDocumento, 		    jdbcType=INTEGER, mode = IN},
+                #{criterioBusqueda.numeroDocumento, 	    jdbcType=VARCHAR, mode = IN},
+                #{search.value, 			                jdbcType=VARCHAR, mode = IN},
+                #{start, 							        jdbcType=INTEGER, mode = IN},
+                #{length, 							        jdbcType=INTEGER, mode = IN},
+                #{orderExpression, 					        jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.fechaProceso, 	        jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.institucion, 	        jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.empresa,                 jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.cliente, 		        jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.logo, 			        jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.producto, 	            jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.rolTransaccion,          jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.codigoProceso,           jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.codigoRespuesta,         jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.canal, 					jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.fechaTransmision,        jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.tipoMensaje,             jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.tipoDocumento,           jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.numeroDocumento,         jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.nombres,                 jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.apellidoPaterno,         jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.apellidoMaterno,         jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.numeroTarjeta,           jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.codigoSeguimiento,       jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.identificadorCuenta,     jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.estadoTarjeta, 	        jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.moneda, 	                jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.importe, 			    jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.giroNegocio, 		    jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.trace, 				    jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.codigoAutorizacion,      jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.descripcionAdquirente,   jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.institucionAdquirente,   jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.institucionSolicitante,  jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.fechaSwitch,             jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.fechaTransaccionLocal,   jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.modoIngresoPan,          jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.capacidadIngresoPan,     jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.cuentaCargo,             jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.cuentaAbono,             jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.codigoAnalitico,         jdbcType=VARCHAR, mode = IN}
+            )
+            }
+    </select>
+
+    <select id="filtrarTxnsSwDmpLogPaginado" statementType="CALLABLE" resultType="TxnsSwDmpLog"
+            parameterType="CriterioPaginacion" fetchSize="50000">
+        {call CONSULTA_SWDMPLOG_CRITERIOS
+            (
+                #{criterioBusqueda.modo,			        jdbcType=VARCHAR, mode = IN},
+                #{criterioBusqueda.fechaProcesoInicio, 	    jdbcType=DATE, mode = IN},
+                #{criterioBusqueda.fechaProcesoFin, 	    jdbcType=DATE, mode = IN},
+                #{criterioBusqueda.fechaTransaccionInicio,  jdbcType=DATE, mode = IN},
+                #{criterioBusqueda.fechaTransaccionFin,     jdbcType=DATE, mode = IN},
+                #{criterioBusqueda.codigoInstitucion,       jdbcType=INTEGER, mode = IN},
+                #{criterioBusqueda.idEmpresa, 		        jdbcType=VARCHAR, mode = IN},
+                #{criterioBusqueda.clientesCadena, 		    jdbcType=VARCHAR, mode = IN},
+                #{criterioBusqueda.rolesTransaccionCadena,  jdbcType=VARCHAR, mode = IN},
+                #{criterioBusqueda.codigosProcesoCadena,    jdbcType=VARCHAR, mode = IN},
+                #{criterioBusqueda.codigosRespuestaCadena,  jdbcType=VARCHAR, mode = IN},
+                #{criterioBusqueda.canalesCadena, 		    jdbcType=VARCHAR, mode = IN},
+                #{criterioBusqueda.numeroTarjeta, 		    jdbcType=VARCHAR, mode = IN},
+                #{criterioBusqueda.codigoSeguimiento, 	    jdbcType=VARCHAR, mode = IN},
+                #{criterioBusqueda.trace, 		            jdbcType=VARCHAR, mode = IN},
+                #{criterioBusqueda.nombreCompleto, 		    jdbcType=VARCHAR, mode = IN},
+                #{search.value, 					        jdbcType=VARCHAR, mode = IN},
+                #{start, 							        jdbcType=INTEGER, mode = IN},
+                #{length, 							        jdbcType=INTEGER, mode = IN},
+                #{orderExpression, 					        jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.fechaProceso, 	        jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.institucion, 	        jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.empresa,                 jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.cliente, 		        jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.logo, 			        jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.producto,	            jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.rolTransaccion,          jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.codigoProceso,           jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.codigoRespuesta,         jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.canal, 					jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.fechaTransaccion,        jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.tipoMensaje,             jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.tipoDocumento,           jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.numeroDocumento,         jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.nombres,                 jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.apellidoPaterno,         jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.apellidoMaterno,         jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.numeroTarjeta,           jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.codigoSeguimiento,       jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.identificadorCuenta,     jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.estadoTarjeta, 	        jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.moneda, 	                jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.importe, 			    jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.giroNegocio, 		    jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.trace, 				    jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.codigoAutorizacion,      jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.descripcionAdquirente,   jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.institucionAdquirente,   jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.institucionSolicitante,  jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.fechaSwitch,             jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.fechaTransaccionLocal,   jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.modoIngresoPan,          jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.capacidadIngresoPan,     jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.cuentaCargo,             jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.cuentaAbono,             jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.codigoAnalitico,         jdbcType=VARCHAR, mode = IN}
+            )
+            }
+    </select>
+</mapper>

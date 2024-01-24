@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ob.debitos.simp.mapper.IArchivoLoteMapper">
+
+	<resultMap type="LoteAfiliacion" id="mapLoteAfiliacion">
+		<id property="idLote" column="idLote" />
+		<id property="idLoteOriginal" column="idLoteOriginal"></id>
+		<id property="estadoLote" column="estadoLote"></id>
+		<id property="descripcionEstado" column="descripcionEstado" />
+		<id property="fechaRegistro" column="fechaRegistro"></id>
+		<id property="idInstitucion" column="idInstitucion"></id>
+		<id property="idEmpresa" column="idEmpresa"></id>
+		<id property="idCliente" column="idCliente"></id>
+		<collection property="afiliacionDetalle" javaType="List" ofType="LoteAfiliacionDetalle">
+			<result property="idControlLote" column="idControlLote" />
+			<result property="idTarjeta" column="idTarjeta" />
+			<result property="idSecuencial" column="idSecuencial" />
+			<result property="fecHora" column="fecHora" />
+			<result property="datos" column="datos" />
+			<result property="idPersona" column="idPersona" />
+			<result property="respCode" column="respCode" />
+		</collection>
+	</resultMap>
+	
+	<resultMap type="ReporteMoneda" id="mapLoteRecarga">
+		<id property="codigoMoneda" column="moneda"></id>
+		<collection property="recargas" javaType="List" ofType="LoteAfiliacion">
+			<id property="idLote" column="idLote" />
+			<id property="idLoteOriginal" column="idLoteOriginal"></id>
+			<id property="estadoLote" column="estadoLote"></id>
+			<id property="descripcionEstado" column="descripcionEstado" />
+			<id property="fechaRegistro" column="fechaRegistro"></id>
+			<id property="idInstitucion" column="idInstitucion"></id>
+			<id property="idEmpresa" column="idEmpresa"></id>
+			<id property="idCliente" column="idCliente"></id>
+			<collection property="afiliacionDetalle" javaType="List" ofType="LoteAfiliacionDetalle">
+				<result property="idControlLote" column="idControlLote" />
+				<result property="idTarjeta" column="idTarjeta" />
+				<result property="idSecuencial" column="idSecuencial" />
+				<result property="fecHora" column="fecHora" />
+				<result property="datos" column="datos" />
+				<result property="idPersona" column="idPersona" />
+				<result property="respCode" column="respCode" />
+				<result property="montoEnviado" column="montoEnviado"/>
+				<result property="moneda" column="moneda"></result>
+			</collection>
+		</collection>
+	</resultMap>
+
+	<select id="registrarLote" statementType="CALLABLE" parameterType="ArchivoLote">
+	{
+		call sp_InsertarLoteEx
+		(
+			#{idInstitucion, 	jdbcType = INTEGER, mode = IN},
+			#{fechaProceso, 	jdbcType = DATE, 	mode = IN},
+			#{idBIN, 			jdbcType = VARCHAR, mode = IN},
+			#{idSubBIN, 		jdbcType = VARCHAR, mode = IN},
+			#{idAfinidad, 		jdbcType = VARCHAR, mode = IN},
+			#{idTipoEmision, 	jdbcType = VARCHAR, mode = IN},
+			#{idEstadoLote, 	jdbcType = INTEGER, mode = IN},
+			#{idInstancia, 		jdbcType = INTEGER, mode = IN},
+			#{idCliente, 		jdbcType = VARCHAR, mode = IN},
+			#{idEmpresa, 		jdbcType = VARCHAR, mode = IN},
+			#{cantidadPedido, 	jdbcType = INTEGER, mode = IN},
+			#{idLote, 			jdbcType = INTEGER, mode = OUT}
+		)
+	}
+	</select>
+	
+	<select id="registrarControlLote" statementType="CALLABLE">
+	{
+		call sp_InsertarMovControlLote
+		(
+			#{idLote, 	jdbcType = INTEGER, mode = IN}
+		)
+	}
+	</select>
+	
+	<select id="actualizarEstadoLote" statementType="CALLABLE">
+	{
+		call P_ACTUALIZAR_ESTADO_LOTE
+		(
+			#{idLote, 	jdbcType = INTEGER, mode = IN},
+			#{idEstado, jdbcType = INTEGER, mode = IN}
+		)
+	}
+	</select>
+	
+	<select id="registrarAfiliacionRespuestaUBA" statementType="CALLABLE">
+	{
+		call sp_RespuestaAfiliaciones(
+			#{idInstitucion, jdbcType = INTEGER, mode = IN} 
+		)
+	}
+	</select>
+	
+	<select id="buscarReqAfiliacionPendientesEmision" parameterType="Integer" resultMap="mapLoteAfiliacion">
+		SELECT * 
+		FROM ConsultaLotesPendientesEmision consulta 
+		<where>
+			<if test="idInstitucion != null">
+				consulta.idInstitucion = #{idInstitucion} 
+			</if>
+		</where>
+		ORDER BY
+			consulta.idLote,
+			consulta.idControlLote
+	</select>
+	
+	<select id="buscarReqRecargasPendientesEmision" resultMap="mapLoteRecarga">
+		SELECT * 
+		FROM ConsultaLotesRecargasPendientesEmision consulta
+		WHERE
+			consulta.idInstitucion = #{idInstitucion} 
+		ORDER BY
+			consulta.moneda, 
+			consulta.idLote,
+			consulta.idRecarga 
+	</select>
+	
+	<select id="buscarReqActivacionPendientesEmision" parameterType="Integer" resultMap="mapLoteAfiliacion">
+		SELECT * 
+		FROM ConsultaLotesPendientesEmision consulta 
+		WHERE consulta.idInstitucion = #{idInstitucion} 
+			AND consulta.instancia = 2	
+		ORDER BY
+			consulta.idLote,
+			consulta.idControlLote
+	</select>
+
+	<select id="actualizarLote" statementType="CALLABLE" parameterType="ParametroLote" resultType="LotePP">
+	{
+		call P_ACTUALIZAR_LOTE
+		(
+			#{accion, 	jdbcType = VARCHAR, mode = IN},
+			#{idLote, 	jdbcType = INTEGER, mode = IN}
+		)
+	}
+	</select>
+	
+</mapper>

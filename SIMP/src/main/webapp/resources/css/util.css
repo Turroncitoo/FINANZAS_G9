@@ -1,0 +1,30 @@
+@CHARSET "ISO-8859-1";
+
+.label-orange {
+  background-color: #FFA500;
+}
+
+.label-yellow{
+	  background-color: #FFFF00;
+	  color: #000000;
+}
+
+td.td-center {
+    vertical-align:middle !important;
+}
+
+tr.dtrg-group {
+    background-color: #b8cde24d !important;
+    color: #000000a3 !important;
+    font-weight: 600 !important;
+}
+
+.ob-input-red-danger{
+	background-color: #E04B4A !important;
+    color: #fff !important;
+}
+
+.ob-input-green-success{
+	background-color: #5CB85C !important;
+    color: #fff !important;
+}

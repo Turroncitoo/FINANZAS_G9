@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ob.debitos.simp.mapper.IProgramaMapper">
+
+	<select id="mantener" parameterType="Parametro" resultType="Programa" statementType="CALLABLE">
+		{
+			CALL MANT_PROGRAMAS (
+				 #{verbo, jdbcType = VARCHAR, mode = IN}
+				,#{objeto.codigoPrograma, jdbcType = VARCHAR, mode = IN}
+				,#{objeto.codigoGrupo, jdbcType = VARCHAR, mode = IN}
+				,#{objeto.codigoSubModulo, jdbcType = VARCHAR, mode = IN}
+				,#{objeto.procedimiento, jdbcType = VARCHAR, mode = IN}
+				,#{objeto.descripcion, jdbcType = VARCHAR, mode = IN}
+				,#{objeto.archivo, jdbcType = VARCHAR, mode = IN}
+				,#{objeto.ordenEjecucion,	jdbcType = INTEGER, mode = IN}
+				,#{objeto.periodoEjecucion, jdbcType = VARCHAR, mode = IN}
+				,#{objeto.procesaSabado, jdbcType = INTEGER, mode = IN}
+				,#{objeto.longitud, jdbcType = INTEGER, mode = IN}
+				,#{objeto.ejecucionDetallada, jdbcType = BIT, mode = IN}
+				,#{objeto.ejecucionObligatoria, jdbcType = BIT, mode = IN}
+				,#{objeto.ejecucionPorInstitucion, jdbcType = BIT, mode = IN}
+				,#{userAudit, jdbcType = VARCHAR, mode = IN}
+			)
+		}
+	</select>
+	
+</mapper>

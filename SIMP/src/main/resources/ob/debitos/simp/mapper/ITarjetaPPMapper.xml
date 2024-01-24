@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ob.debitos.simp.mapper.ITarjetaPPMapper">
+    <sql id="fragmentSelectConsultaAdministrativaTarjetaPP">
+        SELECT *
+        FROM ConsultaAdministrativaTarjetaPP consulta
+    </sql>
+
+    <sql id="fragmentOrderByConsultaAdministrativaTarjetaPP">
+        ORDER BY consulta.fechaProceso   DESC
+            ,consulta.idInstitucion      ASC
+            ,consulta.idEmpresa          ASC
+            ,consulta.idCliente          ASC
+            ,consulta.idLogo             ASC
+            ,consulta.codigoProducto     ASC
+            ,consulta.idTarjeta          ASC;
+    </sql>
+
+    <select id="buscarTodos" resultType="TarjetaPP">
+        SELECT t.nIdTarjeta                                      AS idTarjeta,
+               t.nIdPersona                                      AS idPersona,
+               t.vCodigoSeguimiento                              AS codigoSeguimiento,
+               FORMAT(t.dFechaActivacion, 'dd/MM/yyyy', 'es-PE') AS fechaActivacion,
+               t.vNumeroTarjeta                                  AS numeroTarjeta,
+               FORMAT(t.dFechaBloqueo, 'dd/MM/yyyy', 'es-PE')    AS fechaBloqueo,
+               t.cEstado                                         AS estado,
+               t.vIdCuenta                                       AS idCuenta,
+               t.cTitularidad                                    AS titularidad,
+               t.nIdLote                                         AS idLote,
+               t.vIdLogo                                         AS idLogo,
+               p.vDescripcion                                    AS descLogo,
+               t.vCodigoProducto                                 AS codigoProducto,
+               q.vDescripcion                                    AS descripcionSubBIN,
+               t.vIdCliente                                      AS idCliente,
+               t.vClaveId                                        AS claveId,
+               c.nIdPersona                                      AS idPersona,
+               c.nTipoDocumento                                  AS tipoDocumento,
+               md.vDescripcionItem                               AS descripcionTipoDocumento,
+               c.vNumeroDocumento                                AS numeroDocumento,
+               c.vNombres                                        AS nombres,
+               c.vApellidoPaterno                                AS apellidoPaterno,
+               c.vApellidoMaterno                                AS apellidoMaterno
+        FROM MaeTarjetasPP t
+                 LEFT JOIN MaeMultitabDet multiTablaEstadoTarjeta ON
+            (multiTablaEstadoTarjeta.vIdItem = t.cEstado and multiTablaEstadoTarjeta.nIdTabla = 12)
+                 LEFT JOIN MaeTarjetasPP b ON t.vNumeroTarjeta = b.vNumeroTarjeta
+                 LEFT JOIN MaePersonaPP c ON b.nIdPersona = c.nIdPersona
+                 LEFT JOIN MaeBines p ON (p.vIdBin = t.vIdBin)
+                 LEFT JOIN MaeSubBines q ON (p.vIdBin = q.vIdBin and t.vIdSubBin = q.vIdSubBin)
+                 LEFT JOIN MaeMultitabDet md ON (md.nIdTabla = 1 and md.vIdItem = c.nTipoDocumento)
+    </select>
+
+    <select id="buscarCodigoSeguimientoPorDocumento" parameterType="CriterioBusquedaTipoDocumentoPrepago"
+            resultType="String">
+        SELECT t.vCodigoSeguimiento
+        FROM MaeTarjetasPP t
+                 LEFT JOIN MaePersonaPP p ON (t.nIdPersona = p.nIdPersona)
+        WHERE p.nTipoDocumento = #{tipoDocumento}
+          AND p.vNumeroDocumento = #{numeroDocumento}
+    </select>
+
+    <select id="buscarCodigoSeguimientoPorTarjeta" parameterType="CriterioBusquedaFiltroPrepago"
+            resultType="String">
+        SELECT t.vCodigoSeguimiento
+        FROM MaeTarjetasPP t
+        WHERE t.vNumeroTarjeta = #{numeroTarjeta}
+    </select>
+
+    <select id="buscarBloqueosPorRangoFecha" parameterType="CriterioBusquedaRangoFechaPrepago" resultType="TarjetaPP">
+        SELECT t.nIdTarjeta         AS idTarjeta,
+               t.vCodigoSeguimiento AS codigoSeguimiento,
+               t.vNumeroTarjeta     AS numeroTarjeta,
+               t.dFechaBloqueo      AS fechaBloqueo,
+               t.cEstado            AS estado
+        FROM MaeTarjetasPP t
+        WHERE t.dFechaBloqueo is not Null
+          AND t.dFechaBloqueo &gt;= #{fechaInicio}
+          AND t.dFechaBloqueo &lt;= #{fechaFin}
+          AND t.cEstado = #{estado}
+    </select>
+
+    <select id="buscarPorTipoDocumento" resultType="TarjetaPP">
+        <include refid="fragmentSelectConsultaAdministrativaTarjetaPP"/>
+        <where>
+            <if test="tipoDocumento != null and tipoDocumento != ''">
+                consulta.tipoDocumento = #{tipoDocumento}
+            </if>
+            <if test="numeroDocumento != null and numeroDocumento != ''">
+                AND consulta.numeroDocumento = #{numeroDocumento}
+            </if>
+        </where>
+        <include refid="fragmentOrderByConsultaAdministrativaTarjetaPP"/>
+    </select>
+
+    <select id="buscarPorCriterios" resultType="TarjetaPP">
+        <include refid="fragmentSelectConsultaAdministrativaTarjetaPP"/>
+        <where>
+            <if test="(fechaInicioProceso != null and fechaInicioProceso != '') and (fechaFinProceso != null and fechaFinProceso != '')">
+                consulta.fechaProceso BETWEEN #{fechaInicioProceso} AND #{fechaFinProceso}
+            </if>
+            <if test="idInstitucion != null">
+                AND consulta.idInstitucion = #{idInstitucion}
+            </if>
+            <if test="idEmpresa != null and idEmpresa != -1">
+                AND consulta.idEmpresa = #{idEmpresa}
+            </if>
+            <if test="clientes != null and clientes.size() > 0">
+                AND consulta.idCliente IN
+                <foreach item="item" index="index" collection="clientes"
+                         open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="idLogo != null and idLogo != -1">
+                AND consulta.idLogo = #{idLogo}
+            </if>
+            <if test="productos != null and productos.size() > 0">
+                AND consulta.codigoProducto IN
+                <foreach item="item" index="index" collection="productos"
+                         open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="codigoSeguimiento != null and codigoSeguimiento != ''">
+                AND consulta.codigoSeguimiento = #{codigoSeguimiento}
+            </if>
+            <if test="numeroTarjeta != null and numeroTarjeta != ''">
+                AND consulta.numeroTarjeta = #{numeroTarjeta}
+            </if>
+            <if test="nombreCompleto != null and nombreCompleto != ''">
+                <bind name="nombreCompletoPattern" value="nombreCompleto"/>
+                AND TRIM(CONCAT(TRIM(consulta.nombres), ' ', TRIM(consulta.apellidoPaterno), ' ', TRIM(consulta.apellidoMaterno))) LIKE
+                CONCAT('%', TRIM(#{nombreCompletoPattern}), '%')
+            </if>
+        </where>
+        <include refid="fragmentOrderByConsultaAdministrativaTarjetaPP"/>
+    </select>
+</mapper>
+
+
+

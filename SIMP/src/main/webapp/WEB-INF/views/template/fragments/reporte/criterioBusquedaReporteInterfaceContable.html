@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+</head>
+
+<body>
+	<div id="criterioBusquedaReporte" class="row" th:fragment="criterioBusquedaReporteInterfaceContable"
+		th:with="tipo=${tipo}">
+		<fieldset class="well">
+			<legend class="well-legend">Búsqueda</legend>
+			<form id="formCriterioBusquedaReporte" class="form-horizontal" role="form">
+				<th:block
+					th:replace="~{template/fragments/reporte/criterioBusquedaReporteInterfaceContable :: ${tipo}}?:~{}">
+				</th:block>
+				<div class="form-group">
+					<div class="col-lg-12 text-center">
+						<button id="buscar" th:if="${#vars.permisoConsulta}" type="button" class="btn btn-primary">
+							<i class="fa fa-search"></i> Buscar
+						</button>
+						<button id="exportar" th:if="${#vars.permisoReporte}" type="button" class="btn btn-success">
+							<i class="fa fa-download"></i> Exportar
+						</button>
+					</div>
+				</div>
+			</form>
+		</fieldset>
+	</div>
+
+	<th:block th:fragment="interfaceContable">
+		<div class="form-group">
+			<div class="group">
+				<label class="control-label col-sm-1 col-md-1">Fecha Proceso</label>
+				<div class="col-lg-3 col-md-3">
+					<div class="input-group">
+						<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+						<input id="rangoFechaBusqueda" type="text" class="form-control" readonly="readonly"
+							name="fechas" />
+					</div>
+				</div>
+			</div>
+			<div class="group">
+				<label for="institucionesInterfaceContable" class="control-label col-sm-1 col-md-1">Institución</label>
+				<div class="col-sm-3 col-md-3">
+					<select id="institucionesInterfaceContable" class="form-control select2 filtro" name="idInstitucion">
+						<option th:each="institucion : ${instituciones}" 
+								th:value="${institucion.codigoInstitucion}"
+								th:text="|${institucion.codigoInstitucion} - ${institucion.descripcionCorta}|"></option>
+					</select>
+				</div>
+			</div>
+			<div class="group">
+				<label for="empresasInterfaceContable" class="control-label col-sm-1 col-md-1">Empresa</label>
+				<div class="col-sm-3 col-md-3">
+					<select id="empresasInterfaceContable" name="idEmpresa" class="form-control select2 filtro">
+						<option value="-1" selected="selected">Seleccione una Empresa</option>
+						<option th:each="empresa : ${empresas}"
+								th:value="${empresa.idEmpresa}"
+								th:text="|${empresa.idEmpresa} - ${empresa.descripcion}|"></option>
+					</select>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="group">
+				<label for="clientesInterfaceContable" class="control-label col-sm-1 col-md-1">Cliente</label>
+				<div class="col-sm-3 col-md-3">
+					<select id="clientesInterfaceContable" name="clientes" class="select2 filtro" multiple="multiple">
+					</select>
+				</div>
+			</div>
+		</div>
+	</th:block>	
+</body>
+</html>

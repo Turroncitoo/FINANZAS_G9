@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ob.debitos.simp.mapper.IReportePersonasMapper">
+
+	<select id="obtenerReportePersonas" statementType="CALLABLE" resultMap="mapReportePersonas" 
+		parameterType="CriterioBusquedaReportePersonas">
+		{ call P_GENERA_REPORTE_TXN_PERSONAS
+			(
+				#{mesInicio, jdbcType = INTEGER, mode = IN},
+				#{anioInicio, jdbcType = INTEGER, mode = IN},
+				#{mesFin, jdbcType = INTEGER, mode = IN},
+				#{anioFin, jdbcType = INTEGER, mode = IN}
+			)
+		}
+	</select>
+
+	<resultMap type="ReporteMoneda" id="mapReportePersonas">
+		<id property="codigoMoneda" column="codigoMoneda"></id>
+		<id property="descripcionMoneda" column="descripcionMoneda"></id>
+		<collection property="personas" javaType="List" ofType="ReportePersonas">
+			<id property="idInstitucion" column="idInstitucion"></id>
+			<id property="descripcionInstitucion" column="descripcionInstitucion"></id>
+			<id property="idOperacion" column="idOperacion"></id>
+			<id property="descripcionOperacion" column="descripcionOperacion"></id>
+			<id property="cantidadTransacciones" column="cantidadTransacciones"></id>
+			<id property="montoTotal" column="montoTotal"></id>
+			<id property="promedioMonto" column="promedioMonto"></id>
+		</collection>
+	</resultMap>
+</mapper>

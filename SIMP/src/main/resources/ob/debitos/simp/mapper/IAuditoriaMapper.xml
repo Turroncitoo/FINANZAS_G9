@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ob.debitos.simp.mapper.IAuditoriaMapper">
+	
+	<select id="buscarPistasAuditoriaPorCriterio" resultType="Auditoria"
+			parameterType="CriterioBusquedaAuditoria">
+		SELECT *
+        FROM ConsultaAuditorias auditorias	
+		<where>
+		    <if test="idUsuario != null and idUsuario != ''">
+	   			 	 auditorias.nombreUsuario = #{idUsuario}
+	  		</if>
+	  		<if test="idAccion != null and idAccion != ''">
+	   			 AND auditorias.idAccion = #{idAccion}
+	  		</if>
+			<if test="idRecurso != null and idRecurso != ''">
+	   			 AND auditorias.idRecurso = #{idRecurso}   			
+	  		</if>
+			<if test="(fechaInicio != null and fechaInicio != '') and (fechaFin != null and fechaFin != '')">
+	   			 AND auditorias.fecha BETWEEN #{fechaInicio} AND #{fechaFin} 
+	  		</if>
+  		</where>
+  		ORDER BY 1 DESC 
+	</select>
+</mapper>

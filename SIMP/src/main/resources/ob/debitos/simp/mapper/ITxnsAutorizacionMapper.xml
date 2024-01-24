@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ob.debitos.simp.mapper.ITxnsAutorizacionMapper">
+
+		<sql id = "fragmentoSelectBuscarTxnsAutorizadas">
+			SELECT
+					consulta.numeroCuenta 						AS numeroCuenta,
+					consulta.descripcionRol 					AS descripcionRol,
+					consulta.descripcionCanal 					AS descripcionCanal,
+					consulta.descripcionProceso 				AS descripcionProceso,
+					consulta.identificadorCuenta				AS identificadorCuenta,
+					consulta.fechaTransmision					AS fechaTransmision,
+					consulta.horaTransmision 					AS horaTransmision,
+					consulta.codigoAutorizacion 				AS codigoAutorizacion,
+					consulta.numeroRastreo 						AS numeroRastreo,
+			   		consulta.descripcionRespuesta 				AS descripcionRespuesta,
+					consulta.transaccionMonetaria 				AS transaccionMonetaria,
+					consulta.cantidadTransaccion 				AS cantidadTransaccion,
+					consulta.ubicacionTarjeta 					AS ubicacionTarjeta,
+					consulta.estadoTarjeta						AS estadoTarjeta,
+					consulta.numeroDocumentoAutorizacion		AS numeroDocumentoAutorizacion,
+					consulta.tipoMensaje 						AS tipoMensaje
+			FROM ConsultaMovLogAutorizaciones consulta
+		</sql>
+		
+		<select id="buscarTxnsAutorizacion" resultType="TxnsAutorizacion">
+			<include refid = "fragmentoSelectBuscarTxnsAutorizadas" />
+			WHERE 
+					consulta.numeroDocumento 	= #{numeroDocumento} 
+				AND consulta.tipoDocumento 		= #{tipoDocumento}
+		</select>
+		
+		<select id="filtrarTxnsAutorizacion" resultType="TxnsAutorizacion">
+			<include refid = "fragmentoSelectBuscarTxnsAutorizadas" />
+			<where>
+				<if test="numeroTarjeta != '' and numeroTarjeta !=  null">
+					AND consulta.numeroCuenta 			= #{numeroTarjeta}
+				</if>
+				<if test="trace != '' and trace != null">
+					AND consulta.numeroRastreo 			= #{trace}
+				</if>
+				<if test="idCanal != -1 and idCanal != null">
+					AND consulta.idCanal 				= #{idCanal}
+				</if>
+				<if test="codigoProcesoSwitch != -1 and codigoProcesoSwitch != null">
+					AND consulta.codigoProceso 			= #{codigoProcesoSwitch}
+				</if>
+				<if test="fechaInicioTransaccion != '' and fechaInicioTransaccion != null">
+					AND consulta.fechaTransmisionFiltro 	&gt;= #{fechaInicioTransaccion}
+				</if>
+				<if test="fechaFinTransaccion != '' and fechaFinTransaccion != null">
+					AND consulta.fechaTransmisionFiltro 	&lt;= #{fechaFinTransaccion}
+				</if>
+			</where> 				
+		</select>
+		
+		<select id="buscarDetalleTxnAutorizada" resultType = "TxnsAutorizacionDetalle">
+		SELECT
+			consulta.descripcionTipoMensajeOriginal  			  AS descripcionTipoMensajeOriginal,
+			consulta.descripcionNumeroTraceOriginal				  AS descripcionNumeroTraceOriginal,			
+			consulta.descripcionFechaTransaccionOriginal 		  AS descripcionFechaTransaccionOriginal,
+			consulta.descripcionOriginalInstitucionAdquirente 	  AS descripcionOriginalInstitucionAdquirente,
+			consulta.descripcionOriginalInstitucionReenvio 		  AS descripcionOriginalInstitucionReenvio,
+			consulta.descripcionOrigenArchivo 					  AS descripcionOrigenArchivo,
+			consulta.descripcionRol 							  AS descripcionRol, 
+			consulta.descripcionCanal 							  AS descripcionCanal,		   
+			consulta.descripcionTipoMensaje 					  AS descripcionTipoMensaje,
+			consulta.descripcionNumeroTarjeta 					  AS descripcionNumeroTarjeta,
+			consulta.descripcionTipoTransaccion 				  AS descripcionTipoTransaccion, 
+			consulta.descripcionStoreForward 					  AS descripcionStoreForward,
+			consulta.descripcionMonedaTransaccion 				  AS descripcionMonedaTransaccion,		
+			consulta.descripcionMontoTransaccion 				  AS descripcionMontoTransaccion,
+			consulta.descripcionTrace 							  AS descripcionTrace,
+			consulta.descripcionFechaTransaccion	 			  AS descripcionFechaTransaccion,
+			consulta.descripcionHoraTransaccion	 			  	  AS descripcionHoraTransaccion,
+			consulta.descripcionFechaProcesado 					  AS descripcionFechaProcesado,
+			consulta.descripcionHoraProceso 					  AS descripcionHoraProceso,
+			consulta.descripcionFechaExpiracion					  AS descripcionFechaExpiracion,
+			consulta.descripcionFechaCapturaSwitch 				  AS descripcionFechaCapturaSwitch,
+			consulta.descripcionGiroNegocio				          AS descripcionGiroNegocio,			
+			consulta.descripcionPosEntryMode 					  AS descripcionPosEntryMode,			
+			consulta.descripcionPosConditionCode 				  AS descripcionPosConditionCode,
+			consulta.descripcionRespuesta 		 				  AS descripcionRespuesta, 
+			consulta.descripcionIdCuenta1 						  AS descripcionIdCuenta1,
+			consulta.descripcionIdCuenta2 						  AS descripcionIdCuenta2,		
+			consulta.descripcionTerminalAdquirente				  AS descripcionTerminalAdquirente,
+			consulta.descripcionAdquirente						  AS descripcionAdquirente,
+			consulta.descripcionIdentificacionAdquirente    	  AS descripcionIdentificacionAdquirente,
+			consulta.descripcionAutorizacion 					  AS descripcionAutorizacion,
+			consulta.descripcionInstitucionSolicitante			  AS descripcionInstitucionSolicitante,
+			consulta.descripcionInstitucionAdquirente 			  AS descripcionInstitucionAdquirente,
+			consulta.descripcionInstitucionReenvio				  AS descripcionInstitucionReenvio,
+			consulta.descripcionConciliacionSwDmpLog 			  AS descripcionConciliacionSwDmpLog,
+			consulta.descripcionConciliacionLiberada 			  AS descripcionConciliacionLiberada,
+			consulta.descripcionConciliacionLogContable 		  AS descripcionConciliacionLogContable,
+			consulta.descripcionConciliacionPendientes 			  AS descripcionConciliacionPendientes,
+			consulta.descripcionFechaConciliaLog 				  AS descripcionFechaConciliaLog,
+			consulta.descripcionFechaConciliaSwt 				  AS descripcionFechaConciliaSwt,
+			consulta.descripcionFechaConciliaLib 				  AS descripcionFechaConciliaLib,
+			consulta.descripcionFechaConciliaPen 				  AS descripcionFechaConciliaPen,
+			consulta.descripcionTipoDocumento 					  AS descripcionTipoDocumento,
+	 		consulta.descripcionNumeroDocumento 				  AS descripcionNumeroDocumento,
+	 		consulta.descripcionNombreCliente					  AS descripcionNombreCliente, 
+	 		consulta.descripcionApellidoCliente                   AS descripcionApellidoCliente
+	 	FROM ConsultaDetalleMovLogAutorizaciones consulta
+			<where>
+				<if test = "numeroCuenta != null">
+					consulta.numeroCuenta = #{numeroCuenta} 
+				</if>
+				
+				<if test = "fechaTransmision != null">
+					AND consulta.fechaTransmision = #{fechaTransmision}
+				</if>
+				
+				<if test = "numeroRastreo != null">
+					AND consulta.numeroRastreo = #{numeroRastreo}
+				</if>
+				
+				<if test = "tipoMensaje != null">
+					AND consulta.tipoMensaje = #{tipoMensaje}
+				</if>
+			</where>	
+		</select>
+		
+		<select id="buscarComisionesPorAutorizacion" resultType="TxnAutorizadaComisiones" >
+			SELECT
+				comision.numeroTarjeta			AS numeroTarjeta,
+				comision.fechaTransaccion		AS fechaTransaccion,
+				comision.codigoProcesamiento	AS codigoProcesamiento,
+				comision.numeroTrace			AS numeroTrace,
+				comision.monedaComision			AS monedaComision,				
+				comision.valorComision			AS valorComision,
+				comision.tipoPago				AS tipoPago
+			FROM ComisionAutorizada comision
+			WHERE comision.numeroDocumentoAutorizacion = #{numeroDocumento}
+		</select>
+</mapper>

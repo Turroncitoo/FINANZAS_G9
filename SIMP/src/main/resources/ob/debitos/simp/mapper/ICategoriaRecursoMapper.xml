@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ob.debitos.simp.mapper.ICategoriaRecursoMapper">
+	
+	<select id="buscarTodosCategoriaRecurso" resultMap="mapBuscarTodosCategoriaRecurso">
+		SELECT * 
+		FROM ConsultaCategoriaRecurso
+	</select>
+	
+	<resultMap id="mapBuscarTodosCategoriaRecurso" type="CategoriaRecurso">
+		<id property="idCategoria" column="idCategoria"></id>
+		<result property="categoria" column="categoria"></result>
+		<result property="accionCategoria" column="accionCategoria"></result>
+		<collection property="recursos" javaType="List" ofType="SecRecurso">
+			<id property="idRecurso" column="idRecurso"></id>
+			<result property="descripcion" column="descripcion"></result>
+			<result property="accionRecurso" column="accionRecurso"></result>
+		</collection>
+	</resultMap>
+	
+</mapper>

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+	layout:decorator="layout">
+<head>
+<title>Consulta de Log de Proceso Automático</title>
+</head>
+<th:block layout:fragment="style">
+	<link th:href="@{/resources/css/dataTables.bootstrap.min.css}" rel="stylesheet" />
+	<link th:href="@{/resources/css/responsive.bootstrap.min.css}" rel="stylesheet" />
+	<link th:href="@{/resources/css/popupwindow.css}" rel="stylesheet" />
+	<link th:href="@{/resources/css/select2.min.css}" rel="stylesheet" />
+	<link th:href="@{/resources/css/select2-bootstrap.min.css}" rel="stylesheet" />
+	<link th:href="@{/resources/css/daterangepicker.css}" rel="stylesheet" />
+</th:block>
+<body>
+	<th:block layout:fragment="content"
+		th:with="recurso=#{__|rec-reporteLogControlProgramaResumen|__}, permisoConsulta=${#authorization.expression('hasPermission(#vars.recurso, ''2'')')}, permisoReporte=${#authorization.expression('hasPermission(#vars.recurso, ''5'')')}">
+		<div class="page-content-wrap">
+			<div class="row">
+				<div class="col-md-12 col-sm-12 col-xs-12">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h3 class="panel-title">Log de Control Programa Resumen</h3>
+						</div>
+						<div class="panel-body">
+							<div class="col-xs-12">
+								<fieldset class="well">
+									<legend class="well-legend">Filtros</legend>
+									<div>
+										<form id="formBusquedaCriterios" class="form-horizontal">
+											<div class="form-group">
+												<div class="group">
+													<label class="control-label col-sm-1">Grupo</label>
+													<div class="col-sm-3">
+														<select id="selectGrupo" name="idGrupo" class="form-control filtro">
+															<option value="">TODOS</option>
+															<option th:each="grupo:${grupos}" th:value="${grupo.codigoGrupo}"
+																th:text="|${grupo.codigoGrupo} - ${grupo.descripcion}|"></option>
+														</select>
+													</div>
+												</div>
+												<div class="group">
+													<label class="control-label col-sm-1">Programa</label>
+													<div class="col-sm-3">
+														<select id="selectPrograma" name="idPrograma" class="form-control filtro">
+															<option value="">TODOS</option>
+														</select>
+													</div>
+												</div>
+												<div class="group">
+													<label class="control-label col-sm-1">Fecha Proceso</label>
+													<div class="col-sm-3 input-group">
+														<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+														<input id="rangoFechaBusqueda" type="text" class="form-control filtro" readonly="readonly" />
+													</div>
+												</div>
+											</div>
+											<div class="form-group">
+												<div class="col-lg-12 text-center">
+													<button id="buscar" type="button" class="btn btn-primary" th:if="${#vars.permisoConsulta}">
+														<i class="fa fa-search"></i> Buscar
+													</button>
+													<button id="exportar" type="button" class="btn btn-success" th:if="${#vars.permisoReporte}">
+														<i class="fa fa-download"></i> Exportar
+													</button>
+												</div>
+											</div>
+										</form>
+									</div>
+								</fieldset>
+							</div>
+						</div>
+						<div class="panel-body">
+							<div id="resultadoBusquedaLogControlProgramaResumen" class="col-xs-12">
+								<table id="tablaLogControlProgramaResumen"
+									class="table table-bordered table-condensed nowrap display 
+								table-hover"></table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="modalDetalleConsulta" class="row">
+			<fieldset class="well">
+				<legend class="well-legend">Datos</legend>
+				<form id="formResumen" class="form-horizontal">
+					<div class="form-group">
+						<label class="control-label col-sm-2">Grupo</label>
+						<div class="col-sm-10">
+							<input class="form-control input-md" name="descripcionGrupo" readonly>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-sm-2">Programa</label>
+						<div class="col-sm-10">
+							<input class="form-control input-md" name="descripcionPrograma" readonly>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-sm-2">Fecha Proceso</label>
+						<div class="col-sm-10">
+							<input class="form-control input-md" name="fechaProceso" readonly>
+						</div>
+					</div>
+				</form>
+			</fieldset>
+			<div class="panel-body">
+				<table id="tablaLogControlProgramaResumenDetalle" class="table table-bordered table-condensed nowrap display 
+				table-hover"></table>
+			</div>
+		</div>
+	</th:block>
+
+
+
+
+
+	<th:block layout:fragment="script">
+		<script th:src="@{/resources/js/datatables/jquery.dataTables.min.js}"></script>
+		<script th:src="@{/resources/js/datatables/dataTables.bootstrap.min.js}"></script>
+		<script th:src="@{/resources/js/datatables/dataTables.responsive.min.js}"></script>
+		<script th:src="@{/resources/js/bootstrap/bootstrap-notify.min.js}"></script>
+		<script th:src="@{/resources/js/jquery/popupwindow.min.js}"></script>
+		<script th:src="@{/resources/js/jquery/jquery.serializejson.min.js}"></script>
+		<script th:src="@{/resources/js/jquery/jquery.validate.min.js}"></script>
+		<script th:src="@{/resources/js/jquery/additional-methods.min.js}"></script>
+		<script th:src="@{/resources/js/jquery/select2.full.min.js}"></script>
+		<script th:src="@{/resources/js/jquery/moment.min.js}"></script>
+		<script th:src="@{/resources/js/jquery/moment.js}"></script>
+		<script th:src="@{/resources/js/jquery/daterangepicker.js}"></script>
+		<script th:src="@{/resources/js/util/formularioUtil.js}"></script>
+		<script th:src="@{/resources/js/pagina/proceso/reporteLogControlPrograma/reporteLogControlPrograma.js}"></script>
+		<script th:src="@{/resources/js/pagina/proceso/reporteLogControlPrograma/reporteLogControlProgramaFormulario.js}"></script>
+	</th:block>
+</body>
+</html>

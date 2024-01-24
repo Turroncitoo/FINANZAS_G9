@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+	<div id="criterioBusquedaReporte" class="row" th:fragment="criterioBusquedaReporteContabilizacion"
+		th:with="tipo=${tipo}">
+		<fieldset class="well">
+			<legend class="well-legend">Búsqueda</legend>
+			<form id="formCriterioBusquedaReporte" class="form-horizontal" role="form">
+				<th:block
+					th:replace="~{template/fragments/reporte/criterioBusquedaReporteContabilizacion :: ${tipo}}?:~{}">
+				</th:block>
+				<div class="form-group">
+					<div class="col-lg-12 text-center">
+						<button id="buscar" th:if="${#vars.permisoConsulta}" type="button" class="btn btn-primary">
+							<i class="fa fa-search"></i> Buscar
+						</button>
+						<button id="exportar" th:if="${#vars.permisoReporte}" type="button" class="btn btn-success">
+							<i class="fa fa-download"></i> Exportar
+						</button>
+					</div>
+				</div>
+			</form>
+		</fieldset>
+	</div>
+
+	<th:block th:fragment="movimiento">
+		<div class="form-group">
+			<div class="group">
+				<label for="rangoFechaBusquedaMovimientos" class="control-label col-lg-1 col-md-1">Fecha Proceso</label>
+				<div class="col-lg-3 col-md-3">
+					<div class="input-group">
+						<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+						<input id="rangoFechaBusquedaMovimientos" type="text" class="form-control" readonly="readonly" name="fechas" />
+					</div>
+				</div>
+			</div>
+			<div class="group">
+				<label for="selectInstitucionMovimientos" class="control-label col-lg-1 col-md-1">Institución</label>
+				<div class="col-lg-3 col-md-3">
+					<select id="selectInstitucionMovimientos" name="codigoInstitucion" class="form-control select2">
+						<option th:each="institucion : ${instituciones}" 
+								th:value="${institucion.codigoInstitucion}"
+								th:text="|${institucion.codigoInstitucion} - ${institucion.descripcionCorta}|"></option>
+					</select>
+				</div>
+			</div>
+			<div class="group">
+				<label for="selectEmpresaMovimientos" class="col-sm-1 col-md-1 control-label">Empresa</label>
+				<div class="col-sm-3 col-md-3">
+					<select id="selectEmpresaMovimientos" name="idEmpresa" class="form-control select2 filtro">
+						<option value="-1" selected="selected">Seleccione una Empresa</option>
+						<option th:each="empresa : ${empresas}"
+								th:value="${empresa.idEmpresa}"
+								th:text="|${empresa.idEmpresa} - ${empresa.descripcion}|"></option>
+					</select>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="group">
+				<label for="selectClienteMovimientos" class="col-sm-1 col-md-1 control-label">Clientes</label>
+				<div class="col-sm-3 col-md-3">
+					<select id="selectClienteMovimientos" name="clientes" class="select2 filtro" multiple="multiple">
+					</select>
+				</div>
+			</div>
+			<div class="group">
+				<label for="selectIndicadoresMovimientos" class="control-label col-lg-1 col-md-1" title="Indicador Contabilización" data-tooltip="tooltip">Indicador Contabilización</label>
+				<div class="col-lg-3 col-md-3">
+					<select id="selectIndicadoresMovimientos" name="indicadoresContabilizacion" class="select2 filtro" multiple="multiple">
+						<option th:each="indicadorContabilizacion : ${indicadoresContabilizacion}"
+								th:value="${indicadorContabilizacion.idItem}"
+								th:text="|${indicadorContabilizacion.idItem} - ${indicadorContabilizacion.descripcionItem}|"></option>
+					</select>
+				</div>
+			</div>
+		</div>
+	</th:block>
+
+	<th:block th:fragment="comisiones">
+		<div class="form-group">
+			<div class="group">
+				<label for="rangoFechaBusquedaComisiones" class="control-label col-lg-1 col-md-1">Fecha Proceso</label>
+				<div class="col-lg-3 col-md-3">
+					<div class="input-group">
+						<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+						<input id="rangoFechaBusquedaComisiones" type="text" class="form-control" readonly="readonly" name="fechas" />
+					</div>
+				</div>
+			</div>
+			<div class="group">
+				<label for="selectInstitucionComisiones" class="control-label col-lg-1 col-md-1">Institución</label>
+				<div class="col-lg-3 col-md-3">
+					<select id="selectInstitucionComisiones" name="codigoInstitucion" class="form-control select2">
+						<option th:each="institucion : ${instituciones}" 
+								th:value="${institucion.codigoInstitucion}"
+								th:text="|${institucion.codigoInstitucion} - ${institucion.descripcionCorta}|"></option>
+					</select>
+				</div>
+			</div>
+			<div class="group">
+				<label for="selectEmpresaComisiones" class="col-sm-1 col-md-1 control-label">Empresa</label>
+				<div class="col-sm-3 col-md-3">
+					<select id="selectEmpresaComisiones" name="idEmpresa" class="form-control select2 filtro">
+						<option value="-1" selected="selected">Seleccione una Empresa</option>
+						<option th:each="empresa : ${empresas}"
+								th:value="${empresa.idEmpresa}"
+								th:text="|${empresa.idEmpresa} - ${empresa.descripcion}|"></option>
+					</select>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="group">
+				<label for="selectClienteComisiones" class="col-sm-1 col-md-1 control-label">Clientes</label>
+				<div class="col-sm-3 col-md-3">
+					<select id="selectClienteComisiones" name="clientes" class="select2 filtro" multiple="multiple">
+					</select>
+				</div>
+			</div>
+			<div class="group">
+				<label for="selectIndicadoresComisiones" class="control-label col-lg-1 col-md-1" title="Indicador Contabilización" data-tooltip="tooltip">Indicador Contabilización</label>
+				<div class="col-lg-3 col-md-3">
+					<select id="selectIndicadoresComisiones" name="indicadoresContabilizacion" class="select2 filtro" multiple="multiple">
+						<option th:each="indicadorContabilizacion : ${indicadoresContabilizacion}"
+								th:value="${indicadorContabilizacion.idItem}"
+								th:text="|${indicadorContabilizacion.idItem} - ${indicadorContabilizacion.descripcionItem}|"></option>
+					</select>
+				</div>
+			</div>
+		</div>
+	</th:block>
+	
+	<th:block th:fragment="cuentaDefault">
+		<div class="form-group">
+			<div class="group">
+				<label for="rangoFechaBusquedaCuentaDefault" class="control-label col-lg-1 col-md-1">Fecha Proceso</label>
+				<div class="col-lg-3 col-md-3">
+					<div class="input-group">
+						<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+						<input id="rangoFechaBusquedaCuentaDefault" type="text" class="form-control filtro" readonly="readonly" name="fechas" />
+					</div>
+				</div>
+			</div>
+			<div class="group">
+				<label for="selectInstitucionCuentaDefault" class="control-label col-lg-1 col-md-1">Institución</label>
+				<div class="col-sm-3 col-md-3">
+					<select id="selectInstitucionCuentaDefault" class="form-control select2 filtro" name="codigoInstitucion">
+						<option th:each="institucion : ${instituciones}" 
+								th:value="${institucion.codigoInstitucion}"
+								th:text="|${institucion.codigoInstitucion} - ${institucion.descripcionCorta}|"></option>
+					</select>
+				</div>
+			</div>
+			<div class="group">
+				<label for="selectEmpresaCuentaDefault" class="col-sm-1 col-md-1 control-label">Empresa</label>
+				<div class="col-sm-3 col-md-3">
+					<select id="selectEmpresaCuentaDefault" name="idEmpresa" class="form-control select2 filtro">
+						<option value="-1" selected="selected">Seleccione una Empresa</option>
+						<option th:each="empresa : ${empresas}"
+								th:value="${empresa.idEmpresa}"
+								th:text="|${empresa.idEmpresa} - ${empresa.descripcion}|"></option>
+					</select>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="group">
+				<label for="selectClienteCuentaDefault" class="col-sm-1 col-md-1 control-label">Cliente</label>
+				<div class="col-sm-3 col-md-3">
+					<select id="selectClienteCuentaDefault" name="clientes" class="select2 filtro" multiple="multiple"></select>
+				</div>
+			</div>
+		</div>
+	</th:block>
+	
+	<th:block th:fragment="miscelaneos">
+		<div class="form-group">
+			<div class="group">
+				<label for="rangoFechaBusquedaMiscelaneos" class="control-label col-lg-1 col-md-1">Fecha Proceso</label>
+				<div class="col-lg-3 col-md-3">
+					<div class="input-group">
+						<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+						<input id="rangoFechaBusquedaMiscelaneos" type="text" class="form-control filtro" readonly="readonly" name="fechas" />
+					</div>
+				</div>
+			</div>
+			<div class="group">
+				<label for="selectInstitucionMiscelaneos" class="control-label col-lg-1 col-md-1">Institución</label>
+				<div class="col-lg-3 col-md-3">
+					<select id="selectInstitucionMiscelaneos" name="codigoInstitucion" class="form-control select2 filtro">
+						<option th:each="institucion : ${instituciones}" 
+								th:value="${institucion.codigoInstitucion}"
+								th:text="|${institucion.codigoInstitucion} - ${institucion.descripcionCorta}|"></option>
+					</select>
+				</div>
+			</div>
+			<div class="group">
+				<label for="selectEmpresaMiscelaneos" class="col-sm-1 col-md-1 control-label">Empresa</label>
+				<div class="col-sm-3 col-md-3">
+					<select id="selectEmpresaMiscelaneos" name="idEmpresa" class="form-control select2 filtro">
+						<option value="-1" selected="selected">Seleccione una Empresa</option>
+						<option th:each="empresa : ${empresas}"
+								th:value="${empresa.idEmpresa}"
+								th:text="|${empresa.idEmpresa} - ${empresa.descripcion}|"></option>
+					</select>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="group">
+				<label for="selectClienteMiscelaneos" class="col-sm-1 col-md-1 control-label">Cliente</label>
+				<div class="col-sm-3 col-md-3">
+					<select id="selectClienteMiscelaneos" name="clientes" class="select2 filtro" multiple="multiple">
+					</select>
+				</div>
+			</div>
+			<div class="group">
+				<label for="selectIndicadoresMiscelaneos" class="control-label col-lg-1 col-md-1" title="Indicador Contabilización" data-tooltip="tooltip">Indicador Contabilización</label>
+				<div class="col-lg-3 col-md-3">
+					<select id="selectIndicadoresMiscelaneos" name="indicadoresContabilizacion" class="select2 filtro" multiple="multiple">
+						<option th:each="indicadorContabilizacion : ${indicadoresContabilizacion}" 
+								th:value="${indicadorContabilizacion.idItem}"
+								th:text="|${indicadorContabilizacion.idItem} - ${indicadorContabilizacion.descripcionItem}|"></option>
+					</select>
+				</div>
+			</div>
+		</div>
+	</th:block>
+</body>
+</html>

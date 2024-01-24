@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+	layout:decorator="layout">
+<head>
+<title th:text="|Consulta de #{__${consulta}__}|"></title>
+</head>
+<th:block layout:fragment="style">
+	<link th:href="@{/resources/css/dataTables.bootstrap.min.css}" rel="stylesheet" />
+	<link th:href="@{/resources/css/responsive.bootstrap.min.css}" rel="stylesheet" />
+	<link th:href="@{/resources/css/popupwindow.css}" rel="stylesheet" />
+	<link th:href="@{/resources/css/select2.min.css}" rel="stylesheet" />
+	<link th:href="@{/resources/css/select2-bootstrap.min.css}" rel="stylesheet" />
+	<link th:href="@{/resources/css/daterangepicker.css}" rel="stylesheet" />
+
+	<link th:href="@{/resources/css/buttons.dataTables.min.css}" rel="stylesheet" />
+</th:block>
+<body>
+	<th:block layout:fragment="content"
+		th:with="recurso=#{__|rec-${consulta}|__}, permisoConsulta=${#authorization.expression('hasPermission(#vars.recurso, ''2'')')}, permisoReporte=${#authorization.expression('hasPermission(#vars.recurso, ''5'')')}, mostrarTablaBoton=${permisoConsulta}">
+		<div class="page-content-wrap">
+			<div class="row">
+				<div class="col-md-12 col-sm-12 col-xs-12">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h3 class="panel-title" th:text="|Consulta de #{__${consulta}__}|"></h3>
+
+						</div>
+						<div class="panel-body">
+							<th:block th:replace="~{template/fragments/consultas/filtrosParaTablaConsulta :: criterioBusqueda(consulta=${consulta})}"></th:block>
+						</div>
+					</div>
+					<div class="panel panel-default" th:if="${permisoConsulta}">
+						<div class="panel-heading">
+							<h3 class="panel-title" th:text="|Resultados de #{__${consulta}__}|"></h3>
+							<ul id="menuHeader" class="panel-controls">
+							</ul>
+						</div>
+						<div class="panel-body">
+							<table id="tablaConsulta" width="100%" class="table table-bordered table-condensed nowrap display table-hover">
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<th:block th:if="${hasComision} ?: true">
+			<th:block th:replace="~{/template/fragments/consultas/detalleParaTablaConsulta :: modalDetalleComision}">
+			</th:block>
+		</th:block>
+		<th:block th:if="${hasComisionAutorizada} ?: true">
+			<th:block th:replace="~{/template/fragments/consultas/detalleParaTablaConsulta :: modalDetalleComisionAutorizada}">
+			</th:block>
+		</th:block>
+		<th:block th:if="${hasDetalle} ?: true">
+			<th:block th:replace="~{/template/fragments/consultas/detalleParaTablaConsulta :: modalDetalleConsulta(consulta=${consulta})}">
+			</th:block>
+		</th:block>
+
+		<th:block th:replace="~{/template/fragments/consultas/ajusteParaTablaConsulta :: ${consulta}}?:~{}">
+		</th:block>
+
+	</th:block>
+	<th:block layout:fragment="script">
+		<script th:src="@{/resources/js/datatables/jquery.dataTables.min.js}"></script>
+		<script th:src="@{/resources/js/datatables/dataTables.bootstrap.min.js}"></script>
+		<script th:src="@{/resources/js/datatables/dataTables.responsive.min.js}"></script>
+		<script th:src="@{/resources/js/datatables/dataTables.show.rows.js}"></script>
+		<script th:src="@{/resources/js/datatables/dataTables.select.min.js}"></script>
+
+		<script th:src="@{/resources/js/datatables/export/dataTables.buttons.min.js}"></script>
+		<script th:src="@{/resources/js/datatables/export/buttons.flash.min.js}"></script>
+		<script th:src="@{/resources/js/datatables/export/jszip.min.js}"></script>
+		<script th:src="@{/resources/js/datatables/export/pdfmake.min.js}"></script>
+		<script th:src="@{/resources/js/datatables/export/vfs_fonts.js}"></script>
+		<script th:src="@{/resources/js/datatables/export/buttons.html5.min.js}"></script>
+		<script th:src="@{/resources/js/datatables/export/buttons.print.min.js}"></script>
+		<script th:src="@{/resources/js/datatables/export/dataTables.tableTools.nightly.js}"></script>
+
+		<script th:src="@{/resources/js/bootstrap/bootstrap-notify.min.js}"></script>
+		<script th:src="@{/resources/js/jquery/popupwindow.min.js}"></script>
+		<script th:src="@{/resources/js/jquery/jquery.serializejson.min.js}"></script>
+		<script th:src="@{/resources/js/jquery/jquery.validate.min.js}"></script>
+		<script th:src="@{/resources/js/jquery/additional-methods.min.js}"></script>
+		<script th:src="@{/resources/js/jquery/select2.full.min.js}"></script>
+		<script th:src="@{/resources/js/jquery/moment.min.js}"></script>
+		<script th:src="@{/resources/js/jquery/daterangepicker.js}"></script>
+		<script th:src="@{/resources/js/bootstrap/bootstrap-datepicker.min.js}"></script>
+		
+		<script th:src="@{/resources/js/pagina/{consulta}/{consulta}.js(consulta = ${consulta})}"></script>
+		<script th:src="@{/resources/js/pagina/{consulta}/{consulta}Formulario.js(consulta = ${consulta})}"></script>
+		<script th:src="@{/resources/js/util/formularioUtil.js}"></script>
+	</th:block>
+
+</body>
+</html>

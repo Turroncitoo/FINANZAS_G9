@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<property name="LOG_DIR" value="/home/SIMP/logs"></property>
+	
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<Pattern>
+				%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n
+			</Pattern>
+		</layout>
+	</appender>
+	
+	<appender name="file-info-simp"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<File>${LOG_DIR}/info_simp.log</File>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<FileNamePattern>${LOG_DIR}/%d{yyyy-MM-dd}/info_simp.log
+			</FileNamePattern>
+			<maxHistory>31</maxHistory>
+		</rollingPolicy>
+		<encoder>
+			<Pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg %n</Pattern>
+		</encoder>
+	</appender>
+	
+	<appender name="file-error"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<File>${LOG_DIR}/error.log</File>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<FileNamePattern>${LOG_DIR}/%d{yyyy-MM-dd}/error.log
+			</FileNamePattern>
+			<maxHistory>31</maxHistory>
+		</rollingPolicy>
+		<encoder>
+			<Pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg %n</Pattern>
+		</encoder>
+	</appender>
+	
+	<logger name="org.springframework" level="error" additivity="false">
+		<appender-ref ref="file-error" />
+	</logger>
+	
+	<logger name="ob.debitos.simp" level="info" additivity="false">
+		<appender-ref ref="STDOUT" />
+		<appender-ref ref="file-info-simp" />
+	</logger>
+	
+	<root level="error">
+		<appender-ref ref="STDOUT" />
+		<appender-ref ref="file-error" />
+	</root>
+	
+</configuration>

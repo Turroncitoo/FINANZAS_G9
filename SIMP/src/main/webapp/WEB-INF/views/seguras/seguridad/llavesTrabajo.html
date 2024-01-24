@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" layout:decorator="layout">
+<head>
+<title th:text="|Llave de trabajo|"></title>
+</head>
+<th:block layout:fragment="style">
+	<link th:href="@{/resources/css/dataTables.bootstrap.min.css}" rel="stylesheet" />
+	<link th:href="@{/resources/css/responsive.bootstrap.min.css}" rel="stylesheet" />
+	<link th:href="@{/resources/css/fixedColumns.dataTables.min.css}" rel="stylesheet" />
+	<link th:href="@{/resources/css/select2.min.css}" rel="stylesheet" />
+	<link th:href="@{/resources/css/select2-bootstrap.min.css}" rel="stylesheet" />
+	<link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css}">
+</th:block>
+<body>
+	<th:block layout:fragment="content">
+		<div class="page-content-wrap">
+			<div class="row">
+				<div class="col-md-12 col-sm-12 col-xs-12">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h3 class="panel-title" th:text="|Configuracion de Llave de trabajo (ZPK)|"></h3>
+						</div>
+						<div class="panel-body">
+							<div class="row">
+								<th:block th:if="!${existeLLave}">
+									<div id="divMsjLlaveExistente" class="alert alert-danger" role="alert">
+		                                <button type="button" class="close" data-dismiss="danger"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+		                                <strong>No existe una llave de transporte (ZMK) registrada. </strong> Ingresa una primero antes de configurar la llave de trabajo (ZPK).
+	                            	</div>  
+								</th:block>
+							</div>
+							<div class="row">
+								<fieldset class="well">
+									<legend class="well-legend">Ingreso de llave de trabajo cifrada</legend>
+									<form id="formLLaves" class="form-horizontal" role="form">
+										<div class="form-group">
+											<label class="col-sm-4 control-label">ZPK</label>
+											<div class="col-sm-4">
+												<div class="input-group">
+													<input id="inputZPK" type="password" class="form-control max-32-caracteres" maxlength="32" name="zpk" autocomplete="off" autofocus="autofocus" disabled="disabled"></input>
+													<span class="input-group-btn">
+														<button type="button" id="btnZPK" class="btn btn-info" title='Desbloquear' data-tooltip='tooltip' th:attr="disabled = !${existeLLave}"><i class="fa fa-unlock" aria-hidden="true"></i></button>
+													</span>
+												</div>												
+											</div>
+										</div>
+										<div class="form-group hidden" id="divKCV">
+											<label class="col-sm-4 control-label">KCV</label>
+											<div class="col-sm-4">
+												<div class="input-group">
+													<input id="kcv" type="text" class="form-control" disabled="disabled"></input>
+													<span class="input-group-btn">
+														<button type="button" id="btnValidar" class="btn btn-success validar-componente" title='Validar' data-tooltip='tooltip'><i class="fa fa-check" aria-hidden="true"></i></button>
+													</span>
+												</div>												
+											</div>
+										</div>
+										<div class="form-group">
+											<div class="col-lg-12 text-center">
+												<button id="btnRegistrar" type="button" class="btn btn-primary" th:attr="disabled = !${existeLLave}">
+													<i class="fa fa-pencil-square"></i> Registrar
+												</button>
+											</div>
+										</div>
+									</form>
+								</fieldset>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</th:block>
+	<th:block layout:fragment="script">
+		<script th:src="@{/resources/js/bootstrap/bootstrap-notify.min.js}"></script>
+		<script th:src="@{/resources/js/jquery/jquery.serializejson.min.js}"></script>
+		<script th:src="@{/resources/js/jquery/jquery.validate.min.js}"></script>
+		<script th:src="@{/resources/js/jquery/additional-methods.min.js}"></script>
+		<script th:src="@{/resources/js/jquery/select2.full.min.js}"></script>
+		<script th:src="@{/resources/js/jquery/daterangepicker.js}"></script>
+		<script th:src="@{/resources/js/util/formularioUtil.js}"></script>
+		<script th:src="@{/resources/js/pagina/seguridad/llavesTrabajo/llavesTrabajo.js}"></script>
+		<script th:src="@{/resources/js/pagina/seguridad/llavesTrabajo/llavesTrabajoFormulario.js}"></script>
+		
+	</th:block>
+</body>
+</html>

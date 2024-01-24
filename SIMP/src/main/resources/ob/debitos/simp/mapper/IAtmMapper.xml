@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ob.debitos.simp.mapper.IAtmMapper">
+
+	<sql id="fragmentoBuscarTodosATM">
+		SELECT *
+		FROM 	ConsultaAdministrativaATM consultaAdministrativaAtm
+	</sql>
+
+	<select id="buscarTodos" resultType="Atm" >
+	    <include refid="fragmentoBuscarTodosATM"></include>
+	</select>
+	
+	<select id="buscarPorCodigoInstitucion" resultType="Atm" >
+	    <include refid="fragmentoBuscarTodosATM"></include>
+		WHERE 	consultaAdministrativaAtm.codigoInstitucion = #{codigoInstitucion}
+	</select>
+	
+	<select id="buscarPorIdATM" resultType="Atm" >
+	    <include refid="fragmentoBuscarTodosATM"></include>
+		WHERE 	consultaAdministrativaAtm.idATM     = #{idATM}
+	</select>
+	
+	<select id="buscarPorIdATMCodigoInstitucion" resultType="Atm" >
+	    <include refid="fragmentoBuscarTodosATM"></include>
+		WHERE 		consultaAdministrativaAtm.codigoInstitucion = #{codigoInstitucion}
+				AND consultaAdministrativaAtm.idATM     = #{idATM}
+	</select>
+
+</mapper>

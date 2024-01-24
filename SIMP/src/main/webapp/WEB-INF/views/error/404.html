@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+	layout:decorator="layout">
+<head>
+<title>Página no encontrada</title>
+</head>
+<body>
+	<th:block layout:fragment="content">
+		<div class="page-content-wrap">
+			<div class="row">
+				<div class="col-lg-5 col-lg-offset-3">
+					<div class="jumbotron text-center">
+						<h1>404</h1>
+						<h3>Página no encontrada!</h3>
+						<p>La página que intenta visitar no esta disponible</p>
+						<button class="btn btn-primary" onclick="window.history.back()"><i class="fa fa-left-big"></i> Ir
+							a la página anterior</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</th:block>
+</body>
+</html>

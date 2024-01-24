@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+	<div id="modalMantenimiento" class="row" th:fragment="modalMantenimiento" th:with="tipo=${tipo}">
+		<fieldset class="well">
+			<legend class="well-legend">Formulario de Mantenimiento</legend>
+			<form id="formMantenimiento" class="form-horizontal" role="form">
+				<th:block
+					th:replace="~{template/fragments/proceso/mantenimiento/modalMantenimiento :: ${tipo}}?:~{}">
+				</th:block>
+				<div id="botonesForm" class="form-group">
+					<div class="col-lg-12 text-center">
+						<button id="registrarMantenimiento" type="button" class="btn btn-success">
+							<i class="fa fa-floppy-o"></i> Registrar
+						</button>
+						<button id="actualizarMantenimiento" type="button" class="btn btn-primary hidden">
+							<i class="fa fa-pencil-square"></i> Actualizar
+						</button>
+					</div>
+				</div>
+			</form>
+		</fieldset>
+		<th:block
+			th:replace="~{template/fragments/proceso/mantenimiento/formularioAdicionalMantenimiento :: ${tipo}}?:~{}">
+		</th:block>
+	</div>
+
+	<th:block th:fragment="programa">
+		<div class="form-group">
+			<label class="col-lg-2 control-label">Grupo</label>
+			<div class="col-lg-10">
+				<select id="grupos" class="form-control select2 elemento-desactivable" name="codigoGrupo">
+					<option value="" selected="selected" disabled="disabled">Seleccione un Grupo</option>
+					<option th:each="grupo: ${grupos}" th:value="|${grupo.codigoGrupo}|"
+						th:text="|${grupo.codigoGrupo} - ${grupo.descripcion}|"></option>
+				</select>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-lg-2 control-label">Código Programa</label>
+			<div class="col-lg-10">
+				<input class="form-control upperCase elemento-desactivable" name="codigoPrograma"
+					autofocus="autofocus" />
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-lg-2 control-label">Descripción</label>
+			<div class="col-lg-10">
+				<input class="form-control upperCase" name="descripcion">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-lg-2 control-label">Sub Módulo</label>
+			<div class="col-lg-10">
+				<select id="subModulos" class="form-control select2 elemento-desactivable"
+					name="codigoSubModulo">
+					<option value="" selected="selected" disabled="disabled">Seleccione un sub módulo</option>
+					<option th:each="subModulo: ${subModulos}" th:value="|${subModulo.codigoSubModulo}|"
+						th:text="|${subModulo.codigoSubModulo} - ${subModulo.descripcion}|"></option>
+				</select>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-lg-2 control-label">Procedimiento</label>
+			<div class="col-lg-10">
+				<input class="form-control" name="procedimiento">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-lg-2 control-label">Archivo</label>
+			<div class="col-lg-10">
+				<input class="form-control" name="archivo">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-lg-2 control-label">Orden de ejecución</label>
+			<div class="col-lg-10">
+				<input class="form-control upperCase numbersOnly" name="ordenEjecucion">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-lg-2 control-label">Periodo de ejecución</label>
+			<div class="col-lg-10">
+				<input class="form-control upperCase" name="periodoEjecucion">
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="group">
+				<label class="col-lg-2 control-label">Procesa Sábado</label>
+				<div class="col-lg-2">
+					<div class="checkbox">
+						<label>
+							<input type="checkbox" name="procesaSabado" value="1" data-unchecked-value="0" />
+						</label>
+					</div>
+				</div>
+			</div>
+			<div class="group">
+				<label class="col-lg-2 control-label">Ejecución Obligatoria</label>
+				<div class="col-lg-2">
+					<div class="checkbox">
+						<label>
+							<input type="checkbox" name="ejecucionObligatoria" value="true" data-unchecked-value="false" />
+						</label>
+					</div>
+				</div>
+			</div>
+			<div class="group">
+				<label class="col-lg-2 control-label">Ejecución por Institución</label>
+				<div class="col-lg-2">
+					<div class="checkbox">
+						<label>
+							<input type="checkbox" name="ejecucionPorInstitucion" value="true" data-unchecked-value="false" />
+						</label>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-lg-2 control-label">Longitud</label>
+			<div class="col-lg-10">
+				<input class="form-control numbersOnly" name="longitud">
+			</div>
+		</div>
+	</th:block>
+
+	<th:block th:fragment="procesoAutomatico">
+		<div class="form-group">
+			<label class="col-lg-2 control-label">Código</label>
+			<div class="col-lg-10">
+				<input class="form-control upperCase elemento-desactivable" name="codigoGrupo"
+					autofocus="autofocus" />
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-lg-2 control-label">Descripción</label>
+			<div class="col-lg-10">
+				<input class="form-control upperCase" name="descripcion">
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="group">
+				<label class="col-lg-2 control-label">Hora</label>
+				<div class="col-lg-4">
+					<div id="horaProcesoAutomatico" class="input-group date">
+						<input id="horaPrograma" class="form-control" type="text" name="horaProgramada"></input>
+						<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+					</div>
+				</div>
+			</div>
+			<div class="group">
+				<label class="col-lg-2 control-label">Orden</label>
+				<div class="col-lg-4">
+					<input class="form-control upperCase numbersOnly" name="ordenEjecucion">
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-lg-2 control-label">Tipo</label>
+			<div class="col-lg-10">
+				<select id="tipos" class="form-control select2" name="tipo">
+					<option value="" selected="selected" disabled="disabled">Seleccione un Tipo</option>
+					<option th:each="tipoProcesoAutomatico: ${tiposProcesoAutomatico}"
+						th:value="${tipoProcesoAutomatico.idItem}"
+						th:text="|${tipoProcesoAutomatico.idItem} - ${tipoProcesoAutomatico.descripcionItem}|"></option>
+				</select>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="group">
+				<label class="col-lg-2 control-label">Habilitado</label>
+				<div class="col-lg-4">
+					<div class="checkbox">
+						<label>
+							<input type="checkbox" name="habilitado" value="1" data-unchecked-value="0" />
+						</label>
+					</div>
+				</div>
+			</div>
+			<div class="group">
+				<label class="col-lg-2 control-label">Estrictamente Secuencial</label>
+				<div class="col-lg-4">
+					<div class="checkbox">
+						<label>
+							<input type="checkbox" name="estrictamenteSecuencial" value="1" data-unchecked-value="0" />
+						</label>
+					</div>
+				</div>
+			</div>
+		</div>
+	</th:block>
+
+	<th:block th:fragment="subModulo">
+		<div class="form-group">
+			<label class="col-lg-2 control-label">Código</label>
+			<div class="col-lg-10">
+				<input class="form-control upperCase elemento-desactivable" name="codigoSubModulo"
+					autofocus="autofocus" />
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-lg-2 control-label">Descripción</label>
+			<div class="col-lg-10">
+				<input class="form-control upperCase" name="descripcion">
+			</div>
+		</div>
+	</th:block>
+</body>
+</html>

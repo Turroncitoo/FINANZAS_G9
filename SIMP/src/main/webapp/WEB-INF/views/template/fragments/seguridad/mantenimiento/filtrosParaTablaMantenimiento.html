@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+	<div id="filtrosParaTablaMantenimiento" class="row hidden" th:fragment="filtrosParaTablaMantenimiento" th:with="tipo=${tipo}">
+		<th:block th:replace="~{template/fragments/seguridad/mantenimiento/filtrosParaTablaMantenimiento :: ${tipo}}?:~{}">
+		</th:block>
+	</div>
+
+	<th:block th:fragment="usuario">
+		<th:block
+			th:replace="~{template/fragments/seguridad/mantenimiento/filtrosParaTablaMantenimiento :: perfiles-filtroParaTablaMantenimiento}?:~{}">
+		</th:block>
+	</th:block>
+
+	<th:block th:fragment="perfiles-filtroParaTablaMantenimiento">
+		<select id="perfiles-filtroParaTablaMantenimiento" class="form-control" name="idPerfil">
+			<option th:each="perfil : ${perfiles}" th:value="|${perfil.idPerfil} - ${perfil.descripcion}|" 
+					th:text="|${perfil.idPerfil} - ${perfil.descripcion}|"></option>
+		</select>
+	</th:block>
+</body>
+</html>

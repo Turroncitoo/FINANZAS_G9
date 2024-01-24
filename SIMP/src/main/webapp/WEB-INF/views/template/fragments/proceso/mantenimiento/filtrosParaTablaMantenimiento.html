@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+	<div id="filtrosParaTablaMantenimiento" class="row hidden" th:fragment="filtrosParaTablaMantenimiento"
+		th:with="tipo=${tipo}">
+		<th:block th:replace="~{template/fragments/proceso/mantenimiento/filtrosParaTablaMantenimiento :: ${tipo}}?:~{}">
+		</th:block>
+	</div>
+
+	<th:block th:fragment="programa">
+		<th:block
+			th:replace="~{template/fragments/proceso/mantenimiento/filtrosParaTablaMantenimiento :: grupos-filtroParaTablaMantenimiento}?:~{}">
+		</th:block>		
+		<th:block
+			th:replace="~{template/fragments/proceso/mantenimiento/filtrosParaTablaMantenimiento :: subModulos-filtroParaTablaMantenimiento}?:~{}">
+		</th:block>
+		<th:block
+			th:replace="~{template/fragments/proceso/mantenimiento/filtrosParaTablaMantenimiento :: programas-filtroParaTablaMantenimiento}?:~{}">
+		</th:block>
+	</th:block>	
+		
+	<th:block th:fragment="grupos-filtroParaTablaMantenimiento">
+		<select id="grupos-filtroParaTablaMantenimiento">
+			<option th:each="grupo : ${grupos}" th:attr="data-value=${grupo.codigoGrupo}"
+				th:value="|${grupo.ordenEjecucion} - ${grupo.codigoGrupo} - ${grupo.descripcion}|" 
+				th:text="|${grupo.codigoGrupo} - ${grupo.descripcion}|"></option>
+		</select>
+	</th:block>
+
+	<th:block th:fragment="subModulos-filtroParaTablaMantenimiento">
+		<select id="subModulos-filtroParaTablaMantenimiento">
+			<option th:each="subModulo : ${subModulos}" th:attr="data-value=${subModulo.codigoSubModulo}"
+				th:value="|${subModulo.codigoSubModulo} - ${subModulo.descripcion}|"
+				th:text="|${subModulo.codigoSubModulo} - ${subModulo.descripcion}|"></option>
+		</select>
+	</th:block>
+	
+	<th:block th:fragment="programas-filtroParaTablaMantenimiento">
+		<select id="programas-filtroParaTablaMantenimiento">
+		</select>
+	</th:block>
+</body>
+</html>

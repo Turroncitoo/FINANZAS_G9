@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+
+	<th:block th:fragment="modal" th:with="consulta=${consulta}">
+		<div id="modalConsultaAdmin" class="row">
+			<th:block th:replace="~{template/fragments/consultas/modalParaTablaConsultaAdmin :: ${consulta}}?:~{}">
+			</th:block>
+		</div>
+	</th:block>
+
+	<th:block th:fragment="tarjetaPP">
+		<fieldset class="well">
+			<legend class="well-legend"> Detalle de la tarjeta </legend>
+			<form id="formModalConsultaAmin" class="form-horizontal" role="form">
+				<div class="form-group">
+					<div class="group">
+						<label class="col-sm-1 col-md-1 control-label">Id Tarjeta</label>
+						<div class="col-sm-3 col-md-3">
+							<input class="form-control filtro" name="idTarjeta" disabled="disabled"/>
+						</div>
+					</div>
+					<div class="group">
+						<label class="col-sm-1 col-md-1 control-label">Número Tarjeta</label>
+						<div class="col-sm-3 col-md-3">
+							<input class="form-control filtro" name="numeroTarjeta" disabled="disabled"/>
+						</div>
+					</div>
+					<div class="group">
+						<label class="col-sm-1 col-md-1 control-label">Código Seguimiento</label>
+						<div class="col-sm-3 col-md-3">
+							<input class="form-control filtro" name="codigoSeguimiento" disabled="disabled"/>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="group">
+						<label class="col-sm-1 col-md-1 control-label">Logo</label>
+						<div class="col-sm-3 col-md-3">
+							<input class="form-control filtro" id="txtLogo" disabled="disabled"/>
+						</div>
+					</div>
+					<div class="group">
+						<label class="col-sm-1 col-md-1 control-label">Producto</label>
+						<div class="col-sm-3 col-md-3">
+							<input class="form-control filtro" id="txtProducto" disabled="disabled"/>
+						</div>
+					</div>
+					<div class="group">
+						<label class="col-sm-1 col-md-1 control-label">Afinidad</label>
+						<div class="col-sm-3 col-md-3">
+							<input class="form-control filtro" id="txtAfinidad" disabled="disabled"/>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="group">
+						<label class="col-sm-1 col-md-1 control-label">Tipo Tarjeta</label>
+						<div class="col-sm-3 col-md-3">
+							<input class="form-control filtro" id="txtTipoTarjeta" disabled="disabled"/>
+						</div>
+					</div>
+					<div class="group">
+						<label class="col-sm-1 col-md-1 control-label">Fecha Orden</label>
+						<div class="col-sm-3 col-md-3">
+							<input class="form-control filtro" name="fechaOrden" disabled="disabled"/>
+						</div>
+					</div>
+					<div class="group">
+						<label class="col-sm-1 col-md-1 control-label">Estado</label>
+						<div class="col-sm-3 col-md-3">
+							<input class="form-control filtro" id="txtEstadoTarjeta" disabled="disabled"/>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="group">
+						<label class="col-sm-1 col-md-1 control-label">Fecha Activación</label>
+						<div class="col-sm-3 col-md-3">
+							<input class="form-control filtro" name="fechaActivacion" disabled="disabled"/>
+						</div>
+					</div>
+					<div class="group">
+						<label class="col-sm-1 col-md-1 control-label">Fecha Bloqueo</label>
+						<div class="col-sm-3 col-md-3">
+							<input class="form-control filtro" name="fechaBloqueo" disabled="disabled"/>
+						</div>
+					</div>
+					<div class="group">
+						<label class="col-sm-1 col-md-1 control-label">Tipo Bloqueo</label>
+						<div class="col-sm-3 col-md-3">
+							<input class="form-control filtro" id="txtTipoBloqueo" disabled="disabled"/>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="group">
+						<label class="col-sm-1 col-md-1 control-label">Número Documento</label>
+						<div class="col-sm-3 col-md-3">
+							<input class="form-control filtro" name="numeroDocumento" disabled="disabled"/>
+						</div>
+					</div>
+					<div class="group">
+						<label class="col-sm-1 col-md-1 control-label">Cliente</label>
+						<div class="col-sm-3 col-md-3">
+							<input class="form-control filtro" id="txtNombreCompletoCliente" disabled="disabled"/>
+						</div>
+					</div>
+					<div class="group">
+						<label class="col-sm-1 col-md-1 control-label">Moneda Cuenta</label>
+						<div class="col-sm-3 col-md-3">
+							<input class="form-control filtro" id="txtMonedaCuenta" disabled="disabled"/>
+						</div>
+					</div>
+				</div>
+			</form>
+		</fieldset>
+		
+			<div id="divResultadoAnalisisATM" class="row">
+				<div id="resultadoBusqueda" class="col-xs-12 tabs" style="padding-bottom: 15px !important">
+					<ul class="nav nav-tabs">
+						<li class="active">
+							<a data-toggle="tab" href="#admin">
+								<i class="fa fa-credit-card" aria-hidden="true"></i> Operaciones administrativas
+							</a>
+						</li>
+						<li>
+							<a data-toggle="tab" href="#finan"> 
+								<i class="fa fa-money" aria-hidden="true"></i> Operaciones financieras
+							</a>
+						</li>
+					</ul>
+				</div>
+				<div class="tab-content">
+					<div id="admin" class="tab-pane fade in active">
+						<div class="row">
+							<div class="col-sm-2 col-md-2 col-lg-2">
+								<ul class="nav nav-pills nav-stacked">
+  									
+  									<li class="tab-op active" key="asociar-tarjeta-cliente" tp="admin">
+  										<a data-toggle="tab" href="#asociar-tarjeta-cliente" aria-expanded="true" class="col-12"> 
+  											<span class="col-10">Asociación tarjeta-cliente</span>
+  										</a> 
+  									</li>
+  									
+  									<li class="tab-op" key="activar-tarjeta" tp="admin">
+  										<a data-toggle="tab" href="#activar-tarjeta" aria-expanded="true" class="col-12"> 
+  											<span class="col-10">Activar tarjeta</span>
+  											<i class="fa fa-lock pull-right col-2" aria-hidden="true"></i>
+  										</a> 
+  									</li>
+  									
+  									<li class="tab-op" key="bloqueo-tarjeta" tp="admin">
+  										<a data-toggle="tab" href="#bloqueo-tarjeta" aria-expanded="true" class="col-12"> 
+  											<span class="col-10">Bloqueo tarjeta</span>
+  											<i class="fa fa-lock pull-right col-2" aria-hidden="true"></i>
+  										</a> 
+  									</li>
+  									
+  									<li class="tab-op" key="reasignar-tarjeta" tp="admin">
+  										<a data-toggle="tab" href="#reasignar-tarjeta" aria-expanded="true" class="col-12"> 
+  											<span class="col-10">Reasignar tarjeta</span>
+  											<i class="fa fa-lock pull-right col-2" aria-hidden="true"></i>
+  										</a> 
+  									</li>
+  									
+  									<li class="tab-op" key="emitir-tarjeta-virtual" tp="admin">
+  										<a data-toggle="tab" href="#emitir-tarjeta-virtual" aria-expanded="true" class="col-12"> 
+  											<span class="col-10">Emitir tarjeta virtual</span>
+  											<i class="fa fa-lock pull-right col-2" aria-hidden="true"></i>
+  										</a> 
+  									</li>
+  									
+  									<li class="tab-op" key="habilita-tarjeta-fisica" tp="admin">
+  										<a data-toggle="tab" href="#habilita-tarjeta-fisica" aria-expanded="true" class="col-12"> 
+  											<span class="col-10">Habilitar tarjeta virtual</span>
+  											<i class="fa fa-lock pull-right col-2" aria-hidden="true"></i>
+  										</a> 
+  									</li>
+  									
+  									<li class="tab-op" key="actualiza-regimen" tp="admin">
+  										<a data-toggle="tab" href="#actualiza-regimen" aria-expanded="true" class="col-12"> 
+  											<span class="col-10">Actualiza régimen</span>
+  										</a> 
+  									</li>
+								</ul>
+							</div>
+							<div class="col-sm-10 col-md-10 col-lg-10">
+								<div id="asociar-tarjeta-cliente" class="tab-pane fade in active tab-op-det" tp="admin">								
+									<div class="alert alert-info" role="alert">
+		                                <i class="fa fa-info-circle" aria-hidden="true"></i> Asocia una tarjeta a un cliente existente. El cliente no debe tener ninguna tarjeta asociada activa. 
+	                            	</div>
+	                            	
+									<div id="msgAsociarCliente" class="alert alert-warning" role="alert">
+		                                <strong> <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Aviso. </strong> La tarjeta ya esta asociada a un cliente  
+	                            	</div>
+									
+									<fieldset class="well">
+										<legend class="well-legend"> Formulario </legend>
+										<form id="formAsociarCliente" class="form-horizontal" role="form">
+											<div class="form-group">
+												<div class="group">
+													<label class="col-sm-1 col-md-1 control-label">Código Seguimiento</label>
+													<div class="col-sm-3 col-md-3">
+														<input class="form-control filtro" name="codigoSeguimiento" disabled="disabled"/>
+													</div>
+												</div>
+												<div class="group">
+													<label class="col-sm-1 col-md-1 control-label">Cliente UBA</label>
+													<div class="col-sm-3 col-md-3">
+														<input class="form-control filtro numbersOnly" name="clienteUBAAsociar"/>
+													</div>
+												</div>
+												<div class="group">
+													<label class="col-sm-1 control-label">Empresa</label>
+													<div class="col-sm-3">
+														<select id="selectEmpresaAsociacion" name="codigoEmpresa" class="form-control select2 filtro">
+															<option th:each="e : ${empresas}" 
+																th:value="${e.idEmpresa}" th:text="|${e.idEmpresa} - ${e.descripcion}|"></option>
+														</select>
+													</div>
+												</div>
+											</div>
+											<div class="form-group">
+												<div class="col-sm-12 col-md-12 text-center">
+													<button id="btnAsociarTarjetaCliente" class="btn btn-success" type="button"> <i class="fa fa-handshake-o" aria-hidden="true"></i> Asociar
+													</button>
+												</div>
+											</div>
+										</form>
+									</fieldset>
+																		
+								</div>
+								<div id="activar-tarjeta" class="tab-pane fade tab-op-det" tp="admin">								
+									<div class="alert alert-info" role="alert">
+		                                <i class="fa fa-info-circle" aria-hidden="true"></i> Realiza la activación de la tarjeta. La tarjeta debe estar asociada a un cliente y encontrarse en estado procesada (P), suspendida (W) o bloqueda temporalmente (X).  
+	                            	</div>
+	                            	
+	                            	<div id="msgActivar" class="alert alert-warning" role="alert">
+		                                <strong> <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Aviso. </strong> La tarjeta ya se encuentra activa o no se encuentra en un estado válido para realizar la activación.
+	                            	</div>
+	                            	
+	                            	<fieldset class="well">
+										<legend class="well-legend"> Formulario </legend>
+										<form id="formActivar" class="form-horizontal" role="form">
+											<div class="form-group">
+												<div class="group">
+													<label class="col-sm-1 col-md-1 control-label">Código Seguimiento</label>
+													<div class="col-sm-3 col-md-3">
+														<input class="form-control filtro" name="codigoSeguimiento" disabled="disabled"/>
+													</div>
+												</div>
+											</div>
+											<div class="form-group">
+												<div class="col-sm-12 col-md-12 text-center">
+													<button id="btnActivar" class="btn btn-success" type="button"> <i class="fa fa-power-off" aria-hidden="true"></i> Activar
+													</button>
+												</div>
+											</div>
+										</form>
+									</fieldset>
+	                            	
+								</div>
+								
+								
+								<div id="bloqueo-tarjeta" class="tab-pane fade tab-op-det hidden" tp="admin">
+									<div class="alert alert-info" role="alert">
+		                                <i class="fa fa-info-circle" aria-hidden="true"></i> Realiza el bloqueo de la tarjeta. Para bloqueos temporales, la tarjeta debe estar activa (A). La cancelación de una tarjeta puede hacerse en cualquier momento y estado.  
+	                            	</div>
+	                            		                            	
+	                            	<fieldset class="well">
+										<legend class="well-legend"> Formulario </legend>
+										<form id="formBloqueo" class="form-horizontal" role="form">
+											<div class="form-group">
+												<div class="group">
+													<label class="col-sm-1 col-md-1 control-label">Código Seguimiento</label>
+													<div class="col-sm-3 col-md-3">
+														<input class="form-control filtro" name="codigoSeguimiento" disabled="disabled"/>
+													</div>
+												</div>
+												<div class="group">
+													<label class="col-sm-1 control-label">Motivo</label>
+													<div class="col-sm-3">
+														<select id="selectMotivoBloqueo" name="motivoBloqueo" class="form-control select2 filtro">
+															<option th:each="e : ${motivosBloqueo}" 
+																th:value="${e.idItem}" th:text="|${e.idItem} - ${e.descripcionItem}|"></option>
+														</select>
+													</div>
+												</div>
+											</div>
+											<div class="form-group">
+												<div class="col-sm-12 col-md-12 text-center">
+													<button id="btnBloqueo" class="btn btn-success" type="button"> <i class="fa fa-ban" aria-hidden="true"></i> Bloquear
+													</button>
+												</div>
+											</div>
+										</form>
+									</fieldset>
+								</div>
+								
+								<div id="reasignar-tarjeta" class="tab-pane fade tab-op-det hidden" tp="admin">
+									<div class="alert alert-info" role="alert">
+		                                <i class="fa fa-info-circle" aria-hidden="true"></i> Permite reasignar una nueva tarjeta a un cliente en remplazo de una tarjeta inactiva (estado C).  La tarjeta a ser reasignada debe haber sido bloqueada previamente. La nueva tarjeta no debe estar activa, ni estar asociada a algún cliente. Esta operación no le altera su estado.
+	                            	</div>
+	                            	
+	                            	<div id="msgReasignarTarjeta" class="alert alert-warning" role="alert">
+		                                <strong> <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Aviso. </strong> La tarjeta a reasignar no se encuentra cancelada.
+	                            	</div>
+	                            		                            	
+	                            	<fieldset class="well">
+										<legend class="well-legend"> Formulario </legend>
+										<form id="formReasignar" class="form-horizontal" role="form">
+											<div class="form-group">
+												<div class="group">
+													<label class="col-sm-1 col-md-1 control-label">Código Seguimiento Anterior</label>
+													<div class="col-sm-3 col-md-3">
+														<input class="form-control filtro" name="codigoSeguimiento" disabled="disabled"/>
+													</div>
+												</div>
+												<div class="group">
+													<label class="col-sm-1 col-md-1 control-label">Código Seguimiento Nuevo</label>
+													<div class="col-sm-3 col-md-3">
+														<input class="form-control filtro numbersOnly" name="codigoSeguimientoNuevo"/>
+													</div>
+												</div>
+											</div>
+											<div class="form-group">
+												<div class="col-sm-12 col-md-12 text-center">
+													<button id="btnReasignar" class="btn btn-success" type="button"> <i class="fa fa-random" aria-hidden="true"></i> Reasignar
+													</button>
+												</div>
+											</div>
+										</form>
+									</fieldset>
+								</div>
+								
+								
+								<div id="emitir-tarjeta-virtual" class="tab-pane fade tab-op-det hidden" tp="admin">
+									<div class="alert alert-info" role="alert">
+		                                <i class="fa fa-info-circle" aria-hidden="true"></i> Permite ordenar la emisión de una tarjeta virtual a tarjeta física. Esta orden solo será realizada una vez. Las tarjetas que ya hayan sido creadas como físicas no podrán hacer uso de este servicio.   
+	                            	</div>
+	                            	
+	                            	<div id="msg1EmitirTarjetaVirtual" class="alert alert-warning" role="alert">
+		                                <strong> <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Aviso. </strong> La tarjeta no es virtual.
+	                            	</div>
+	                            	
+	                            	<div id="msg2EmitirTarjetaVirtual" class="alert alert-warning" role="alert">
+		                                <strong> <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Aviso. </strong> La emisión de la tarjeta virtual a física ya fue realizada.
+	                            	</div>
+	                            		                            	
+	                            	<fieldset class="well">
+										<legend class="well-legend"> Formulario </legend>
+										<form id="formEmitirTarjetaVirtual" class="form-horizontal" role="form">
+											<div class="form-group">
+												<div class="group">
+													<label class="col-sm-1 col-md-1 control-label">Código Seguimiento</label>
+													<div class="col-sm-3 col-md-3">
+														<input class="form-control filtro" name="codigoSeguimiento" disabled="disabled"/>
+													</div>
+												</div>
+												<div class="group">
+													<label class="col-sm-1 control-label">Tipo Documento</label>
+													<div class="col-sm-3">
+														<select id="selectTipoDocumentoEmitir" name="tipoDocumento" class="form-control select2 tipoDocumento">
+															<option value="" disabled="disabled" selected="selected">Seleccion un Tipo de Documento</option>
+															<option th:each="documentos : ${tipoDocumentos}" th:value="${documentos.idItem}"
+																	th:text="|${documentos.idItem} - ${documentos.descripcionItem}|"></option>
+														</select>
+													</div>
+												</div>
+												<div class="group">
+													<label class="col-sm-1 control-label">Número Documento</label>
+													<div class="col-sm-3">
+														<input name="numeroDocumento" type="text" placeholder="10002987" class="form-control filtro numbersOnly">
+													</div>
+												</div>
+											</div>
+											<div class="form-group">
+												<div class="group">
+													<label class="col-sm-1 control-label">Afinidad</label>
+													<div class="col-sm-3">
+														<input name="afinidad" type="text" placeholder="0001" class="form-control filtro" maxlength="4">
+													</div>
+												</div>
+												<div class="group">
+													<label class="col-sm-1 control-label">Programa Lealtad</label>
+													<div class="col-sm-3">
+														<input name="programaLealtad" type="text" class="form-control filtro" maxlength="9">
+													</div>
+												</div>
+												<div class="group">
+													<label class="col-sm-1 control-label">Empresa</label>
+													<div class="col-sm-3">
+														<input name="empresa" type="text" class="form-control filtro" maxlength="60">
+													</div>
+												</div>
+											</div>
+											<div class="form-group">
+												<div class="col-sm-12 col-md-12 text-center">
+													<button id="btnEmitirTarjetaVirtual" class="btn btn-success" type="button"> <i class="fa fa-credit-card-alt" aria-hidden="true"></i> Emitir
+													</button>
+												</div>
+											</div>
+										</form>
+									</fieldset>
+								</div>
+								
+								
+								
+								<div id="habilita-tarjeta-fisica" class="tab-pane fade tab-op-det hidden" tp="admin">
+									<div class="alert alert-info" role="alert">
+		                                <i class="fa fa-info-circle" aria-hidden="true"></i> Una vez que el cliente prepago dispone de su tarjeta física, que ha nacido a partir de una tarjeta virtual, esta debe de habilitarse para las compras con lectura de tarjeta. Si no se invoca a este servicio no se podrán realizar compras con lectura de tarjeta desde ningún origen.  
+	                            	</div>
+	                            	
+	                            	<div id="msgHabilita" class="alert alert-warning" role="alert">
+		                                <strong> <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Aviso. </strong> La tarjeta nacio física o no se ha realizado la emisión de la tarjeta física.
+	                            	</div>
+	                            		                            	
+	                            	<fieldset class="well">
+										<legend class="well-legend"> Formulario </legend>
+										<form id="formHabilita" class="form-horizontal" role="form">
+											<div class="form-group">
+												<div class="group">
+													<label class="col-sm-1 col-md-1 control-label">Código Seguimiento</label>
+													<div class="col-sm-3 col-md-3">
+														<input class="form-control filtro" name="codigoSeguimiento" disabled="disabled"/>
+													</div>
+												</div>
+											</div>
+											<div class="form-group">
+												<div class="col-sm-12 col-md-12 text-center">
+													<button id="btnHabilita" class="btn btn-success" type="button"> <i class="fa fa-power-off" aria-hidden="true"></i> Habilitar
+													</button>
+												</div>
+											</div>
+										</form>
+									</fieldset>
+								</div>
+								
+								
+								<div id="actualiza-regimen" class="tab-pane fade tab-op-det hidden" tp="admin">
+									<div class="alert alert-info" role="alert">
+		                                <i class="fa fa-info-circle" aria-hidden="true"></i> Permite pasar una tarjeta prepago de régimen simplificado a régimen general.  
+	                            	</div>
+	                            		                            	
+	                            	<fieldset class="well">
+										<legend class="well-legend"> Formulario </legend>
+										<form id="formRegimen" class="form-horizontal" role="form">
+											<div class="form-group">
+												<div class="group">
+													<label class="col-sm-1 col-md-1 control-label">Código Seguimiento</label>
+													<div class="col-sm-3 col-md-3">
+														<input class="form-control filtro" name="codigoSeguimiento" disabled="disabled"/>
+													</div>
+												</div>
+												<div class="group">
+													<label class="col-sm-1 control-label">Régimen</label>
+													<div class="col-sm-3">
+														<select id="selectRegimen" name="regimen" class="form-control select2">
+															<option th:each="r : ${regimenes}" th:value="${r.idItem}"
+																	th:text="|${r.idItem} - ${r.descripcionItem}|"></option>
+														</select>
+													</div>
+												</div>												
+												<div class="group">
+													<label class="col-sm-1 col-md-1 control-label">Categoría</label>
+													<div class="col-sm-3 col-md-3">
+														<input class="form-control filtro" name="indCategoria"
+															maxlength="10" />
+													</div>
+												</div>
+											</div>
+											<div class="form-group">
+												<div class="col-sm-12 col-md-12 text-center">
+													<button id="btnRegimen" class="btn btn-success" type="button"> <i class="fa fa-refresh" aria-hidden="true"></i> Actualizar
+													</button>
+												</div>
+											</div>
+										</form>
+									</fieldset>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div id="finan" class="tab-pane fade in ">
+						<div class="row">
+							<div class="col-sm-2 col-md-2 col-lg-2">
+								<ul class="nav nav-pills nav-stacked">
+  									
+  									<li class="tab-op active" key="recarga" tp="finan">
+  										<a data-toggle="tab" href="#recarga" aria-expanded="true" class="col-12"> 
+  											<span class="col-10">Recarga</span>
+  											<i class="fa fa-lock pull-right col-2" aria-hidden="true"></i>
+  										</a> 
+  									</li>
+  									  									
+  									<li class="tab-op" key="debito" tp="finan">
+  										<a data-toggle="tab" href="#debito" aria-expanded="true" class="col-12"> 
+  											<span class="col-10">Debito</span>
+  											<i class="fa fa-lock pull-right col-2" aria-hidden="true"></i>
+  										</a> 
+  									</li>
+  									  									
+  									<li class="tab-op" key="transferencia" tp="finan">
+  										<a data-toggle="tab" href="#transferencia" aria-expanded="true" class="col-12"> 
+  											<span class="col-10">Transferencia</span>
+  											<i class="fa fa-lock pull-right col-2" aria-hidden="true"></i>
+  										</a> 
+  									</li>
+  									
+  									<li class="tab-op" key="consulta-saldo" tp="finan">
+  										<a data-toggle="tab" href="#consulta-saldo" aria-expanded="true" class="col-12"> 
+  											<span class="col-10">Consulta saldo</span>
+  										</a> 
+  									</li>
+  									<li class="tab-op" key="consulta-movimientos" tp="finan">
+  										<a data-toggle="tab" href="#consulta-movimientos" aria-expanded="true" class="col-12"> 
+  											<span class="col-10">Consulta movimientos</span>
+  										</a> 
+  									</li>
+								</ul>
+							</div>
+							
+							<div class="col-sm-10 col-md-10 col-lg-10">
+								<div id="recarga" class="tab-pane fade in active tab-op-det" tp="finan">								
+									<div class="alert alert-info" role="alert">
+		                                <i class="fa fa-info-circle" aria-hidden="true"></i> Realiza la recarga de saldo en una tarjeta prepago. 
+	                            	</div>
+	                            	
+									<div id="msgRecarga" class="alert alert-warning" role="alert">
+		                                <strong> <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Aviso. </strong> La tarjeta no se encuentra activa.  
+	                            	</div>
+									
+									<fieldset class="well">
+										<legend class="well-legend"> Formulario </legend>
+										<form id="formRecarga" class="form-horizontal" role="form">
+											<div class="form-group">
+												<div class="group">
+													<label class="col-sm-1 col-md-1 control-label">Código Seguimiento</label>
+													<div class="col-sm-3 col-md-3">
+														<input class="form-control filtro" name="codigoSeguimiento" disabled="disabled"/>
+													</div>
+												</div>
+												<div class="group">
+													<label class="col-sm-1 col-md-1 control-label">Ciudad</label>
+													<div class="col-sm-3 col-md-3">
+														<input class="form-control filtro upperCase" name="ciudad" type="text" maxlength="11"/>
+													</div>
+												</div>
+												<div class="group">
+													<label class="col-sm-1 control-label">Dirección</label>
+													<div class="col-sm-3 col-md-3">
+														<input class="form-control filtro upperCase" name="direccion" type="text" maxlength="24"/>
+													</div>
+												</div>
+											</div>
+											<div class="form-group">
+												<div class="group">
+													<label class="col-sm-1 control-label">Comercio</label>
+													<div class="col-sm-3 col-md-3">
+														<input class="form-control filtro upperCase" name="comercio" type="text" maxlength="15"/>
+													</div>
+												</div>
+												<div class="group">
+													<label class="col-sm-1 col-md-1 control-label">Moneda Comisión</label>
+													<div class="col-sm-3">
+														<select id="selectMonedaComisionRecarga" name="monedaComision" class="form-control select2">
+															<option th:each="r : ${monedas}" th:value="${r.codigoMoneda}" th:text="|${r.codigoMoneda} - ${r.descripcion}|"></option>
+														</select>
+													</div>
+												</div>
+												<div class="group">
+													<label class="col-sm-1 col-md-1 control-label">Comisión</label>
+													<div class="col-sm-3 col-md-3">
+														<input class="form-control filtro" name="montoComision" type="number" min="0"/>
+													</div>
+												</div>
+											</div>
+											<div class="form-group">
+												<div class="group">
+													<label class="col-sm-1 control-label">Terminal</label>
+													<div class="col-sm-3 col-md-3">
+														<input class="form-control filtro numbersOnly" name="terminal" type="text" maxlength="8"/>
+													</div>
+												</div>
+												<div class="group">
+													<label class="col-sm-1 col-md-1 control-label">Moneda Recarga</label>
+													<div class="col-sm-3">
+														<select id="selectMonedaMontoRecarga" name="monedaRecarga" class="form-control select2">
+															<option th:each="r : ${monedas}" th:value="${r.codigoMoneda}" th:text="|${r.codigoMoneda} - ${r.descripcion}|"></option>
+														</select>
+													</div>
+												</div>
+												<div class="group">
+													<label class="col-sm-1 col-md-1 control-label">Monto</label>
+													<div class="col-sm-3 col-md-3">
+														<input class="form-control filtro" name="montoRecarga" type="number" min="0"/>
+													</div>
+												</div>
+											</div>
+											<div class="form-group">
+												<div class="col-sm-12 col-md-12 text-center">
+													<button id="btnRecarga" class="btn btn-success" type="button"> 
+														<i class="fa fa-money" aria-hidden="true"></i> Recargar
+													</button>
+												</div>
+											</div>
+										</form>
+									</fieldset>
+																		
+								</div>
+								
+								
+								<div id="debito" class="tab-pane fade tab-op-det hidden" tp="finan">								
+									<div class="alert alert-info" role="alert">
+		                                <i class="fa fa-info-circle" aria-hidden="true"></i> Realiza el débito en línea del saldo en una tarjeta prepago.
+	                            	</div>
+	                            	
+									<div id="msgDebito" class="alert alert-warning" role="alert">
+		                                <strong> <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Aviso. </strong> La tarjeta no se encuentra activa.  
+	                            	</div>
+									
+									<fieldset class="well">
+										<legend class="well-legend"> Formulario </legend>
+										<form id="formDebito" class="form-horizontal" role="form">
+											<div class="form-group">
+												<div class="group">
+													<label class="col-sm-1 col-md-1 control-label">Código Seguimiento</label>
+													<div class="col-sm-3 col-md-3">
+														<input class="form-control filtro" name="codigoSeguimiento" disabled="disabled"/>
+													</div>
+												</div>
+												<div class="group">
+													<label class="col-sm-1 col-md-1 control-label">Ciudad</label>
+													<div class="col-sm-3 col-md-3">
+														<input class="form-control filtro upperCase" name="ciudad" type="text" maxlength="11"/>
+													</div>
+												</div>
+												<div class="group">
+													<label class="col-sm-1 control-label">Dirección</label>
+													<div class="col-sm-3 col-md-3">
+														<input class="form-control filtro upperCase" name="direccion" type="text" maxlength="24"/>
+													</div>
+												</div>
+											</div>
+											<div class="form-group">
+												<div class="group">
+													<label class="col-sm-1 control-label">Terminal</label>
+													<div class="col-sm-3 col-md-3">
+														<input class="form-control filtro numbersOnly" name="terminal" type="text" maxlength="8"/>
+													</div>
+												</div>
+												<div class="group">
+													<label class="col-sm-1 col-md-1 control-label">Moneda</label>
+													<div class="col-sm-3">
+														<select id="selectMonedaMontoDebito" name="monedaDebito" class="form-control select2">
+															<option th:each="r : ${monedas}" th:value="${r.codigoMoneda}" th:text="|${r.codigoMoneda} - ${r.descripcion}|"></option>
+														</select>
+													</div>
+												</div>
+												<div class="group">
+													<label class="col-sm-1 col-md-1 control-label">Monto</label>
+													<div class="col-sm-3 col-md-3">
+														<input class="form-control filtro" name="montoDebito" type="number" min="0"/>
+													</div>
+												</div>
+											</div>
+											<div class="form-group">
+												<div class="col-sm-12 col-md-12 text-center">
+													<button id="btnDebito" class="btn btn-success" type="button"> 
+														<i class="fa fa-money" aria-hidden="true"></i> Debitar
+													</button>
+												</div>
+											</div>
+										</form>
+									</fieldset>
+																		
+								</div>
+								
+								
+								
+								<div id="transferencia" class="tab-pane fade tab-op-det hidden" tp="finan">								
+									<div class="alert alert-info" role="alert">
+		                                <i class="fa fa-info-circle" aria-hidden="true"></i> Realiza la transferencia de saldo entre tarjetas prepago. 
+	                            	</div>
+	                            	
+									<div id="msgTransferencia" class="alert alert-warning" role="alert">
+		                                <strong> <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Aviso. </strong> La tarjeta no se encuentra activa.  
+	                            	</div>
+									
+									<fieldset class="well">
+										<legend class="well-legend"> Formulario </legend>
+										<form id="formTransferencia" class="form-horizontal" role="form">
+											<div class="form-group">
+												<div class="group">
+													<label class="col-sm-1 col-md-1 control-label">Código Seguimiento Origen</label>
+													<div class="col-sm-3 col-md-3">
+														<input class="form-control filtro" name="codigoSeguimiento" disabled="disabled"/>
+													</div>
+												</div>
+												<div class="group">
+													<label class="col-sm-1 col-md-1 control-label">Ciudad</label>
+													<div class="col-sm-3 col-md-3">
+														<input class="form-control filtro upperCase" name="ciudad" type="text" maxlength="11"/>
+													</div>
+												</div>
+												<div class="group">
+													<label class="col-sm-1 control-label">Dirección</label>
+													<div class="col-sm-3 col-md-3">
+														<input class="form-control filtro upperCase" name="direccion" type="text" maxlength="24"/>
+													</div>
+												</div>
+											</div>
+											<div class="form-group">
+												<div class="group">
+													<label class="col-sm-1 col-md-1 control-label">Código Seguimiento Destino</label>
+													<div class="col-sm-3 col-md-3">
+														<input class="form-control filtro numbersOnly" name="codigoSeguimientoDestino"/>
+													</div>
+												</div>
+												<div class="group">
+													<label class="col-sm-1 col-md-1 control-label">Moneda</label>
+													<div class="col-sm-3">
+														<select id="selectMonedaMontoTransferencia" name="monedaTransferencia" class="form-control select2">
+															<option th:each="r : ${monedas}" th:value="${r.codigoMoneda}" th:text="|${r.codigoMoneda} - ${r.descripcion}|"></option>
+														</select>
+													</div>
+												</div>
+												<div class="group">
+													<label class="col-sm-1 col-md-1 control-label">Monto</label>
+													<div class="col-sm-3 col-md-3">
+														<input class="form-control filtro" name="montoTransferencia" type="number" min="0"/>
+													</div>
+												</div>
+											</div>
+											<div class="form-group">
+												<div class="group">
+													<label class="col-sm-1 control-label">Terminal</label>
+													<div class="col-sm-3 col-md-3">
+														<input class="form-control filtro numbersOnly" name="terminal" type="text" maxlength="8"/>
+													</div>
+												</div>
+												<div class="group">
+													<label class="col-sm-1 control-label">Comercio</label>
+													<div class="col-sm-3 col-md-3">
+														<input class="form-control filtro upperCase" name="comercio" type="text" maxlength="15"/>
+													</div>
+												</div>
+											</div>
+											<div class="form-group">
+												<div class="col-sm-12 col-md-12 text-center">
+													<button id="btnTransferencia" class="btn btn-success" type="button"> 
+														<i class="fa fa-money" aria-hidden="true"></i> Transferir
+													</button>
+												</div>
+											</div>
+										</form>
+									</fieldset>
+																		
+								</div>
+								
+								
+								<div id="consulta-saldo" class="tab-pane fade tab-op-det hidden" tp="finan">								
+									
+									<div id="msgSaldos" class="alert alert-warning" role="alert">
+		                                <strong> <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Aviso. </strong> La tarjeta no se encuentra activa.  
+	                            	</div>
+									
+									<fieldset class="well">
+										<legend class="well-legend"> Formulario </legend>
+										<form id="formSaldos" class="form-horizontal" role="form">
+											<div class="form-group">
+												<div class="group">
+													<label class="col-sm-1 col-md-1 control-label">Código Seguimiento</label>
+													<div class="col-sm-3 col-md-3">
+														<input class="form-control filtro" name="codigoSeguimiento" disabled="disabled"/>
+													</div>
+												</div>
+											</div>
+											<div class="form-group">
+												<div class="col-sm-12 col-md-12 text-center">
+													<button id="btnSaldos" class="btn btn-success" type="button"> 
+														<i class="fa fa-eye" aria-hidden="true"></i> Consultar
+													</button>
+												</div>
+											</div>
+										</form>
+									</fieldset>
+									
+									<table id="tablaSaldos" class="table table-bordered table-condensed nowrap display table-hover">
+									</table>
+																		
+								</div>
+								
+								
+								<div id="consulta-movimientos" class="tab-pane fade tab-op-det hidden" tp="finan">								
+									
+									<div id="msgConsultaMov" class="alert alert-warning" role="alert">
+		                                <strong> <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Aviso. </strong> La tarjeta no se encuentra activa.  
+	                            	</div>
+									
+									<fieldset class="well">
+										<legend class="well-legend"> Formulario </legend>
+										<form id="formConsultaMov" class="form-horizontal" role="form">
+											<div class="form-group">
+												<div class="group">
+													<label class="col-sm-1 col-md-1 control-label">Código Seguimiento</label>
+													<div class="col-sm-3 col-md-3">
+														<input class="form-control filtro" name="codigoSeguimiento" disabled="disabled"/>
+													</div>
+												</div>
+											</div>
+											<div class="form-group">
+												<div class="col-sm-12 col-md-12 text-center">
+													<button id="btnConsultaMov" class="btn btn-success" type="button"> 
+														<i class="fa fa-eye" aria-hidden="true"></i> Consultar
+													</button>
+												</div>
+											</div>
+										</form>
+									</fieldset>
+									
+									<table id="tablaMovimientos" class="table table-bordered table-condensed nowrap display table-hover">
+									</table>
+																		
+								</div>
+							
+							</div>							
+							
+							
+							
+							
+							
+						</div>
+					</div>
+				</div>
+			</div>
+			
+		
+		
+		
+	</th:block>
+
+
+</body>
+</html>

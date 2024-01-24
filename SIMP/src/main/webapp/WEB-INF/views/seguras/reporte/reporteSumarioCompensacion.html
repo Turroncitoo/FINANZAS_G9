@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+	layout:decorator="layout">
+<head>
+<title>Reporte Sumario Compensación</title>
+</head>
+<th:block layout:fragment="style">
+	<link th:href="@{/resources/css/dataTables.bootstrap.min.css}" rel="stylesheet" />
+	<link th:href="@{/resources/css/responsive.bootstrap.min.css}" rel="stylesheet" />
+	<link th:href="@{/resources/css/fixedColumns.dataTables.min.css}" rel="stylesheet" />
+	<link th:href="@{/resources/css/select2.min.css}" rel="stylesheet" />
+	<link th:href="@{/resources/css/select2-bootstrap.min.css}" rel="stylesheet" />
+	<link th:href="@{/resources/css/daterangepicker.css}" rel="stylesheet" />
+</th:block>
+<body>
+	<th:block layout:fragment="content">
+		<div class="page-content-wrap">
+			<div class="row">
+				<div class="col-md-12 col-sm-12 col-xs-12">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h3 class="panel-title">Reporte Sumario Compensación</h3>
+						</div>
+						<div class="panel-body">
+							<div class="row">
+								<fieldset class="well">
+									<legend class="well-legend">Búsqueda</legend>
+									<form id="formCriterioBusquedaReporte" class="form-horizontal" role="form">
+										<div class="form-group">
+											<div class="group">
+												<label class="control-label col-lg-1 col-md-1">Institución</label>
+												<div class="col-lg-3 col-md-3">
+													<select id="instituciones" name="codigoInstitucion" class="form-control select2">
+														<option value="-1">TODOS</option>
+														<option th:each="institucion : ${instituciones}" th:value="${institucion.codigoInstitucion}"
+															th:text="|${institucion.codigoInstitucion} - ${institucion.descripcionCorta}|"></option>
+													</select>
+												</div>
+											</div>
+											<div class="group">
+												<label class="control-label col-lg-1 col-md-1">Fecha Proceso</label>
+												<div class="col-lg-3 col-md-3 input-group">
+													<span class="input-group-addon"><i
+														class="fa fa-calendar"></i></span> 
+														<input id="rangoFechaBusqueda" type="text" class="form-control" readonly="readonly" />
+												</div>
+											</div>
+										</div>
+										<div class="form-group">
+											<div
+												class="col-sm-offset-3 col-md-offset-3 col-lg-offset-2 col-sm-6 col-md-6 col-lg-4">
+												<button id="buscar" sec:authorize="hasPermission('RPT_SUMARIOCOMP','2')"
+													type="button" class="btn btn-primary">
+													<i class="fa fa-search"></i> Buscar
+												</button>
+												<button id="exportar" sec:authorize="hasPermission('RPT_SUMARIOCOMP','5')"
+													type="button" class="btn btn-success">
+													<i class="fa fa-download"></i> Exportar
+												</button>
+											</div>
+										</div>
+									</form>
+								</fieldset>
+							</div>
+							<div id="resultadoBusqueda" class="col-xs-12 tabs" sec:authorize="hasPermission('RPT_SUMARIOCOMP','2')">
+								<ul class="nav nav-tabs">
+									<li th:each="moneda,iterStat : ${monedas}" th:class="${iterStat.index == 0}?'active':''">
+										<a data-toggle="tab" th:href="|#${moneda.codigoMoneda}|" th:text="|${moneda.codigoMoneda} - ${moneda.descripcion}|"></a>
+									</li>
+								</ul>
+								<div class="tab-content">
+									<div th:each="moneda,iterStat : ${monedas}" th:id="${moneda.codigoMoneda}" class="tab-pane fade in"
+										th:classappend="${iterStat.index == 0}?'active':''">
+										<table th:attr="idTabla=|tabla${moneda.codigoMoneda}|,id=|tabla${moneda.codigoMoneda}|"
+											class="table table-bordered table-condensed nowrap display table-hover tablaComisiones"
+											style="width:100%">
+											<thead>
+												<tr>
+													<th colspan="4" class="dt-center">Fondos y comisiones</th>
+													<th colspan="2" class="dt-center">Fondos</th>
+													<th colspan="2" class="dt-center">Comisiones</th>
+													<th colspan="2" class="dt-center">Total F + C</th>
+													<th colspan="2" class="dt-center">Misceláneos</th>
+													<th rowspan="2" class="monto dt-center" style="white-space: normal;">Neto Compensación</th>
+												</tr>
+												<tr>
+													<th>Institución</th>
+													<th>Membresía</th>
+													<th>Clase Servicio</th>
+													<th>Cantidad</th>
+													<th class="monto">Monto Deudor</th>
+													<th class="monto">Monto Acreedor</th>
+													<th class="monto">Monto Deudor</th>
+													<th class="monto">Monto Acreedor</th>
+													<th class="monto">Monto Deudor</th>
+													<th class="monto">Monto Acreedor</th>
+													<th class="monto">Monto Deudor</th>
+													<th class="monto">Monto Acreedor</th>
+												</tr>
+											</thead>
+											<tfoot>
+												<tr>
+													<td colspan="3">Total</td>
+													<td class="dt-right"></td>
+													<td class="monto dt-right deudor"></td>
+													<td class="monto dt-right acreedor"></td>
+													<td class="monto dt-right deudor"></td>
+													<td class="monto dt-right acreedor"></td>
+													<td class="monto dt-right deudor"></td>
+													<td class="monto dt-right acreedor"></td>
+													<td class="monto dt-right deudor"></td>
+													<td class="monto dt-right acreedor"></td>
+													<td class="monto dt-right neto"></td>
+												</tr>
+											</tfoot>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</th:block>
+	<th:block layout:fragment="script">
+		<script th:src="@{/resources/js/datatables/jquery.dataTables.min.js}"></script>
+		<script th:src="@{/resources/js/datatables/dataTables.bootstrap.min.js}"></script>
+		<script th:src="@{/resources/js/datatables/dataTables.responsive.min.js}"></script>
+		<script th:src="@{/resources/js/datatables/dataTables.fixedColumns.min.js}"></script>
+		<script th:src="@{/resources/js/bootstrap/bootstrap-notify.min.js}"></script>
+		<script th:src="@{/resources/js/jquery/jquery.serializejson.min.js}"></script>
+		<script th:src="@{/resources/js/jquery/select2.full.min.js}"></script>
+		<script th:src="@{/resources/js/jquery/moment.min.js}"></script>
+		<script th:src="@{/resources/js/jquery/daterangepicker.js}"></script>
+		<script th:src="@{/resources/js/pagina/reporte/resumen/sumarioCompensacion/sumarioCompensacion.js}"></script>
+	</th:block>
+</body>
+</html>

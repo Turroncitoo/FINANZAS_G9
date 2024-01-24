@@ -1,0 +1,5 @@
+@CHARSET "ISO-8859-1";
+
+.dropzone .dz-preview {
+	z-index: 0;
+}

@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+	<div id="criterioBusquedaReporte" class="row" th:fragment="criterioBusquedaResumenMovimiento" th:with="tipo=${tipo}">
+		<fieldset class="well">
+			<legend class="well-legend">Búsqueda</legend>
+			<form id="formCriterioBusquedaReporte" class="form-horizontal" role="form">
+				<th:block th:replace="~{template/fragments/reporte/criterioBusquedaReporteResumenMovimiento :: ${tipo}}?:~{}">
+				</th:block>
+				<div class="form-group">
+					<div class="col-lg-12 text-center">
+						<button id="buscar" type="button" class="btn btn-primary" th:if="${#vars.permisoConsulta}">
+							<i class="fa fa-search"></i> Buscar
+						</button>
+						<button id="exportar" type="button" class="btn btn-success" th:if="${#vars.permisoReporte}">
+							<i class="fa fa-download"></i> Exportar
+						</button>
+					</div>
+				</div>
+			</form>
+		</fieldset>
+	</div>
+
+	<th:block th:fragment="autorizacion">
+		<div class="form-group">
+			<div class="group">
+				<label class="control-label col-lg-1 col-md-1">Rol de Transacción</label>
+				<div class="col-lg-3 col-md-3">
+					<select id="rolesTransaccion" name="rolTransaccion" class="form-control select2">
+						<option value="-1" selected="selected">TODOS</option>
+						<option th:each="rolTransaccion : ${rolesTransaccion}" th:value="${rolTransaccion.idItem}"
+							th:text="|${rolTransaccion.idItem} - ${rolTransaccion.descripcionItem}|"></option>
+					</select>
+				</div>
+			</div>
+			<div class="group">
+				<label class="control-label col-lg-1 col-md-1">Canales</label>
+				<div class="col-lg-3 col-md-3">
+					<select id="canales" name="idCanal" class="form-control select2">
+						<option value="-1" selected="selected">TODOS</option>
+						<option th:each="canal : ${canales}" th:value="${canal.idCanal}" th:text="|${canal.idCanal} - ${canal.descripcion}|"></option>
+					</select>
+				</div>
+			</div>
+			<div class="group">
+				<label class="control-label col-lg-1 col-md-1">Fecha Transacción</label>
+				<div class="col-lg-3 col-md-3 input-group">
+					<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+					<input id="rangoFechaBusqueda" type="text" class="form-control" readonly="readonly" name="fechas" />
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="group">
+				<label class="control-label col-lg-1 col-md-1">Transacción</label>
+				<div class="col-lg-3 col-md-3">
+					<select id="procesos" name="codigoProceso" class="form-control select2">
+						<option value="-1" selected="selected">TODOS</option>
+						<option th:each="proceso : ${codigosProceso}" th:value="${proceso.codigoProcesoSwitch}"
+							th:text="|${proceso.codigoProcesoSwitch} - ${proceso.descripcion}|"></option>
+					</select>
+				</div>
+			</div>
+		</div>
+	</th:block>
+
+	<th:block th:fragment="swDmpLog">
+		<div class="form-group">
+			<div class="group">
+				<label for="rangoFechaBusquedaSwDmpLog" class="control-label col-lg-1 col-md-1">Fecha Proceso</label>
+				<div class="col-lg-3 col-md-3">
+					<div class="input-group">
+						<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+						<input id="rangoFechaBusquedaSwDmpLog" type="text" class="form-control" readonly="readonly" name="fechas" />
+					</div>
+				</div>
+			</div>
+			<div class="group">
+				<label for="selectInstitucionSwDmpLog" class="control-label col-lg-1 col-md-1">Institución</label>
+				<div class="col-lg-3 col-md-3">
+					<select id="selectInstitucionSwDmpLog" name="idInstitucion" class="form-control select2">
+						<option th:each="institucion : ${instituciones}"
+							th:value="${institucion.codigoInstitucion}"
+							th:text="|${institucion.codigoInstitucion} - ${institucion.descripcionCorta}|"></option>
+					</select>
+				</div>
+			</div>
+			<div class="group">
+				<label for="selectEmpresaSwDmpLog" class="control-label col-sm-1 col-md-1">Empresa</label>
+				<div class="col-sm-3 col-md-3">
+					<select id="selectEmpresaSwDmpLog" name="idEmpresa" class="form-control select2 filtro">
+						<option value="-1" selected="selected">Seleccione una Empresa</option>
+						<option th:each="empresa : ${empresas}"
+								th:value="${empresa.idEmpresa}"
+								th:text="|${empresa.idEmpresa} - ${empresa.descripcion}|"></option>
+					</select>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="group">
+				<label for="selectClienteSwDmpLog" class="control-label col-sm-1 col-md-1">Cliente</label>
+				<div class="col-sm-3 col-md-3">
+					<select id="selectClienteSwDmpLog" name="clientes" class="select2 filtro" multiple="multiple">
+					</select>
+				</div>
+			</div>
+			<div class="group">
+				<label for="selectRolesTransaccionSwDmpLog" class="control-label col-lg-1 col-md-1">Rol Transacción</label>
+				<div class="col-lg-3 col-md-3">
+					<select id="selectRolesTransaccionSwDmpLog" name="rolesTransaccion" class="select2 filtro" multiple="multiple">
+						<option th:each="rolTransaccion : ${rolesTransaccion}" 
+								th:value="${rolTransaccion.idItem}"
+								th:text="|${rolTransaccion.idItem} - ${rolTransaccion.descripcionItem}|"></option>
+					</select>
+				</div>
+			</div>
+			<div class="group">
+				<label for="selectProcesosSwDmpLog" class="control-label col-lg-1 col-md-1">Código Proceso</label>
+				<div class="col-lg-3 col-md-3">
+					<select id="selectProcesosSwDmpLog" name="procesos" class="select2 filtro" multiple="multiple">
+						<option th:each="proceso : ${codigosProceso}" 
+								th:value="${proceso.codigoProcesoSwitch}"
+								th:text="|${proceso.codigoProcesoSwitch} - ${proceso.descripcion}|"></option>
+					</select>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="group">
+				<label for="selectCanalSwDmpLog" class="control-label col-lg-1 col-md-1">Canal</label>
+				<div class="col-lg-3 col-md-3">
+					<select id="selectCanalSwDmpLog" name="canales" class="select2 filtro" multiple="multiple">
+						<option th:each="canal : ${canales}" 
+								th:value="${canal.idCanal}" 
+								th:text="|${canal.idCanal} - ${canal.descripcion}|"></option>
+					</select>
+				</div>
+			</div>
+		</div>
+	</th:block>
+
+	<th:block th:fragment="transaccionAprobadaAgencia">
+		<div class="form-group">
+			<div class="group">
+				<label class="control-label col-lg-1 col-md-1">Agencias</label>
+				<div class="col-lg-5 col-md-5">
+					<select id="agencias" name="idAgencia" class="form-control select2">
+						<option value="-1" selected="selected">TODOS</option>
+						<option th:each="agencia : ${agencias}" th:value="${agencia.idAgencia}"
+							th:text="|${agencia.idAgencia} - ${agencia.descripcion}|"></option>
+					</select>
+				</div>
+			</div>
+			<div class="group">
+				<label class="control-label col-lg-1 col-md-1">Sexo</label>
+				<div class="col-lg-5 col-md-5">
+					<select id="sexos" class="radio-inline" name="idSexo">
+						<option value="">TODOS</option>
+						<option th:each="sexo : ${sexos}" th:value="${sexo.idItem}" th:text="|${sexo.idItem} - ${sexo.descripcionItem}|"></option>
+					</select>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="group">
+				<label class="control-label col-lg-1 col-md-1">Estado Civil</label>
+				<div class="col-lg-5 col-md-5">
+					<select id="estadosCivil" class="form-control select2" name="idEstadoCivil">
+						<option value="" selected="selected">TODOS</option>
+						<option th:each="estadoCivil : ${estadosCivil}" th:value="${estadoCivil.idItem}"
+							th:text="|${estadoCivil.idItem} - ${estadoCivil.descripcionItem}|"></option>
+					</select>
+				</div>
+			</div>
+			<div class="group">
+				<label class="control-label col-lg-1 col-md-1">Fecha Transacción</label>
+				<div class="col-lg-5 col-md-5 input-group">
+					<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+					<input id="rangoFechaBusqueda" type="text" class="form-control" readonly="readonly" name="fechas" />
+				</div>
+			</div>
+		</div>
+	</th:block>
+
+	<th:block th:fragment="logContableEmisor">
+		<div class="form-group">
+			<div class="group">
+				<label for="rangoFechaBusquedaContEmi" class="control-label col-lg-1 col-md-1">Fecha Proceso</label>
+				<div class="col-lg-3 col-md-3">
+					<div class="input-group">
+						<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+						<input id="rangoFechaBusquedaContEmi" type="text" class="form-control filtro" readonly="readonly" name="fechas" />
+					</div>
+				</div>
+			</div>
+			<div class="group">
+				<label for="institucionesContEmi" class="col-sm-1 col-md-1 control-label">Institución</label>
+				<div class="col-sm-3 col-md-3">
+					<select id="institucionesContEmi" name="idInstitucion" class="form-control select2 filtro">
+						<option th:each="institucion : ${instituciones}" 
+								th:value="${institucion.codigoInstitucion}"
+								th:text="|${institucion.codigoInstitucion} - ${institucion.descripcionCorta}|"></option>
+					</select>
+				</div>
+			</div>
+			<div class="group">
+				<label for="empresasContEmi" class="control-label col-sm-1 col-md-1">Empresa</label>
+				<div class="col-sm-3 col-md-3">
+					<select id="empresasContEmi" name="idEmpresa" class="form-control select2 filtro">
+						<option value="-1" selected="selected">Seleccione una Empresa</option>
+						<option th:each="empresa : ${empresas}"
+								th:value="${empresa.idEmpresa}"
+								th:text="|${empresa.idEmpresa} - ${empresa.descripcion}|"></option>
+					</select>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="group">
+				<label for="clientesContEmi" class="control-label col-sm-1 col-md-1">Clientes</label>
+				<div class="col-sm-3 col-md-3">
+					<select id="clientesContEmi" name="clientes" class="select2 filtro" multiple="multiple">
+					</select>
+				</div>
+			</div>
+			<div class="group">
+				<label for="rolesTransaccionContEmi" class="control-label col-lg-1 col-md-1">Rol Transacción</label>
+				<div class="col-lg-3 col-md-3">
+					<select id="rolesTransaccionContEmi" name="rolTransaccion" class="select2 filtro">
+						<option value="-1" selected="selected">Seleccione un Rol Transacción</option>
+						<option th:each="rolTransaccion : ${rolesTransaccion}"
+								th:if="${rolTransaccion.idItem == '1' or rolTransaccion.idItem == '3'}" 
+								th:value="${rolTransaccion.idItem}"
+								th:text="|${rolTransaccion.idItem} - ${rolTransaccion.descripcionItem}|"></option>
+					</select>
+				</div>
+			</div>
+			<div class="group">
+				<label for="membresiasContEmi" class="control-label col-lg-1 col-md-1">Membresía</label>
+				<div class="col-lg-3 col-md-3">
+					<select id="membresiasContEmi" name="codigoMembresia" class="select2 filtro">
+						<option value="-1" selected="selected">Seleccione una Membresía</option>
+						<option th:each="membresia : ${membresias}" 
+								th:value="${membresia.codigoMembresia}"
+								th:text="|${membresia.codigoMembresia} - ${membresia.descripcion}|"></option>
+					</select>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="group">
+				<label for="clasesServicioContEmi" class="control-label col-lg-1 col-md-1">Servicios</label>
+				<div class="col-lg-3 col-md-3">
+					<select id="clasesServicioContEmi" name="servicios" class="select2 filtro" multiple="multiple">
+					</select>
+				</div>
+			</div>
+			<div class="group">
+				<label for="origenesContEmi" class="col-sm-1 col-md-1 control-label">Origenes</label>
+				<div class="col-sm-3 col-md-3">
+					<select id="origenesContEmi" name="origenes" class="select2 filtro" multiple="multiple">
+						<option th:each="origen : ${origenes}"
+								th:value="${origen.codigoOrigen}"
+								th:text="|${origen.codigoOrigen} - ${origen.descripcion}|"></option>
+					</select>
+				</div>
+			</div>
+			<div class="group">
+				<label for="clasesTransaccionesContEmi" class="control-label col-lg-1 col-md-1">Clase Transacción</label>
+				<div class="col-lg-3 col-md-3">
+					<select id="clasesTransaccionesContEmi" name="claseTransaccion" class="select2 filtro">
+						<option value="-1" selected="selected">Seleccione una Clase Transacción</option>
+						<option th:each="claseTransaccion : ${clasesTransacciones}"
+								th:value="${claseTransaccion.codigoClaseTransaccion}"
+								th:text="|${claseTransaccion.codigoClaseTransaccion} - ${claseTransaccion.descripcion}|"></option>
+					</select>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="group">
+				<label for="codigosTransaccionesContEmi" class="control-label col-lg-1 col-md-1">Código Transacciónes</label>
+				<div class="col-lg-3 col-md-3">
+					<select id="codigosTransaccionesContEmi" name="codigosTransaccion" class="select2 filtro" multiple="multiple">
+					</select>
+				</div>
+			</div>
+			<div class="group">
+				<label for="canalesContEmi" class="control-label col-lg-1 col-md-1">Canales</label>
+				<div class="col-lg-3 col-md-3">
+					<select id="canalesContEmi" name="canales" class="select2 filtro" multiple="multiple">
+						<option th:each="canal : ${canales}" 
+								th:value="${canal.idCanal}" 
+								th:text="|${canal.idCanal} - ${canal.descripcion}|"></option>
+					</select>
+				</div>
+			</div>
+		</div>
+	</th:block>
+
+	<th:block th:fragment="logContableReceptor">
+		<div class="form-group">
+			<div class="group">
+				<label class="control-label col-lg-1 col-md-1">Membresía</label>
+				<div class="col-lg-3 col-md-3">
+					<select id="membresias" name="codigoMembresia" class="form-control select2">
+						<option value="" selected="selected">TODOS</option>
+						<option th:each="membresia : ${membresias}" th:value="${membresia.codigoMembresia}"
+							th:text="|${membresia.codigoMembresia} - ${membresia.descripcion}|"></option>
+					</select>
+				</div>
+			</div>
+			<div class="group">
+				<label class="control-label col-lg-1 col-md-1">Clase de Servicio</label>
+				<div class="col-lg-3 col-md-3">
+					<select id="clasesServicio" name="codigoClaseServicio" class="form-control select2">
+						<option value="" selected="selected">TODOS</option>
+					</select>
+				</div>
+			</div>
+			<div class="group">
+				<label class="control-label col-lg-1 col-md-1">Rol de Transacción</label>
+				<div class="col-lg-3 col-md-3">
+					<select id="rolesTransaccion" name="rolTransaccion" class="form-control select2">
+						<option th:each="rolTransaccion : ${rolesTransaccion}" selected="selected" th:if="${rolTransaccion.idItem == '2'}"
+							th:value="${rolTransaccion.idItem}" th:text="|${rolTransaccion.idItem} - ${rolTransaccion.descripcionItem}|"></option>
+					</select>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="group">
+				<label class="control-label col-lg-1 col-md-1">Canales</label>
+				<div class="col-lg-3 col-md-3">
+					<select id="canales" name="idCanal" class="form-control select2">
+						<option value="-1" selected="selected">TODOS</option>
+						<option th:each="canal : ${canales}" th:value="${canal.idCanal}" th:text="|${canal.idCanal} - ${canal.descripcion}|"></option>
+					</select>
+				</div>
+			</div>
+			<div class="group">
+				<label class="control-label col-lg-1 col-md-1">Transacción</label>
+				<div class="col-lg-3 col-md-3">
+					<select id="transacciones" name="codigoTransaccion" class="form-control select2">
+						<option value="-1" selected="selected">TODOS</option>
+						<option th:each="codigoTransaccion : ${codigoTransacciones}"
+							th:with="transaccion=${codigoTransaccion.codigoClaseTransaccion*100 + codigoTransaccion.codigoTransaccion}"
+							th:value="${transaccion}" th:text="|${transaccion} - ${codigoTransaccion.descripcion}|"></option>
+					</select>
+				</div>
+			</div>
+			<div class="group">
+				<label class="control-label col-lg-1 col-md-1">Fecha Transacción</label>
+				<div class="col-lg-3 col-md-3 input-group">
+					<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+					<input id="rangoFechaBusqueda" type="text" class="form-control" readonly="readonly" name="fechas" />
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="group">
+				<label class="control-label col-lg-1 col-md-1">ATM</label>
+				<div class="col-lg-3 col-md-3">
+					<select id="atms" name="idAtm" class="form-control select2">
+						<option value="-1" selected="selected">TODOS</option>
+						<option th:each="atm : ${atms}" th:value="${atm.idATM}" th:text="|${atm.idATM} - ${atm.descripcionATM}|"></option>
+					</select>
+				</div>
+			</div>
+		</div>
+	</th:block>
+</body>
+</html>

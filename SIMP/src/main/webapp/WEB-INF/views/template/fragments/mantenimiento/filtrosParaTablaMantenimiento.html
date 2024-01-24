@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+	<div id="filtrosParaTablaMantenimiento" class="row hidden"
+		th:fragment="filtrosParaTablaMantenimiento" th:with="tipo=${tipo}">
+		<th:block
+			th:replace="~{template/fragments/mantenimiento/filtrosParaTablaMantenimiento :: ${tipo}}?:~{}">
+		</th:block>
+	</div>
+
+	<th:block th:fragment="bin">
+		<th:block
+			th:replace="~{template/fragments/mantenimiento/filtrosParaTablaMantenimiento :: membresias-filtroParaTablaMantenimiento}?:~{}">
+		</th:block>
+	</th:block>
+	
+	<th:block th:fragment="producto">
+		<th:block
+			th:replace="~{template/fragments/mantenimiento/filtrosParaTablaMantenimiento :: producto-filtroParaTablaMantenimiento}?:~{}">
+		</th:block>
+		
+		<th:block
+			th:replace="~{template/fragments/mantenimiento/filtrosParaTablaMantenimiento :: instituciones-filtroParaTablaMantenimiento}?:~{}">
+		</th:block>
+	</th:block>
+
+	<th:block th:fragment="claseServicio">
+		<th:block
+			th:replace="~{template/fragments/mantenimiento/filtrosParaTablaMantenimiento :: membresias-filtroParaTablaMantenimiento}?:~{}">
+		</th:block>
+	</th:block>
+
+	<th:block th:fragment="cliente">
+		<th:block
+			th:replace="~{template/fragments/mantenimiento/filtrosParaTablaMantenimiento :: empresas-filtroParaTablaMantenimiento}?:~{}">
+		</th:block>
+	</th:block>
+
+	<th:block th:fragment="codigoProcBevertec">
+		<th:block
+			th:replace="~{template/fragments/mantenimiento/filtrosParaTablaMantenimiento :: canalesEmisores-filtroParaTablaMantenimiento}?:~{}">
+		</th:block>
+	</th:block>
+
+	<th:block th:fragment="codigoProcesoSwitch">
+		<th:block
+			th:replace="~{template/fragments/mantenimiento/filtrosParaTablaMantenimiento :: claseTransacciones-filtroParaTablaMantenimiento}?:~{}">
+		</th:block>
+	</th:block>
+
+	<th:block th:fragment="codigoRptaSwitch">
+		<th:block
+			th:replace="~{template/fragments/mantenimiento/filtrosParaTablaMantenimiento :: tipoRespuesta-filtroParaTablaMantenimiento}?:~{}">
+		</th:block>
+	</th:block>
+
+	<th:block th:fragment="codigoTransaccion">
+		<th:block
+			th:replace="~{template/fragments/mantenimiento/filtrosParaTablaMantenimiento :: claseTransacciones-filtroParaTablaMantenimiento}?:~{}">
+		</th:block>
+	</th:block>
+
+	<th:block th:fragment="cuentaContableEmisor">
+		<th:block
+			th:replace="~{template/fragments/mantenimiento/filtrosParaTablaMantenimiento :: claseTransacciones-filtroParaTablaMantenimiento}?:~{}">
+		</th:block>
+		<th:block
+			th:replace="~{template/fragments/mantenimiento/filtrosParaTablaMantenimiento :: empresas-filtroParaTablaMantenimiento}?:~{}">
+		</th:block>
+		<th:block
+			th:replace="~{template/fragments/mantenimiento/filtrosParaTablaMantenimiento :: membresias-filtroParaTablaMantenimiento}?:~{}">
+		</th:block>
+		<th:block
+			th:replace="~{template/fragments/mantenimiento/filtrosParaTablaMantenimiento :: monedas-filtroParaTablaMantenimiento}?:~{}">
+		</th:block>
+		<th:block
+			th:replace="~{template/fragments/mantenimiento/filtrosParaTablaMantenimiento :: origenes-filtroParaTablaMantenimiento}?:~{}">
+		</th:block>
+		<th:block
+			th:replace="~{template/fragments/mantenimiento/filtrosParaTablaMantenimiento :: rolesTransaccionEmisor-filtroParaTablaMantenimiento}?:~{}">
+		</th:block>
+		<th:block
+			th:replace="~{template/fragments/mantenimiento/filtrosParaTablaMantenimiento :: instituciones-filtroParaTablaMantenimiento}?:~{}">
+		</th:block>
+		<th:block
+			th:replace="~{template/fragments/mantenimiento/filtrosParaTablaMantenimiento :: logos-filtroParaTablaMantenimiento}?:~{}">
+		</th:block>
+	</th:block>
+
+	<th:block th:fragment="cuentaContableMiscelaneo">
+		<th:block
+			th:replace="~{template/fragments/mantenimiento/filtrosParaTablaMantenimiento :: claseTransacciones-filtroParaTablaMantenimiento}?:~{}">
+		</th:block>
+		<th:block
+			th:replace="~{template/fragments/mantenimiento/filtrosParaTablaMantenimiento :: empresas-filtroParaTablaMantenimiento}?:~{}">
+		</th:block>
+		<th:block
+			th:replace="~{template/fragments/mantenimiento/filtrosParaTablaMantenimiento :: membresias-filtroParaTablaMantenimiento}?:~{}">
+		</th:block>
+		<th:block
+			th:replace="~{template/fragments/mantenimiento/filtrosParaTablaMantenimiento :: monedas-filtroParaTablaMantenimiento}?:~{}">
+		</th:block>
+		<th:block
+			th:replace="~{template/fragments/mantenimiento/filtrosParaTablaMantenimiento :: origenes-filtroParaTablaMantenimiento}?:~{}">
+		</th:block>
+		<th:block
+			th:replace="~{template/fragments/mantenimiento/filtrosParaTablaMantenimiento :: rolesTransaccionMiscelaneo-filtroParaTablaMantenimiento}?:~{}">
+		</th:block>
+	</th:block>
+
+
+	<th:block th:fragment="cuentaContableReceptor">
+		<th:block
+			th:replace="~{template/fragments/mantenimiento/filtrosParaTablaMantenimiento :: atms-filtroParaTablaMantenimiento}?:~{}">
+		</th:block>
+		<th:block
+			th:replace="~{template/fragments/mantenimiento/filtrosParaTablaMantenimiento :: claseTransacciones-filtroParaTablaMantenimiento}?:~{}">
+		</th:block>
+		<th:block
+			th:replace="~{template/fragments/mantenimiento/filtrosParaTablaMantenimiento :: membresias-filtroParaTablaMantenimiento}?:~{}">
+		</th:block>
+		<th:block
+			th:replace="~{template/fragments/mantenimiento/filtrosParaTablaMantenimiento :: monedas-filtroParaTablaMantenimiento}?:~{}">
+		</th:block>
+		<th:block
+			th:replace="~{template/fragments/mantenimiento/filtrosParaTablaMantenimiento :: origenes-filtroParaTablaMantenimiento}?:~{}">
+		</th:block>
+	</th:block>
+
+	<th:block th:fragment="multiTabCab">
+		<th:block
+			th:replace="~{template/fragments/mantenimiento/filtrosParaTablaMantenimiento :: multiTabCabs-filtroParaTablaMantenimiento}?:~{}">
+		</th:block>
+	</th:block>
+
+	<th:block th:fragment="subBin">
+		<th:block
+			th:replace="~{template/fragments/mantenimiento/filtrosParaTablaMantenimiento :: membresias-filtroParaTablaMantenimiento}?:~{}">
+		</th:block>
+		<th:block
+			th:replace="~{template/fragments/mantenimiento/filtrosParaTablaMantenimiento :: bines-filtroParaTablaMantenimiento}?:~{}">
+		</th:block>
+	</th:block>
+	
+	<th:block th:fragment="clienteAfinidad">
+		<th:block
+			th:replace="~{template/fragments/mantenimiento/filtrosParaTablaMantenimiento :: instituciones-normal-filtroParaTablaMantenimiento}?:~{}">
+		</th:block>
+	</th:block>
+
+	<th:block th:fragment="atms-filtroParaTablaMantenimiento">
+		<select id="atms-filtroParaTablaMantenimiento">
+			<option th:each="atm : ${atms}" th:value="|${atm.idATM} - ${atm.descripcionATM}|"
+				th:text="|${atm.idATM} - ${atm.descripcionATM}|"></option>
+		</select>
+	</th:block>
+
+	<th:block th:fragment="bines-filtroParaTablaMantenimiento">
+		<select id="bines-filtroParaTablaMantenimiento">
+			<option th:each="bin : ${bines}" th:attr="data-value=${bin.codigoBIN}"
+				th:value="|${bin.codigoBIN} - ${bin.descripcion}|"
+				th:text="|${bin.codigoBIN} - ${bin.descripcion}|"></option>
+		</select>
+	</th:block>
+
+	<th:block th:fragment="canalesEmisores-filtroParaTablaMantenimiento">
+		<select id="canalesEmisores-filtroParaTablaMantenimiento">
+			<option th:each="canalEmisor : ${canalesEmisores}"
+				th:attr="data-value=${canalEmisor.codigoCanalEmisor}"
+				th:value="|${canalEmisor.codigoCanalEmisor} - ${canalEmisor.descripcion}|"
+				th:text="|${canalEmisor.codigoCanalEmisor} - ${canalEmisor.descripcion}|"></option>
+		</select>
+	</th:block>
+
+	<th:block th:fragment="conceptoComisiones-filtroParaTablaMantenimiento">
+		<select id="conceptoComisiones-FiltroParaTablaMantenimiento">
+			<option th:each="conceptoComision : ${conceptoComisiones}"
+				th:value="|${conceptoComision.idConceptoComision} - ${conceptoComision.descripcion}|"
+				th:text="|${conceptoComision.idConceptoComision} - ${conceptoComision.descripcion}|"></option>
+		</select>
+	</th:block>
+
+	<th:block th:fragment="clientes-filtroParaTablaMantenimiento">
+		<select id="clientes-FiltroParaTablaMantenimiento">
+			<option th:each="cliente : ${clientes}"
+				th:value="|${cliente.idCliente} - ${cliente.descripcion}|"
+				th:text="|${cliente.idCliente} - ${cliente.descripcion}|"></option>
+		</select>
+	</th:block>
+
+	<th:block th:fragment="claseTransacciones-filtroParaTablaMantenimiento">
+		<select id="claseTransacciones-filtroParaTablaMantenimiento">
+			<option th:each="claseTransaccion : ${claseTransacciones}"
+				th:attr="data-value=${claseTransaccion.codigoClaseTransaccion}"
+				th:value="|${claseTransaccion.codigoClaseTransaccion} - ${claseTransaccion.descripcion}|"
+				th:text="|${claseTransaccion.codigoClaseTransaccion} - ${claseTransaccion.descripcion}|"></option>
+		</select>
+	</th:block>
+
+	<th:block th:fragment="empresas-filtroParaTablaMantenimiento">
+		<select id="empresas-filtroParaTablaMantenimiento">
+			<option th:each="empresa : ${empresas}" th:attr="data-value=${empresa.idEmpresa}"
+				th:value="|${empresa.idEmpresa} - ${empresa.descripcion}|"
+				th:text="|${empresa.idEmpresa} - ${empresa.descripcion}|"></option>
+		</select>
+	</th:block>
+
+	<th:block th:fragment="membresias-filtroParaTablaMantenimiento">
+		<select id="membresias-filtroParaTablaMantenimiento">
+			<option th:each="membresia : ${membresias}" th:attr="data-value=${membresia.codigoMembresia}"
+				th:value="|${membresia.codigoMembresia} - ${membresia.descripcion}|"
+				th:text="|${membresia.codigoMembresia} - ${membresia.descripcion}|"></option>
+		</select>
+	</th:block>
+
+	<th:block th:fragment="monedas-filtroParaTablaMantenimiento">
+		<select id="monedas-filtroParaTablaMantenimiento">
+			<option th:each="moneda : ${monedas}" th:value="${moneda.descripcion}"
+				th:text="${moneda.descripcion}"></option>
+		</select>
+	</th:block>
+
+	<th:block th:fragment="multiTabCabs-filtroParaTablaMantenimiento">
+		<select id="multiTabCabs-filtroParaTablaMantenimiento">
+			<option th:each="multiTabCab : ${multiTabCabs}" th:attr="data-value=${multiTabCab.idTabla}"
+				th:value="${multiTabCab.descripcion}" th:text="${multiTabCab.descripcion}"></option>
+		</select>
+	</th:block>
+
+	<th:block th:fragment="origenes-filtroParaTablaMantenimiento">
+		<select id="origenes-filtroParaTablaMantenimiento">
+			<option th:each="origen : ${origenes}"
+				th:value="|${origen.codigoOrigen} - ${origen.descripcion}|"
+				th:text="|${origen.codigoOrigen} - ${origen.descripcion}|"></option>
+		</select>
+	</th:block>
+
+	<th:block th:fragment="rolesTransaccionEmisor-filtroParaTablaMantenimiento">
+		<select id="rolesTransaccion-filtroParaTablaMantenimiento">
+			<option th:each="rolTransaccion: ${rolesTransaccion}"
+				th:if="${rolTransaccion.idItem == '1' or rolTransaccion.idItem == '3'}"
+				th:value="|${rolTransaccion.idItem} - ${rolTransaccion.descripcionItem}|"
+				th:text="|${rolTransaccion.idItem} - ${rolTransaccion.descripcionItem}|"></option>
+		</select>
+	</th:block>
+
+	<th:block th:fragment="rolesTransaccionMiscelaneo-filtroParaTablaMantenimiento">
+		<select id="rolesTransaccion-filtroParaTablaMantenimiento">
+			<option th:each="rolTransaccion: ${rolesTransaccion}"
+				th:if="${rolTransaccion.idItem == '4'}"
+				th:value="|${rolTransaccion.idItem} - ${rolTransaccion.descripcionItem}|"
+				th:text="|${rolTransaccion.idItem} - ${rolTransaccion.descripcionItem}|"></option>
+		</select>
+	</th:block>
+
+	<th:block th:fragment="subBin-filtroParaTablaMantenimiento">
+		<select id="subBin-filtroParaTablaMantenimiento">
+			<option th:each="subBin : ${subBines}" th:attr="data-value=${subBin.codigoSubBIN}"
+				th:value="${subBin.descripcion}" th:text="${subBin.descripcion}"></option>
+		</select>
+	</th:block>
+
+	<th:block th:fragment="tipoRespuesta-filtroParaTablaMantenimiento">
+		<select id="tipoRespuesta-filtroParaTablaMantenimiento">
+			<option th:each="tipoRespuesta : ${tipoRespuestas}" th:attr="data-value=${tipoRespuesta.idItem}"
+				th:value="|${tipoRespuesta.idItem} - ${tipoRespuesta.descripcionItem}|"
+				th:text="|${tipoRespuesta.idItem} - ${tipoRespuesta.descripcionItem}|"></option>
+		</select>
+	</th:block>
+	
+	<th:block th:fragment="instituciones-filtroParaTablaMantenimiento">
+		<select id="instituciones-filtroParaTablaMantenimiento">
+			<option th:each="institucion : ${instituciones}" th:attr="data-value=${institucion.codigoInstitucion}"
+				th:value="|${institucion.codigoInstitucion} - ${institucion.descripcionCorta}|" 
+				th:text="|${institucion.codigoInstitucion} - ${institucion.descripcionCorta}|"></option>
+		</select>
+	</th:block>
+	
+	<th:block th:fragment="instituciones-normal-filtroParaTablaMantenimiento">
+		<select id="instituciones-filtroParaTablaMantenimiento">
+			<option th:each="institucion : ${instituciones}" th:attr="data-value=${institucion.codigoInstitucion}"
+				th:value="|${institucion.codigoInstitucion} - ${institucion.descripcionInstitucion}|" 
+				th:text="|${institucion.codigoInstitucion} - ${institucion.descripcionInstitucion}|"></option>
+		</select>
+	</th:block>
+	
+	<th:block th:fragment="logos-filtroParaTablaMantenimiento">
+		<select id="logos-filtroParaTablaMantenimiento">
+			<option th:each="logo : ${logos}" th:attr="data-value=${logo.idLogo}"
+				th:value="|${logo.idLogo} - ${logo.descripcion}|" 
+				th:text="|${logo.idLogo} - ${logo.descripcion}|"></option>
+		</select>
+	</th:block>
+
+</body>
+</html>

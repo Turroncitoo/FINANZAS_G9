@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ob.debitos.simp.mapper.ITransaccionObservadaMapper">
+    <sql id="fragmentSelectConsultaTransaccionObservada">
+        SELECT *
+        FROM ConsultaTransaccionObservada consulta
+    </sql>
+
+    <sql id="fragmentOrderByConsultaTransaccionObservada">
+        ORDER BY consulta.fechaProceso       DESC
+            ,consulta.codigoInstitucion      ASC
+            ,consulta.idEmpresa              ASC
+            ,consulta.idCliente              ASC
+            ,consulta.idRolTransaccion       ASC
+            ,consulta.idOrigenArchivo        ASC
+            ,consulta.codigoProcesoSwitch    ASC
+            ,consulta.codigoRespuestaSwitch  ASC
+            ,consulta.idCanal                ASC
+            ,consulta.codigoTipoDocumento    ASC
+            ,consulta.fechaTransaccion       DESC
+            ,consulta.horaTransaccion        DESC;
+    </sql>
+
+    <select id="buscarTransaccionesObservadasPorTipoDocumento" resultType="TransaccionObservada">
+        <include refid="fragmentSelectConsultaTransaccionObservada"/>
+        <where>
+            <if test="tipoDocumento != null and tipoDocumento != ''">
+                consulta.codigoTipoDocumento = #{tipoDocumento}
+            </if>
+            <if test="numeroDocumento != null and numeroDocumento != ''">
+                AND consulta.numeroDocumento = #{numeroDocumento}
+            </if>
+        </where>
+        <include refid="fragmentOrderByConsultaTransaccionObservada"/>
+    </select>
+
+    <select id="buscarTransaccionesObservadasPorCriterios" resultType="TransaccionObservada">
+        <include refid="fragmentSelectConsultaTransaccionObservada"/>
+        <where>
+            <if test="(fechaInicioProceso != null and fechaInicioProceso != '') and (fechaFinProceso != null and fechaFinProceso != '')">
+                consulta.fechaProceso BETWEEN #{fechaInicioProceso} AND #{fechaFinProceso}
+            </if>
+            <if test="codigoInstitucion != null">
+                AND consulta.codigoInstitucion = #{codigoInstitucion}
+            </if>
+            <if test="idEmpresa != null and idEmpresa != -1">
+                AND consulta.idEmpresa = #{idEmpresa}
+            </if>
+            <if test="clientes != null and clientes.size() > 0">
+                AND consulta.idCliente IN
+                <foreach item="item" index="index" collection="clientes"
+                         open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="numeroTarjeta != null and numeroTarjeta != ''">
+                AND consulta.numeroTarjeta = #{numeroTarjeta}
+            </if>
+            <if test="numeroTrace != null and numeroTrace != ''">
+                AND consulta.numeroTrace = #{numeroTrace}
+            </if>
+            <if test="indicadoresDevolucion != null and indicadoresDevolucion.size() > 0">
+                AND consulta.idIndicadorDevolucion IN
+                <foreach item="item" index="index" collection="indicadoresDevolucion"
+                         open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="indicadoresExtorno != null and indicadoresExtorno.size() > 0">
+                AND consulta.idIndicadorExtorno IN
+                <foreach item="item" index="index" collection="indicadoresExtorno"
+                         open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="indicadoresConciliacion != null and indicadoresConciliacion.size() > 0">
+                AND consulta.idIndicadorConciliacion IN
+                <foreach item="item" index="index" collection="indicadoresConciliacion"
+                         open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+        <include refid="fragmentOrderByConsultaTransaccionObservada"/>
+    </select>
+
+    <select id="buscarConciliacionObservada" resultType="TransaccionObservada">
+        SELECT *
+        FROM ConsultaConciliacionObservada consultaConciliacionObservada
+        <where>
+            <if test="(fechaInicioProceso != null and fechaInicioProceso != '') and (fechaFinProceso != null and fechaFinProceso != '')">
+                AND consultaConciliacionObservada.fechaProceso BETWEEN #{fechaInicioProceso} AND #{fechaFinProceso}
+            </if>
+            <if test="idOrigenArchivo != null and idOrigenArchivo != -1">
+                AND consultaConciliacionObservada.idOrigenArchivo = #{idOrigenArchivo}
+            </if>
+        </where>
+    </select>
+
+    <select id="actualizarTrace" statementType="CALLABLE">
+        {
+            call P_ACTUALIZA_TRACE_OBSERVADO
+            (
+                #{trace, 		 jdbcType = VARCHAR, mode = IN},
+                #{idSecuencia, 	 jdbcType = VARCHAR, mode = IN},
+                #{idInstitucion, jdbcType = INTEGER, mode = IN}
+            )
+        }
+    </select>
+
+    <select id="mantenerExtornoDevolucion" statementType="CALLABLE" resultType="ActualizacionExtornoDevolucion">
+        {
+            call P_EXTORNO_DEVOLUCION
+            (
+				#{verbo,					jdbcType = VARCHAR, mode = IN},
+                #{idIndicadorExtorno,		jdbcType = INTEGER, mode = IN},
+                #{idIndicadorDevolucion,	jdbcType = INTEGER, mode = IN},
+                #{fechaActualizacion,		jdbcType = DATE, 	mode = IN},
+                #{horaActualizacion, 		jdbcType = VARCHAR, mode = IN},
+                #{comentario,				jdbcType = VARCHAR, mode = IN},
+                #{idSecuencia,				jdbcType = VARCHAR, mode = IN},
+                #{numeroTrace,				jdbcType = VARCHAR, mode = IN},
+                #{fechaTransaccion,			jdbcType = DATE, 	mode = IN},
+                #{horaTransaccion,			jdbcType = VARCHAR, mode = IN},
+                #{idInstitucion,			jdbcType = INTEGER, mode = IN}
+            )
+        }
+    </select>
+</mapper>

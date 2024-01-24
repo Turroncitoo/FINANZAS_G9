@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layout"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+<title>Consulta de Auditoría</title>
+</head>
+<th:block layout:fragment="style">
+	<link th:href="@{/resources/css/dataTables.bootstrap.min.css}" rel="stylesheet" />
+	<link th:href="@{/resources/css/responsive.bootstrap.min.css}" rel="stylesheet" />
+	<link th:href="@{/resources/css/select2.min.css}" rel="stylesheet" />
+	<link th:href="@{/resources/css/select2-bootstrap.min.css}" rel="stylesheet" />
+	<link th:href="@{/resources/css/daterangepicker.css}" rel="stylesheet" />
+</th:block>
+<body>
+	<th:block layout:fragment="content">
+		<div class="page-content-wrap">
+			<div class="row">
+				<div class="col-md-12 col-sm-12 col-xs-12">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h3 class="panel-title">Consulta de Auditoría</h3>
+						</div>
+						<div class="panel-body">
+							<fieldset class="well">
+								<legend class="well-legend">Búsqueda</legend>
+								<form id="formCriterioBusquedaAuditoria" class="form-horizontal" role="form">
+									<div class="form-group">
+										<div class="group">
+											<label class="control-label col-lg-1 col-md-1">Recurso</label>
+											<div class="col-lg-5 col-md-5">
+												<select id="seleccionRecurso" name="idRecurso" class="form-control">
+													<option value="">TODOS</option>
+													<option th:each="recurso : ${recursos}" th:value="${recurso.idRecurso}"
+														th:text="|${recurso.idRecurso} - ${recurso.descripcion}|"></option>
+												</select>
+											</div>
+										</div>
+										<div class="group">
+											<label class="control-label col-lg-1 col-md-1">Usuario</label>
+											<div class="col-lg-5 col-md-5">
+												<select id="seleccionUsuario" name="idUsuario" class="form-control select2">
+													<option value="">TODOS</option>
+													<option th:each="usuario : ${usuarios}" th:value="${usuario.idUsuario}" th:text="${usuario.idUsuario}"></option>
+												</select>
+											</div>
+										</div>
+									</div>
+									<div class="form-group">
+										<div class="group">
+											<label class="control-label col-lg-1 col-md-1">Acción</label>
+											<div class="col-lg-5 col-md-5">
+												<select id="accionesAuditoria" name="idAccion" class="form-control select2">
+													<option value="">TODOS</option>
+													<option th:each="accionAuditoria : ${accionesAuditoria}" th:value="${accionAuditoria.idItem}"
+														th:text="|${accionAuditoria.idItem} - ${accionAuditoria.descripcionItem}|"></option>
+												</select>
+											</div>
+										</div>
+										<div class="group">
+											<label class="control-label col-lg-1 col-md-1">Fechas</label>
+											<div class="col-lg-5 col-md-5">
+												<div class="input-group">
+													<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+													<input id="rangoFechaBusqueda" type="text" class="form-control" readonly="readonly" name="fechas" />
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="form-group">
+										<div class="col-lg-12 text-center">
+											<button id="buscar" type="button" class="btn btn-primary" sec:authorize="hasPermission('CON_AUDIT','2')">
+												<i class="fa fa-search"></i> Buscar
+											</button>
+											<button id="exportar" type="button" class="btn btn-success" sec:authorize="hasPermission('CON_AUDIT','5')">
+												<i class="fa fa-download"></i> Exportar
+											</button>
+										</div>
+									</div>
+								</form>
+							</fieldset>
+							<div id="tabla" class="col-xs-12" sec:authorize="hasPermission('CON_AUDIT','2')">
+								<table id="tablaAuditoria" class="table table-bordered table-condensed nowrap display table-hover">
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</th:block>
+	<th:block layout:fragment="script">
+		<script th:src="@{/resources/js/datatables/jquery.dataTables.min.js}"></script>
+		<script th:src="@{/resources/js/datatables/dataTables.bootstrap.min.js}"></script>
+		<script th:src="@{/resources/js/datatables/dataTables.responsive.min.js}"></script>
+		<script th:src="@{/resources/js/datatables/dataTables.show.rows.js}"></script>
+		<script th:src="@{/resources/js/bootstrap/bootstrap-notify.min.js}"></script>
+		<script th:src="@{/resources/js/jquery/jquery.serializejson.min.js}"></script>
+		<script th:src="@{/resources/js/jquery/jquery.validate.min.js}"></script>
+		<script th:src="@{/resources/js/jquery/additional-methods.min.js}"></script>
+		<script th:src="@{/resources/js/jquery/select2.full.min.js}"></script>
+		<script th:src="@{/resources/js/bootstrap/bootstrap-datepicker.min.js}"></script>
+		<script th:src="@{/resources/js/jquery/moment.min.js}"></script>
+		<script th:src="@{/resources/js/jquery/daterangepicker.js}"></script>
+		<script th:src="@{/resources/js/util/formularioUtil.js}"></script>
+		<script th:src="@{/resources/js/pagina/seguridad/auditoria/auditoria.js}"></script>
+	</th:block>
+</body>
+</html>

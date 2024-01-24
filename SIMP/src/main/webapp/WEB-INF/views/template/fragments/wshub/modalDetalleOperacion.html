@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+	<div id="modalDetalleOperacion" class="row" th:fragment="modalDetalleOperacion" th:with="tipo=${tipo}">
+		<div class="col-md-12 col-sm-12 col-xs-12">
+			<fieldset class="well">
+				<legend class="well-legend">Formulario de Operación</legend>
+				
+					<th:block th:replace="~{template/fragments/wshub/modalDetalleOperacion :: ${tipo}}?:~{}">
+					</th:block>
+					
+				
+			</fieldset>
+		</div>
+	</div>
+
+	<th:block th:fragment="saldosMovimientos">
+		<form id="form-recargar" class="form-horizontal" role="form">
+			<div class="form-group">
+				<label class="col-lg-3 col-sm-3 control-label">N° Tarjeta</label>
+				<div class="col-lg-9 col-sm-9" >
+					<input class="form-control upperCase elemento-desactivable"
+						name="numeroTarjeta" autofocus="autofocus" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-lg-3 col-sm-3 control-label">Moneda</label>
+				<div class="col-lg-3 col-sm-3">
+					<input class="form-control upperCase" name="moneda">
+				</div>
+				<label class="col-lg-2 col-sm-2 control-label">Monto</label>
+				<div class="col-lg-4 col-sm-4">
+					<input class="form-control upperCase" name="monto">
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-lg-12 text-center">
+					<button id="btnRecargar" type="button" class="btn btn-success">
+						<i class="fa fa-floppy-o"></i> Recargar
+					</button>
+				</div>
+			</div>
+		</form>
+		
+		<form id="form-activar" class="form-horizontal" role="form"> 
+			<div class="form-group">
+				<label class="col-lg-3 col-sm-3 control-label">N° Tarjeta </label>
+				<div class="col-lg-9 col-sm-9">
+					<input class="form-control upperCase elemento-desactivable"
+						 name="numeroTarjeta" autofocus="autofocus" />
+				</div>
+			</div>
+			<h3 class="text-center">¿Está seguro de activar esta tarjeta?</h3>
+			<div class="form-group">
+				<div class="col-lg-12 text-center">
+					<button id="btnActivar" type="button" class="btn btn-primary">
+						<i class="fa fa-floppy-o"></i> Activar
+					</button>
+				</div>
+			</div>
+		</form>
+		
+		<form id="form-reasignar" class="form-horizontal" role="form">  
+			<div class="form-group">
+				<label class="col-lg-3 col-sm-3 control-label">N° Tarjeta Anterior</label>
+				<div class="col-lg-9 col-sm-9">
+					<input class="form-control upperCase elemento-desactivable"
+						name="numeroTarjetaAnterior" autofocus="autofocus" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-lg-3 col-sm-3 control-label">N° Tarjeta Nuevo</label>
+				<div class="col-lg-9 col-sm-9">
+					<input class="form-control upperCase" name="numeroTarjetaNuevo">
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-lg-12 text-center">
+					<button id="btnReasignar" type="button" class="btn btn-warning">
+						<i class="fa fa-floppy-o"></i> Reasignar
+					</button>
+				</div>
+			</div>
+		</form>
+		
+		<form id="form-bloquear" class="form-horizontal" role="form">   
+			<div class="form-group">
+				<label class="col-lg-3 col-sm-3 control-label">N° Tarjeta Anterior</label>
+				<div class="col-lg-9 col-sm-9">
+					<input class="form-control upperCase elemento-desactivable"
+						name="numeroTarjetaAnterior" autofocus="autofocus" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-lg-3 col-sm-3  control-label">Motivo</label>
+				<div class="col-lg-9 col-sm-9">	
+					<select id="selectMotivo" name="motivo"
+							class="form-control select2">
+							<option value="" disabled="disabled" selected="selected">Seleccione
+								un Motivo</option>
+							<option value="TM"> Temporal </option>
+							<option value="RB"> Definitivo </option>
+					
+					</select>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-lg-12 text-center">
+					<button id=btnBloquear type="button" class="btn btn-danger">
+						<i class="fa fa-floppy-o"></i> Bloquear
+					</button>
+				</div>
+			</div>
+		</form>
+		
+		<form id="form-consultar" class="form-horizontal" role="form">
+		<div class="form-group">
+				<label class="col-lg-3 col-sm-3 control-label">N° Tarjeta</label>
+				<div class="col-lg-9 col-sm-9">
+					<input class="form-control upperCase elemento-desactivable"
+						name="numeroTarjeta"/>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-lg-3 col-sm-3 control-label">Id Cliente</label>
+				<div class="col-lg-9 col-sm-9">
+					<input class="form-control upperCase elemento-desactivable"
+						name="idCliente"/>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-lg-3 col-sm-3 control-label">Tipo Documento</label>
+				<div class="col-lg-9 col-sm-9">
+					<input class="form-control upperCase elemento-desactivable" name="tipoDocumento">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-lg-3 col-sm-3 control-label">Número Documento</label>
+				<div class="col-lg-9 col-sm-9">
+					<input class="form-control upperCase elemento-desactivable" name="numeroDocumento">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-lg-3 col-sm-3 control-label">Apellidos</label>
+				<div class="col-lg-9 col-sm-9">
+					<input class="form-control upperCase elemento-desactivable"
+						name="apellidos"/>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-lg-3 col-sm-3 control-label">Nombres</label>
+				<div class="col-lg-9 col-sm-9">
+					<input class="form-control upperCase elemento-desactivable"
+						name="nombres"/>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-lg-3 col-sm-3 control-label">Tel. Móvil</label>
+				<div class="col-lg-9 col-sm-9">
+					<input class="form-control upperCase elemento-desactivable"
+						name="celular"/>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-lg-3 col-sm-3 control-label">Email</label>
+				<div class="col-lg-9 col-sm-9">
+					<input class="form-control upperCase elemento-desactivable"
+						name="email"/>
+				</div>
+			</div>	
+			<table id="tablaTarjetas" width="100%"
+			 class="table table-bordered table-condensed nowrap display table-hover">
+			</table>		
+		</form>
+		
+	</th:block>
+	
+	
+	<th:block th:fragment="clientesTarjetas">
+		<form id="form-registrar-cliente" class="form-horizontal" role="form">
+			
+			       
+			<div class="form-group">
+				<label class="col-lg-3 col-sm-3 control-label">Apellido &nbsp; Paterno &nbsp;</label>
+				<div class="col-lg-9 col-sm-9" >
+					<input class="form-control upperCase elemento-desactivable"
+						id="apellidoPaterno" name="apellidoPaterno" autofocus="autofocus" />
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label class="col-lg-3 col-sm-3 control-label">Apellido Materno</label>
+				<div class="col-lg-9 col-sm-9" >
+					<input class="form-control upperCase elemento-desactivable"
+						id="apellidoMaterno" name="apellidoMaterno" autofocus="autofocus" />
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label class="col-lg-3 col-sm-3 control-label">Nombre 1</label>
+				<div class="col-lg-4 col-sm-4">
+					<input class="form-control upperCase" name="nombre1">
+				</div>
+				<label class="col-lg-2 col-sm-2 control-label">Nombre 2</label>
+				<div class="col-lg-3 col-sm-3">
+					<input class="form-control upperCase" name="nombre2">
+				</div>
+			</div>
+						
+			<div class="form-group">
+				<label class="control-label col-lg-3 col-sm-3" for="fechaCumpleanios">Fecha
+						Nacimiento</label>
+					<div class="col-lg-9 col-sm-9 input-group">
+						<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+						<input id="fechaCumpleanios" type="text" class="form-control filtro" readonly="readonly"
+							name="fechaCumpleanios" />
+					</div>
+			</div>
+			
+			<div class="form-group">
+				<label class="control-label col-lg-3 col-sm-3  ">Tipo de Documento</label>
+				<div class="col-lg-9 col-sm-9">
+					
+					<select id="selectTipoDocumento2" name="tipoDocumento"
+						class="form-control select2">
+						<option value="" disabled="disabled" selected="selected">Seleccione
+							un Tipo de Documento</option>
+						<option th:each="documentos : ${tipoDocumentos}"
+							th:value="${documentos.idItem}"
+							th:text="|${documentos.idItem} - ${documentos.descripcionItem}|"></option>
+					</select>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-lg-3 col-sm-3 control-label">Número Documento</label>
+				<div class="col-lg-9 col-sm-9">
+					<input class="form-control upperCase" name="numeroDocumento">
+				</div>
+			</div>
+				
+			<div class="form-group">
+				<div class="col-lg-12 text-center">
+					<button id="btnRegistrar" type="button" class="btn btn-success">
+						<i class="fa fa-floppy-o"></i> Registrar
+					</button>
+				</div>
+			</div>
+		</form>
+		
+		<form id="form-asociar-tarjeta" class="form-horizontal" role="form"> 
+			<div class="form-group">
+				<label class="col-lg-3 col-sm-3 control-label">N° Tarjeta </label>
+				<div class="col-lg-9 col-sm-9">
+					<input class="form-control upperCase elemento-desactivable"
+						name="numeroTarjeta" autofocus="autofocus" />
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label class="col-lg-3 col-sm-3 control-label">Tipo Documento</label>
+				<div class="col-lg-9 col-sm-9">
+					<select id="selectTipoDocumento3" name="tipoDocumento"
+						class="form-control select2">
+						<option value="" disabled="disabled" selected="selected">Seleccion
+							un Tipo de Documento</option>
+						<option th:each="documentos : ${tipoDocumentos}"
+							th:value="${documentos.idItem}"
+							th:text="|${documentos.idItem} - ${documentos.descripcionItem}|"></option>
+					</select>
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label class="col-lg-3 col-sm-3 control-label">Número Documento</label>
+				<div class="col-lg-9 col-sm-9">
+					<input class="form-control upperCase" name="numeroDocumento">
+				</div>
+			</div>
+			
+			
+			
+			<h3 class="text-center">¿Está seguro de asociar esta tarjeta?</h3>
+			<div class="form-group">
+				<div class="col-lg-12 text-center">
+					<button id="btnAsociar" type="button" class="btn btn-primary">
+						<i class="fa fa-floppy-o"></i> Activar
+					</button>
+				</div>
+			</div>
+		</form>
+		
+	
+	</th:block>
+
+</body>
+</html>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ob.debitos.simp.mapper.ICuentaPPMapper">
+ 
+	<select id="buscarTodos" resultType="CuentaPP" > 
+			SELECT  vIdCuenta												AS idCuenta,
+			    FORMAT(dFechaAlta, 'dd/MM/yyyy', 'es-PE') 					AS fechaAlta,
+				Str(nSaldoDisponible, 12, 2) 								AS saldoDisponible,
+				Str(nSaldoContable, 12, 2) 									AS saldoContable,
+				MaeCuentaPP.vIdBin											AS idBin,
+				MaeBines.vDescripcion										AS descripcionBin,
+				MaeCuentaPP.vIdSubBin										AS idSubBin
+		FROM MaeCuentaPP 
+		LEFT JOIN MaeBines ON MaeCuentaPP.vIdBin = MaeBines.vIdBin 
+		
+	</select>
+	
+
+	<select id="buscarPorCriterios" resultType="CuentaPP">
+		SELECT
+			*
+		FROM ConsultaAdministrativaCuentaPP consulta
+		<where>
+			<if test = "numeroCuenta != null and numeroCuenta != ''">
+			<bind name="accountPattern" value="numeroCuenta + '%'" />
+				AND consulta.idCuenta LIKE #{accountPattern}
+			</if>
+			<if test="fechaInicioAlta != null and fechaInicioAlta != ''">
+				AND consulta.fechaAlta &gt;= #{fechaInicioAlta}
+			</if>
+			<if test="fechaFinAlta != null and fechaFinAlta != ''">
+				AND consulta.fechaAlta &lt;= #{fechaFinAlta}
+			</if>
+			<if test="idBin != null and idBin != ''">
+				AND consulta.idBin = #{idBin}
+			</if>
+			<if test="idSubBin != null and idSubBin != ''">
+				AND consulta.idSubBin = #{idSubBin}
+			</if>
+		</where>
+	</select>
+	
+</mapper>

@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ob.debitos.simp.mapper.IPersonaPPMapper">
+ 
+	<select id="buscarTodos" resultType="PersonaPP" > 
+		  SELECT   nIdPersona													AS idPersona,
+			       CONCAT(nTipoDocumento,' - ', tipoDocumento.vDescripcionItem) AS descripcionTipoDocumento,
+				   vNumeroDocumento 											AS numeroDocumento,
+				   vNombres 													AS nombres,
+				   vApellidoPaterno 											AS apellidoPaterno,
+				   vApellidoMaterno 											AS apellidoMaterno,
+				   vAlias														AS alias,
+				   FORMAT(dFechaNacimiento, 'dd/MM/yyyy', 'es-PE') 				AS fechaNacimiento,
+				   vTelefonoFijo 												AS telefonoFijo,
+				   vTelefonoMovil 												AS telefonoMovil,
+				   vDireccion 													AS direccion,
+				   FORMAT(dFechaRegistro, 'dd/MM/yyyy', 'es-PE') 				AS fechaRegistro,
+				   vCodPulsera													AS codPulsera,
+				   nCodigoUBA													AS codUBA,
+				   vCorreoElectronico							 				AS correoElectronico
+  		  FROM MaePersonaPP
+		  LEFT JOIN MaeMultitabDet tipoDocumento ON
+			     (tipoDocumento.vIdItem = nTipoDocumento AND tipoDocumento.nIdTabla = 1)
+		
+	</select>
+	
+	<resultMap type="PersonaPP" id="mapPersonas">
+		<id property="idPersona" column="nIdPersona"/>
+		<result property="nombres" column="vNombres"/>
+		<result property="apePaterno" column="vApellidoPaterno"/>
+		<result property="apeMaterno" column="vApellidoMaterno"/>
+		<result property="descripcionTipoDocumento" column="descripcionTipoDocumento"/>
+		<result property="numeroDocumento" column="vNumeroDocumento"/>
+		<result property="dFechaRegistro" column="fechaRegistro"/>
+		<result property="dFechaNacimiento" column="fechaNacimiento"/>
+	</resultMap>
+	
+	<select id="buscarPorTipoDocumento" resultType = "PersonaPP">
+		SELECT
+			*
+		FROM ConsultaAdministrativaPersonaPP consulta
+		<where>
+			<if test="tipoDocumento != null and tipoDocumento != ''">
+				consulta.tipoDocumento = #{tipoDocumento}
+			</if>
+			<if test="numeroDocumento != null and numeroDocumento != ''">
+				AND consulta.numeroDocumento = #{numeroDocumento}
+			</if>
+		</where>
+	</select>
+	
+	<select id="existePersonaPorTipoDocumento" resultType="Integer">
+		SELECT
+			IIF(COUNT(*) != 0,1,0) 	AS existePersona 
+		FROM ConsultaAdministrativaPersonaPP consulta
+		<where>
+			<if test="tipoDocumento != null and tipoDocumento != ''">
+				consulta.tipoDocumento = #{tipoDocumento}
+			</if>
+			<if test="numeroDocumento != null and numeroDocumento != ''">
+				AND consulta.numeroDocumento = #{numeroDocumento}
+			</if>
+		</where>
+	</select>
+	
+<!-- 	<select id="existePersonaPorDocumento"> -->
+<!-- 		SELECT -->
+<!-- 			IIF(COUNT(*) != 0,1,0) 	AS existePersona  -->
+<!-- 		FROM ConsultaAdministrativaPersonaPP consulta -->
+<!-- 		<where> -->
+<!-- 			<if test="tiposDocumento != null and tiposDocumento.size() > 0"> -->
+<!-- 				consulta.tipoDocumento IN -->
+<!-- 				<foreach item="item" index="index" collection="tiposDocumento" open="(" separator="," close=")"> -->
+<!-- 					#{item} -->
+<!-- 				</foreach> -->
+<!-- 			</if> -->
+<!-- 			<if test="numerosDocumento != null and numerosDocumento.size() > 0"> -->
+<!-- 				AND consulta.numeroDocumento IN -->
+<!-- 				<foreach item="item" index="index" collection="numerosDocumento" open="(" separator="," close=")"> -->
+<!-- 					#{item} -->
+<!-- 				</foreach> -->
+<!-- 			</if> -->
+<!-- 		</where> -->
+<!-- 		GROUP BY  -->
+<!-- 			consulta.idPersona -->
+<!-- 	</select> -->
+
+	
+	
+	<select id="buscarPorCriterios" resultType="PersonaPP">
+		SELECT
+			*
+		FROM ConsultaAdministrativaPersonaPP consulta
+		<where>
+			<if test="idCliente != null and idCliente != ''">
+				<bind name="clientPattern" value="idCliente + '%'" />
+				consulta.idPersona LIKE #{clientPattern}
+			</if>
+			<if test="nombres != null and nombres != ''">
+				<bind name="namePattern" value="'%' + nombres + '%'" />
+				AND consulta.nombres LIKE #{namePattern} 
+			</if>
+			<if test="apellidoPaterno != null and apellidoPaterno != ''">
+				<bind name="lastNamePattern" value="'%' + apellidoPaterno + '%'" />
+				AND consulta.apellidoPaterno LIKE #{lastNamePattern}
+			</if>
+			<if test="apellidoMaterno != null and apellidoMaterno != ''">
+				<bind name="lastName1Pattern" value="'%' + apellidoMaterno + '%'" />
+				AND consulta.apellidoMaterno LIKE #{lastName1Pattern}
+			</if>
+			<if test="codigoUBA != null">
+				AND consulta.codUBA = #{codigoUBA}
+			</if>
+		</where>
+	</select>
+	
+	<select id="buscarPorCriteriosPP" resultMap="mapPersonas">
+		SELECT
+			*
+		FROM ConsultaAdministrativaPersonaPP consulta
+		<where>
+			<if test="idCliente != null and idCliente != ''">
+				<bind name="clientPattern" value="idCliente + '%'" />
+				consulta.idPersona LIKE #{clientPattern}
+			</if>
+			<if test="nombres != null and nombres != ''">
+				<bind name="namePattern" value="'%' + nombres + '%'" />
+				AND consulta.nombres LIKE #{namePattern} 
+			</if>
+			<if test="apellidoPaterno != null and apellidoPaterno != ''">
+				<bind name="lastNamePattern" value="'%' + apellidoPaterno + '%'" />
+				AND consulta.apellidoPaterno LIKE #{lastNamePattern}
+			</if>
+			<if test="apellidoMaterno != null and apellidoMaterno != ''">
+				<bind name="lastName1Pattern" value="'%' + apellidoMaterno + '%'" />
+				AND consulta.apellidoMaterno LIKE #{lastName1Pattern}
+			</if>
+			<if test="nombreCompleto != null and nombreCompleto != ''">
+				AND CONCAT(consulta.nombres,' ',consulta.apellidoPaterno,' ',consulta.apellidoMaterno) LIKE #{nombreCompleto}
+			</if>
+			<if test="numeroDocumento != null and numeroDocumento != ''">
+				AND consulta.numeroDocumento = #{numeroDocumento}
+			</if>
+		</where>
+	</select>
+	
+	<select id="buscarPorCodigoUBA" resultType="PersonaPP" parameterType="Integer">
+		SELECT
+			*
+		FROM ConsultaAdministrativaPersonaPP consulta
+		<where>
+			<if test="codigoUBA != null">
+				consulta.codUBA = #{codigoUBA}
+			</if>
+		</where>
+	</select>
+	
+	
+	<select id="existePersonaPorDocumento" resultType="DocumentoCliente"
+		statementType="CALLABLE" parameterType="CriterioBusquedaTipoDocumento">
+		{
+		call P_VALIDAR_PERSONAS
+			(
+				#{xmlString, jdbcType=VARCHAR, mode=IN}
+			)
+		}
+	</select>
+	
+</mapper>

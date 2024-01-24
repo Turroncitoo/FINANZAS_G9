@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ob.debitos.simp.mapper.IRecargaPPMapper">
+ 
+	<select id="buscarTodos" resultType="RecargaPP" > 
+		SELECT    nIdRecarga					AS idRecarga,
+			      nIdLote						AS idLote,
+			      nIdTarjeta					AS idTarjeta,
+			      nIdSecuencial					AS idSecuencial,
+			      vFecHora						AS fecHora,
+			      Str(dMontoEnviado, 12, 2) 	AS montoEnviado,
+			      Str(dMontoRecibido, 12, 2)	AS montoRecibido,
+			      vMoneda						AS moneda,
+			      vDatos						AS datos,
+			      nRespCode						AS respCode
+  		FROM 	MovRecargasPP
+		
+	</select>
+	
+</mapper>

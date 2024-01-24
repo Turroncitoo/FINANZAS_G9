@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+	<div id="criterioBusquedaReporte" class="row" th:fragment="criterioBusquedaAnexo"
+		th:with="tipo=${tipo}">
+		<fieldset class="well">
+			<legend class="well-legend">Búsqueda</legend>
+			<form id="formCriterioBusquedaReporte" class="form-horizontal" role="form">
+				<th:block
+					th:replace="~{template/fragments/reporte/criterioBusquedaReporteContablePrepago :: ${tipo}}?:~{}">
+				</th:block>
+				<div class="form-group">
+					<div class="col-lg-12 text-center">
+						<button id="buscar" type="button" class="btn btn-primary" th:if="${#vars.permisoConsulta}">
+							<i class="fa fa-search"></i> Buscar
+						</button>
+						<button id="exportar" type="button" class="btn btn-success" th:if="${#vars.permisoReporte}">
+							<i class="fa fa-download"></i> Exportar
+						</button>
+					</div>
+					
+				</div>
+			</form>
+		</fieldset>
+	</div>
+
+	<th:block th:fragment="anexo1">
+		<div class="form-group">
+			<div class="group">
+				<label class="control-label col-lg-1 col-md-1">Institución</label>
+				<div class="col-lg-3 col-md-3">
+					<select id="empresas" name="idInstitucion" class="form-control select2">
+						<option th:each="institucion : ${instituciones}" th:value="${institucion.codigoInstitucion}"
+							th:text="|${institucion.codigoInstitucion} - ${institucion.descripcionCorta}|"></option>
+					</select>
+				</div>
+			</div>
+			<div class="group">
+				<label class="control-label col-lg-1 col-md-1">Fecha de Proceso</label>
+				<div class="col-lg-3 col-md-3 input-group">
+					<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+					<input id="rangoFechaBusqueda" type="text" class="form-control" readonly="readonly"
+						name="fechas" />
+				</div>
+			</div>
+		</div>
+	
+	</th:block>
+
+	<th:block th:fragment="anexo2">
+		<div class="form-group">
+			<div class="group">
+				<label class="control-label col-lg-1 col-md-1">Institución</label>
+				<div class="col-lg-3 col-md-3">
+					<select id="empresas" name="idInstitucion" class="form-control select2">
+						<option th:each="institucion : ${instituciones}" th:value="${institucion.codigoInstitucion}"
+							th:text="|${institucion.codigoInstitucion} - ${institucion.descripcionCorta}|"></option>
+					</select>
+				</div>
+			</div>
+			<div class="group">
+				<label class="control-label col-lg-1 col-md-1">Fecha de Proceso</label>
+				<div class="col-lg-3 col-md-3 input-group">
+					<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+					<input id="rangoFechaBusqueda" type="text" class="form-control" readonly="readonly"
+						name="fechas" />
+				</div>
+			</div>
+		</div>
+	
+	</th:block>
+</body>
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+	<th:block th:fragment="movimiento">
+		<table id="tablaContabilizacion" width="100%"
+			class="table table-bordered table-condensed nowrap display table-hover">
+			<tfoot>
+				<tr>
+					<td class="dt-right" colspan="18">Total</td>
+					<td class="cantidad"></td>
+					<td class="monto"></td>
+				</tr>
+			</tfoot>
+		</table>
+	</th:block>
+
+	<th:block th:fragment="comisiones">
+		<table id="tablaContabilizacion" width="100%"
+			class="table table-bordered table-condensed nowrap display table-hover">
+			<thead>
+				<tr>
+					<th>Fecha Proceso</th>
+					<th>Institución</th>
+					<th>Empresa</th>
+					<th>Cliente</th>
+					<th>Logo</th>
+					<th>Producto</th>
+					<th>Membresía</th>
+					<th>Servicio</th>
+					<th>Origen</th>
+					<th>Clase Transacción</th>
+					<th>Código Transacción</th>
+					<th>Indicador Contabilización</th>
+					<th>Cuenta Cargo</th>
+					<th>Cuenta Abono</th>
+					<th>Código Analítico</th>
+					<th>Moneda Compensación</th>
+					<th>Cantidad</th>
+					<th th:each="conceptoComision,iter : ${conceptoComisiones}" class="conceptoComision comision"
+						data-tooltip="tooltip"
+						th:attr="title=${conceptoComision.descripcion}, idConceptoComision=${conceptoComision.idConceptoComision}, name=${iter.index}"
+						th:text="${conceptoComision.abreviatura}"></th>
+					<th class="comision dt-right">Total</th>
+				</tr>
+			</thead>
+			<tfoot>
+				<tr>
+					<td class="dt-right" colspan="16">Total</td>
+					<td class="dt-right"></td>
+					<td th:each="conceptoComision,iter : ${conceptoComisiones}"
+						class="monto conceptoComision dt-right" data-tooltip="tooltip"
+						th:attr="title=${conceptoComision.descripcion}, idConceptoComision=${conceptoComision.idConceptoComision}, name=${iter.index}"></td>
+					<td class="monto dt-right"></td>
+				</tr>
+			</tfoot>
+		</table>
+	</th:block>
+	<th:block th:fragment="miscelaneos">
+		<table id="tablaContabilizacion" class="table table-bordered table-condensed nowrap display table-hover">
+			<tfoot>
+				<tr>
+					<td class="dt-right" colspan="16">Total</td>
+					<td class="cantidad"></td>
+					<td class="monto"></td>
+				</tr>
+			</tfoot>
+		</table>
+	</th:block>
+	<th:block th:fragment="cuentaDefault">
+		<table id="tablaContabilizacionEnCuentaDefault" class="table table-bordered table-condensed nowrap display table-hover">
+		</table>
+	</th:block>
+</body>
+</html>

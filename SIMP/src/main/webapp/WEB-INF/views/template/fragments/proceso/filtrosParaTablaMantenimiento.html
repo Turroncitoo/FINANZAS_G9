@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+	<div id="filtrosParaTablaMantenimiento" class="row hidden">
+		<select id="clientes-filtroParaTablaMantenimiento">
+			<option th:each="cliente : ${clientes}"
+				th:attr="data-value=${cliente.idCliente}"
+				th:value="${cliente.descripcion}"
+				th:text="|${cliente.idCliente} - ${cliente.descripcion} (${cliente.descripcionEmpresa})|"></option>
+		</select> <select id="estados-filtroParaTablaMantenimiento">
+			<option th:each="estado : ${estados}"
+				th:attr="data-value=${estado.valorLiteral}"
+				th:value="${estado.descripcion}" th:text="${estado.descripcion}"></option>
+		</select>
+
+		<div id="fecha-filtroParaTablaMantenimiento" class="group">
+			<label class="col-sm-1 col-md-1 control-label"
+				for="rangoFechasTransaccion">Fecha intervalo</label>
+			<div class="col-lg-3 col-md-3 input-group">
+				<span class="input-group-addon"> <i class="fa fa-calendar"></i></span>
+				<input id="rangoFechasDesde" type="text" class="form-control"
+					readonly="readonly" name="fechaDesde" />
+			</div>
+		</div>
+	</div>
+</body>
+</html>

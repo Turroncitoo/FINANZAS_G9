@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+	<div id="criterioBusquedaReporte" th:fragment="criterioBusquedaReporteTarifario"
+		th:with="tipo=${tipo}">
+		<fieldset class="well">
+			<legend class="well-legend">Búsqueda</legend>
+			<form id="formCriterioBusqueda" class="form-horizontal" role="form">
+				<th:block
+					th:replace="~{template/fragments/reporte/criterioBusquedaReporteTarifario :: ${tipo}}?:~{}">
+				</th:block>
+				<div class="form-group">
+					<div class="col-md-10 col-lg-11 col-lg-offset-1">
+						<button id="buscar" type="button" class="btn btn-primary">
+							<i class="fa fa-search"></i> Buscar
+						</button>
+						<button id="exportar" type="button" class="btn btn-success">
+							<i class="fa fa-download"></i> Exportar
+						</button>
+					</div>
+				</div>
+			</form>
+		</fieldset>
+	</div>
+
+	<th:block th:fragment="resumenEmisor">
+		<div class="form-group">
+			<label class="control-label col-lg-1 col-md-1">Fecha de Proceso</label>
+			<div class="col-lg-4 col-md-4">
+				<div class="input-group">
+					<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+					<input id="rangoFechaBusqueda" type="text" class="form-control" readonly="readonly"
+						name="fechas" />
+				</div>
+			</div>
+		</div>
+	</th:block>
+
+	<th:block th:fragment="detalleEmisor">
+		<div class="form-group">
+			<label class="control-label col-lg-1 col-md-1">Fecha de Proceso</label>
+			<div class="col-lg-4 col-md-4">
+				<div class="input-group">
+					<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+					<input id="rangoFechaBusqueda" type="text" class="form-control" readonly="readonly"
+						name="fechas" />
+				</div>
+			</div>
+		</div>
+	</th:block>
+
+	<th:block th:fragment="resumenAdquirente">
+		<div class="form-group">
+			<label class="control-label col-lg-1 col-md-1">Fecha de Proceso</label>
+			<div class="col-lg-4 col-md-4">
+				<div class="input-group">
+					<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+					<input id="rangoFechaBusqueda" type="text" class="form-control" readonly="readonly"
+						name="fechas" />
+				</div>
+			</div>
+		</div>
+	</th:block>
+
+	<th:block th:fragment="detalleAdquirente">
+		<div class="form-group">
+			<label class="control-label col-lg-1 col-md-1">Fecha de Proceso</label>
+			<div class="col-lg-4 col-md-4">
+				<div class="input-group">
+					<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+					<input id="rangoFechaBusqueda" type="text" class="form-control" readonly="readonly"
+						name="fechas" />
+				</div>
+			</div>
+		</div>
+	</th:block>
+
+	<th:block th:fragment="resumenSurcharge">
+		<div class="form-group">
+			<label class="control-label col-lg-1 col-md-1">Fecha de Proceso</label>
+			<div class="col-lg-4 col-md-4">
+				<div class="input-group">
+					<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+					<input id="rangoFechaBusqueda" type="text" class="form-control" readonly="readonly"
+						name="fechas" />
+				</div>
+			</div>
+		</div>
+	</th:block>
+
+	<th:block th:fragment="detalleSurcharge">
+		<div class="form-group">
+			<label class="control-label col-lg-1 col-md-1">Fecha de Proceso</label>
+			<div class="col-lg-4 col-md-4">
+				<div class="input-group">
+					<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+					<input id="rangoFechaBusqueda" type="text" class="form-control" readonly="readonly"
+						name="fechas" />
+				</div>
+			</div>
+		</div>
+	</th:block>
+
+</body>
+</html>

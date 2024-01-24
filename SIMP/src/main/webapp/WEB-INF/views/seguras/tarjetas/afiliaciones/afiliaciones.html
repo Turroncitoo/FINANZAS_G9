@@ -1,0 +1,1081 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+	layout:decorator="layout">
+<head>
+<title th:text="|Gestión de Lotes|"></title>
+</head>
+<th:block layout:fragment="style">
+	<link th:href="@{/resources/css/dataTables.bootstrap.min.css}"
+		rel="stylesheet" />
+	<link th:href="@{/resources/css/responsive.bootstrap.min.css}"
+		rel="stylesheet" />
+	<link th:href="@{/resources/css/popupwindow.css}" rel="stylesheet" />
+	<link th:href="@{/resources/css/select2.min.css}" rel="stylesheet" />
+	<link th:href="@{/resources/css/select2-bootstrap.min.css}"
+		rel="stylesheet" />
+	<link th:href="@{/resources/css/daterangepicker.css}" rel="stylesheet" />
+	<link th:href="@{/resources/css/pagina/procesos.css}" rel="stylesheet" />
+	<link th:href="@{/resources/css/dropzone/dropzone.css}"
+		rel="stylesheet" />
+	<link th:href="@{/resources/css/smart_wizard.min.css}" rel="stylesheet" />
+	<link th:href="@{/resources/css/smart_wizard_theme_arrows.min.css}"
+		rel="stylesheet" />
+	<link th:href="@{/resources/css/custom-dropzone.css}" rel="stylesheet" />
+</th:block>
+
+<body>
+	<th:block layout:fragment="content"
+		th:with="permisoEliminacion=${#authorization.expression('hasPermission(''EJEC_AFILIACIONES'', ''3'')')}, permisoActualizacion=${#authorization.expression('hasPermission(''EJEC_AFILIACIONES'', ''4'')')}">
+		<div class="page-content-wrap">
+			<div class="row">
+				<div class="col-md-12 col-sm-12 col-xs-12">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h3 class="panel-title" th:text="|Gestión de Lotes|"></h3>
+						</div>
+						<div class="panel-body">
+							<div id="tipoBusqueda" class="col-xs-12 col-md-12 col-lg-12">
+								<fieldset class="well">
+									<legend class="well-legend">Tipo de Búsqueda</legend>
+									<form id="formTipoBusqueda" class="form-horizontal">
+										<div class="form-group">
+											<div class="col-sm-12">
+												<label class="radio-inline"> <input type="radio"
+													checked="checked" name="tipoBusqueda" value="consultaLote">
+													Gestión Lotes
+												</label> <label class="radio-inline"> <input type="radio"
+													name="tipoBusqueda" value="registrarRequerimiento">
+													Afiliaciones
+												</label> <!-- <label class="radio-inline"> <input type="radio"
+													name="tipoBusqueda" value="recargasDebitos">
+													Recarga y débitos
+												</label> -->
+											</div>
+										</div>
+									</form>
+								</fieldset>
+							</div>
+							<div class="col-xs-12">
+								<div id="consultaLoteDiv">
+									<fieldset class="well">
+										<legend class="well-legend">Filtros</legend>
+										<form id="formConsultaLote" class="form-horizontal">
+											<div class="form-group">
+												<div class="group">
+													<label class="control-label col-lg-1 col-md-1">Fecha
+														Proceso</label>
+													<div class="col-lg-3 col-md-3">
+														<div class="input-group">
+															<span class="input-group-addon"><i
+																class="fa fa-calendar"></i></span> <input id="fechaProceso"
+																type="text" class="form-control filtro"
+																readonly="readonly" />
+														</div>
+													</div>
+												</div>
+												<div class="group">
+													<label class="control-label col-lg-1 col-md-1">Fecha
+														Registro</label>
+													<div class="col-lg-3 col-md-3">
+														<div class="input-group">
+															<span class="input-group-addon"><i
+																class="fa fa-calendar"></i></span> <input id="fechaRegistro"
+																type="text" class="form-control filtro"
+																readonly="readonly" />
+														</div>
+													</div>
+												</div>
+												<div class="group">
+													<label class="col-sm-1 control-label">Tipo Tarjeta</label>
+													<div class="col-sm-3">
+														<select id="selectTipoTarjetasConsulta"
+															name="tipoTarjetas" class="form-control select2 filtro">
+															<option value="-1" selected="selected">Seleccione
+																un Tipo Tarjeta</option>
+															<option th:each="e : ${tipoOrdenTarjeta}"
+																th:value="${e.idItem}"
+																th:text="|${e.idItem} - ${e.descripcionItem}|"></option>
+														</select>
+													</div>
+												</div>
+											</div>
+
+											<div class="form-group">
+												<div class="group">
+													<label class="col-sm-1 control-label">Institución</label>
+													<div class="col-sm-3">
+														<select id="selectInstitucionConsulta"
+															name="idInstitucion" class="form-control select2 filtro">
+															<option value="-1" selected="selected">Seleccione
+																una Institución</option>
+															<option th:each="institucion : ${instituciones}"
+																th:value="${institucion.codigoInstitucion}"
+																th:text="|${institucion.codigoInstitucion} - ${institucion.descripcionCorta}|"></option>
+														</select>
+													</div>
+												</div>
+												<div class="group">
+													<label class="col-sm-1 control-label">Empresa</label>
+													<div class="col-sm-3">
+														<select id="selectEmpresaConsulta" name="idEmpresa"
+															class="form-control select2 filtro">
+															<option value="-1" selected="selected">Seleccione
+																una Empresa</option>
+															<option th:each="empresa : ${empresas}"
+																th:value="${empresa.idEmpresa}"
+																th:text="|${empresa.idEmpresa} - ${empresa.descripcion}|"></option>
+														</select>
+													</div>
+												</div>
+												<div class="group">
+													<label class="col-sm-1 control-label">Clientes</label>
+													<div class="col-sm-3">
+														<select id="selectClienteConsulta" name="idCliente"
+															class="form-control select2 filtro" multiple="multiple">
+														</select>
+													</div>
+												</div>
+											</div>
+											<div class="form-group">
+												<div class="group">
+													<label class="col-sm-1 control-label">Logo</label>
+													<div class="col-sm-3">
+														<select id="selectLogoConsulta" name="idLogo"
+															class="form-control select2 filtro">
+															<option value="-1" selected="selected">Seleccione
+																un Logo</option>
+															<option th:each="logo : ${logos}"
+																th:value="${logo.idLogo}"
+																th:text="|${logo.idLogo} - ${logo.descripcion} (${logo.idBin})|"></option>
+														</select>
+													</div>
+												</div>
+												<div class="group">
+													<label class="col-sm-1 control-label">Productos</label>
+													<div class="col-sm-3">
+														<select id="selectProductoConsulta" name="codigoProducto"
+															class="form-control select2 filtro" multiple="multiple">
+														</select>
+													</div>
+												</div>
+												<div class="group">
+													<label class="control-label col-lg-1 col-md-1">Lote</label>
+													<div class="col-lg-3 col-md-3">
+														<input type="text" name="idLote"
+															class="form-control numbersOnly filtro" />
+													</div>
+												</div>
+											</div>
+											<div class="form-group">
+												<div class="col-lg-12 text-center">
+													<button id="btnBuscarConsultaLote" type="button"
+														class="btn btn-primary"
+														sec:authorize="hasPermission('EJEC_AFILIACIONES','2')">
+														<i class="fa fa-search"></i> Buscar
+													</button>
+													<button id="btnExportarConsultaLote" type="button"
+														class="btn btn-success"
+														sec:authorize="hasPermission('EJEC_AFILIACIONES','5')">
+														<i class="fa fa-download"></i> Exportar
+													</button>
+												</div>
+											</div>
+										</form>
+									</fieldset>
+									<table id="tablaConsultaLote"
+										class="table table-bordered table-condensed nowrap display table-hover"
+										width="100%"
+										th:data-permiso-eliminacion="${permisoEliminacion}"
+										th:data-permiso-actualizacion="${permisoActualizacion}">
+									</table>
+								</div>
+								<div id="registrarRequerimientoDiv" class="hidden">
+									<fieldset class="well">
+										<legend class="well-legend small">Formulario</legend>
+										<form id="formRegistroRequerimiento" class="form-horizontal">
+											<div class="form-group" id="divDatosInstitucion">
+												<div class="group">
+													<label class="col-sm-1 control-label">Institución</label>
+													<div class="col-sm-3">
+														<select id="selectInstitucion" name="idInstitucion"
+															class="form-control select2 filtro">
+															<option th:each="institucion : ${instituciones}"
+																th:value="${institucion.codigoInstitucion}"
+																th:text="|${institucion.codigoInstitucion} - ${institucion.descripcionCorta}|"></option>
+														</select>
+													</div>
+												</div>
+												<div class="group">
+													<label class="col-sm-1 control-label">Empresa</label>
+													<div class="col-sm-3">
+														<select id="selectEmpresa" name="idEmpresa"
+															class="form-control select2 filtro">
+															<option value="-1" disabled="disabled"
+																selected="selected">Seleccione Empresa</option>
+															<option th:each="empresa : ${empresas}"
+																th:value="${empresa.idEmpresa}"
+																th:text="|${empresa.idEmpresa} - ${empresa.descripcion}|"></option>
+														</select>
+													</div>
+												</div>
+												<div class="group">
+													<label class="col-sm-1 control-label">Cliente</label>
+													<div class="col-sm-3">
+														<select id="selectCliente" name="idCliente"
+															class="form-control select2 filtro">
+															<option value="-1" disabled="disabled"
+																selected="selected">Seleccione un Cliente</option>
+														</select>
+													</div>
+												</div>
+											</div>
+											<div class="form-group" id="divDatosProducto">
+												<div class="group">
+													<label class="col-sm-1 control-label">Logo</label>
+													<div class="col-sm-3">
+														<select id="selectLogo" name="idLogo"
+															class="form-control select2 filtro">
+															<option value="-1" disabled="disabled"
+																selected="selected">Seleccione un Logo</option>
+															<option th:each="logo : ${logos}"
+																th:value="${logo.idLogo}"
+																th:text="|${logo.idLogo} - ${logo.descripcion} (${logo.idBin})|"></option>
+														</select>
+													</div>
+												</div>
+												<div class="group">
+													<label class="col-sm-1 control-label">Producto</label>
+													<div class="col-sm-3">
+														<select id="selectProducto" name="codigoProducto"
+															class="form-control select2 filtro">
+															<option value="-1" disabled="disabled"
+																selected="selected">Seleccione un Producto</option>
+														</select>
+													</div>
+												</div>
+												<div class="group">
+													<label class="col-sm-1 control-label">Tipo
+														Afiliación</label>
+													<div class="col-sm-3">
+														<select id="selectTipoAfiliacion" name="tipoAfiliacion"
+															class="form-control select2 filtro">
+															<option value="-1" disabled="disabled"
+																selected="selected">Seleccione el tipo de
+																afiliación</option>
+															<option th:each="tipoAfili : ${tipoAfiliaciones}"
+																th:value="${tipoAfili.idItem}"
+																th:text="|${tipoAfili.idItem} - ${tipoAfili.descripcionItem}|"></option>
+														</select>
+													</div>
+												</div>
+											</div>
+											<div class="form-group" id="divDatosProducto2">
+												<div class="group">
+													<label class="col-sm-1 control-label">Afinidad</label>
+													<div class="col-sm-3">
+														<select id="selectAfinidad" name="idAfinidad"
+															class="form-control select2 filtro">
+															<option value="-1" disabled="disabled"
+																selected="selected">Seleccione una Afinidad</option>
+														</select>
+													</div>
+												</div>
+												<div class="group">
+													<label class="col-sm-1 control-label">Categoría</label>
+													<div class="col-sm-3">
+														<select id="selectCategoria" name="idCategoria"
+															class="form-control select2 filtro">
+															<option value="0" disabled="disabled" selected="selected">Seleccione
+																una categoría</option>
+															<option th:each="e : ${categorias}"
+																th:value="${e.idItem}"
+																th:text="|${e.idItem} - ${e.descripcionItem}|"></option>
+														</select>
+													</div>
+												</div>
+												<div class="group">
+													<label class="col-sm-1 control-label">Tipo Tarjetas</label>
+													<div class="col-sm-3">
+														<select id="selectTipoTarjetas" name="tipoTarjetas"
+															class="form-control select2 filtro">
+															<option value="-1" disabled="disabled"
+																selected="selected">Seleccione el tipo de
+																tarjetas</option>
+															<option th:each="e : ${tipoOrdenTarjeta}"
+																th:value="${e.idItem}"
+																th:text="|${e.idItem} - ${e.descripcionItem}|"></option>
+														</select>
+													</div>
+												</div>
+											</div>
+											<div class="form-group hidden" id="divCantidad">
+												<div class="group">
+													<label class="col-sm-1 control-label">Cantidad
+														Tarjetas</label>
+													<div class="col-sm-3">
+														<input name="registros" type="text"
+															class="form-control numbersOnly">
+													</div>
+												</div>
+											</div>
+											<div class="form-group hidden"
+												id="divBtnRegistrarInnominadas">
+												<div class="col-lg-12 text-center">
+													<button id="btnRegistrarInnominadas" type="button"
+														class="btn btn-success">
+														<i class="fa fa-floppy-o"></i> Registrar Lote Innominada
+													</button>
+												</div>
+											</div>
+											<div class="form-group hidden" id="divBtnRegistrarNominadas">
+												<div class="col-lg-12 text-center">
+													<button id="btnRegistrarNominadas" type="button"
+														class="btn btn-success">
+														<i class="fa fa-floppy-o"></i> Registrar Lote Nominada
+													</button>
+												</div>
+											</div>
+											<div class="form-group hidden" id="divCargaLoteNominadas">
+												<div class="col-sm-12"
+													style="padding-bottom: 5px !important;">
+													<label class="col-sm-6 control-label text-left"
+														style="padding-bottom: 5px !important;"> Subir
+														archivos Excel de clientes. <i
+														id="cargandoArchivoNominadas"></i> <span
+														id="cargandoArchivoNominadasTexto"></span>
+													</label>
+													<div class="col-sm-6 control-label text-right"
+														style="padding-bottom: 5px !important;">
+														<button id="btnExportarPlantillaNominadas" type="button"
+															class="btn btn-xs btn-success"
+															title='Descargar ejemplo de excel' data-tooltip='tooltip'>
+															<i class="fa fa-download"></i>
+														</button>
+													</div>
+												</div>
+												<div class="col-sm-12 text-center"
+													style="padding-bottom: 15px !important;">
+													<div class="dropzone text-center" id="myDropzone"></div>
+												</div>
+											</div>
+										</form>
+									</fieldset>
+									<div id="divTablaClientesRequerimientoNominadas"
+										class="col-xs-12 col-md-12 col-lg-12 hidden">
+										<table id="tablaRequerimientoNominadas"
+											class="table table-bordered table-condensed nowrap display table-hover">
+										</table>
+									</div>
+									<div id="divFooterValidaciones" class="form-group hidden">
+										<div class="col-sm-2 col-md-2 col-lg-2 text-left"
+											style="margin-bottom: 15px !important;">
+											<div>
+												<i class="fa fa-square" aria-hidden="true"
+													style="color: #EBCCCC; padding-right: 5px;"></i> <label
+													class="control-label">Formato incorrecto</label>
+											</div>
+											<div>
+												<i class="fa fa-square" aria-hidden="true"
+													style="color: #C4E3F3; padding-right: 5px;"></i> <label
+													class="control-label">Vacío (Obligatorio)</label>
+											</div>
+										</div>
+										<span class="col-sm-2 col-md-2 col-lg-2"></span>
+									</div>
+								</div>
+
+
+
+
+								<div id="recargasDebitoDiv" class="hidden">
+									<fieldset class="well">
+										<legend class="well-legend small">Formulario</legend>
+										<form id="formRecargaDebito" class="form-horizontal">
+											<div class="form-group ">
+												<div class="col-lg-12 text-center">
+													<button id="btnRecargaDebito" type="button"
+														class="btn btn-success">
+														<i class="fa fa-floppy-o"></i> Registrar Lote Recarga y
+														Débitos
+													</button>
+												</div>
+											</div>
+											<div class="form-group" id="divRecargaDebito">
+												<div class="col-sm-12"
+													style="padding-bottom: 5px !important;">
+													<label class="col-sm-6 control-label text-left"
+														style="padding-bottom: 5px !important;"> Subir
+														archivos Excel con recargas y débitos a tarjetas. <i
+														id="cargandoArchivoRecargaDebito"></i> <span
+														id="cargandoArchivoRecargaDebitoTexto"></span>
+													</label>
+													<div class="col-sm-6 control-label text-right"
+														style="padding-bottom: 5px !important;">
+														<button id="btnExportarPlantillaRecargaDebito"
+															type="button" class="btn btn-xs btn-success"
+															title='Descargar ejemplo de excel' data-tooltip='tooltip'>
+															<i class="fa fa-download"></i>
+														</button>
+													</div>
+												</div>
+												<div class="col-sm-12 text-center"
+													style="padding-bottom: 15px !important;">
+													<div class="dropzone text-center" id="myDropzone2"></div>
+												</div>
+											</div>
+										</form>
+									</fieldset>
+									<div class="col-xs-12 col-md-12 col-lg-12">
+										<table id="tablaRecargaDebito"
+											class="table table-bordered table-condensed nowrap display table-hover"
+											aria-hidden="true">
+										</table>
+									</div>
+									<div class="form-group">
+										<div class="col-sm-2 col-md-2 col-lg-2 text-left"
+											style="margin-bottom: 15px !important;">
+											<div>
+												<i class="fa fa-square" aria-hidden="true"
+													style="color: #EBCCCC; padding-right: 5px;"></i> <label
+													class="control-label">Formato incorrecto</label>
+											</div>
+											<div>
+												<i class="fa fa-square" aria-hidden="true"
+													style="color: #C4E3F3; padding-right: 5px;"></i> <label
+													class="control-label">Vacío (Obligatorio)</label>
+											</div>
+										</div>
+										<span class="col-sm-2 col-md-2 col-lg-2"></span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+		<div id="modalMantenimiento" class="row">
+			<fieldset class="well">
+				<legend class="well-legend">Formulario de Actualización</legend>
+				<form id="formActualizacionLote" class="form-horizontal" role="form">
+					<fieldset class="well">
+						<legend class="well-legend">Información Lote</legend>
+						<div class="form-group">
+							<div class="group">
+								<label class="control-label col-lg-1 col-md-1">ID Lote</label>
+								<div class="col-lg-3 col-md-3">
+									<input type="text" name="idLote" class="form-control filtro"
+										disabled="disabled" />
+								</div>
+							</div>
+							<div class="group">
+								<label class="control-label col-lg-1 col-md-1">Tipo Lote</label>
+								<div class="col-lg-3 col-md-3">
+									<input type="text" name="tipoLote" id="formTipoLote"
+										class="form-control filtro" disabled="disabled" />
+								</div>
+							</div>
+							<div class="group">
+								<label class="control-label col-lg-1 col-md-1">Registros</label>
+								<div class="col-lg-3 col-md-3">
+									<input type="text" name="registros" class="form-control filtro"
+										disabled="disabled" />
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="group">
+								<label class="control-label col-lg-1 col-md-1">Empresa</label>
+								<div class="col-lg-3 col-md-3">
+									<input type="text" name="idEmpresa" id="formEmpresa"
+										class="form-control filtro" disabled="disabled" />
+								</div>
+							</div>
+							<div class="group">
+								<label class="control-label col-lg-1 col-md-1">Producto</label>
+								<div class="col-lg-3 col-md-3">
+									<input type="text" name="idCliente" id="formCliente"
+										class="form-control filtro" disabled="disabled" />
+								</div>
+							</div>
+							<div class="group">
+								<label class="control-label col-lg-1 col-md-1">Logo</label>
+								<div class="col-lg-3 col-md-3">
+									<input type="text" name="idLogo" id="formLogo"
+										class="form-control filtro" disabled="disabled" />
+								</div>
+							</div>
+						</div>
+					</fieldset>
+					<fieldset class="well">
+						<legend class="well-legend">Categorización</legend>
+						<div class="form-group">
+							<div class="group">
+								<label class="col-sm-1 control-label">Afinidad</label>
+								<div class="col-sm-3">
+									<select id="selectAfinidadUpdate" name="idAfinidad"
+										class="form-control select2 filtro">
+										<option value="-1" disabled="disabled" selected="selected">Seleccione
+											una Afinidad</option>
+									</select>
+								</div>
+							</div>
+							<div class="group">
+								<label class="col-sm-1 control-label">Categoría</label>
+								<div class="col-sm-3">
+									<select id="selectCategoriaUpdate" name="idCategoria"
+										class="form-control select2 filtro">
+										<option value="0" disabled="disabled" selected="selected">Seleccione
+											una categoría</option>
+										<option th:each="e : ${categorias}" th:value="${e.idItem}"
+											th:text="|${e.idItem} - ${e.descripcionItem}|"></option>
+									</select>
+								</div>
+							</div>
+							<div class="group">
+								<label class="col-sm-1 control-label">Tipo Tarjetas</label>
+								<div class="col-sm-3">
+									<select id="selectTipoTarjetasUpdate" name="tipoTarjetas"
+										class="form-control select2 filtro">
+										<option value="-1" disabled="disabled" selected="selected">Seleccione
+											el tipo de tarjetas</option>
+										<option th:each="e : ${tipoOrdenTarjeta}"
+											th:value="${e.idItem}"
+											th:text="|${e.idItem} - ${e.descripcionItem}|"></option>
+									</select>
+								</div>
+							</div>
+						</div>
+					</fieldset>
+
+					<div id="botonesForm" class="form-group">
+						<div class="col-lg-12 text-center">
+							<button id="actualizarLote" type="button"
+								class="btn btn-primary hidden">
+								<i class="fa fa-pencil-square"></i> Actualizar
+							</button>
+						</div>
+					</div>
+				</form>
+			</fieldset>
+		</div>
+
+		<div id="modalDetalleLoteAfiliacion" class="row">
+			<fieldset class="well">
+				<legend class="well-legend"> Detalle Lote Afiliación</legend>
+				<form id="formDetalleLoteAfiliacion" class="form-horizontal">
+					<div class="form-group">
+						<div class="group">
+							<label class="control-label col-lg-1 col-md-1">Lote</label>
+							<div class="col-lg-3 col-md-3">
+								<input type="text" name="idLote" class="form-control filtro"
+									disabled="disabled" />
+							</div>
+						</div>
+						<div class="group">
+							<label class="control-label col-lg-1 col-md-1">Tipo
+								Afiliación</label>
+							<div class="col-lg-3 col-md-3">
+								<input type="text" name="tipoAfiliacion"
+									class="form-control filtro" disabled="disabled" />
+							</div>
+						</div>
+						<div class="group">
+							<label class="control-label col-lg-1 col-md-1">Registros</label>
+							<div class="col-lg-3 col-md-3">
+								<input type="text" name="registros" class="form-control filtro"
+									disabled="disabled" />
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="group">
+							<label class="control-label col-lg-1 col-md-1">Tipo
+								Tarjeta</label>
+							<div class="col-lg-3 col-md-3">
+								<input type="text" name="tipoTarjeta"
+									class="form-control filtro" disabled="disabled" />
+							</div>
+						</div>
+						<div class="group">
+							<label class="col-sm-1 control-label">Logo</label>
+							<div class="col-lg-3 col-md-3">
+								<input type="text" name="logo" class="form-control filtro"
+									disabled="disabled" />
+							</div>
+						</div>
+						<div class="group">
+							<label class="control-label col-lg-1 col-md-1">Producto</label>
+							<div class="col-lg-3 col-md-3">
+								<input type="text" name="codigoProducto"
+									class="form-control filtro" disabled="disabled" />
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="group">
+							<label class="control-label col-lg-1 col-md-1">Afinidad</label>
+							<div class="col-lg-3 col-md-3">
+								<input type="text" name="afinidad" class="form-control filtro"
+									disabled="disabled" />
+							</div>
+						</div>
+						<div class="group">
+							<label class="col-sm-1 control-label">Empresa</label>
+							<div class="col-lg-3 col-md-3">
+								<input type="text" name="empresa" class="form-control filtro"
+									disabled="disabled" />
+							</div>
+						</div>
+						<div class="group">
+							<label class="control-label col-lg-1 col-md-1">Cliente</label>
+							<div class="col-lg-3 col-md-3">
+								<input type="text" name="cliente" class="form-control filtro"
+									disabled="disabled" />
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="group">
+							<label class="control-label col-lg-1 col-md-1">Estado
+								Lote</label>
+							<div class="col-lg-3 col-md-3">
+								<input type="text" name="estadoLote" class="form-control filtro"
+									disabled="disabled" />
+							</div>
+						</div>
+						<div class="group">
+							<label class="col-sm-1 control-label">Enviado UBA</label>
+							<div class="col-lg-3 col-md-3">
+								<input type="text" name="enviadoUBA" class="form-control filtro"
+									disabled="disabled" />
+							</div>
+						</div>
+						<div class="group">
+							<label class="control-label col-lg-1 col-md-1">Envío UBA</label>
+							<div class="col-lg-3 col-md-3">
+								<input type="text" name="fechaEmisionUBA"
+									class="form-control filtro" disabled="disabled" />
+							</div>
+						</div>
+					</div>
+					<!-- <div class="form-group">
+						<div class="col-lg-12 text-center">
+							<button id="btnExportarConsultaLoteDetalle" type="button" class="btn btn-success" sec:authorize="hasPermission('EJEC_AFILIACIONES','5')">
+								<i class="fa fa fa-download"></i> Exportar
+							</button>
+						</div>
+					</div> -->
+				</form>
+			</fieldset>
+			<table id="tablaConsultaLoteDetalleAfiliacion"
+				class="table table-bordered table-condensed nowrap display table-hover"
+				width="100%">
+			</table>
+		</div>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		<div id="modalDetalleLoteRecargaDebito" class="row">
+			<fieldset class="well">
+				<legend class="well-legend"> Detalle Lote Recarga/Débito</legend>
+				<form id="formDetalleLoteRecargaDebito" class="form-horizontal">
+					<div class="form-group">
+						<div class="group">
+							<label class="control-label col-lg-1 col-md-1">Lote</label>
+							<div class="col-lg-3 col-md-3">
+								<input type="text" name="idLote" class="form-control filtro"
+									disabled="disabled" />
+							</div>
+						</div>
+						<div class="group">
+							<label class="control-label col-lg-1 col-md-1">Tipo
+								Operación</label>
+							<div class="col-lg-3 col-md-3">
+								<input type="text" name="tipoOperacion"
+									class="form-control filtro" disabled="disabled" />
+							</div>
+						</div>
+						<div class="group">
+							<label class="control-label col-lg-1 col-md-1">Registros</label>
+							<div class="col-lg-3 col-md-3">
+								<input type="text" name="registros" class="form-control filtro"
+									disabled="disabled" />
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="group">
+							<label class="control-label col-lg-1 col-md-1">Tipo
+								Tarjeta</label>
+							<div class="col-lg-3 col-md-3">
+								<input type="text" name="tipoTarjeta"
+									class="form-control filtro" disabled="disabled" />
+							</div>
+						</div>
+						<div class="group">
+							<label class="col-sm-1 control-label">Logo</label>
+							<div class="col-lg-3 col-md-3">
+								<input type="text" name="logo" class="form-control filtro"
+									disabled="disabled" />
+							</div>
+						</div>
+						<div class="group">
+							<label class="control-label col-lg-1 col-md-1">Producto</label>
+							<div class="col-lg-3 col-md-3">
+								<input type="text" name="codigoProducto"
+									class="form-control filtro" disabled="disabled" />
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="group">
+							<label class="control-label col-lg-1 col-md-1">Afinidad</label>
+							<div class="col-lg-3 col-md-3">
+								<input type="text" name="afinidad" class="form-control filtro"
+									disabled="disabled" />
+							</div>
+						</div>
+						<div class="group">
+							<label class="col-sm-1 control-label">Empresa</label>
+							<div class="col-lg-3 col-md-3">
+								<input type="text" name="empresa" class="form-control filtro"
+									disabled="disabled" />
+							</div>
+						</div>
+						<div class="group">
+							<label class="control-label col-lg-1 col-md-1">Cliente</label>
+							<div class="col-lg-3 col-md-3">
+								<input type="text" name="cliente" class="form-control filtro"
+									disabled="disabled" />
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="group">
+							<label class="control-label col-lg-1 col-md-1">Estado
+								Lote</label>
+							<div class="col-lg-3 col-md-3">
+								<input type="text" name="estadoLote" class="form-control filtro"
+									disabled="disabled" />
+							</div>
+						</div>
+						<div class="group">
+							<label class="col-sm-1 control-label">Enviado UBA</label>
+							<div class="col-lg-3 col-md-3">
+								<input type="text" name="enviadoUBA" class="form-control filtro"
+									disabled="disabled" />
+							</div>
+						</div>
+						<div class="group">
+							<label class="control-label col-lg-1 col-md-1">Envío UBA</label>
+							<div class="col-lg-3 col-md-3">
+								<input type="text" name="fechaEmisionUBA"
+									class="form-control filtro" disabled="disabled" />
+							</div>
+						</div>
+					</div>
+					<!-- <div class="form-group">
+						<div class="col-lg-12 text-center">
+							<button id="btnExportarConsultaLoteDetalle" type="button" class="btn btn-success" sec:authorize="hasPermission('EJEC_AFILIACIONES','5')">
+								<i class="fa fa fa-download"></i> Exportar
+							</button>
+						</div>
+					</div> -->
+				</form>
+			</fieldset>
+			<table id="tablaConsultaLoteDetalleRecargaDebito"
+				class="table table-bordered table-condensed nowrap display table-hover"
+				width="100%">
+			</table>
+		</div>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+
+		<div id="modalAfiliacion" class="row">
+			<fieldset class="well">
+				<legend class="well-legend">Requerimiento Afiliación</legend>
+				<form id="formModalAfiliacion" class="form-horizontal" role="form">
+					<div class="form-group">
+						<label class="col-lg-3 control-label">Tipo Documento</label>
+						<div class="col-lg-9">
+							<select id="selectTipoDocumentoAfiliacion"
+								class="form-control select2" name="tipoDocumento"
+								disabled="disabled">
+								<option th:each="documentos : ${tipoDocumentos}"
+									th:value="${documentos.idItem}"
+									th:text="|${documentos.idItem} - ${documentos.descripcionItem}|"></option>
+							</select>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-lg-3 control-label">Número Documento</label>
+						<div class="col-lg-9">
+							<input id="txtNumeroDocumentoAfiliacion"
+								class="form-control numbersOnly" name="numeroDocumento"
+								disabled="disabled">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-lg-3 control-label">Nombres</label>
+						<div class="col-lg-9">
+							<input class="form-control upperCase" name="nombre">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-lg-3 control-label">Apellidos Paterno</label>
+						<div class="col-lg-9">
+							<input class="form-control upperCase" name="apellidoPaterno">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-lg-3 control-label">Apellidos Materno</label>
+						<div class="col-lg-9">
+							<input class="form-control upperCase" name="apellidoMaterno">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-lg-3 control-label">Embossing</label>
+						<div class="col-lg-9">
+							<input class="form-control upperCase" name="nombreEmbossing">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-lg-3 control-label">RUC</label>
+						<div class="col-lg-9">
+							<input class="form-control numbersOnly" name="ruc">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-lg-3 control-label">Cliente</label>
+						<div class="col-lg-9">
+							<input class="form-control upperCase" name="nombreCliente">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-lg-3 control-label">Mes Vencimiento</label>
+						<div class="col-lg-9">
+							<input class="form-control" type="text" name="fechaVencimiento"
+								maxlength="5">
+						</div>
+					</div>
+					<!--
+						
+					<div class="form-group">
+						<label class="col-lg-3 control-label">Correo</label>
+						<div class="col-lg-9">
+							<input class="form-control upperCase" type="email" name="correo">
+						</div>
+					</div>
+					-->
+					<div class="form-group">
+						<label class="col-lg-3 control-label">Dirección</label>
+						<div class="col-lg-9">
+							<input class="form-control upperCase" name="direccion">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-lg-3 control-label">Celular</label>
+						<div class="col-lg-9">
+							<input class="form-control numbersOnly" name="telefonoMovil">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-lg-3 control-label">Sexo</label>
+						<div class="col-lg-9">
+							<select id="selectSexo" class="form-control select2" name="sexo">
+								<option th:each="s : ${sexos}" th:value="${s.idItem}"
+									th:text="|${s.idItem} - ${s.descripcionItem}|"></option>
+							</select>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-lg-3 control-label">Fecha Nacimiento</label>
+						<div class="col-lg-9 input-group">
+							<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+							<input id="rangoFechaNacimiento" name="fechaNacimiento"
+								type="text" class="form-control" readonly="readonly" />
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-lg-3 control-label">Ind. Distribucion</label>
+						<div class="col-lg-9">
+							<select id="selectTipoIndDistribucion"
+								class="form-control select2" name="indicadorDistribucion">
+								<option th:each="documentos : ${distribucion}"
+									th:value="${documentos.idItem}"
+									th:text="|${documentos.idItem} - ${documentos.descripcionItem}|"></option>
+							</select>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-lg-3 control-label">Nacionalidad</label>
+						<div class="col-lg-9">
+							<select id="selectNacionalidad"
+								class="form-control select2" name="nacionalidad">
+								<option th:each="pais : ${paises}"
+									th:value="${pais.codigoPaisIso3Alfa2}"
+									th:text="|(${pais.codigoMoneda}) ${pais.codigoPaisIso3Alfa2} - ${pais.descripcion}|"></option>
+							</select>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-lg-3 control-label">Nombre Mandatorio 1</label>
+						<div class="col-lg-9">
+							<input class="form-control upperCase" name="nombreManda1">
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-lg-3 control-label">Tipo Documento
+							Mandatorio 1</label>
+						<div class="col-lg-9">
+							<select id="selectTipoDocumentoAfiliacionMandatorio1"
+								class="form-control select2" name="tipoManda1">
+								<option th:each="documentos : ${tipoDocumentos}"
+									th:value="${documentos.idItem}"
+									th:text="|${documentos.idItem} - ${documentos.descripcionItem}|"></option>
+							</select>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-lg-3 control-label">Doc. Mandatorio 1</label>
+						<div class="col-lg-9">
+							<input class="form-control upperCase" name="numManda1">
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-lg-3 control-label">Celular Mandatorio 1</label>
+						<div class="col-lg-9">
+							<input class="form-control numbersOnly" name="fonoMnada1">
+						</div>
+					</div>
+
+
+					<div class="form-group">
+						<label class="col-lg-3 control-label">Nombre Mandatorio 2</label>
+						<div class="col-lg-9">
+							<input class="form-control upperCase" name="nombreManda2">
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-lg-3 control-label">Tipo Documento
+							Mandatorio 2</label>
+						<div class="col-lg-9">
+							<select id="selectTipoDocumentoAfiliacionMandatorio2"
+								class="form-control select2" name="tipoManda2">
+								<option th:each="documentos : ${tipoDocumentos}"
+									th:value="${documentos.idItem}"
+									th:text="|${documentos.idItem} - ${documentos.descripcionItem}|"></option>
+							</select>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-lg-3 control-label">Doc. Mandatorio 2</label>
+						<div class="col-lg-9">
+							<input class="form-control upperCase" name="numManda2">
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-lg-3 control-label">Celular Mandatorio 2</label>
+						<div class="col-lg-9">
+							<input class="form-control numbersOnly" name="fonoMnada2">
+						</div>
+					</div>
+
+
+					<div class="form-group">
+						<label class="col-lg-3 control-label">Operación</label>
+						<div class="col-lg-9">
+							<input id="inputOperacion" class="form-control upperCase"
+								name="operacion" disabled="disabled">
+						</div>
+					</div>
+					<div id="botonesForm" class="form-group">
+						<div class="col-lg-12 text-center">
+							<button id="btnActualizarAfiliacion" type="button"
+								class="btn btn-primary hidden">
+								<i class="fa fa-pencil-square"></i> Actualizar
+							</button>
+						</div>
+					</div>
+				</form>
+			</fieldset>
+		</div>
+
+	</th:block>
+
+	<th:block layout:fragment="script">
+		<script th:src="@{/resources/js/datatables/jquery.dataTables.min.js}"></script>
+		<script
+			th:src="@{/resources/js/datatables/dataTables.bootstrap.min.js}"></script>
+		<script
+			th:src="@{/resources/js/datatables/dataTables.responsive.min.js}"></script>
+		<script th:src="@{/resources/js/datatables/dataTables.show.rows.js}"></script>
+		<script th:src="@{/resources/js/bootstrap/bootstrap-notify.min.js}"></script>
+		<script th:src="@{/resources/js/jquery/popupwindow.min.js}"></script>
+		<script th:src="@{/resources/js/jquery/jquery.serializejson.min.js}"></script>
+		<script th:src="@{/resources/js/jquery/jquery.validate.min.js}"></script>
+		<script th:src="@{/resources/js/jquery/additional-methods.min.js}"></script>
+		<script th:src="@{/resources/js/jquery/select2.full.min.js}"></script>
+		<script th:src="@{/resources/js/jquery/moment.min.js}"></script>
+		<script th:src="@{/resources/js/jquery/daterangepicker.js}"></script>
+		<script
+			src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.7.7/xlsx.core.min.js"></script>
+		<script
+			src="https://cdnjs.cloudflare.com/ajax/libs/xls/0.7.4-a/xls.core.min.js"></script>
+		<script th:src="@{/resources/js/jquery/jquery.smartWizard.min.js}"></script>
+		<script
+			th:src="@{/resources/js/bootstrap/bootstrap-datepicker.min.js}"></script>
+		<script th:src="@{/resources/js/util/formularioUtil.js}"></script>
+		<script th:src="@{/resources/js/dropzone/dropzone.js}"></script>
+		<script th:src="@{/resources/js/sheetJS/xlsx.full.min.js}"></script>
+		<script
+			th:src="@{/resources/js/pagina/tarjetas/afiliaciones/afiliaciones.js}"></script>
+		<script
+			th:src="@{/resources/js/pagina/tarjetas/afiliaciones/afiliacionesFormulario.js}"></script>
+	</th:block>
+
+</body>
+</html>

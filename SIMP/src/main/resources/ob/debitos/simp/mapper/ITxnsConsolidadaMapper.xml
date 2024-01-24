@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ob.debitos.simp.mapper.ITxnsConsolidadaMapper">
+
+	<sql id = "fragmentoSelectBuscarTxnsConsolidada">
+		SELECT 
+			consolidada.numeroTarjeta 			AS numeroTarjeta,
+			consolidada.numeroCuenta 			AS numeroCuenta,
+			consolidada.origenArchivo 			AS origenArchivo,
+			consolidada.canal 					AS canal,
+			consolidada.tipoTransaccion 		AS tipoTransaccion,
+			consolidada.fechaTransaccion 		AS fechaTransaccion,
+			consolidada.horaTransaccion 		AS horaTransaccion,	
+			consolidada.fechaCompensacion 		AS fechaCompensacion,
+			consolidada.numeroTrace 			AS numeroTrace,
+			consolidada.autorizacion 			AS autorizacion,
+			consolidada.adquirente 				AS adquirente,
+			consolidada.monedaTransaccion 		AS monedaTransaccion,
+			consolidada.valorTransaccion 		AS valorTransaccion,
+			consolidada.monedaCompensacion 		AS monedaCompensacion,
+			consolidada.valorCompensacion 		AS valorCompensacion,
+			consolidada.codigoRespuesta 		AS codigoRespuesta,
+			consolidada.idOrigenArchivo 		AS idOrigenArchivo,
+			consolidada.tipoMensaje 			AS tipoMensaje,
+			consolidada.estadoTarjeta			AS estadoTarjeta,
+			consolidada.codigoInstitucion		AS codigoInstitucion,
+			consolidada.descripcionInstitucion	AS descripcionInstitucion,
+			consolidada.idSecuencia				AS idSecuencia,
+			consolidada.fechaProceso			AS fechaProceso 
+		FROM ConsultaConsolidada consolidada
+	</sql>
+	
+	<select id="buscarTxnsConsolidada" resultType="TxnsConsolidada">
+		<include refid="fragmentoSelectBuscarTxnsConsolidada"></include>
+		WHERE
+			consolidada.tipoDocumento = #{tipoDocumento} AND 
+			consolidada.numeroDocumento = #{numeroDocumento}
+		ORDER BY consolidada.numeroTarjeta,
+				 consolidada.fechaTransaccion,
+				 consolidada.codigoInstitucion, 
+				 consolidada.numeroTrace,
+				 consolidada.origenArchivo;
+	</select>
+	
+	<select id="filtrarTxnsConsolidada" resultType="TxnsConsolidada">
+		<include refid="fragmentoSelectBuscarTxnsConsolidada"></include>
+		<where>
+			<if test="numeroTarjeta != null and numeroTarjeta != ''">
+				AND consolidada.numeroTarjeta = #{numeroTarjeta}
+			</if>
+			<if test="numeroCuenta != null and numeroCuenta != ''">
+				AND consolidada.numeroCuenta = #{numeroCuenta}
+			</if>
+			<if test="idCanal != null and idCanal != -1">
+	   			 AND consolidada.idCanal = #{idCanal}   			
+	  		</if>
+	  		<if test="idOrigenArchivo != null and idOrigenArchivo != -1">
+	   			 AND consolidada.idOrigenArchivo = #{idOrigenArchivo}   			
+	  		</if>
+	  		<if test="fechaInicioTxn != null and fechaInicioTxn != ''">
+	   			 AND consolidada.fechaTransaccionFiltro &gt;= #{fechaInicioTxn}   			
+	  		</if>
+	  		<if test="fechaFinTxn != null and fechaFinTxn != ''">
+	   			 AND consolidada.fechaTransaccionFiltro &lt;= #{fechaFinTxn}   			
+	  		</if>
+	  		<if test="codigoInstitucion != null and codigoInstitucion != -1">
+	  			AND consolidada.codigoInstitucion = #{codigoInstitucion} 
+	  		</if>
+		</where>
+		ORDER BY consolidada.numeroTarjeta,
+				 consolidada.fechaTransaccion,
+				 consolidada.codigoInstitucion, 
+				 consolidada.numeroTrace,
+				 consolidada.origenArchivo
+	</select>
+</mapper>

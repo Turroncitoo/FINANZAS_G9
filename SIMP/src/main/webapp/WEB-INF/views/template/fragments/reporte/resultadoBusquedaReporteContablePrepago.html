@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+	<th:block th:fragment="anexo1">
+		<table id="tablaReporteContable" width="100%"
+			class="table table-bordered table-condensed nowrap display table-hover">
+
+		</table>
+	</th:block>
+
+	<th:block th:fragment="anexo2">
+		<table id="tablaReporteContable" width="100%"
+			class="table table-bordered table-condensed nowrap display table-hover">
+
+		</table>
+	</th:block>
+	
+	<th:block th:fragment="estadoCuenta">
+		<table id="tablaReporteEstadoCuenta" width="100%"
+			class="table table-bordered table-condensed nowrap display table-hover">
+
+		</table>
+	</th:block>
+	
+	<th:block th:fragment="cliente">
+		<div id="criterioBusquedaReporteDatosCliente" class="row hidden" >
+		<fieldset class="well">
+			<legend class="well-legend">Datos del Cliente</legend>
+			<form id="formDatosCliente" class="form-horizontal" role="form">
+				<div class="form-group">
+				<div class="group">
+					<label class="col-sm-1 control-label">Número de Tarjeta</label>
+					<div class="col-sm-2">
+						<input id="txtNumeroTarjeta" disabled="disabled" name="numeroTarjeta" type="text"
+							 class="form-control input-md">
+					</div>
+				</div>
+				
+				<div class="group">
+					<label class="col-sm-1 control-label">Cliente</label>
+					<div class="col-sm-4">
+						<input id="txtNombreCompleto" disabled='disabled' name="nombreCompleto" type="text"
+							 class="form-control input-md">
+					</div>
+				</div>
+				
+				<div class="group">
+					<label class="col-sm-1 control-label">Saldo Disponible</label>
+					<div class="col-sm-2">
+						<input id="txtSaldoDispoible" disabled='disabled' name="saldoDisponible" type="text"
+							class="form-control input-md">
+					</div>
+				</div>
+				</div>
+				
+				<div class="form-group">
+				<div class="group">
+					<label class="col-sm-1 control-label">Fecha Activación</label>
+					<div class="col-sm-2">
+						<input id="txtNumeroTarjeta" disabled="disabled" name="fechaActivacionFmt" type="text"
+							 class="form-control input-md">
+					</div>
+				</div>
+				
+				<div class="group">
+					<label class="col-sm-1 control-label">Fecha Bloqueo</label>
+					<div class="col-sm-4">
+						<input id="txtApellidoPaterno" disabled='disabled' name="fechaBloqueoFmt" type="text"
+							 class="form-control input-md">
+					</div>
+				</div>
+				
+				<div class="group">
+					<label class="col-sm-1 control-label">Estado Tarjeta</label>
+					<div class="col-sm-2">
+						<input id="txtSaldoDispoible" disabled='disabled' name="descripcionEstadoTarjeta" type="text"
+							class="form-control input-md">
+					</div>
+				</div>
+				</div>
+			</form>
+		</fieldset>
+	</div>
+	</th:block>
+	
+	
+</body>
+</html>

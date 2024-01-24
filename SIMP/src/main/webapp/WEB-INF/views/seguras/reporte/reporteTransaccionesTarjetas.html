@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" layout:decorator="layout">
+<head>
+<title th:text="|Reporte Transacciones Tarjetas|"></title>
+</head>
+<th:block layout:fragment="style">
+	<link th:href="@{/resources/css/dataTables.bootstrap.min.css}" rel="stylesheet" />
+	<link th:href="@{/resources/css/responsive.bootstrap.min.css}" rel="stylesheet" />
+	<link th:href="@{/resources/css/fixedColumns.dataTables.min.css}" rel="stylesheet" />
+	<link th:href="@{/resources/css/select2.min.css}" rel="stylesheet" />
+	<link th:href="@{/resources/css/select2-bootstrap.min.css}" rel="stylesheet" />
+	<link th:href="@{/resources/css/daterangepicker.css}" rel="stylesheet" />
+</th:block>
+<body>
+	<th:block layout:fragment="content">
+		<div class="page-content-wrap">
+			<div class="row">
+				<div class="col-md-12 col-sm-12 col-xs-12">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h3 class="panel-title" th:text="|Reporte Transacciones Tarjetas|"></h3>
+						</div>
+						<div class="panel-body">
+							<div id="criterioBusquedaReporte" class="row">
+								<fieldset class="well">
+									<legend class="well-legend">Filtro</legend>	
+									<form id="formCriterioBusqueda" class="form-horizontal" role="form">
+										<div class="row">
+											<div class="form-group">
+												<div class="group">
+													<label class="control-label col-lg-1 col-md-1">Periodo</label>
+													<div class="col-lg-3 col-md-3">
+														<input id="inputPeriodoMeses" class="form-control filtro" name="periodo" type="month">
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="row">
+											<div class="form-group">
+												<div class="col-lg-12 text-center">
+													<button id="buscar" type="button" class="btn btn-primary" sec:authorize="hasPermission('RPT_TXNSTARJETA','2')">
+														<i class="fa fa-search"></i> Buscar
+													</button>
+													<button id="exportar" type="button" class="btn btn-success" sec:authorize="hasPermission('RPT_TXNSTARJETA','5')">
+														<i class="fa fa-download"></i> Exportar
+													</button>
+												</div>
+											</div>
+										</div>
+									</form>
+								</fieldset>
+							</div> 
+							<div id="resultadoBusquedaReporte" class="col-xs-12">
+								<div class="tabs" style="margin-bottom: 15px !important">
+									<ul class="nav nav-tabs">
+										<li th:each="moneda,itStat: ${monedas}" th:class="${itStat.index == 0}?'active':''">
+											<a data-toggle="tab" th:href="|#${moneda.codigoMoneda}|"
+											   th:text="|${moneda.codigoMoneda} - ${moneda.descripcion}|"></a>
+										</li>
+									</ul>
+								</div>
+								<div class="tab-content">
+									<div th:each="moneda,iterStat : ${monedas}" th:id="|${moneda.codigoMoneda}|" class="tab-pane fade in"
+										th:classappend="${iterStat.index == 0}?'active':''">
+											<div class="tabla">
+													<table th:attr="idTabla=|tabla-${moneda.codigoMoneda}|,id=|tabla-${moneda.codigoMoneda}|"
+													class="table table-bordered table-condensed nowrap display table-hover tablaResultados">
+												</table>
+											</div>
+									</div>
+								</div>
+							</div>
+							
+						</div>
+						
+					</div>
+				</div>
+			</div>
+		</div>
+	</th:block>
+
+	<th:block layout:fragment="script">
+		<script th:src="@{/resources/js/datatables/jquery.dataTables.min.js}"></script>
+		<script th:src="@{/resources/js/datatables/dataTables.bootstrap.min.js}"></script>
+		<script th:src="@{/resources/js/datatables/dataTables.responsive.min.js}"></script>
+		<script th:src="@{/resources/js/bootstrap/bootstrap-notify.min.js}"></script>
+		<script th:src="@{/resources/js/jquery/jquery.serializejson.min.js}"></script>
+		<script th:src="@{/resources/js/jquery/jquery.validate.min.js}"></script>
+		<script th:src="@{/resources/js/jquery/additional-methods.min.js}"></script>
+		<script th:src="@{/resources/js/jquery/select2.full.min.js}"></script>
+		<script th:src="@{/resources/js/jquery/moment.min.js}"></script>
+		<script th:src="@{/resources/js/jquery/daterangepicker.js}"></script>
+		<script th:src="@{/resources/js/util/formularioUtil.js}"></script>
+		<script th:src="@{/resources/js/pagina/reporte/transacciones/reporteTransaccionesTarjetas.js}"></script>
+	</th:block>
+</body>
+</html>

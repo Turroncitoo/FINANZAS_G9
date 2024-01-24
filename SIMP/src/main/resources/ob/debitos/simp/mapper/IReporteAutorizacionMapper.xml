@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ob.debitos.simp.mapper.IReporteAutorizacionMapper">
+	
+	<resultMap id="mapBuscarAutorizaciones" type="ReporteAutorizacion">
+		<id property="id" column="id" />
+		<result property="descripcion" column="descripcion" />
+		<collection property="transacciones" javaType="List" ofType="ob.debitos.simp.model.reporte.ReporteTransaccion">
+			<id property="diaMesAnioTransaccion" column="dia_mes_anio_txn"></id>
+			<id property="codigoRespuestaTransaccion" column="codigo_respuesta_txn"></id>
+			<result property="cantidadTransaccion" column="cantidad_txn"></result>
+		</collection>
+	</resultMap>
+	
+	<select id="buscarAutorizaciones" statementType="CALLABLE" resultMap="mapBuscarAutorizaciones" 
+		parameterType="CriterioBusquedaAutorizacion">
+		{call
+			<choose>
+				<when test="rolTransaccion == 2">
+					REPORT_GESTION_AUTORIZACIONES_RECEPTOR
+				</when>
+				<otherwise>
+					REPORT_GESTION_AUTORIZACIONES_EMISOR	
+				</otherwise>
+			</choose>
+			(
+			#{verbo, jdbcType = VARCHAR, mode =IN},
+			#{rolTransaccion, jdbcType = INTEGER, mode = IN},
+			#{codigoRespuestaTransaccion, jdbcType = INTEGER, mode = IN},
+			#{fechaInicio, jdbcType = DATE, mode = IN},
+			#{fechaFin, jdbcType = DATE, mode = IN},
+			#{idInstitucion, jdbcType = NUMERIC, mode = IN}
+			)
+		}
+	</select>
+
+</mapper>

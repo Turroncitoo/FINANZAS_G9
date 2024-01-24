@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+	layout:decorator="layout">
+<head>
+<title th:text="|Consulta de #{__${consulta}__}|"></title>
+</head>
+<th:block layout:fragment="style">
+	<link th:href="@{/resources/css/dataTables.bootstrap.min.css}" rel="stylesheet" />
+	<link th:href="@{/resources/css/responsive.bootstrap.min.css}" rel="stylesheet" />
+	<link th:href="@{/resources/css/popupwindow.css}" rel="stylesheet" />
+	<link th:href="@{/resources/css/select2.min.css}" rel="stylesheet" />
+	<link th:href="@{/resources/css/select2-bootstrap.min.css}" rel="stylesheet" />
+	<link th:href="@{/resources/css/daterangepicker.css}" rel="stylesheet" />
+</th:block>
+<body>
+	<th:block layout:fragment="content"
+		th:with="recurso=#{__|rec-hub-${consulta}|__}, permisoRegistro=${#authorization.expression('hasPermission(#vars.recurso, ''1'')')}, permisoReporte=${#authorization.expression('hasPermission(#vars.recurso, ''5'')')}, permisoConsulta=${#authorization.expression('hasPermission(#vars.recurso, ''14'')')}, permisoActivar=${#authorization.expression('hasPermission(#vars.recurso, ''10'')')}, permisoRecargar=${#authorization.expression('hasPermission(#vars.recurso, ''11'')')}, permisoReasignar=${#authorization.expression('hasPermission(#vars.recurso, ''12'')')}, permisoBloquear=${#authorization.expression('hasPermission(#vars.recurso, ''13'')')}, permisoAsociar=${#authorization.expression('hasPermission(#vars.recurso, ''15'')')}">
+		<div class="page-content-wrap">
+			<div class="row">
+				<div class="col-md-12 col-sm-12 col-xs-12">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h3 class="panel-title" th:text="|Consulta de #{__${consulta}__}|"></h3>
+							<ul class="panel-controls">
+							</ul>
+						</div>
+						<div class="panel-body">
+							<th:block th:replace="~{template/fragments/wshub/filtrosParaTablaConsulta :: criterioBusqueda(consulta=${consulta})}"></th:block>
+						</div>
+					</div>
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h3 id="datoAdicional" class="panel-title text-bold pull-left"></h3>
+
+							<h3 class="panel-title pull-right" th:text="|Resultados de #{__${consulta}__}|"></h3>
+
+
+						</div>
+						<div class="panel-body">
+							<table id="tablaConsulta" width="100%" class="table table-bordered table-condensed nowrap display table-hover">
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<th:block th:replace="~{template/fragments/wshub/modalDetalleOperacion :: modalDetalleOperacion(tipo=${consulta})}">
+		</th:block>
+
+		<th:block th:if="${consulta} == 'saldosMovimientos'">
+			<th:block th:replace="~{template/fragments/wshub/modalAutenticacion :: modalAutenticacion}">
+			</th:block>
+		</th:block>
+
+
+
+	</th:block>
+	<th:block layout:fragment="script">
+		<script th:src="@{/resources/js/datatables/jquery.dataTables.min.js}"></script>
+		<script th:src="@{/resources/js/datatables/dataTables.bootstrap.min.js}"></script>
+		<script th:src="@{/resources/js/datatables/dataTables.responsive.min.js}"></script>
+		<script th:src="@{/resources/js/datatables/dataTables.show.rows.js}"></script>
+		<script th:src="@{/resources/js/datatables/dataTables.select.min.js}"></script>
+		<script th:src="@{/resources/js/bootstrap/bootstrap-notify.min.js}"></script>
+		<script th:src="@{/resources/js/jquery/popupwindow.min.js}"></script>
+		<script th:src="@{/resources/js/jquery/jquery.serializejson.min.js}"></script>
+		<script th:src="@{/resources/js/jquery/jquery.validate.min.js}"></script>
+		<script th:src="@{/resources/js/jquery/additional-methods.min.js}"></script>
+		<script th:src="@{/resources/js/jquery/select2.full.min.js}"></script>
+		<script th:src="@{/resources/js/jquery/moment.min.js}"></script>
+		<script th:src="@{/resources/js/jquery/daterangepicker.js}"></script>
+		<script th:src="@{/resources/js/bootstrap/bootstrap-datepicker.min.js}"></script>
+
+		<script th:src="@{/resources/js/pagina/consultaws/{consulta}/{consulta}.js(consulta = ${consulta})}"></script>
+		<script th:src="@{/resources/js/pagina/consultaws/{consulta}/{consulta}Formulario.js(consulta = ${consulta})}"></script>
+		<script th:src="@{/resources/js/util/formularioUtil.js}"></script>
+	</th:block>
+
+</body>
+</html>

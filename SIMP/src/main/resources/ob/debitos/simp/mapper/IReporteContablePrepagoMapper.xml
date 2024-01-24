@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ob.debitos.simp.mapper.IReporteContablePrepagoMapper">
+
+	<select id="generarArchivoContable" statementType="CALLABLE" 
+		parameterType="CriterioBusquedaArchivoContablePrepago"
+		resultType="ArchivoContableFondosPrepago">
+		{
+			call P_GENERA_ARCHIVO_CONTABLE 
+			( 
+				#{fechaProceso, jdbcType = DATE, mode = IN},
+				#{idInstitucion, jdbcType = INTEGER, mode = IN},
+				#{tipo, jdbcType = VARCHAR, mode = IN}
+			)
+		}
+	</select>
+
+	<select id="generarReporteContable" statementType="CALLABLE" 
+		parameterType="CriterioBusquedaArchivoContablePrepago"
+		resultType="ReporteContableLogCont">
+		{
+			call P_GENERA_REPORTE_CONTABLE 
+			( 
+				#{fechaInicio, jdbcType = DATE, mode = IN},
+				#{fechaFin, jdbcType = DATE, mode = IN},
+				#{idInstitucion, jdbcType = INTEGER, mode = IN},
+				#{tipo, jdbcType = VARCHAR, mode = IN}
+			)
+		}
+	</select>
+</mapper>

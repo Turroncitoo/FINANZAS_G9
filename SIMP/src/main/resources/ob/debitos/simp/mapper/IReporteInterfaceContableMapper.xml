@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="ob.debitos.simp.mapper.IReporteInterfaceContableMapper">
+
+	<select id="buscarInterfaceContablePorCriterio" resultType="ReporteInterfaceContable">
+			SELECT * FROM ReporteInterfaceContable reporte
+		<where>
+			<if
+				test="(fechaProcesoInicio != null and fechaProcesoInicio != '') and (fechaProcesoFin != null and fechaProcesoFin != '')">
+				AND reporte.fechaProceso BETWEEN #{fechaProcesoInicio} AND #{fechaProcesoFin}
+			</if>
+			<if
+				test="(idInstitucion != null)">
+				 AND reporte.idInstitucion = #{idInstitucion}
+			</if>
+			 <if test="idEmpresa != null and idEmpresa != -1">
+                AND reporte.idEmpresa = #{idEmpresa}
+            </if>
+            <if test="clientes != null and clientes.size() > 0">
+                AND reporte.idCliente IN
+                <foreach item="item" index="index" collection="clientes"
+                         open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+		</where>
+		ORDER BY fechaProceso DESC
+				,idInstitucion        ASC
+				,idEmpresa            ASC
+				,idCliente            ASC
+				,membresia            ASC
+				,claseServicio        ASC
+				,origen               ASC
+				,claseTransaccion     ASC
+				,codigoTransaccion    ASC
+				,institucionEmisora   ASC
+				,institucionReceptora ASC
+				,fechaTransaccion     DESC
+				,horaTransaccion      DESC;
+	</select>
+</mapper>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ob.debitos.simp.mapper.IReporteConciliacionResumenSaldosMapper">
+
+	<resultMap type="ReporteMoneda" id="mapReporteResumen">
+		<id property="codigoMoneda" column="codigoMoneda"></id>
+		<id property="descripcionMoneda" column="descripcionMoneda"></id>
+		<collection property="reporteConciliacionResumen" javaType="List" ofType="ReporteConciliacionResumenPorPeriodo">
+			<result property="idInstitucion" column="idInstitucion"></result>
+			<result property="descripcionInstitucion" column="descripcionInstitucion"></result>
+			<result property="idCategoria" column="idCategoria"></result>
+			<result property="descripcionCategoria" column="descripcionCategoria"></result>
+			<result property="tipoTransaccion" column="tipoTransaccion"></result>
+			<result property="descripcionTipoTransaccion" column="descripcionTipoTransaccion"></result>
+			<result property="cantidad" column="cantidad"></result>
+			<result property="valorCargo" column="valorCargo"></result>
+			<result property="valorAbono" column="valorAbono"></result>
+			<result property="valorComision" column="valorComision"></result>
+			<result property="valorTotal" column="valorTotal"></result>
+		</collection>
+	</resultMap>
+	
+	<select id="buscarResumenPorCriterios" resultMap="mapReporteResumen">
+			{call P_GENERA_REPORTE_CONCILIACION_SALDOS ( 
+				#{verbo, jdbcType = VARCHAR, mode = IN},
+	            #{fechaProceso, jdbcType = DATE, mode = IN},
+	            #{mesProceso,	jdbcType = INTEGER, mode = IN},
+	            #{anioProceso, jdbcType = INTEGER, mode = IN},
+	            #{idsInstitucion, jdbcType = VARCHAR, mode = IN}
+	         )}
+	</select>
+	
+</mapper>

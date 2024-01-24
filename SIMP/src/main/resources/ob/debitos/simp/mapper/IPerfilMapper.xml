@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ob.debitos.simp.mapper.IPerfilMapper">
+
+	<select id="buscarRecursosPorIdPerfil" resultMap="mapBusRecursosPorIdPerfil">
+		SELECT 	*
+  		FROM 	ConsultaPerfilRecursoCategoria
+  		WHERE
+  				idPerfil = #{idPerfil}
+	</select>
+	
+	<resultMap id="mapBusRecursosPorIdPerfil" type="Perfil">
+		<id property="idPerfil" column="idPerfil"></id>
+		<collection property="recursos" javaType="List" ofType="SecRecurso">
+			<id property="idRecurso" column="idRecurso"></id>
+			<result property="accionRecurso" column="accionRecurso"/>
+		</collection>
+	</resultMap>
+
+</mapper>

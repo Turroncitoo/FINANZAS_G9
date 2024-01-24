@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+	<th:block th:fragment="autorizacion">
+		<table id="tablaResumenMovimiento" width="100%"
+			class="table table-bordered table-condensed nowrap display table-hover">
+			<tfoot>
+				<tr>
+					<td class="dt-right" colspan="8">Total</td>
+					<td></td>
+					<td></td>
+				</tr>
+			</tfoot>
+		</table>
+	</th:block>
+
+	<th:block th:fragment="swDmpLog">
+		<table id="tablaResumenMovimiento" width="100%"
+			class="table table-bordered table-condensed nowrap display table-hover">
+			<tfoot>
+				<tr>
+					<td class="dt-right" colspan="11">Total</td>
+					<td></td>
+					<td></td>
+				</tr>
+			</tfoot>
+		</table>
+	</th:block>
+
+	<th:block th:fragment="transaccionAprobadaAgencia">
+		<table id="tablaResumenMovimiento" width="100%"
+			class="table table-bordered table-condensed nowrap display table-hover">
+			<tfoot>
+				<tr>
+					<td class="dt-right" colspan="8">Total</td>
+					<td></td>
+					<td></td>
+				</tr>
+			</tfoot>
+		</table>
+	</th:block>
+
+	<th:block th:fragment="logContableEmisor">
+		<table id="tablaResumenLogContableEmisor" width="100%"
+			class="table table-bordered table-condensed nowrap display table-hover">
+			<thead>
+				<tr>
+					<th>Fecha Proceso</th>
+					<th>Empresa</th>
+					<th>Cliente</th>
+					<th>Logo</th>
+					<th>Producto</th>
+					<th>Rol Transacción</th>
+					<th>Membresía</th>
+					<th>Servicio</th>
+					<th>Origen</th>
+					<th>Clase Transacción</th>
+					<th>Código Transacción</th>
+					<th>Código Respuesta</th>
+					<th>Canal</th>
+					<th>Giro Negocio</th>
+					<th>Inst. Receptora</th>
+					<th>Moneda</th>
+					<th>Cantidad</th>
+					<th>Importe</th>
+					<th th:each="conceptoComision,iter : ${conceptoComisiones}" class="conceptoComision comision filtrable"
+						data-tooltip="tooltip"
+						th:attr="title=${conceptoComision.descripcion}, idConceptoComision=${conceptoComision.idConceptoComision}, name=${iter.index}"
+						th:text="${conceptoComision.abreviatura}"></th>
+					<th class="comision filtrable dt-right">Total</th>
+				</tr>
+			</thead>
+			<tfoot>
+				<tr>
+					<td class="dt-right" colspan="16">Total</td>
+					<td class="dt-right"></td>
+					<td class="dt-right monto"></td>
+					<td th:each="conceptoComision,iter : ${conceptoComisiones}"
+						class="comision conceptoComision dt-right" data-tooltip="tooltip"
+						th:attr="title=${conceptoComision.descripcion}, idConceptoComision=${conceptoComision.idConceptoComision}, name=${iter.index}"></td>
+					<td class="comision dt-right"></td>
+				</tr>
+			</tfoot>
+		</table>
+		<!-- <div class="tabs">
+			<ul class="nav nav-tabs">
+				<li th:each="moneda,itStat: ${monedas}"
+					th:class="${itStat.index == 0}?'active':''"
+					th:switch="${moneda.codigoMoneda}">
+					<a th:case="840"
+					data-toggle="tab" th:href="|#${moneda.codigoMoneda}|"
+					th:text="|${moneda.codigoMoneda} - DÓLARES|"></a>
+					<a th:case="604"
+					   data-toggle="tab" th:href="|#${moneda.codigoMoneda}|"
+					   th:text="|${moneda.codigoMoneda} - ${moneda.descripcion}|"></a>
+				</li>
+			</ul>
+			<div class="tab-content">
+				<div th:each="moneda,iterStat : ${monedas}"
+					 th:id="|${moneda.codigoMoneda}|" class="tab-pane fade in"
+					 th:classappend="${iterStat.index == 0}?'active':''">
+					<table
+						th:attr="idTabla=|tabla-${moneda.codigoMoneda}|,id=|tabla-${moneda.codigoMoneda}|,
+							data-permiso-detalle=${permisoConsultaDetalle}"
+						class="table table-bordered table-condensed nowrap display table-hover tablaResumenLogContableEmisor">
+						<thead>
+							<tr>
+								<th class="filtrable">Fecha Proceso</th>
+								<th class="filtrable">Empresa</th>
+								<th class="filtrable">Cliente</th>
+								<th class="filtrable">BIN</th>
+								<th class="filtrable">Sub BIN</th>
+								<th class="filtrable">Rol Transacción</th>
+								<th class="filtrable">Membresía</th>
+								<th class="filtrable">Servicio</th>
+								<th class="filtrable">Origen</th>
+								<th class="filtrable">Clase Transacción</th>
+								<th class="filtrable">Código Transacción</th>
+								<th class="filtrable">Código Respuesta</th>
+								<th class="filtrable">Canal</th>
+								<th class="filtrable">Giro Negocio</th>
+								<th class="filtrable">Inst. Receptora</th>
+								<th class="filtrable">Moneda</th>
+								<th class="filtrable">Cantidad</th>
+								<th class="filtrable">Importe</th>
+								<th th:each="conceptoComision,iter : ${conceptoComisiones}" class="conceptoComision comision filtrable"
+									data-tooltip="tooltip"
+									th:attr="title=${conceptoComision.descripcion}, idConceptoComision=${conceptoComision.idConceptoComision}, name=${iter.index}"
+									th:text="${conceptoComision.abreviatura}"></th>
+								<th class="comision filtrable">Total</th>
+							</tr>
+						</thead>
+						<tfoot>
+							<tr>
+								<td colspan="16">Total</td>
+								<td class="dt-right"></td>
+								<td class="dt-right monto"></td>
+								<td th:each="conceptoComision,iter : ${conceptoComisiones}" class="dt-right comision" data-tooltip="tooltip"
+									th:attr="title=${conceptoComision.descripcion}, idConceptoComision=${conceptoComision.idConceptoComision}, name=${iter.index}"></td>
+								<td class="dt-right comision"></td>
+							</tr>
+						</tfoot>
+					</table>
+				</div>
+			</div>
+		</div> -->
+	</th:block>
+
+	<th:block th:fragment="logContableReceptor">
+		<table id="tablaResumenLogContableReceptor" width="100%"
+			class="table table-bordered table-condensed nowrap display table-hover">
+			<thead>
+				<tr>
+					<th>Fecha Proceso</th>
+					<th>Membresía</th>
+					<th>Servicio</th>
+					<th>Rol</th>
+					<th>Canal</th>
+					<th>Origen</th>
+					<th>ATM</th>
+					<th>Transacción</th>
+					<th>Giro de Negocio</th>
+					<th>Emisor</th>
+					<th>Respuesta</th>
+					<th>Moneda</th>
+					<th>Cantidad</th>
+					<th>Monto</th>
+					<th th:each="conceptoComision,iter : ${conceptoComisiones}" class="conceptoComision comision"
+						data-tooltip="tooltip"
+						th:attr="title=${conceptoComision.descripcion}, idConceptoComision=${conceptoComision.idConceptoComision}, name=${iter.index}"
+						th:text="${conceptoComision.abreviatura}"></th>
+					<th class="comision dt-right">Total</th>
+				</tr>
+			</thead>
+			<tfoot>
+				<tr>
+					<td class="dt-right" colspan="12">Total</td>
+					<td class="dt-right"></td>
+					<td class="dt-right"></td>
+					<td th:each="conceptoComision,iter : ${conceptoComisiones}" class="dt-right"
+						data-tooltip="tooltip"
+						th:attr="title=${conceptoComision.descripcion}, idConceptoComision=${conceptoComision.idConceptoComision}, name=${iter.index}"></td>
+					<td class="dt-right"></td>
+				</tr>
+			</tfoot>
+		</table>
+	</th:block>
+</body>
+</html>

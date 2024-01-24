@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+	<th:block th:fragment="criterioBusqueda">
+			<fieldset class="well">
+				<legend class="well-legend">Busqueda</legend>
+				<div id="rangoFechas">
+					<form id="formParamRangoFechas" class="form-horizontal">
+						<div class="form-group">
+							<div class="group">
+								<label class="col-sm-1 col-md-1 control-label"
+									for="rangoFechasTransaccion">Fecha intervalo</label>
+								<div class="col-lg-3 col-md-3 input-group">
+									<span class="input-group-addon"> <i
+										class="fa fa-calendar"></i></span> <input id="rangoFechasDesde"
+										type="text" class="form-control" readonly="readonly"
+										name="fechaDesde" />
+								</div>
+							</div>
+							<div class="group">
+								<div class="col-sm-1">
+									<button id="btnBuscarPorRangoFecha" class="btn btn-primary"
+										type="button">
+										<i class="fa fa-search"></i> Buscar
+									</button>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+			</fieldset>
+	</th:block>
+</body>
+</html>

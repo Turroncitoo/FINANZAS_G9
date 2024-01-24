@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" lang="es"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+</head>
+
+<body>
+	<div id="menu-lateral" class="page-sidebar">
+		<ul class="x-navigation">
+			<li id="tituloClinica" class="xn-logo"><a
+				th:text="#{configuracion.header.responsive.titulo}"></a> <a href="#"
+				class="x-navigation-control"></a></li>
+			<li id="imagen" class="xn-profile"><a class="profile-mini">
+					<img th:src="@{/resources/image/icono_institucion.ico}">
+			</a>
+				<div class="profile">
+					<img th:src="@{/resources/image/logo_lateral.png}" width="100%" />
+				</div></li>
+			<li class="xn-title">Navegación</li>
+			<th:block sec:authorize="isAuthenticated()">
+				<li><a th:href="@{/inicio}"> <span class="fa fa-home"></span>
+						Inicio
+				</a></li>
+				<!--  MANTENIMIENTOS -->
+				<li
+					sec:authorize="hasPermission('[MANT_LOGO],[MANT_EMP],[MANT_CLTE],[MANT_INST],[MANT_PRODUCT],[MANT_BIN],[MANT_SUBBIN],[MANT_AFINIDAD],[MANT_CONCEPTO_COMISION],[MANT_MEMB],[MANT_CLSSERV],[MANT_ORIGEN],[MANT_CLSTXN],[MANT_CODTXN],[MANT_PANENTRYMODE],[MANT_PINENTRYCAPABILITY],[MANT_METIDTHB],[MANT_MODOENTPOS],[MANT_TITERMPOS],[MANT_INDCOTEL],[MANT_PARAMGRAL],[MANT_CANAL],[MANT_MULTABCAB],[MANT_MULTABDET],[MANT_PARAMSFTP],[MANT_PARAMSFTPDIR],[MANT_PARAMSFTPPRO],[MANT_PARAMSFTPARC],[MANT_RPTACONCILUBA],[MANT_PROCSW],[MANT_RPTASW],[MANT_CTA],[MANT_CTAAJUS],[MANT_CONTABEMI],[MANT_CONTABMIS],[MANT_CODIGOFACTURACION],[MANT_CANALSEGUROWS], [MANT_CONTAC_RECAUDA],[MANT_CONTAC_RECAUDA]','PARENT_MENU')"
+					class="xn-openable"><a> <span class="fa fa-table"></span>
+						<span class="xn-text">Mantenimientos</span>
+				</a>
+					<ul>
+						<li
+							sec:authorize="hasPermission('[MANT_LOGO],[MANT_EMP],[MANT_CLTE],[MANT_INST],[MANT_PRODUCT], [MANT_BIN],[MANT_SUBBIN],[MANT_AFINIDAD]','PARENT_MENU')"
+							class="xn-openable"><a title="Parámetros Generales"> <span
+								class="fa fa-file"></span><span> Generales</span>
+						</a>
+							<ul>
+								<li sec:authorize="hasPermission('MANT_EMP','ANY')"><a
+									th:href="@{/empresa}"> <span class="fa fa-file"></span>Empresa
+								</a></li>
+								<li sec:authorize="hasPermission('MANT_CLTE','ANY')"><a
+									th:href="@{/cliente}"> <span class="fa fa-file"></span>
+										Clientes
+								</a></li>
+								<li sec:authorize="hasPermission('MANT_INST','ANY')"><a
+									th:href="@{/institucion}"> <span class="fa fa-file"></span>
+										Instituciones
+								</a></li>
+								<li sec:authorize="hasPermission('MANT_LOGO','ANY')"><a
+									th:href="@{/logo}"> <span class="fa fa-file"></span>
+										Logos
+								</a></li>
+								<li sec:authorize="hasPermission('MANT_BIN','ANY')"><a
+									th:href="@{/bin}"> <span class="fa fa-file"></span> BIN
+								</a></li>
+								<li sec:authorize="hasPermission('MANT_SUBBIN','ANY')"><a
+									th:href="@{/subBin}"> <span class="fa fa-file"></span>
+										SubBIN
+								</a></li>
+								<li sec:authorize="hasPermission('MANT_PRODUCT','ANY')"><a
+									th:href="@{/producto}"> <span class="fa fa-file"></span>
+										Producto
+								</a></li>
+								<li sec:authorize="hasPermission('MANT_AFINIDAD','ANY')"><a
+									th:href="@{/afinidad}"> <span class="fa fa-file"></span>
+										Afinidad
+								</a></li>
+								<li sec:authorize="hasPermission('MANT_CLTEAFIN','ANY')"><a
+									th:href="@{/clienteAfinidad}"> <span class="fa fa-file"></span>
+										Cliente Afinidad
+								</a></li>
+							</ul></li>
+						<li
+							sec:authorize="hasPermission('[MANT_CONCEPTO_COMISION]','PARENT_MENU')"
+							class="xn-openable"><a title="Parámetros Comisión"> <span
+								class="fa fa-file"></span><span> Comisiones</span>
+						</a>
+							<ul>
+								<li sec:authorize="hasPermission('MANT_CONCEPTO_COMISION','ANY')"><a
+									th:href="@{/conceptoComision}"> <span class="fa fa-file"></span>Concepto Comisión
+								</a></li>
+							</ul></li>
+						<li
+							sec:authorize="hasPermission('[MANT_MEMB],[MANT_CLSSERV],[MANT_ORIGEN],[MANT_CLSTXN],[MANT_CODTXN],[MANT_CODIGOFACTURACION]','PARENT_MENU')"
+							class="xn-openable"><a title="Parámetros de Compensación">
+								<span class="fa fa-file"></span> Compensación
+						</a>
+							<ul>
+								<li sec:authorize="hasPermission('MANT_MEMB','ANY')"><a
+									th:href="@{/membresia}"> <span class="fa fa-file"></span>Membresías
+								</a></li>
+								<li sec:authorize="hasPermission('MANT_CLSSERV','ANY')"><a
+									th:href="@{/claseServicio}"> <span class="fa fa-file"></span>
+										Clases de Servicio
+								</a></li>
+								<li sec:authorize="hasPermission('MANT_ORIGEN','ANY')"><a
+									th:href="@{/origen}"> <span class="fa fa-file"></span>
+										Orígenes
+								</a></li>
+								<li sec:authorize="hasPermission('MANT_CLSTXN','ANY')"><a
+									th:href="@{/claseTransaccion}"> <span class="fa fa-file"></span>
+										Clases de Transacción
+								</a></li>
+								<li sec:authorize="hasPermission('MANT_CODTXN','ANY')"><a
+									th:href="@{/codigoTransaccion}"> <span class="fa fa-file"></span>
+										Códigos de Transacción
+								</a></li>
+								<li
+									sec:authorize="hasPermission('MANT_CODIGOFACTURACION','ANY')">
+									<a th:href="@{/codigoFacturacion}"> <span
+										class="fa fa-file"></span>Códigos de Facturación
+								</a>
+								</li>
+							</ul></li>
+						<li
+							sec:authorize="hasPermission('[MANT_PANENTRYMODE],[MANT_PINENTRYCAPABILITY],[MANT_METIDTHB],[MANT_MODOENTPOS],[MANT_TITERMPOS],[MANT_INDCOTEL],[MANT_PARAMGRAL],[MANT_CANAL],[MANT_MULTABCAB],[MANT_MULTABDET],[MANT_RPTACONCILUBA],[MANT_PROCSW],[MANT_RPTASW],[MANT_MOTRECLAMO],[MANT_PARAMSFTP],[MANT_PARAMSFTPDIR],[MANT_PARAMSFTPPRO],[MANT_PARAMSFTPARC]','PARENT_MENU')"
+							class="xn-openable"><a title="Parámetros de procesamiento">
+								<span class="fa fa-file"></span> Procesamiento
+						</a>
+							<ul>
+								<li
+									sec:authorize="hasPermission('[MANT_PANENTRYMODE],[MANT_PINENTRYCAPABILITY],[MANT_METIDTHB],[MANT_MODOENTPOS],[MANT_TITERMPOS],[MANT_INDCOTEL]','PARENT_MENU')"
+									class="xn-openable"><a title="Parámetros Internos"> <span
+										class="fa fa-file"></span> Parámetros VISA
+								</a>
+									<ul>
+										<li
+											sec:authorize="hasPermission('[MANT_PANENTRYMODE],[MANT_PINENTRYCAPABILITY]','PARENT_MENU')"
+											class="xn-openable"><a
+											title="Parámetros Marcas Internacionales"> <span
+												class="fa fa-file"></span>Base I
+										</a>
+											<ul>
+												<li sec:authorize="hasPermission('MANT_PANENTRYMODE','ANY')">
+													<a th:href="@{/modoIngresoPAN}"> <span
+														class="fa fa-file"></span>Modo Ingreso PAN
+												</a>
+												</li>
+												<li
+													sec:authorize="hasPermission('MANT_PINENTRYCAPABILITY','ANY')">
+													<a th:href="@{/capacidadIngresoPIN}"> <span
+														class="fa fa-file"></span>Capacidad Ingreso PIN
+												</a>
+												</li>
+											</ul></li>
+										<li
+											sec:authorize="hasPermission('[MANT_METIDTHB],[MANT_MODOENTPOS],[MANT_TITERMPOS],[MANT_INDCOTEL]','PARENT_MENU')"
+											class="xn-openable"><a
+											title="Parámetros Marcas Internacionales"> <span
+												class="fa fa-file"></span>Base II
+										</a>
+											<ul>
+												<li sec:authorize="hasPermission('MANT_METIDTHB','ANY')">
+													<a th:href="@{/metodoIdThb}"> <span class="fa fa-file"></span>Método Id THB
+												</a>
+												</li>
+												<li sec:authorize="hasPermission('MANT_MODOENTPOS','ANY')">
+													<a th:href="@{/modoEntradaPos}"> <span
+														class="fa fa-file"></span>Modo Entrada POS
+												</a>
+												</li>
+												<li sec:authorize="hasPermission('MANT_TITERMPOS','ANY')">
+													<a th:href="@{/tipoTerminalPos}"> <span
+														class="fa fa-file"></span>Tipo Terminal POS
+												</a>
+												</li>
+												<li sec:authorize="hasPermission('MANT_INDCOTEL','ANY')">
+													<a th:href="@{/indCorreoTelefono}"> <span
+														class="fa fa-file"></span>Ind Correo Telefono
+												</a>
+												</li>
+											</ul></li>
+									</ul></li>
+
+								<li
+									sec:authorize="hasPermission('[MANT_PARAMGRAL],[MANT_CANAL],[MANT_MULTABCAB],[MANT_MULTABDET],[MANT_MOTRECLAMO]','PARENT_MENU')"
+									class="xn-openable"><a title="Parámetros Internos"> <span
+										class="fa fa-file"></span> Parámetros Internos
+								</a>
+									<ul>
+										<li sec:authorize="hasPermission('MANT_PARAMGRAL','ANY')">
+											<a th:href="@{/parametroGeneral}"> <span
+												class="fa fa-file"></span> Parámetros Generales
+										</a>
+										</li>
+										
+										<li sec:authorize="hasPermission('MANT_CANAL','ANY')"><a
+											th:href="@{/canal}"> <span class="fa fa-file"></span>
+												Canal
+										</a></li>
+										<!-- <li sec:authorize="hasPermission('MANT_MOTRECLAMO','ANY')"><a
+                                            th:href="@{/motivoReclamo}"> <span class="fa fa-file"></span>
+                                        Motivos de Reclamos
+                                    </a></li> -->
+										<li
+											sec:authorize="hasPermission('MANT_MULTABCAB','ANY') or hasPermission('MANT_MULTABDET','ANY')">
+											<a th:href="@{/multiTabCab}"> <span class="fa fa-file"></span>
+												Tabla de Tablas
+										</a>
+										</li>
+									</ul></li>
+
+								<li
+									sec:authorize="hasPermission('[MANT_RPTACONCILUBA],[MANT_PROCSW],[MANT_RPTASW]','PARENT_MENU')"
+									class="xn-openable"><a title="Parámetros UNIBANCA"> <span
+										class="fa fa-file"></span> Parámetros UBA
+								</a>
+									<ul>
+										<li sec:authorize="hasPermission('MANT_RPTACONCILUBA','ANY')">
+											<a th:href="@{/rptaConcilUba}"> <span class="fa fa-file"></span>
+												Conciliación UBA
+										</a>
+										</li>
+										<li sec:authorize="hasPermission('MANT_PROCSW','ANY')"><a
+											th:href="@{/codigoProcesoSwitch}"> <span
+												class="fa fa-file"></span> Proceso Switch
+										</a></li>
+										<li sec:authorize="hasPermission('MANT_RPTASW','ANY')"><a
+											th:href="@{/codigoRptaSwitch}"> <span class="fa fa-file"></span>
+												Respuesta Switch
+										</a></li>
+										<li sec:authorize="hasPermission('MANT_RPTAVISA','ANY')">
+											<a th:href="@{/codigoRptaVisa}"> <span class="fa fa-file"></span>Códigos
+												Respuesta VISA
+										</a>
+										</li>
+									</ul></li>
+							</ul></li>
+						<li
+							sec:authorize="hasPermission('[MANT_CTA],[MANT_CTAAJUS],[MANT_CONTABEMI],[MANT_CONTABMIS],[MANT_CONTAC_RECAUDA]','PARENT_MENU')"
+							class="xn-openable"><a
+							title="Parámetros de Cuentas Contables"> <span
+								class="fa fa-file"></span> Cuentas Contables
+						</a>
+							<ul>
+								<li sec:authorize="hasPermission('MANT_CTA','ANY')"><a
+									th:href="@{/cuentaContable}"> <span class="fa fa-file"></span>Rubros
+										Contables
+								</a></li>
+								<li sec:authorize="hasPermission('MANT_CTAAJUS','ANY')"><a
+									th:href="@{/cuentaAjuste}"> <span class="fa fa-file"></span>Cuentas
+										Ajuste
+								</a></li>
+								<li sec:authorize="hasPermission('MANT_CONTABEMI','ANY')">
+									<a th:href="@{/cuentaContableEmisor}"> <span
+										class="fa fa-file"></span> Emisor
+								</a>
+								</li>
+								<li sec:authorize="hasPermission('MANT_CONTABMIS','ANY')">
+									<a th:href="@{/cuentaContableMiscelaneo}"> <span
+										class="fa fa-file"></span> Misceláneos
+								</a>
+								</li>
+								
+								<li sec:authorize="hasPermission('MANT_CONTAC_RECAUDA','ANY')"><a
+										th:href="@{/mantenimientos/recaudacionRecargas}"> <span class="fa fa-file"></span>Recaudación Recargas
+									</a></li>
+							</ul></li>
+						<li
+							sec:authorize="hasPermission('[MANT_CANALSEGUROWS]','PARENT_MENU')"
+							class="xn-openable"><a
+							title="Parámetros de Web Services"> <span
+								class="fa fa-file"></span> Servicios Web
+						</a>
+							<ul>
+								<li sec:authorize="hasPermission('MANT_CANALSEGUROWS','ANY')"><a
+									th:href="@{/canalesSegurosWS}"> <span class="fa fa-file"></span>Canales 
+										Seguros
+								</a></li>
+								
+								<li sec:authorize="hasPermission('MANT_PARAMWS','ANY')">
+											<a th:href="@{/parametroWS}"> <span class="fa fa-file"></span>
+												Parámetros
+										</a>
+										</li>
+							</ul>
+							
+										
+							</li>
+					</ul>
+					<ul>
+						<li sec:authorize="hasPermission('[MANT_PARAMSFTP],[MANT_PARAMSFTPPRO],[MANT_PARAMSFTPDIR],[MANT_PARAMSFTPARC]','PARENT_MENU')" class="xn-openable">
+								<a title="Parámetros SFTP"> <span
+												class="fa fa-file"></span> Parámetros SFTP
+										</a>
+											<ul>
+
+												<li sec:authorize="hasPermission('MANT_PARAMSFTP','ANY')">
+													<a th:href="@{/parametroSFTP}"> <span
+														class="fa fa-file"></span> Generales
+												</a>
+												</li>
+												<li sec:authorize="hasPermission('MANT_PARAMSFTPPRO','ANY')">
+													<a th:href="@{/parametroSFTPProcesos}"> <span
+														class="fa fa-file"></span> Procesos
+												</a>
+												</li>
+												<li sec:authorize="hasPermission('MANT_PARAMSFTPDIR','ANY')">
+													<a th:href="@{/parametroSFTPDirectorios}"> <span
+														class="fa fa-file"></span> Directorios
+												</a>
+												</li>
+												<li sec:authorize="hasPermission('MANT_PARAMSFTPARC','ANY')">
+													<a th:href="@{/parametroSFTPArchivos}"> <span
+														class="fa fa-file"></span> Archivos
+												</a>
+												</li>
+											</ul>
+						</li>
+						
+						<!-- PARAMETROS INTERFACE CONTABLE -->
+					
+						<li sec:authorize="hasPermission('[MANT_PARAMINTCONT]','PARENT_MENU')" class="xn-openable">
+								<a title="Parámetros Interface Contable"> 
+										<span class="fa fa-file"></span> Parámetros Interface</a>
+										
+											<ul>
+												<li sec:authorize="hasPermission('MANT_PARAMINTCONT','ANY')">
+													<a th:href="@{/parametroIntCon}"> <span
+														class="fa fa-file"></span> Contables
+												</a>
+												</li>
+											</ul>
+						</li>
+					
+					</ul>
+				</li>
+
+				<!--  REPORTES -->
+				<li
+					sec:authorize="hasPermission('[RPT_CUADREXPAGAR],[RPT_CONTCOMIS],[RPT_CONTMOV],[RPT_CONTDEFAULT],[RPT_ESTCTA],[RPT_AUTCANAL],[RPT_AUTCODRPTA],[RPT_AUTIDPROC],[RPT_MOVSWDMPLOG],[RPT_MOVLGCNTEMI],[RPT_COMPEMICANAL],[RPT_COMPEMIINST],[RPT_COMPEMIGIRNEG],[RPT_COMISCUADRE],[RPT_EXTCONT],[RPT_SUMARIOCOMP],[RPT_CONT],[RPT_ESTADOTARJETAS],[RPT_RECARGAS],[RPT_TARJETAS_VENDIDAS],[RPT_PERSONAS],[RPT_INTER_CONTABLE],[RPT_FACTURACIONUBA],[RPT_CONTMIS]','PARENT_MENU')"
+					class="xn-openable"><a> <span class="fa fa-files-o"></span>
+						<span class="xn-text">Reportes</span>
+				</a>
+					<ul>
+						<li sec:authorize="hasPermission('RPT_ESTCTA','ANY')"><a
+							th:href="@{/reporte/prepago/estadoCuenta}"> <span
+								class="fa fa-file"></span> Estado de Cuenta
+						</a></li>
+
+						<li
+							sec:authorize="hasPermission('[RPT_AUTCANAL],[RPT_AUTCODRPTA],[RPT_AUTIDPROC]','PARENT_MENU')"
+							class="xn-openable"><a> <span class="fa fa-file"></span>Autorizaciones
+						</a>
+							<ul>
+								<li sec:authorize="hasPermission('RPT_AUTCANAL','ANY')"><a
+									th:href="@{/reporte/autorizacion/canal}"> <span
+										class="fa fa-file"></span>Canales
+								</a></li>
+								<li sec:authorize="hasPermission('RPT_AUTCODRPTA','ANY')">
+									<a th:href="@{/reporte/autorizacion/respuestaSwitch}"> <span
+										class="fa fa-file"></span>Código de Respuesta
+								</a>
+								</li>
+								<li sec:authorize="hasPermission('RPT_AUTIDPROC','ANY')"><a
+									th:href="@{/reporte/autorizacion/procesoSwitch}"> <span
+										class="fa fa-file"></span>Id Proceso
+								</a></li>
+							</ul></li>
+
+						<li
+							sec:authorize="hasPermission('[RPT_CONTCOMIS],[RPT_CONTMOV],[RPT_CONTDEFAULT],[RPT_CONTMIS]','PARENT_MENU')"
+							class="xn-openable"><a> <span class="fa fa-file"></span>
+								Contabilización
+						</a>
+							<ul>
+								<li sec:authorize="hasPermission('[RPT_CONTMOV]','PARENT_MENU')"
+									class="xn-openable"><a> <span class="fa fa-file"></span>Fondos
+								</a>
+									<ul>
+										<li sec:authorize="hasPermission('RPT_CONTMOV','ANY')"><a
+											th:href="@{/reporte/contabilizacion/movimiento}"> <span
+												class="fa fa-file"></span>Emisor
+										</a></li>
+									</ul></li>
+								<li
+									sec:authorize="hasPermission('[RPT_CONTCOMIS]','PARENT_MENU')"
+									class="xn-openable"><a> <span class="fa fa-file"></span>Comisiones
+								</a>
+									<ul>
+										<li sec:authorize="hasPermission('RPT_CONTCOMIS','ANY')">
+											<a th:href="@{/reporte/contabilizacion/comisiones}"> <span
+												class="fa fa-file"></span>Emisor
+										</a>
+										</li>
+									</ul></li>
+								<li sec:authorize="hasPermission('RPT_CONTMIS','ANY')"><a
+									th:href="@{/reporte/contabilizacion/miscelaneos}"> <span
+										class="fa fa-file"></span>Misceláneos
+								</a></li>
+								<li sec:authorize="hasPermission('RPT_CONTDEFAULT','ANY')">
+									<a th:href="@{/reporte/contabilizacion/detalle/cuentaDefault}">
+										<span class="fa fa-file"></span>Cuentas Default
+								</a>
+								</li>
+							</ul></li>
+						<li
+							sec:authorize="hasPermission('[RPT_MOVSWDMPLOG],[RPT_MOVLGCNTEMI]','PARENT_MENU')"
+							class="xn-openable"><a> <span class="fa fa-file"></span>
+								Movimientos
+						</a>
+							<ul>
+								<li sec:authorize="hasPermission('RPT_MOVSWDMPLOG','ANY')">
+									<a th:href="@{/reporte/resumen/movimiento/swDmpLog}"> <span
+										class="fa fa-file"></span> SwDmpLog
+								</a>
+								</li>
+								<li sec:authorize="hasPermission('RPT_MOVLGCNTEMI','ANY')">
+									<a th:href="@{/reporte/resumen/movimiento/logContableEmisor}">
+										<span class="fa fa-file"></span> Log Contable Emisor
+								</a>
+								</li>
+
+
+							</ul></li>
+						<li
+							sec:authorize="hasPermission('[RPT_COMPEMICANAL],[RPT_COMPEMIINST],[RPT_COMPEMIGIRNEG]','PARENT_MENU')"
+							class="xn-openable"><a> <span class="fa fa-file"></span>
+								Compensación
+						</a>
+							<ul>
+								<li
+									sec:authorize="hasPermission('[RPT_COMPEMICANAL],[RPT_COMPEMIINST],[RPT_COMPEMIGIRNEG]','PARENT_MENU')"
+									class="xn-openable"><a> <span class="fa fa-file"></span>
+										Emisor
+								</a>
+									<ul>
+										<li sec:authorize="hasPermission('RPT_COMPEMICANAL','ANY')">
+											<a th:href="@{/reporte/compensacion/emisor/canal}"> <span
+												class="fa fa-file"></span> Canal
+										</a>
+										</li>
+										<li sec:authorize="hasPermission('RPT_COMPEMIINST','ANY')">
+											<a th:href="@{/reporte/compensacion/emisor/institucion}">
+												<span class="fa fa-file"></span> Institución
+										</a>
+										</li>
+										<li sec:authorize="hasPermission('RPT_COMPEMIGIRNEG','ANY')">
+											<a th:href="@{/reporte/compensacion/emisor/giroDeNegocio}">
+												<span class="fa fa-file"></span>Giro de Negocio
+										</a>
+										</li>
+									</ul></li>
+							</ul></li>
+						<li
+							sec:authorize="hasPermission('[RPT_COMISCUADRE],[RPT_CUADREXPAGAR],[RPT_EXTCONT],[RPT_SUMARIOCOMP],[RPT_FACTURACIONUBA]','PARENT_MENU')"
+							class="xn-openable"><a> <span class="fa fa-file"></span>
+								Control
+						</a>
+							<ul>
+								<li
+									sec:authorize="hasPermission('[RPT_COMISCUADRE],[RPT_CUADREXPAGAR],[RPT_EXTCONT],[RPT_SUMARIOCOMP],[RPT_ESTADOTARJETAS],[RPT_FACTURACIONUBA]','PARENT_MENU')"
+									class="xn-openable"><a> <span class="fa fa-file"></span>Compensación
+								</a>
+									<ul>
+										<li sec:authorize="hasPermission('RPT_COMISCUADRE','ANY')">
+											<a th:href="@{/reporte/resumen/comisionInstResumen}"> <span
+												class="fa fa-file"></span> Cuadre Banco Administrador
+										</a>
+										</li>
+										<li sec:authorize="hasPermission('RPT_EXTCONT','ANY')"><a
+											th:href="@{/reporte/extornosControversias}"> <span
+												class="fa fa-file"></span>Extornos Controversias
+										</a></li>
+										<li sec:authorize="hasPermission('RPT_SUMARIOCOMP','ANY')">
+											<a th:href="@{/reporte/resumen/sumario-compensacion}"> <span
+												class="fa fa-file"></span>Sumario Compensación
+										</a>
+										</li>
+										<li sec:authorize="hasPermission('RPT_CUADREXPAGAR','ANY')">
+											<a th:href="@{/reporte/resumen/cuadreCuentasPorPagar}"> <span
+												class="fa fa-file"></span>Cuadre Cuentas x Pagar
+										</a>
+										</li>
+										<li sec:authorize="hasPermission('RPT_FACTURACIONUBA','ANY')">
+											<a th:href="@{/reporte/facturacionUBA}"> <span
+												class="fa fa-file"></span>Facturación UBA
+										</a>
+										</li>
+									</ul></li>
+							</ul></li>
+
+
+						<li
+							sec:authorize="hasPermission('[RPT_CONSALDOSRESUMEN],[RPT_ESTADOTARJETAS],[RPT_TXNSTARJETA],[RPT_GENERACION_TARJ],[RPT_INGRESOS_COSTOS_TXN],[RPT_TARJETAS_VENDIDAS],[RPT_RECARGAS],[RPT_PERSONAS]','PARENT_MENU')"
+							class="xn-openable"><a> <span class="fa fa-credit-card"></span>Tarjetas
+						</a>
+							<ul>
+								<li sec:authorize="hasPermission('RPT_ESTADOTARJETAS','ANY')">
+									<a th:href="@{/reporte/estadoTarjeta/tarjetas}"> <span
+										class="fa fa-file"></span>Estados
+								</a>
+								</li>
+								<li sec:authorize="hasPermission('RPT_TXNSTARJETA','ANY')">
+									<a th:href="@{/reporte/txns/tarjetas}"> <span
+										class="fa fa-file"></span>Transacciones
+								</a>
+								</li>
+								<li sec:authorize="hasPermission('RPT_GENERACION_TARJ','ANY')">
+									<a th:href="@{/reporte/tarjetas/generadas}"> <span
+										class="fa fa-file"></span> Emisiones
+								</a>
+								</li>
+								<li
+									sec:authorize="hasPermission('RPT_INGRESOS_COSTOS_TXN','ANY')">
+									<a th:href="@{/reporte/transaccion/ingresosCostos}"> <span
+										class="fa fa-file"></span>Ingresos y Costos
+								</a>
+								</li>
+								<li sec:authorize="hasPermission('RPT_TARJETAS_VENDIDAS','ANY')">
+									<a th:href="@{/reporte/tarjetas/vendidas}"> <span
+										class="fa fa-file"></span> Vendidas
+								</a>
+								</li>
+								<li sec:authorize="hasPermission('RPT_RECARGAS','ANY')"><a
+									th:href="@{/reporte/resumen/recargas}"> <span
+										class="fa fa-file"></span>Recargas
+								</a></li>
+								<li sec:authorize="hasPermission('RPT_PERSONAS','ANY')"><a
+									th:href="@{/reporte/resumen/personas}"> <span
+										class="fa fa-file"></span>Personas
+								</a></li>
+								<li sec:authorize="hasPermission('RPT_CONSALDOSRESUMEN','ANY')">
+									<a th:href="@{/reporte/conciliacion/resumenSaldos}"> <span
+										class="fa fa-file"></span>Saldos UBA
+								</a>
+								</li>
+							</ul></li>
+
+						<!--  BALANCE CONTABLE -->
+						<li sec:authorize="hasPermission('RPT_CONT','ANY')"><a
+							th:href="@{/reporte/contable}"> <span class="fa fa-file"></span>Balance
+								Contable
+						</a></li>
+						
+						<!--  INTERFACE CONTABLE -->
+						<li sec:authorize="hasPermission('RPT_INTER_CONTABLE','ANY')"><a
+							th:href="@{/reporte/interfaceContable}"> <span class="fa fa-file"></span>Interface Contable
+						</a></li>
+					</ul></li>
+
+				<!--  WEB SERVICES -->
+				<li
+					sec:authorize="hasPermission('[WS_SALDOS_MOVIMIENTOS],[WS_CLIENTES_TARJETAS],[WS_LOG_CONTROL]','PARENT_MENU')"
+					class="xn-openable"><a> <span class="fa fa-podcast"></span>
+						<span class="xn-text">Servicios Web UBA</span>
+				</a>
+					<ul>
+						<li sec:authorize="hasPermission('WS_SALDOS_MOVIMIENTOS','ANY')">
+							<a th:href="@{/prepago/wshub/consultaws/saldosMovimientos}">
+								<span class="fa fa-file"></span> Saldos / Movimientos
+						</a>
+						</li>
+
+						<li sec:authorize="hasPermission('WS_CLIENTES_TARJETAS','ANY')">
+							<a th:href="@{/prepago/wshub/consultaws/clientesTarjetas}"> <span
+								class="fa fa-file"></span> Clientes / Tarjetas
+						</a>
+						</li>
+						<li sec:authorize="hasPermission('WS_LOG_CONTROL','ANY')"><a
+							th:href="@{/prepago/wshub/consultaws/logControl}"> <span
+								class="fa fa-file"></span> Log Control
+						</a></li>
+					</ul></li>
+
+				<!--  CONSULTAS -->
+				<li
+					sec:authorize="hasPermission('[CON_ADMINPER],[CON_ADMINTARJETA],[CON_ADMINCTA],[CON_MOVPEND],[CON_MOVLIB],[CON_ADMINLOT],[CON_ADMINRECARGA],[CON_MOVSWDMPLOG],[CON_MOVLGCNT],[CON_MOVSAL],[CON_MOVCONSOL],[CON_MOVOBS],[CON_MOVAJUS],[CON_BLOQ],[CON_CAMBVISA],[CON_CAMBSBS],[CON_EMBOSSING],[CON_TXNWS],[CON_PREAUTTXNWS]','PARENT_MENU')"
+					class="xn-openable"><a> <span class="fa fa-th"></span><span
+						class="xn-text">Consultas</span>
+				</a>
+
+					<ul>
+						<li
+							sec:authorize="hasPermission('[CON_ADMINPER],[CON_ADMINTARJETA],[CON_ADMINCTA],[CON_ADMINLOT],[CON_ADMINRECARGA]','PARENT_MENU')"
+							class="xn-openable"><a> <span class="fa fa-file"></span>
+								Administrativas
+						</a>
+							<ul>
+								<!-- Prepago -->
+								<li sec:authorize="hasPermission('CON_ADMINPER','ANY')"><a
+									th:href="@{/consulta/administrativa/personaPP}"> <span
+										class="fa fa-file"></span> Personas
+								</a></li>
+								<li sec:authorize="hasPermission('CON_ADMINTARJETA','ANY')">
+									<a th:href="@{/consulta/administrativa/tarjetaPP}"> <span
+										class="fa fa-file"></span> Tarjetas
+								</a>
+								</li>
+								<!--<li sec:authorize="hasPermission('CON_ADMINCTA','ANY')"><a
+									th:href="@{/consulta/administrativa/cuentaPP}"> <span
+										class="fa fa-file"></span> Cuentas
+								</a></li>-->
+								<!--<li sec:authorize="hasPermission('CON_ADMINLOT','ANY')"><a
+									th:href="@{/consulta/administrativa/lotePP}"> <span
+										class="fa fa-file"></span> Lotes
+								</a></li>-->
+								<!--<li sec:authorize="hasPermission('CON_ADMINRECARGA','ANY')">
+									<a th:href="@{/consulta/administrativa/recargaPP}"> <span
+										class="fa fa-file"></span> Recargas
+								</a>
+								</li>-->
+
+							</ul></li>
+						<li
+							sec:authorize="hasPermission('[CON_MOVSWDMPLOG],[CON_MOVLGCNT],[CON_MOVPEND],[CON_MOVSAL],[CON_MOVLIB][CON_MOVCONSOL],[CON_MOVOBS],[CON_MOVAJUS],[CON_BLOQ],[CON_TXNWS],[CON_EMBOSSING],[CON_PREAUTTXNWS]','PARENT_MENU')"
+							class="xn-openable"><a> <span class="fa fa-file"></span>
+								Movimientos
+						</a>
+
+							<ul>
+								<li sec:authorize="hasPermission('CON_MOVSWDMPLOG','ANY')">
+									<a th:href="@{/txnsSwDmpLog}"> <span class="fa fa-file"></span><span
+										class="xn-text">SwDmpLog</span>
+								</a>
+								</li>
+
+								<li sec:authorize="hasPermission('CON_MOVLGCNT','ANY')"><a
+									th:href="@{/txnsCompensacion}"> <span class="fa fa-file"></span><span
+										class="xn-text">Log Contable</span>
+								</a></li>
+								<li sec:authorize="hasPermission('CON_MOVLIB','ANY')"><a
+									th:href="@{/txnsLiberadas}"> <span class="fa fa-file"></span><span
+										class="xn-text">Liberadas</span>
+								</a></li>
+								<!-- <li sec:authorize="hasPermission('CON_MOVPEND','ANY')"><a
+									th:href="@{/txnsPendientes}"> <span class="fa fa-file"></span><span
+										class="xn-text">Pendientes</span>
+								</a></li> -->
+								<li sec:authorize="hasPermission('CON_MOVSAL','ANY')"><a
+									th:href="@{/saldos}"> <span class="fa fa-file"></span><span
+										class="xn-text">Saldos</span>
+								</a></li>
+								<!--  <li sec:authorize="hasPermission('CON_MOVCONSOL','ANY')"><a
+									th:href="@{/txnsConsolidada}"> <span class="fa fa-file"></span><span
+										class="xn-text">Consolidada</span>
+								</a></li> -->
+								<li sec:authorize="hasPermission('CON_MOVOBS','ANY')"><a
+									th:href="@{/txnsObservadas}"> <span class="fa fa-file"></span><span
+										class="xn-text">Observadas</span>
+								</a></li>
+								<li sec:authorize="hasPermission('CON_MOVAJUS','ANY')"><a
+									th:href="@{/txnsAjustes}"> <span class="fa fa-file"></span><span
+										class="xn-text">Ajustes</span>
+								</a></li>
+								<li sec:authorize="hasPermission('CON_BLOQ','ANY')"><a
+									th:href="@{/bloqueos}"> <span class="fa fa-file"></span><span
+										class="xn-text">Bloqueos</span>
+								</a></li>
+
+								<li sec:authorize="hasPermission('CON_TXNWS','ANY')"><a
+									th:href="@{/txnsWebServices}"> <span class="fa fa-file"></span><span
+										class="xn-text">Web Services</span>
+								</a></li>
+								<li sec:authorize="hasPermission('CON_PREAUTTXNWS','ANY')"><a
+									th:href="@{/txnsPreautorizadas}"> <span class="fa fa-file"></span><span
+										class="xn-text">Pre autorizadas</span>
+								</a></li>
+								
+								<li sec:authorize="hasPermission('CON_EMBOSSING','ANY')"><a
+									th:href="@{/txnsEmbossing}"> <span class="fa fa-file"></span><span
+										class="xn-text">Embossing</span>
+										
+								</a></li>
+								
+							</ul></li>
+						<li
+							sec:authorize="hasPermission('[CON_CAMBVISA],[CON_CAMBSBS]','PARENT_MENU')"
+							class="xn-openable"><a> <span class="fa fa-file"></span>
+								Tipos de Cambio
+						</a>
+							<ul>
+								<li sec:authorize="hasPermission('CON_CAMBVISA','ANY')"><a
+									th:href="@{/consulta/tipoCambio/visa}"> <span
+										class="fa fa-file"></span><span class="xn-text"> VISA</span>
+								</a></li>
+								<li sec:authorize="hasPermission('CON_CAMBSBS','ANY')"><a
+									th:href="@{/consulta/tipoCambio/sbs}"> <span
+										class="fa fa-file"></span><span class="xn-text"> SBS</span>
+								</a></li>
+							</ul></li>
+					</ul></li>
+
+				<!-- TARJETAS -->
+				<li
+					sec:authorize="hasPermission('[EJEC_AFILIACIONES]','PARENT_MENU')"
+					class="xn-openable"><a> <span class="fa fa-credit-card"></span>
+						<span class="xn-text"> Tarjetas</span>
+				</a>
+					<ul>
+						<li sec:authorize="hasPermission('EJEC_AFILIACIONES','ANY')">
+							<a th:href="@{/tarjetas/afiliaciones}"> <span
+								class="fa fa-credit-card"></span> <span> Gestión Lotes</span>
+						</a>
+						</li>
+					</ul></li>
+
+				<!-- PROCESOS DE CARGA -->
+				<li
+					sec:authorize="hasPermission('[EJEC_AVANCEFECHAPROCESO],[EJEC_PREP],[EJEC_COMPENSACION],[EJEC_CONCILIACION],[EJEC_CONTABILIZACION],[EJEC_PAIU],[EJEC_CTRLPROC],[REQ_AFILIACIONES],[MANT_PROCAUTO],[MANT_PROG],[MANT_SUBMOD],[CON_LOGPROCAUTOM],[RPT_LOGCONPROCRES]','PARENT_MENU')"
+					class="xn-openable"><a> <span class="fa fa-tasks"></span>
+						<span class="xn-text"> Procesos</span>
+				</a>
+					<ul>
+						<li
+							sec:authorize="hasPermission('[EJEC_AVANZEFECHAPROCESO],[EJECT_PREP],[EJEC_COMPENSACION],[EJEC_CONCILIACION],[EJEC_CONTABILIZACION],[EJEC_PAIU],[EJEC_CTRLPROC],[REQ_AFILIACIONES]','PARENT_MENU')"
+							class="xn-openable"><a> <span class="fa fa-file"></span>Ejecución
+								Manual
+						</a>
+							<ul>
+								<li
+									sec:authorize="hasPermission('[EJEC_AVANCEFECHAPROCESO],[EJEC_PREP],[EJEC_COMPENSACION],[EJEC_CONCILIACION],[EJEC_CONTABILIZACION],[EJEC_PAIU],[EJEC_CTRLPROC]','PARENT_MENU')">
+									<a th:href="@{/proceso/ejecucion/manual}"> <span
+										class="fa fa-street-view"></span><span> Procesos SIMP</span>
+								</a>
+								</li>
+							</ul></li>
+						<li
+							sec:authorize="hasPermission('[MANT_PROCAUTO],[MANT_PROG],[MANT_SUBMOD]','PARENT_MENU')"
+							class="xn-openable"><a> <span class="fa fa-file"></span>
+								Mantenimientos
+						</a>
+							<ul>
+								<li sec:authorize="hasPermission('MANT_PROCAUTO','ANY')"><a
+									th:href="@{/proceso/mantenimiento/procesoAutomatico}"> <span
+										class="fa fa-street-view"></span><span>Proceso
+											Automático</span>
+								</a></li>
+							</ul>
+							<ul>
+								<li sec:authorize="hasPermission('MANT_PROG','ANY')"><a
+									th:href="@{/proceso/mantenimiento/programa}"> <span
+										class="fa fa-street-view"></span><span> Programas</span>
+								</a></li>
+							</ul>
+							<ul>
+								<li sec:authorize="hasPermission('MANT_SUBMOD','ANY')"><a
+									th:href="@{/proceso/mantenimiento/subModulo}"> <span
+										class="fa fa-street-view"></span><span> Sub Módulos</span>
+								</a></li>
+							</ul></li>
+						<li
+							sec:authorize="hasPermission('[CON_LOGCONPROCRES],[CON_LOGPROCAUTOM]','PARENT_MENU')"
+							class="xn-openable"><a> <span class="fa fa-file"></span>Log
+								de Control
+						</a>
+							<ul>
+								<li sec:authorize="hasPermission('RPT_LOGCONPROCRES','ANY')">
+									<a th:href="@{/proceso/reporteLogControlPrograma}"> <span
+										class="fa fa-file"></span><span>Resumen Procesos SIMP</span>
+								</a>
+								</li>
+								<li sec:authorize="hasPermission('CON_LOGPROCAUTOM','ANY')">
+									<a th:href="@{/proceso/logControlPrograma}"> <span
+										class="fa fa-street-view"></span><span>Detalle Procesos
+											SIMP</span>
+								</a>
+								</li>
+							</ul></li>
+					</ul></li>
+
+				<li
+					sec:authorize="hasPermission('[MANT_POLITICA_SEGURIDAD],[MANT_USUARIO],[MANT_PERFIL],[MANT_PERFIL_RECURSO],[CON_AUDIT]','PARENT_MENU')"
+					class="xn-openable"><a> <span class="fa fa-unlock-alt"></span>
+						<span class="xn-text">Seguridad</span>
+				</a>
+					<ul>
+						<li sec:authorize="hasPermission('MANT_POLITICA_SEGURIDAD','ANY')">
+							<a th:href="@{/seguridad/politicaSeguridad}"> <span
+								class="fa fa-cogs"></span><span> Política Seguridad</span>
+						</a>
+						</li>
+						<li sec:authorize="hasPermission('MANT_USUARIO','ANY')"><a
+							th:href="@{/seguridad/usuario}"> <span class="fa fa-users"></span><span>
+									Usuarios</span>
+						</a></li>
+						<li sec:authorize="hasPermission('MANT_PERFIL','ANY')"><a
+							th:href="@{/seguridad/perfil}"> <span
+								class="fa fa-street-view"></span><span> Perfiles</span>
+						</a></li>
+						<li sec:authorize="hasPermission('MANT_PERFIL_RECURSO','ANY')">
+							<a th:href="@{/seguridad/perfilRecurso}"> <span
+								class="fa fa-check-square-o"></span> Perfiles y Recursos
+						</a>
+						</li>
+						<li sec:authorize="hasPermission('CON_AUDIT','ANY')"><a
+							th:href="@{/seguridad/auditoria}"> <span
+								class="fa fa-institution"></span> Auditoría
+						</a></li>
+						<li sec:authorize="hasPermission('SEC_LLAVES','ANY')"
+							class="xn-openable"><a> <span class="fa fa-key"></span>
+								Llaves de UNIBANCA
+						</a>
+							<ul>
+								<li sec:authorize="hasPermission('SEC_LLAVES','ANY')"><a
+									th:href="@{/seguridad/llaves/transporte}"> <span
+										class="fa fa-key"></span><span> Llaves de transporte</span>
+								</a></li>
+								<li sec:authorize="hasPermission('SEC_LLAVES','ANY')"><a
+									th:href="@{/seguridad/llaves/trabajo}"> <span
+										class="fa fa-key"></span><span> Llaves de trabajo</span>
+								</a></li>
+							</ul></li>
+					</ul></li>
+				<li
+					sec:authorize="hasPermission('[CAMB_CONTRASENIA]','PARENT_MENU')"
+					class="xn-openable"><a> <span class="fa fa-male"></span> <span
+						class="xn-text">Mi Perfil</span>
+				</a>
+					<ul>
+						<li sec:authorize="hasPermission('CAMB_CONTRASENIA','ANY')">
+							<a th:href="@{/seguridad/contrasenia}"> <span
+								class="fa fa-key"></span><span> Cambio Contraseña</span>
+						</a>
+						</li>
+					</ul></li>
+			</th:block>
+		</ul>
+	</div>
+</body>
+
+</html>

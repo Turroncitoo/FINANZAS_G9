@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+	layout:decorator="layout">
+<head>
+<title th:text="|Reporte #{__|${reporte}|__}|"></title>
+</head>
+<th:block layout:fragment="style">
+	<link th:href="@{/resources/css/dataTables.bootstrap.min.css}"
+		rel="stylesheet" />
+	<link th:href="@{/resources/css/responsive.bootstrap.min.css}"
+		rel="stylesheet" />
+	<link th:href="@{/resources/css/fixedColumns.dataTables.min.css}"
+		rel="stylesheet" />
+	<link th:href="@{/resources/css/select2.min.css}" rel="stylesheet" />
+	<link th:href="@{/resources/css/select2-bootstrap.min.css}"
+		rel="stylesheet" />
+	<link th:href="@{/resources/css/daterangepicker.css}" rel="stylesheet" />
+</th:block>
+<body>
+	<th:block layout:fragment="content">
+		<div class="page-content-wrap">
+			<div class="row">
+				<div class="col-sm-12 col-md-12 col-xs-12">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h3 class="panel-title" th:text="|Reporte #{__|${reporte}|__}|"></h3>
+							<ul class="panel-controls">
+							</ul>
+						</div>
+						<div class="panel-body">
+							<div id="tipoReporteContent"
+								class="col-xs-12 col-md-12 col-lg-12">
+								<fieldset class="well">
+									<legend class="well-legend">Tipo de Búsqueda</legend>
+									<form id="formTipoReporte" class="form-horizontal">
+										<div class="form-group">
+											<div class="col-sm-12">
+												<label class="radio-inline"> <input type="radio"
+													checked="checked" name="tipoBusqueda" value="resumen">
+													Resumen Compensación
+												</label> <label class="radio-inline"> <input type="radio"
+													name="tipoBusqueda" value="detalle"> Detalle
+													Compensación
+												</label> <label class="radio-inline"> <input type="radio"
+													name="tipoBusqueda" value="autDia"> Resumen
+													Autorizaciones
+												</label> <label class="radio-inline"> <input type="radio"
+													name="tipoBusqueda" value="autDetalle"> Detalle
+													Autorizaciones
+												</label>
+											</div>
+										</div>
+									</form>
+								</fieldset>
+							</div>
+							<div id="criterios" class=" col-xs-12">
+								<fieldset class="well">
+									<legend class="well-legend">Criterios</legend>
+									<div id="resumenContent">
+										<form id="formTipoReporteResumen" class="form-horizontal">
+											<div class="form-group">
+											<div class="group">
+													<label class="control-label col-lg-1 col-md-1">Institución</label>
+													<div class="col-lg-3 col-md-3">
+														<select id="institucionesResumen" name="codigoInstitucion"
+															class="form-control select2">
+															<option value="" selected="selected" disabled="disabled">Seleccione
+																una Institución</option>
+															<option th:each="institucion : ${instituciones}"
+																th:value="${institucion.codigoInstitucion}"
+																th:text="|${institucion.codigoInstitucion} -  ${institucion.descripcionCorta}|"></option>
+														</select>
+													</div>
+												</div>
+												<div class="group">
+													<label class="control-label col-lg-1 col-sm-1">Fecha
+														Proceso</label>
+													<div class="col-sm-3 col-md-3 input-group">
+														<span class="input-group-addon"><i
+															class="fa fa-calendar"></i></span> <input
+															id="fechaProcesoResumen" type="text"
+															class="form-control filtro" readonly="readonly"
+															name="fechaProceso">
+													</div>
+												</div>
+												
+											</div>
+
+											<div class="form-group">
+												<div class="col-sm-12 col-lg-12 text-center">
+													<button id="btnBuscarResumen" type="button"
+														class="btn btn-primary"
+														sec:authorize="hasPermission('RPT_CUADREXPAGAR','2')">
+														<i class="fa fa-search"></i> Buscar
+													</button>
+													<button id="btnExportarResumen" type="button"
+														class="btn btn-success"
+														sec:authorize="hasPermission('RPT_CUADREXPAGAR','5')">
+														<i class="fa fa-download"></i> Exportar
+													</button>
+												</div>
+											</div>
+										</form>
+									</div>
+									<div id="detalleContent" class="hidden">
+										<form id="formTipoReporteDetalle" class="form-horizontal">
+											<div class="form-group">
+											<div class="group">
+													<label class="control-label col-lg-1 col-md-1">Institución</label>
+													<div class="col-lg-3 col-md-3">
+														<select id="institucionesDetalle" name="codigoInstitucion"
+															class="form-control select2">
+															<option value="" selected="selected" disabled="disabled">Seleccione
+																una Institución</option>
+															<option th:each="institucion : ${instituciones}"
+																th:value="${institucion.codigoInstitucion}"
+																th:text="|${institucion.codigoInstitucion} -  ${institucion.descripcionCorta}|"></option>
+														</select>
+													</div>
+												</div>
+												<div class="group">
+													<label class="control-label col-md-1 col-sm-1">Fecha
+														Proceso</label>
+													<div class="col-sm-3 col-md-3 input-group">
+														<span class="input-group-addon"><i
+															class="fa fa-calendar"></i></span> <input
+															id="fechaProcesoDetalle" type="text"
+															class="form-control filtro" readonly="readonly"
+															name="fechaProceso">
+													</div>
+												</div>
+												
+											</div>
+											<div class="form-group">
+												<div class="col-sm-12 col-md-12 col-lg-12 text-center">
+													<button id="btnBuscarDetalle" type="button"
+														class="btn btn-primary"
+														sec:authorize="hasPermission('RPT_CUADREXPAGAR','2')">
+														<i class="fa fa-search"></i> Buscar
+													</button>
+													<button id="btnExportarDetalle" type="button"
+														class="btn btn-success"
+														sec:authorize="hasPermission('RPT_CUADREXPAGAR','5')">
+														<i class="fa fa-download"></i> Exportar
+													</button>
+												</div>
+											</div>
+										</form>
+									</div>
+									<div id="autDiaContent" class="hidden">
+										<form id="formTipoReporteAutDia" class="form-horizontal">
+											<div class="form-group">
+											<div class="group">
+													<label class="control-label col-lg-1 col-md-1">Institución</label>
+													<div class="col-lg-3 col-md-3">
+														<select id="institucionesAutResumen" name="codigoInstitucion"
+															class="form-control select2">
+															<option value="" selected="selected" disabled="disabled">Seleccione
+																una Institución</option>
+															<option th:each="institucion : ${instituciones}"
+																th:value="${institucion.codigoInstitucion}"
+																th:text="|${institucion.codigoInstitucion} -  ${institucion.descripcionCorta}|"></option>
+														</select>
+													</div>
+												</div>
+												<div class="group">
+													<label class="control-label col-md-1 col-sm-1">Indicador
+														Conciliación</label>
+													<div class="col-sm-3 col-md-3">
+														<select id="selectIndicadorConciliacionAutResumen"
+															class="form-control select2 filtro"
+															name="indicadorConciliacion">
+															<option value="">TODOS</option>
+															<option th:each="ind: ${indicadoresConciliacion}"
+																th:if="${ind.idItem} == '0' or ${ind.idItem}=='1' or ${ind.idItem}=='4'"
+																th:value="${ind.idItem}"
+																th:text="|${ind.idItem} - ${ind.descripcionItem}|">
+															</option>
+														</select>
+													</div>
+												</div>
+												
+												
+												<div class="group">
+													<label class="control-label col-md-1 col-sm-1">Fecha
+														Proceso</label>
+													<div class="col-sm-3 col-md-3 input-group">
+														<span class="input-group-addon"><i
+															class="fa fa-calendar"></i></span> <input
+															id="fechaProcesoAutDia" type="text"
+															class="form-control filtro" readonly="readonly"
+															name="fechaProceso">
+													</div>
+												</div>
+											</div>
+											<div class="form-group">
+												<div class="col-sm-12 col-md-12 col-lg-12 text-center">
+													<button id="btnBuscarAutDia" type="button"
+														class="btn btn-primary"
+														sec:authorize="hasPermission('RPT_CUADREXPAGAR','2')">
+														<i class="fa fa-search"></i> Buscar
+													</button>
+													<button id="btnExportarAutDia" type="button"
+														class="btn btn-success"
+														sec:authorize="hasPermission('RPT_CUADREXPAGAR','5')">
+														<i class="fa fa-download"></i> Exportar
+													</button>
+												</div>
+											</div>
+										</form>
+									</div>
+									<div id="autDetalleContent" class="hidden">
+										<form id="formTipoReporteAutDetalle" class="form-horizontal">
+											<div class="form-group">
+											<div class="group">
+													<label class="control-label col-lg-1 col-md-1">Institución</label>
+													<div class="col-lg-3 col-md-3">
+														<select id="institucionesAutDetalle" name="codigoInstitucion"
+															class="form-control select2">
+															<option value="" selected="selected" disabled="disabled">Seleccione
+																una Institución</option>
+															<option th:each="institucion : ${instituciones}"
+																th:value="${institucion.codigoInstitucion}"
+																th:text="|${institucion.codigoInstitucion} -  ${institucion.descripcionCorta}|"></option>
+														</select>
+													</div>
+												</div>
+												<div class="group">
+													<label class="control-label col-md-1 col-sm-1">Indicador
+														Conciliación</label>
+													<div class="col-sm-3 col-md-3">
+														<select id="selectIndicadorConciliacion"
+															class="form-control select2 filtro"
+															name="indicadorConciliacion">
+															<option value="">TODOS</option>
+															<option th:each="ind: ${indicadoresConciliacion}"
+																th:if="${ind.idItem} == '0' or ${ind.idItem}=='1' or ${ind.idItem}=='4'"
+																th:value="${ind.idItem}"
+																th:text="|${ind.idItem} - ${ind.descripcionItem}|">
+															</option>
+														</select>
+													</div>
+												</div>
+												
+												<div class="group">
+													<label class="control-label col-md-1 col-sm-1">Fecha
+														Proceso</label>
+													<div class="col-sm-3 col-md-3 input-group">
+														<span class="input-group-addon"><i
+															class="fa fa-calendar"></i></span> <input
+															id="fechaProcesoAutDetalle" type="text"
+															class="form-control filtro" readonly="readonly"
+															name="fechaProceso">
+													</div>
+												</div>
+												
+											</div>
+											<div class="form-group">
+												<div class="col-sm-12 col-md-12 col-lg-12 text-center">
+													<button id="btnBuscarAutDetalle" type="button"
+														class="btn btn-primary"
+														sec:authorize="hasPermission('RPT_CUADREXPAGAR','2')">
+														<i class="fa fa-search"></i> Buscar
+													</button>
+													<button id="btnExportarAutDetalle" type="button"
+														class="btn btn-success"
+														sec:authorize="hasPermission('RPT_CUADREXPAGAR','5')">
+														<i class="fa fa-download"></i> Exportar
+													</button>
+												</div>
+											</div>
+										</form>
+									</div>
+								</fieldset>
+							</div>
+
+							<div id="resultadoBusqueda">
+								<div id="resultadoBusquedaResumen" class="tabs">
+									<ul class="nav nav-tabs">
+										<li th:each="moneda,itStat: ${monedas}"
+											th:class="${itStat.index == 0}?'active':''"><a
+											data-toggle="tab" th:href="|#${moneda.codigoMoneda}-resumen|"
+											th:text="|${moneda.codigoMoneda} - ${moneda.descripcion}|"></a>
+										</li>
+									</ul>
+									<div class="tab-content">
+										<div th:each="moneda,iterStat : ${monedas}"
+											th:id="|${moneda.codigoMoneda}-resumen|"
+											class="tab-pane fade in"
+											th:classappend="${iterStat.index == 0}?'active':''">
+											<table
+												th:attr="idTabla=|tablaResumen-${moneda.codigoMoneda}|,id=|tablaResumen-${moneda.codigoMoneda}|"
+												class="table table-bordered table-condensed nowrap display table-hover tablaResultadosResumen">
+												<tfoot>
+													<tr>
+														<td colspan="5">Total</td>
+														<td></td>
+														<td></td>
+														<td></td>
+														<td></td>
+														<td></td>
+													</tr>
+												</tfoot>
+											</table>
+										</div>
+									</div>
+								</div>
+
+								<div id="resultadoBusquedaDetalle" class="hidden">
+									<ul class="nav nav-tabs">
+										<li th:each="moneda,itStat: ${monedas}"
+											th:class="${itStat.index == 0}?'active':''"><a
+											data-toggle="tab" th:href="|#${moneda.codigoMoneda}-detalle|"
+											th:text="|${moneda.codigoMoneda} - ${moneda.descripcion}|"></a>
+										</li>
+									</ul>
+									<div class="tab-content">
+										<div th:each="moneda,iterStat : ${monedas}"
+											th:id="|${moneda.codigoMoneda}-detalle|"
+											class="tab-pane fade in"
+											th:classappend="${iterStat.index == 0}?'active':''">
+											<table
+												th:attr="idTabla=|tablaDetalle-${moneda.codigoMoneda}|,id=|tablaDetalle-${moneda.codigoMoneda}|"
+												class="table table-bordered table-condensed nowrap display table-hover tablaResultadosDetalle">
+												<tfoot>
+													<tr>
+														<td colspan="6">Total</td>
+														<td></td>
+														<td></td>
+														<td></td>
+														<td></td>
+														<td></td>
+														<td></td>
+													</tr>
+												</tfoot>
+											</table>
+										</div>
+									</div>
+								</div>
+
+								<div id="resultadoBusquedaAutDia" class="hidden">
+									<ul class="nav nav-tabs">
+										<li th:each="moneda,itStat: ${monedas}"
+											th:class="${itStat.index == 0}?'active':''"><a
+											data-toggle="tab" th:href="|#${moneda.codigoMoneda}-autDia|"
+											th:text="|${moneda.codigoMoneda} - ${moneda.descripcion}|"></a>
+										</li>
+									</ul>
+									<div class="tab-content">
+										<div th:each="moneda,iterStat : ${monedas}"
+											th:id="|${moneda.codigoMoneda}-autDia|"
+											class="tab-pane fade in"
+											th:classappend="${iterStat.index == 0}?'active':''">
+											<table
+												th:attr="idTabla=|tablaAutDia-${moneda.codigoMoneda}|,id=|tablaAutDia-${moneda.codigoMoneda}|"
+												class="table table-bordered table-condensed nowrap display table-hover tablaResultadosAutDia">
+												<tfoot>
+													<tr>
+														<td colspan="6">Total</td>
+														<td></td>
+														<td></td>
+														<td></td>
+														<td></td>
+														<td></td>
+													</tr>
+												</tfoot>
+											</table>
+										</div>
+									</div>
+								</div>
+
+								<div id="resultadoBusquedaAutDetalle" class="hidden">
+									<ul class="nav nav-tabs">
+										<li th:each="moneda,itStat: ${monedas}"
+											th:class="${itStat.index == 0}?'active':''"><a
+											data-toggle="tab"
+											th:href="|#${moneda.codigoMoneda}-autDetalle|"
+											th:text="|${moneda.codigoMoneda} - ${moneda.descripcion}|"></a>
+										</li>
+									</ul>
+									<div class="tab-content">
+										<div th:each="moneda,iterStat : ${monedas}"
+											th:id="|${moneda.codigoMoneda}-autDetalle|"
+											class="tab-pane fade in"
+											th:classappend="${iterStat.index == 0}?'active':''">
+											<table
+												th:attr="idTabla=|tablaAutDetalle-${moneda.codigoMoneda}|,id=|tablaAutDetalle-${moneda.codigoMoneda}|"
+												class="table table-bordered table-condensed nowrap display table-hover tablaResultadosAutDetalle">
+												<tfoot>
+													<tr>
+														<td colspan="17">Total</td>
+														<td></td>
+														<td></td>
+													</tr>
+												</tfoot>
+											</table>
+										</div>
+									</div>
+								</div>
+
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</th:block>
+	<th:block layout:fragment="script">
+		<script th:src="@{/resources/js/datatables/jquery.dataTables.min.js}"></script>
+		<script
+			th:src="@{/resources/js/datatables/dataTables.bootstrap.min.js}"></script>
+		<script
+			th:src="@{/resources/js/datatables/dataTables.responsive.min.js}"></script>
+		<script
+			th:src="@{/resources/js/datatables/dataTables.fixedColumns.min.js}"></script>
+		<script th:src="@{/resources/js/bootstrap/bootstrap-notify.min.js}"></script>
+		<script th:src="@{/resources/js/jquery/jquery.serializejson.min.js}"></script>
+		<script th:src="@{/resources/js/jquery/jquery.validate.min.js}"></script>
+		<script th:src="@{/resources/js/jquery/additional-methods.min.js}"></script>
+		<script th:src="@{/resources/js/jquery/select2.full.min.js}"></script>
+		<script th:src="@{/resources/js/jquery/moment.min.js}"></script>
+		<script th:src="@{/resources/js/jquery/datetime-moment.js}"></script>
+		<script th:src="@{/resources/js/jquery/daterangepicker.js}"></script>
+		<script th:src="@{/resources/js/util/formularioUtil.js}"></script>
+		<script
+			th:src="@{/resources/js/pagina/reporte/{reporte}/{reporte}.js(reporte = ${reporte})}"></script>
+		<script
+			th:src="@{/resources/js/pagina/reporte/{reporte}/{reporte}Formulario.js(reporte = ${reporte})}"></script>
+	</th:block>
+</body>
+</html>

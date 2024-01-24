@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ob.debitos.simp.mapper.IDescripcionMapper">
+	<resultMap type="DescripcionDTO" id="mapDescripciones">
+		<result property="tabla" column="nIdtabla"/>
+		<result property="subTabla" column="nIdSubTabla"/>
+		<result property="idElemento" column="nIdElemento"/>
+		<result property="valorLiteral" column="vValor"/>
+		<result property="descripcion" column="vDescripcion"/>
+		<result property="valorNumerico" column="nValor"/>
+	</resultMap>
+</mapper>

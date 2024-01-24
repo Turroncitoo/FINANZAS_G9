@@ -1,0 +1,862 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
+<!-- 2017-12-27T11:31:19 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Observadas" pageWidth="2600" pageHeight="681" orientation="Landscape" columnWidth="2560" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isIgnorePagination="true" uuid="ced95029-b569-4027-895c-af2843a4e088">
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="net.sf.jasperreports.print.keep.full.text" value="true"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<property name="net.sf.jasperreports.export.xls.remove.empty.space.between.rows" value="true"/>
+	<property name="net.sf.jasperreports.export.xls.remove.empty.space.between.columns" value="true"/>
+	<property name="net.sf.jasperreports.export.xls.auto.fit.row" value="true"/>
+	<property name="net.sf.jasperreports.export.xls.freeze.row" value="4"/>
+	<style name="row_style" vTextAlign="Middle" fontName="SansSerif">
+		<pen lineWidth="1.0" lineColor="#8A8888"/>
+		<box padding="3">
+			<topPen lineWidth="1.0"/>
+			<leftPen lineWidth="1.0"/>
+			<bottomPen lineWidth="1.0"/>
+			<rightPen lineWidth="1.0"/>
+		</box>
+	</style>
+	<style name="header_style" mode="Opaque" forecolor="#FFFFFF" backcolor="#828282" hTextAlign="Center" vTextAlign="Middle" isBold="true">
+		<box>
+			<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#424242"/>
+			<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#424242"/>
+			<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#424242"/>
+			<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#424242"/>
+		</box>
+	</style>
+	<parameter name="fechaInicio" class="java.util.Date" isForPrompting="false">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA["-"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="fechaFin" class="java.util.Date" isForPrompting="false">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA["-"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="origenArchivo" class="java.lang.String" isForPrompting="false">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA["-"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="idCliente" class="java.lang.String"/>
+	<field name="tipoDocumento" class="java.lang.String"/>
+	<field name="numeroDocumento" class="java.lang.String"/>
+	<field name="nombreCompleto" class="java.lang.String"/>
+	<field name="fechaProceso" class="java.lang.String"/>
+	<field name="numeroTarjeta" class="java.lang.String"/>
+	<field name="numeroCuenta" class="java.lang.String"/>
+	<field name="fechaTransaccion" class="java.lang.String"/>
+	<field name="horaTransaccion" class="java.lang.String"/>
+	<field name="fechaSwitch" class="java.lang.String"/>
+	<field name="autorizacion" class="java.lang.String"/>
+	<field name="numeroTrace" class="java.lang.String"/>
+	<field name="canal" class="java.lang.String"/>
+	<field name="origen" class="java.lang.String"/>
+	<field name="proceso" class="java.lang.String"/>
+	<field name="transaccion" class="java.lang.String"/>
+	<field name="nombreAdquirente" class="java.lang.String"/>
+	<field name="codigoRpta" class="java.lang.String"/>
+	<field name="monedaTransaccion" class="java.lang.Integer"/>
+	<field name="valorTransaccion" class="java.lang.String"/>
+	<field name="indConciliacion" class="java.lang.String"/>
+	<field name="indExtDev" class="java.lang.Integer"/>
+	<field name="fechaTransmisionAut" class="java.lang.String"/>
+	<field name="codigoRespuestaAut" class="java.lang.String"/>
+	<field name="monedaAut" class="java.lang.Integer"/>
+	<field name="montoAut" class="java.lang.String"/>
+	<group name="Group">
+		<groupFooter>
+			<band height="23"/>
+		</groupFooter>
+	</group>
+	<title>
+		<band height="44" splitType="Stretch">
+			<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.FreeLayout"/>
+			<textField>
+				<reportElement x="0" y="0" width="2349" height="34" uuid="a401972b-53e0-4f23-8c62-758b73180793"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Segoe UI" size="16" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["REPORTE CONCILIACIÓN " + (($P{origenArchivo}!=null)?$P{origenArchivo}:"TODOS") + " VS. AUTORIZACIONES"]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="31">
+			<property name="local_mesure_unitheight" value="pixel"/>
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.FreeLayout"/>
+			<textField pattern="MMM d, yyyy h:mm:ss a">
+				<reportElement x="909" y="0" width="224" height="20" uuid="5aa88b67-6fc4-4f3c-b21e-2c7e6e5b7c61"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Segoe UI" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["FECHA INICIO: " + (($P{fechaInicio} != null)? new SimpleDateFormat("dd/MM/yyyy").format($P{fechaInicio}) : "-")]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="1184" y="0" width="223" height="20" uuid="6c48a2b5-0002-4501-a4ce-a4d0cbaf1f41"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Segoe UI" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["FECHA FIN: " + (($P{fechaFin} != null)? new SimpleDateFormat("dd/MM/yyyy").format($P{fechaFin}) : "-")]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="55" splitType="Stretch">
+			<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.FreeLayout"/>
+			<property name="local_mesure_unitheight" value="pixel"/>
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<staticText>
+				<reportElement style="header_style" x="160" y="22" width="70" height="30" backcolor="#DA9694" uuid="d32e3c5c-0d2a-4a8f-bfb2-9c1c88fa93a7"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement>
+					<font fontName="Segoe UI"/>
+				</textElement>
+				<text><![CDATA[N° Documento]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="header_style" mode="Opaque" x="90" y="22" width="70" height="30" forecolor="#FFFFFF" backcolor="#DA9694" uuid="7a3d2e24-2974-4325-9969-295ab8204af4"/>
+				<box>
+					<pen lineWidth="0.0" lineStyle="Solid" lineColor="#FFFFFF"/>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#424242"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#424242"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#424242"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#424242"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<font fontName="Segoe UI" isBold="true" isItalic="false" pdfFontName="Helvetica" pdfEncoding="Cp1252"/>
+				</textElement>
+				<text><![CDATA[Tipo Documento]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="header_style" mode="Opaque" x="230" y="22" width="238" height="30" forecolor="#FFFFFF" backcolor="#DA9694" uuid="7664c499-8b6c-4b15-948e-f884c27783cc"/>
+				<box>
+					<pen lineWidth="0.0" lineStyle="Solid" lineColor="#FFFFFF"/>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#424242"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#424242"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#424242"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#424242"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<font fontName="Segoe UI" isBold="true" pdfFontName="Helvetica" pdfEncoding="Cp1252"/>
+				</textElement>
+				<text><![CDATA[Nombre Cliente]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="header_style" mode="Opaque" x="468" y="22" width="80" height="30" forecolor="#FFFFFF" backcolor="#538DD5" uuid="27226380-d123-4b59-afab-3ffe12375d0b"/>
+				<box>
+					<pen lineWidth="0.0" lineStyle="Solid" lineColor="#FFFFFF"/>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#424242"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#424242"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#424242"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#424242"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<font fontName="Segoe UI" isBold="true" pdfFontName="Helvetica" pdfEncoding="Cp1252"/>
+				</textElement>
+				<text><![CDATA[Fecha Proceso]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="header_style" mode="Opaque" x="548" y="22" width="100" height="30" forecolor="#FFFFFF" backcolor="#538DD5" uuid="9c62787e-f1bd-455c-9101-72f277452069"/>
+				<box>
+					<pen lineWidth="0.0" lineStyle="Solid" lineColor="#FFFFFF"/>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#424242"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#424242"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#424242"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#424242"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<font fontName="Segoe UI" isBold="true" pdfFontName="Helvetica" pdfEncoding="Cp1252"/>
+				</textElement>
+				<text><![CDATA[N° Tarjeta]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="header_style" mode="Opaque" x="648" y="22" width="100" height="30" forecolor="#FFFFFF" backcolor="#538DD5" uuid="09a95154-cb21-47c6-9cab-cb0862f88acb"/>
+				<box>
+					<pen lineWidth="0.0" lineStyle="Solid" lineColor="#FFFFFF"/>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#424242"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#424242"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#424242"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#424242"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<font fontName="Segoe UI" isBold="true" pdfFontName="Helvetica" pdfEncoding="Cp1252"/>
+				</textElement>
+				<text><![CDATA[N° Cuenta]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="header_style" mode="Opaque" x="748" y="22" width="80" height="30" forecolor="#FFFFFF" backcolor="#538DD5" uuid="0b768c50-b347-41d3-a716-dd4703e1bbe9"/>
+				<box>
+					<pen lineWidth="0.0" lineStyle="Solid" lineColor="#FFFFFF"/>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#424242"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#424242"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#424242"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#424242"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<font fontName="Segoe UI" isBold="true" pdfFontName="Helvetica" pdfEncoding="Cp1252"/>
+				</textElement>
+				<text><![CDATA[Fecha Transacción]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="header_style" mode="Opaque" x="918" y="22" width="89" height="30" forecolor="#FFFFFF" backcolor="#538DD5" uuid="0181ebf4-c439-4fed-92e7-746155f67bbc"/>
+				<box>
+					<pen lineWidth="0.0" lineStyle="Solid" lineColor="#FFFFFF"/>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#424242"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#424242"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#424242"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#424242"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<font fontName="Segoe UI" isBold="true" pdfFontName="Helvetica" pdfEncoding="Cp1252"/>
+				</textElement>
+				<text><![CDATA[Fecha Switch]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="header_style" mode="Opaque" x="1007" y="22" width="86" height="30" forecolor="#FFFFFF" backcolor="#538DD5" uuid="783f43ac-00e6-4d7e-9e98-592b8a97bd0d"/>
+				<box>
+					<pen lineWidth="0.0" lineStyle="Solid" lineColor="#FFFFFF"/>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#424242"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#424242"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#424242"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#424242"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<font fontName="Segoe UI" isBold="true" pdfFontName="Helvetica" pdfEncoding="Cp1252"/>
+				</textElement>
+				<text><![CDATA[Autorización]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="header_style" mode="Opaque" x="1182" y="22" width="100" height="30" forecolor="#FFFFFF" backcolor="#538DD5" uuid="c22126ec-a37d-403c-b355-47eb9598c93c"/>
+				<box>
+					<pen lineWidth="0.0" lineStyle="Solid" lineColor="#FFFFFF"/>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#424242"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#424242"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#424242"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#424242"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<font fontName="Segoe UI" isBold="true" pdfFontName="Helvetica" pdfEncoding="Cp1252"/>
+				</textElement>
+				<text><![CDATA[Canal]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="header_style" mode="Opaque" x="1093" y="22" width="89" height="30" forecolor="#FFFFFF" backcolor="#538DD5" uuid="041efebc-d9a5-47b7-87b3-7616516138c3"/>
+				<box>
+					<pen lineWidth="0.0" lineStyle="Solid" lineColor="#FFFFFF"/>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#424242"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#424242"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#424242"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#424242"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<font fontName="Segoe UI" isBold="true" pdfFontName="Helvetica" pdfEncoding="Cp1252"/>
+				</textElement>
+				<text><![CDATA[N° Trace]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="header_style" mode="Opaque" x="1282" y="22" width="138" height="30" forecolor="#FFFFFF" backcolor="#538DD5" uuid="d42c6eaf-dfef-4b94-bd29-c7627b678067"/>
+				<box>
+					<pen lineWidth="0.0" lineStyle="Solid" lineColor="#FFFFFF"/>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#424242"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#424242"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#424242"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#424242"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<font fontName="Segoe UI" isBold="true" pdfFontName="Helvetica" pdfEncoding="Cp1252"/>
+				</textElement>
+				<text><![CDATA[Origen]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="header_style" mode="Opaque" x="1650" y="22" width="120" height="30" forecolor="#FFFFFF" backcolor="#538DD5" uuid="1848bc7d-3a6d-45a5-bb88-2ca7753758ee"/>
+				<box>
+					<pen lineWidth="0.0" lineStyle="Solid" lineColor="#FFFFFF"/>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#424242"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#424242"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#424242"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#424242"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<font fontName="Segoe UI" isBold="true" pdfFontName="Helvetica" pdfEncoding="Cp1252"/>
+				</textElement>
+				<text><![CDATA[Descripción Adquirente]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="header_style" mode="Opaque" x="2042" y="22" width="83" height="30" forecolor="#FFFFFF" backcolor="#538DD5" uuid="989c8c2c-0695-4d24-bffd-b170d28ed301"/>
+				<box>
+					<pen lineWidth="0.0" lineStyle="Solid" lineColor="#FFFFFF"/>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#424242"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#424242"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#424242"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#424242"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<font fontName="Segoe UI" isBold="true" pdfFontName="Helvetica" pdfEncoding="Cp1252"/>
+				</textElement>
+				<text><![CDATA[Ind Conciliación]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="header_style" mode="Opaque" x="2125" y="22" width="77" height="30" forecolor="#FFFFFF" backcolor="#538DD5" uuid="42b786ef-7987-4b15-b742-5a1ca7c38801"/>
+				<box>
+					<pen lineWidth="0.0" lineStyle="Solid" lineColor="#FFFFFF"/>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#424242"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#424242"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#424242"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#424242"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<font fontName="Segoe UI" isBold="true" pdfFontName="Helvetica" pdfEncoding="Cp1252"/>
+				</textElement>
+				<text><![CDATA[Ind Extornar]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="header_style" mode="Opaque" x="2202" y="22" width="110" height="30" forecolor="#FFFFFF" backcolor="#76933C" uuid="68b86c6f-1222-480e-b73f-afe6b958a5fa"/>
+				<box>
+					<pen lineWidth="0.0" lineStyle="Solid" lineColor="#FFFFFF"/>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#424242"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#424242"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#424242"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#424242"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<font fontName="Segoe UI" isBold="true" pdfFontName="Helvetica" pdfEncoding="Cp1252"/>
+				</textElement>
+				<text><![CDATA[Fecha Transamisión Autorización]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="header_style" mode="Opaque" x="828" y="22" width="90" height="30" forecolor="#FFFFFF" backcolor="#538DD5" uuid="22b18502-8ee8-4591-8aea-6a1364eafcd9"/>
+				<box>
+					<pen lineWidth="0.0" lineStyle="Solid" lineColor="#FFFFFF"/>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#424242"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#424242"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#424242"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#424242"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<font fontName="Segoe UI" isBold="true" pdfFontName="Helvetica" pdfEncoding="Cp1252"/>
+				</textElement>
+				<text><![CDATA[Hora Transacción]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="header_style" mode="Opaque" x="1770" y="22" width="112" height="30" forecolor="#FFFFFF" backcolor="#538DD5" uuid="d75c7963-12b5-465c-ba0d-4542f739b41f"/>
+				<box>
+					<pen lineWidth="0.0" lineStyle="Solid" lineColor="#FFFFFF"/>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#424242"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#424242"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#424242"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#424242"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<font fontName="Segoe UI" isBold="true" pdfFontName="Helvetica" pdfEncoding="Cp1252"/>
+				</textElement>
+				<text><![CDATA[Respuesta]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="header_style" mode="Opaque" x="1882" y="22" width="70" height="30" forecolor="#FFFFFF" backcolor="#538DD5" uuid="e3151ffc-a06f-4e62-bc6e-b534ce7a9732"/>
+				<box>
+					<pen lineWidth="0.0" lineStyle="Solid" lineColor="#FFFFFF"/>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#424242"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#424242"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#424242"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#424242"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<font fontName="Segoe UI" isBold="true" pdfFontName="Helvetica" pdfEncoding="Cp1252"/>
+				</textElement>
+				<text><![CDATA[Moneda]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="header_style" mode="Opaque" x="1952" y="22" width="90" height="30" forecolor="#FFFFFF" backcolor="#538DD5" uuid="96267159-e82a-4fa8-9548-9d785cec0cf7"/>
+				<box>
+					<pen lineWidth="0.0" lineStyle="Solid" lineColor="#FFFFFF"/>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#424242"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#424242"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#424242"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#424242"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<font fontName="Segoe UI" isBold="true" pdfFontName="Helvetica" pdfEncoding="Cp1252"/>
+				</textElement>
+				<text><![CDATA[Valor Transacción]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="header_style" x="0" y="22" width="90" height="30" backcolor="#DA9694" uuid="6b8c3ade-6521-4f6d-8125-a339396e1e32"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement>
+					<font fontName="Segoe UI"/>
+				</textElement>
+				<text><![CDATA[Id Cliente]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="header_style" mode="Opaque" x="1420" y="22" width="130" height="30" forecolor="#FFFFFF" backcolor="#538DD5" uuid="0681b21c-9fdd-49a4-9d7b-ed20958ffaf4"/>
+				<box>
+					<pen lineWidth="0.0" lineStyle="Solid" lineColor="#FFFFFF"/>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#424242"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#424242"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#424242"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#424242"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<font fontName="Segoe UI" isBold="true" pdfFontName="Helvetica" pdfEncoding="Cp1252"/>
+				</textElement>
+				<text><![CDATA[Proceso]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="header_style" mode="Opaque" x="1550" y="22" width="100" height="30" forecolor="#FFFFFF" backcolor="#538DD5" uuid="63be4fa8-139a-4a7f-99c2-c78d1e64de14"/>
+				<box>
+					<pen lineWidth="0.0" lineStyle="Solid" lineColor="#FFFFFF"/>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#424242"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#424242"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#424242"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#424242"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<font fontName="Segoe UI" isBold="true" pdfFontName="Helvetica" pdfEncoding="Cp1252"/>
+				</textElement>
+				<text><![CDATA[Transacción]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="header_style" mode="Opaque" x="2312" y="22" width="60" height="30" forecolor="#FFFFFF" backcolor="#76933C" uuid="55fba57d-b704-4b66-b995-c332529cc4f4"/>
+				<box>
+					<pen lineWidth="0.0" lineStyle="Solid" lineColor="#FFFFFF"/>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#424242"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#424242"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#424242"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#424242"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<font fontName="Segoe UI" isBold="true" pdfFontName="Helvetica" pdfEncoding="Cp1252"/>
+				</textElement>
+				<text><![CDATA[Respuesta]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="header_style" mode="Opaque" x="2372" y="22" width="100" height="30" forecolor="#FFFFFF" backcolor="#76933C" uuid="8a2f9822-77db-4b45-953f-f9228677ef41"/>
+				<box>
+					<pen lineWidth="0.0" lineStyle="Solid" lineColor="#FFFFFF"/>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#424242"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#424242"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#424242"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#424242"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<font fontName="Segoe UI" isBold="true" pdfFontName="Helvetica" pdfEncoding="Cp1252"/>
+				</textElement>
+				<text><![CDATA[Moneda Autorización]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="header_style" mode="Opaque" x="2472" y="22" width="80" height="30" forecolor="#FFFFFF" backcolor="#76933C" uuid="6500317f-e92d-4200-9d99-96f103df6e79"/>
+				<box>
+					<pen lineWidth="0.0" lineStyle="Solid" lineColor="#FFFFFF"/>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#424242"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#424242"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#424242"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#424242"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<font fontName="Segoe UI" isBold="true" pdfFontName="Helvetica" pdfEncoding="Cp1252"/>
+				</textElement>
+				<text><![CDATA[Monto]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="header_style" x="0" y="0" width="468" height="22" backcolor="#974706" uuid="876f67aa-ee54-4ade-81d5-29a5f8bdc923"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement>
+					<font fontName="Segoe UI"/>
+				</textElement>
+				<text><![CDATA[DATOS DEL CLIENTE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="header_style" x="2202" y="0" width="350" height="22" backcolor="#4F6228" uuid="6ca84714-e037-4a48-b749-e21b27f47995"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement>
+					<font fontName="Segoe UI"/>
+				</textElement>
+				<text><![CDATA[INFORMACIÓN AUTORIZACIÓN]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="row_style" mode="Opaque" x="468" y="0" width="1734" height="22" forecolor="#FFFFFF" backcolor="#244062" uuid="7ec26837-7c06-4caf-8513-4de6d7173a76"/>
+				<box>
+					<pen lineWidth="0.0" lineStyle="Solid" lineColor="#FFFFFF"/>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#424242"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#424242"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#424242"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#424242"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<font fontName="Segoe UI" isBold="true" pdfFontName="Helvetica" pdfEncoding="Cp1252"/>
+				</textElement>
+				<textFieldExpression><![CDATA["INFORMACIÓN " + (($P{origenArchivo} != null)? $P{origenArchivo} : "TODOS")]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="26" splitType="Stretch">
+			<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.FreeLayout"/>
+			<property name="local_mesure_unitheight" value="pixel"/>
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<textField>
+				<reportElement style="row_style" x="160" y="-3" width="70" height="20" uuid="76a23bc4-4f9f-44d9-be5b-afc259bf0e51"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Segoe UI" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{numeroDocumento}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="row_style" x="90" y="-3" width="70" height="20" uuid="431a2f70-bc79-41c2-9140-186f60144468"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Segoe UI" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tipoDocumento}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="row_style" x="230" y="-3" width="238" height="20" uuid="c4cc2303-47ff-4e6c-ad9c-cb2b22b2d763"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Segoe UI" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombreCompleto}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="row_style" x="468" y="-3" width="80" height="20" uuid="fe6fc2e6-5b11-4cb0-96e0-874c6cbc5656"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Segoe UI" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($F{fechaProceso} != null)?$F{fechaProceso}:"-"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="row_style" x="548" y="-3" width="100" height="20" uuid="b7a1ba71-8aea-49a0-9a72-87a6bf3eb69e"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Segoe UI" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($F{numeroTarjeta} != null)?$F{numeroTarjeta}:"-"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="row_style" x="648" y="-3" width="100" height="20" uuid="59305972-4e39-490a-be7f-89fb797cd31c"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Segoe UI" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($F{numeroCuenta}!= null)?$F{numeroCuenta}:"-"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="row_style" x="1282" y="-3" width="138" height="20" uuid="e9fde3c1-7246-4e45-95f2-675e69963900"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Segoe UI" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($F{origen}!= null)?$F{origen}:"-"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="row_style" x="1182" y="-3" width="100" height="20" uuid="87341033-f898-4271-af61-5b424ed434d8"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Segoe UI" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($F{canal}!= null)?$F{canal}:"-"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="row_style" x="1093" y="-3" width="89" height="20" uuid="84e8b694-e00b-4aa9-8bc1-c87ed93242d5"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Segoe UI" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($F{numeroTrace}!= null)?$F{numeroTrace}:"-"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="row_style" x="1007" y="-3" width="86" height="20" uuid="99b87634-1305-4745-b9c7-9f039e7fbc04"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Segoe UI" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($F{autorizacion}!= null)?$F{autorizacion}:"-"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="row_style" x="918" y="-3" width="89" height="20" uuid="f4e9533b-ef81-415f-852f-04360491552c"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Segoe UI" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($F{fechaSwitch}!= null)?$F{fechaSwitch}:"-"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="row_style" x="748" y="-3" width="80" height="20" uuid="5fbdcae5-08ac-4bb2-868a-4d45a7088a35"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Segoe UI" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($F{fechaTransaccion}!= null)?$F{fechaTransaccion}:"-"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="row_style" x="1650" y="-3" width="120" height="20" uuid="ca1e6a18-0cc4-49ab-a1cc-6ee342a26957"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Segoe UI" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($F{nombreAdquirente}!= null)?$F{nombreAdquirente}:"-"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="row_style" x="2042" y="-3" width="83" height="20" uuid="4041812d-f08d-472a-abbc-ebea9dd98323"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Segoe UI" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($F{indConciliacion}!= null)?$F{indConciliacion}:"-"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="row_style" x="2125" y="-3" width="77" height="20" uuid="db3f0906-afd1-40ab-b206-6f3fcd5c0711"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Segoe UI" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($F{indExtDev}!= null)?$F{indExtDev}:"-"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="row_style" x="2202" y="-3" width="110" height="20" uuid="d17550e3-e482-4352-adc9-6e7bf4007820"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Segoe UI" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($F{fechaTransmisionAut}!= null)?$F{fechaTransmisionAut}:"-"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="row_style" x="828" y="-3" width="90" height="20" uuid="a05d4530-6254-456d-902d-7723c1a79220"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Segoe UI" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($F{horaTransaccion}!= null)?$F{horaTransaccion}:"-"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="row_style" x="1770" y="-3" width="112" height="20" uuid="9b360cd0-993b-4579-9dfd-1ce3a0189604"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Segoe UI" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($F{codigoRpta}!= null)?$F{codigoRpta}:"-"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="row_style" x="1882" y="-3" width="70" height="20" uuid="6196e6a0-61e8-4515-ac94-3b74befdd73f"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Segoe UI" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($F{monedaTransaccion}!= null)?$F{monedaTransaccion}:"-"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="row_style" x="1952" y="-3" width="90" height="20" uuid="4aa4fb53-0868-44a8-8730-be7adad58e78"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Segoe UI" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($F{valorTransaccion}!= null)?$F{valorTransaccion}:"-"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="row_style" x="0" y="-3" width="90" height="20" uuid="4b6e470e-ced1-43f4-8b14-04d8749ff7e1"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Segoe UI" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{idCliente}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="row_style" x="1420" y="-3" width="130" height="20" uuid="1793c21c-6597-43c0-ab27-1f276eb8624b"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Segoe UI" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($F{proceso}!= null)?$F{proceso}:"-"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="row_style" x="1550" y="-3" width="100" height="20" uuid="1dedd9b3-caea-48ea-9e36-c3dbf4a858cf"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Segoe UI" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($F{transaccion}!= null)?$F{transaccion}:"-"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="row_style" x="2312" y="-3" width="60" height="20" uuid="e67a20a8-e99d-4b1b-86ca-1254bbb5f2b8"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Segoe UI" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($F{codigoRespuestaAut}!= null)?$F{codigoRespuestaAut}:"-"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="row_style" x="2372" y="-3" width="100" height="20" uuid="088e7bb8-fbf2-4cce-80e3-6950a0cf3c5b"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Segoe UI" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($F{monedaAut}!= null)?$F{monedaAut}:"-"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="row_style" x="2472" y="-3" width="80" height="20" uuid="6ca09a3b-143d-4724-a856-2625004e0989"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Segoe UI" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($F{montoAut}!= null)?$F{montoAut}:"-"]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

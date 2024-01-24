@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+	<div id="modalDetalleMantenimiento" class="hidden row" th:fragment="modalDetalleMantenimiento" th:with="tipo=${tipo}">
+		<div th:if="${#vars.permisoRegistroDetalle or #vars.permisoActualizacionDetalle}"
+			th:classappend="${#vars.permisoConsultaDetalle or #vars.permisoActualizacionDetalle or #vars.permisoEliminacionDetalle} ? 'col-md-5 col-sm-5 col-xs-5' : 'col-xs-12'">
+			<fieldset class="well">
+				<legend class="well-legend">Detalle de Mantenimiento</legend>
+				<form id="formDetalleMantenimiento" class="form-horizontal" role="form">
+					<th:block th:replace="~{template/fragments/mantenimiento/modalDetalleMantenimiento :: ${tipo}}?:~{}">
+					</th:block>
+					<div class="form-group">
+						<div class="col-lg-12 text-center">
+							<button id="registrarDetalleMantenimiento" type="button" class="btn btn-success" th:if="${#vars.permisoRegistroDetalle}">
+								<i class="fa fa-floppy-o"></i> Registrar
+							</button>
+							<button id="actualizarDetalleMantenimiento" type="button" class="btn btn-primary hidden"
+								th:if="${#vars.permisoActualizacionDetalle}">
+								<i class="fa fa-pencil-square"></i> Actualizar
+							</button>
+						</div>
+					</div>
+				</form>
+			</fieldset>
+			<th:block th:replace="~{template/fragments/mantenimiento/formularioAdicionalDetalleMantenimiento :: ${tipo}}?:~{}">
+			</th:block>
+		</div>
+		<div th:if="${#vars.permisoConsultaDetalle or #vars.permisoActualizacionDetalle}"
+			th:classappend="${#vars.permisoRegistroDetalle or #vars.permisoActualizacionDetalle} ? 'col-md-7 col-sm-7 col-xs-7' : 'col-xs-12'">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<ul class="panel-controls">
+						<li><select class="pull-left" id="filtroParaDetalleTablaMantenimiento">
+							</select></li>
+						<li>&nbsp; &nbsp; &nbsp;&nbsp;</li>
+						<li><button id="aniadirDetalleMantenimiento" class="btn btn-primary">
+								<i class="fa fa-plus"></i> <span>Añadir</span>
+							</button></li>
+					</ul>
+				</div>
+				<div class="panel-body">
+					<table id="tablaDetalleMantenimiento" width="100%"
+						class="table table-bordered dt-responsive table-condensed nowrap display table-hover"
+						th:attr="data-permiso-actualizacion=${#vars.permisoActualizacionDetalle}, data-permiso-eliminacion=${#vars.permisoEliminacionDetalle}">
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<th:block th:fragment="multiTabCab">
+		<div class="form-group">
+			<label class="col-lg-3 control-label">Identificador</label>
+			<div class="col-lg-9">
+				<input class="form-control upperCase elemento-desactivable" name="idItem" autofocus="autofocus" />
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-lg-3 control-label">Descripción</label>
+			<div class="col-lg-9">
+				<input class="form-control upperCase" name="descripcionItem">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-lg-3 control-label">Abreviatura</label>
+			<div class="col-lg-9">
+				<input class="form-control upperCase" name="abreviatura">
+			</div>
+		</div>
+	</th:block>
+
+</body>
+</html>

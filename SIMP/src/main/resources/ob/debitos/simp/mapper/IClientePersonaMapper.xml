@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ob.debitos.simp.mapper.IClientePersonaMapper">
+
+	<select id="buscarTodos" resultType="ClientePersona" >
+		 SELECT 
+		       *
+		 FROM ConsultaAdministrativaCliente	
+	</select>
+	
+	<select id="buscarPorTipoDocumento" resultType = "ClientePersona">
+		SELECT
+			*
+		FROM ConsultaAdministrativaCliente consulta
+		<where>
+			<if test="tipoDocumento != null and tipoDocumento != ''">
+				consulta.codigoTipoDocumento = #{tipoDocumento}
+			</if>
+			<if test="numeroDocumento != null and numeroDocumento != ''">
+				AND consulta.numeroDocumento = #{numeroDocumento}
+			</if>
+		</where>
+	</select>
+	
+	<select id="buscarPorCriterios" resultType="ClientePersona">
+		SELECT
+			*
+		FROM ConsultaAdministrativaCliente consulta
+		<where>
+			<if test="idCliente != null and idCliente != ''">
+				<bind name="clientPattern" value="idCliente + '%'" />
+				consulta.idCliente LIKE #{clientPattern}
+			</if>
+			<if test="nombres != null and nombres != ''">
+				<bind name="namePattern" value="'%' + nombres + '%'" />
+				AND consulta.nombres LIKE #{namePattern} 
+			</if>
+			<if test="apellidos != null and apellidos != ''">
+				<bind name="lastNamePattern" value="'%' + apellidos + '%'" />
+				AND consulta.apellidos LIKE #{lastNamePattern}
+			</if>
+		</where>
+	</select>
+
+</mapper>
+
+

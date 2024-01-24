@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" layout:decorator="layout">
+<head>
+<title th:text="|Reporte #{__|contable${reporte}|__}|"></title>
+</head>
+<th:block layout:fragment="style">
+	<link th:href="@{/resources/css/dataTables.bootstrap.min.css}" rel="stylesheet" />
+	<link th:href="@{/resources/css/responsive.bootstrap.min.css}" rel="stylesheet" />
+	<link th:href="@{/resources/css/fixedColumns.dataTables.min.css}" rel="stylesheet" />
+	<link th:href="@{/resources/css/select2.min.css}" rel="stylesheet" />
+	<link th:href="@{/resources/css/select2-bootstrap.min.css}" rel="stylesheet" />
+	<link th:href="@{/resources/css/daterangepicker.css}" rel="stylesheet" />
+</th:block>
+<body>
+	<th:block layout:fragment="content">
+		<div class="page-content-wrap">
+			<div class="row">
+				<div class="col-md-12 col-sm-12 col-xs-12">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h3 class="panel-title" th:text="|Reporte #{__|contable${reporte}|__}|"></h3>
+						</div>
+						<div class="panel-body">
+							<th:block
+								th:replace="~{template/fragments/reporte/criterioBusquedaReporteEstadoCuenta :: criterioBusquedaReporteEstadoCuenta(tipo=${reporte})}?:~{}">
+							</th:block>
+							
+							
+							<div id="resultadoBusquedaReporteEstadoCuenta" class="col-xs-12">
+								<th:block
+									th:replace="~{template/fragments/reporte/resultadoBusquedaReporteContablePrepago :: cliente }?:~{}">
+								</th:block>
+
+								<th:block
+									th:replace="~{template/fragments/reporte/resultadoBusquedaReporteContablePrepago :: ${reporte}}?:~{}">
+								</th:block>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</th:block>
+
+	<th:block layout:fragment="script">
+		<script th:src="@{/resources/js/datatables/jquery.dataTables.min.js}"></script>
+		<script th:src="@{/resources/js/datatables/dataTables.bootstrap.min.js}"></script>
+		<script th:src="@{/resources/js/datatables/dataTables.responsive.min.js}"></script>
+		<script th:src="@{/resources/js/bootstrap/bootstrap-notify.min.js}"></script>
+		<script th:src="@{/resources/js/jquery/jquery.serializejson.min.js}"></script>
+		<script th:src="@{/resources/js/jquery/jquery.validate.min.js}"></script>
+		<script th:src="@{/resources/js/jquery/additional-methods.min.js}"></script>
+		<script th:src="@{/resources/js/jquery/select2.full.min.js}"></script>
+		<script th:src="@{/resources/js/jquery/moment.min.js}"></script>
+		<script th:src="@{/resources/js/jquery/daterangepicker.js}"></script>
+		<script
+			th:src="@{/resources/js/pagina/reporte/prepago/{reporte}/{reporte}.js(reporte = ${reporte})}"></script>
+		<script
+			th:src="@{/resources/js/pagina/reporte/prepago/{reporte}/{reporte}Formulario.js(reporte = ${reporte})}"></script>
+		<script th:src="@{/resources/js/util/formularioUtil.js}"></script>
+	</th:block>
+</body>
+</html>

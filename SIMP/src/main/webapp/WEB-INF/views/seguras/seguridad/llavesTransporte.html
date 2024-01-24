@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" layout:decorator="layout">
+<head>
+<title th:text="|Llave de transporte|"></title>
+</head>
+<th:block layout:fragment="style">
+	<link th:href="@{/resources/css/dataTables.bootstrap.min.css}" rel="stylesheet" />
+	<link th:href="@{/resources/css/responsive.bootstrap.min.css}" rel="stylesheet" />
+	<link th:href="@{/resources/css/fixedColumns.dataTables.min.css}" rel="stylesheet" />
+	<link th:href="@{/resources/css/select2.min.css}" rel="stylesheet" />
+	<link th:href="@{/resources/css/select2-bootstrap.min.css}" rel="stylesheet" />
+	<link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css}">
+</th:block>
+<body>
+	<th:block layout:fragment="content">
+		<div class="page-content-wrap">
+			<div class="row">
+				<div class="col-md-12 col-sm-12 col-xs-12">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h3 class="panel-title" th:text="|Configuración de Llave de transporte (ZMK)|"></h3>
+						</div>
+						<div class="panel-body">
+							<div class="row">
+								<th:block th:if="${existeLLave}">
+									<div id="divMsjLlaveExistente" class="alert alert-warning" role="alert">
+		                                <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+		                                <strong>Ya existe una llave de transporte registrada. </strong> Si ingresa una nueva se reemplazará la anterior.
+	                            	</div>  
+								</th:block>
+							</div>
+							<div class="row">
+								<fieldset class="well">
+									<legend class="well-legend">Ingreso de componentes de llave</legend>
+									<form id="formLLaves" class="form-horizontal" role="form">
+										<div class="form-group">
+											<label class="col-sm-4 control-label">Componente 1</label>
+											<div class="col-sm-4">
+												<div class="input-group">
+													<input id="inputComponente1" type="password" th:key="|1|" class="form-control max-32-caracteres" maxlength="32" name="componente1" autocomplete="off" autofocus="autofocus" disabled="disabled"></input>
+													<span class="input-group-btn">
+														<button type="button" id="btnComponente1" class="btn btn-info btn-componente" title='Desbloquear' data-tooltip='tooltip'><i class="fa fa-unlock" aria-hidden="true"></i></button>
+													</span>
+												</div>												
+											</div>
+										</div>
+										<div class="form-group hidden" id="divKCV1">
+											<label class="col-sm-4 control-label">KCV</label>
+											<div class="col-sm-4">
+												<div class="input-group">
+													<input id="kcv1" type="text" class="form-control" disabled="disabled"></input>
+													<span class="input-group-btn">
+														<button type="button" id="btnValidarComponente1" th:key="|1|" class="btn btn-success validar-componente" title='Validar componente' data-tooltip='tooltip'><i class="fa fa-check" aria-hidden="true"></i></button>
+													</span>
+												</div>												
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-4 control-label">Componente 2</label>
+											<div class="col-sm-4">
+												<div class="input-group">
+													<input id="inputComponente2" type="password" th:key="|2|" class="form-control max-32-caracteres" maxlength="32" name="componente2" autocomplete="off" autofocus="autofocus" disabled="disabled"></input>
+													<span class="input-group-btn">
+														<button type="button" id="btnComponente2" class="btn btn-info btn-componente" title='Desbloquear' data-tooltip='tooltip'><i class="fa fa-unlock" aria-hidden="true"></i></button>
+													</span>
+												</div>										
+											</div>
+										</div>
+										<div class="form-group hidden" id="divKCV2">
+											<label class="col-sm-4 control-label">KCV</label>
+											<div class="col-sm-4">
+												<div class="input-group">
+													<input id="kcv2" type="text" class="form-control" disabled="disabled"></input>
+													<span class="input-group-btn">
+														<button type="button" id="btnValidarComponente2" th:key="|2|" class="btn btn-success validar-componente" title='Validar componente' data-tooltip='tooltip'><i class="fa fa-check" aria-hidden="true"></i></button>
+													</span>
+												</div>												
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-4 control-label">Componente 3</label>
+											<div class="col-sm-4">
+												<div class="input-group">
+													<input id="inputComponente3" type="password" th:key="|3|" class="form-control max-32-caracteres" maxlength="32" name="componente3" autocomplete="off" autofocus="autofocus" disabled="disabled"></input>
+													<span class="input-group-btn">
+														<button type="button" id="btnComponente3" class="btn btn-info btn-componente" title='Desbloquear' data-tooltip='tooltip'><i class="fa fa-unlock" aria-hidden="true"></i></button>
+													</span>
+												</div>										
+											</div>
+										</div>
+										<div class="form-group hidden" id="divKCV3">
+											<label class="col-sm-4 control-label">KCV</label>
+											<div class="col-sm-4">
+												<div class="input-group">
+													<input id="kcv3" type="text" class="form-control" disabled="disabled"></input>
+													<span class="input-group-btn">
+														<button type="button" id="btnValidarComponente3" th:key="|3|" class="btn btn-success validar-componente" title='Validar componente' data-tooltip='tooltip'><i class="fa fa-check" aria-hidden="true"></i></button>
+													</span>
+												</div>												
+											</div>
+										</div>
+										<div class="form-group">
+											<div class="col-lg-12 text-center">
+												<button id="btnRegistrar" type="button" class="btn btn-primary">
+													<i class="fa fa-pencil-square"></i> Registrar
+												</button>
+											</div>
+										</div>
+									</form>
+								</fieldset>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</th:block>
+	<th:block layout:fragment="script">
+		<script th:src="@{/resources/js/bootstrap/bootstrap-notify.min.js}"></script>
+		<script th:src="@{/resources/js/jquery/jquery.serializejson.min.js}"></script>
+		<script th:src="@{/resources/js/jquery/jquery.validate.min.js}"></script>
+		<script th:src="@{/resources/js/jquery/additional-methods.min.js}"></script>
+		<script th:src="@{/resources/js/jquery/select2.full.min.js}"></script>
+		<script th:src="@{/resources/js/jquery/daterangepicker.js}"></script>
+		<script th:src="@{/resources/js/util/formularioUtil.js}"></script>
+		<script th:src="@{/resources/js/pagina/seguridad/llavesTransporte/llavesTransporte.js}"></script>
+		<script th:src="@{/resources/js/pagina/seguridad/llavesTransporte/llavesTransporteFormulario.js}"></script>
+		
+	</th:block>
+</body>
+</html>

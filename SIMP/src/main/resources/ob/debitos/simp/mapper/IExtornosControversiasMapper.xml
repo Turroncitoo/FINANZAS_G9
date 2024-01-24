@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ob.debitos.simp.mapper.IExtornosControversiasMapper">
+
+	<!-- <select id="buscar" resultType="ReporteExtornosControversias">
+		SELECT 	*
+		FROM 	ReporteExtornosControversias reporte
+		<where>
+			<if test="codigoRolTransaccion != null and codigoRolTransaccion != -1">
+				reporte.codigoRolTransaccion = #{codigoRolTransaccion}
+			</if>
+			<if test="fechaInicioProceso != null and fechaInicioProceso != ''">
+				AND reporte.fechaProceso &gt;= #{fechaInicioProceso}
+			</if>
+			<if test="fechaFinProceso != null and fechaFinProceso != ''">
+				AND reporte.fechaProceso &lt;= #{fechaFinProceso}
+			</if>
+			<if test="numeroTarjeta != null and numeroTarjeta != ''">
+				AND reporte.numeroTarjeta = #{numeroTarjeta}
+			</if>
+			<if test="referenciaIntercambio != null and referenciaIntercambio != ''">
+				AND reporte.referenciaIntercambio = #{referenciaIntercambio}
+			</if>			
+			<if test="codigoInstitucion != null and codigoInstitucion != -1">
+				AND reporte.codigoInstitucion = #{codigoInstitucion} 
+			</if>
+		</where> 	
+		ORDER BY 
+			reporte.numeroTarjeta,
+         	reporte.referenciaIntercambio, 
+		 	reporte.fechaProceso
+	</select> -->
+
+	<select id="buscar" statementType="CALLABLE" resultType="ReporteExtornosControversias"
+		parameterType="CriterioBusquedaExtornosControversias">
+		{call REPORT_EXTORNOS_CONTROVERSIAS
+			(
+			#{fechaInicioProceso,     jdbcType = DATE,     mode = IN},
+			#{fechaFinProceso,		  jdbcType = DATE,     mode = IN},
+			#{codigoInstitucion,      jdbcType = INTEGER,  mode = IN},
+			#{idEmpresa,              jdbcType = VARCHAR,  mode = IN},
+			#{idCliente,              jdbcType = VARCHAR,  mode = IN},
+			#{codigoRolTransaccion,   jdbcType = VARCHAR,  mode = IN},
+			#{codigoRespuesta,        jdbcType = VARCHAR,  mode = IN},
+			#{numeroTarjeta, 	      jdbcType = VARCHAR,  mode = IN},
+			#{referenciaIntercambio,  jdbcType = VARCHAR,  mode = IN}
+			)
+		}
+	</select>
+</mapper>

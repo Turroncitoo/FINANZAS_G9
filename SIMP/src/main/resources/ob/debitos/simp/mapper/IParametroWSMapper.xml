@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ob.debitos.simp.mapper.IParametroWSMapper">
+	
+	<select id="buscarTodos" resultType="ob.debitos.simp.model.mantenimiento.ParametroWS">
+		SELECT * 
+		FROM ConsultaParametrosWS
+	</select> 
+	
+	<select id="actualizarParametroWS" statementType="CALLABLE">
+		{
+			CALL MANT_PARAMETROS_WS
+			( 
+				#{pathHostWS, 						jdbcType = VARCHAR, mode = IN},
+				#{llaveInstalacion, 				jdbcType = VARCHAR, mode = IN},  
+				#{llaveTransporteZMK, 				jdbcType = VARCHAR, mode = IN},
+				#{llaveTrabajoZPK, 					jdbcType = VARCHAR, mode = IN}, 
+				#{tokenParaHabilitarRestWS, 		jdbcType = VARCHAR, mode = IN},
+				#{tiempoExpiracionTokenEnMinutos, 	jdbcType = INTEGER, mode = IN},
+				#{tiempoTimeOutUbaEnSegundos, 		jdbcType = INTEGER, mode = IN},
+				#{pathBaseParaConsultaDesdeSIMPWeb, jdbcType = VARCHAR, mode = IN},
+				#{servidorLogWS, 					jdbcType = VARCHAR, mode = IN},
+				#{ipsPermitidas, 					jdbcType = VARCHAR, mode = IN},
+				#{filtrarIps, 						jdbcType = INTEGER, mode = IN}   
+			)
+	
+		}
+	</select>
+	
+	
+</mapper>

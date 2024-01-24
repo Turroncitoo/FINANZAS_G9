@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ob.debitos.simp.mapper.ISaldoMapper">
+    <sql id="fragmentSelectConsultaSaldos">
+        SELECT *
+        FROM ConsultaSaldos consulta
+    </sql>
+
+    <sql id="fragmentOrderByConsultaSaldos">
+        ORDER BY consulta.fechaProceso   DESC
+            ,consulta.codigoInstitucion  ASC
+            ,consulta.idEmpresa          ASC
+            ,consulta.idCliente          ASC
+            ,consulta.idLogo             ASC
+            ,consulta.codigoProducto     ASC
+            ,consulta.tipoDocumento      ASC;
+    </sql>
+
+    <select id="buscarUltimoSaldoPorMes" resultType="Saldo">
+        SELECT TOP 1 *
+        FROM ConsultaSaldos
+        WHERE numeroTarjeta = #{numeroTarjeta}
+            AND MONTH (
+            fechaProceso) = #{mes}
+          AND YEAR (fechaProceso) = #{anio}
+        ORDER BY fechaProceso DESC
+    </select>
+
+    <select id="buscarTodos" resultType="Saldo">
+        <include refid="fragmentSelectConsultaSaldos"/>
+    </select>
+
+    <select id="buscarPorTipoDocumento" resultType="Saldo">
+        <include refid="fragmentSelectConsultaSaldos"/>
+        <where>
+            <if test="tipoDocumento != null and tipoDocumento != ''">
+                consulta.tipoDocumento = #{tipoDocumento}
+            </if>
+            <if test="numeroDocumento != null and numeroDocumento != ''">
+                AND consulta.numeroDocumento = #{numeroDocumento}
+            </if>
+        </where>
+        <include refid="fragmentOrderByConsultaSaldos"/>
+    </select>
+
+    <select id="buscarPorCriterio" resultType="Saldo">
+        <include refid="fragmentSelectConsultaSaldos"/>
+        <where>
+            <if test="(fechaInicioProceso != null and fechaInicioProceso != '') and (fechaFinProceso != null and fechaFinProceso != '')">
+                consulta.fechaProceso BETWEEN #{fechaInicioProceso} AND #{fechaFinProceso}
+            </if>
+            <if test="codigoInstitucion != null">
+                AND consulta.codigoInstitucion = #{codigoInstitucion}
+            </if>
+            <if test="idEmpresa != null and idEmpresa != -1">
+                AND consulta.idEmpresa = #{idEmpresa}
+            </if>
+            <if test="clientes != null and clientes.size() > 0">
+                AND consulta.idCliente IN
+                <foreach item="item" index="index" collection="clientes"
+                         open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="idLogo != null and idLogo != -1">
+                AND consulta.idLogo = #{idLogo}
+            </if>
+            <if test="productos != null and productos.size() > 0">
+                AND consulta.codigoProducto IN
+                <foreach item="item" index="index" collection="productos"
+                         open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="moneda != null and moneda != -1">
+                AND consulta.moneda = #{moneda}
+            </if>
+            <if test="numeroTarjeta != null and numeroTarjeta != ''">
+                AND consulta.numeroTarjeta = #{numeroTarjeta}
+            </if>
+        </where>
+        <include refid="fragmentOrderByConsultaSaldos"/>
+    </select>
+</mapper>

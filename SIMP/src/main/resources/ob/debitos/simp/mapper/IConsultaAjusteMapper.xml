@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ob.debitos.simp.mapper.IConsultaAjusteMapper">
+    <sql id="fragmentSelectConsultaMovTxnsAjustes">
+        SELECT *
+        FROM ConsultaMovTxnsAjustes consulta
+    </sql>
+
+    <sql id="fragmentOrderByConsultaMovTxnsAjustes">
+        ORDER BY fechaProceso           DESC
+            ,consulta.fechaAfectacion   DESC
+            ,consulta.codigoInstitucion ASC
+            ,consulta.idEmpresa         ASC
+            ,consulta.idCliente         ASC
+            ,consulta.rolTransaccion    ASC
+            ,consulta.membresia         ASC
+            ,consulta.claseServicio     ASC
+            ,consulta.origen            ASC
+            ,consulta.claseTransaccion  ASC
+            ,consulta.codigoTransaccion ASC
+            ,consulta.proceso           ASC
+            ,consulta.codigoRespuesta   ASC
+            ,consulta.canal             ASC
+            ,consulta.tipoDocumento     ASC
+            ,consulta.fechaTransaccion  DESC
+            ,consulta.horaTransaccion   DESC;
+    </sql>
+
+    <select id="buscarTransaccionesAjustesPorTipoDocumento" resultType="TxnsAjuste">
+        <include refid="fragmentSelectConsultaMovTxnsAjustes"/>
+        <where>
+            <if test="tipoDocumento != null and tipoDocumento != ''">
+                consulta.tipoDocumento = #{tipoDocumento}
+            </if>
+            <if test="numeroDocumento != null and numeroDocumento != ''">
+                AND consulta.numeroDocumento = #{numeroDocumento}
+            </if>
+        </where>
+        <include refid="fragmentOrderByConsultaMovTxnsAjustes"/>
+    </select>
+
+    <select id="buscarTransaccionesAjustesPorCriterios" resultType="TxnsAjuste">
+        <include refid="fragmentSelectConsultaMovTxnsAjustes"/>
+        <where>
+            <if test="(fechaInicioProceso != null and fechaInicioProceso != '') and (fechaFinProceso != null and fechaFinProceso != '')">
+                consulta.fechaProceso BETWEEN #{fechaInicioProceso} AND #{fechaFinProceso}
+            </if>
+            <if test="codigoInstitucion != null">
+                AND consulta.codigoInstitucion = #{codigoInstitucion}
+            </if>
+            <if test="idEmpresa != null and idEmpresa != -1">
+                AND consulta.idEmpresa = #{idEmpresa}
+            </if>
+            <if test="clientes != null and clientes.size() > 0">
+                AND consulta.idCliente IN
+                <foreach item="item" index="index" collection="clientes"
+                         open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="numeroTarjeta != null and numeroTarjeta != ''">
+                AND consulta.numeroTarjeta = #{numeroTarjeta}
+            </if>
+            <if test="numeroVoucher != null and numeroVoucher != ''">
+                AND consulta.numeroVoucher = #{numeroVoucher}
+            </if>
+        </where>
+        <include refid="fragmentOrderByConsultaMovTxnsAjustes"/>
+    </select>
+</mapper>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ob.debitos.simp.mapper.ILotePPMapper">
+ 
+	<select id="buscarTodos" resultType="LotePP" > 
+		SELECT * 
+		FROM ConsultaMovimientoLote
+	</select>
+	
+	<select id="obtenerLotesPorCriterios" resultType="LotePP" > 
+		SELECT * 
+		FROM ConsultaMovimientoLote
+		<where>
+			<if test="fechaInicio != null and fechaFin != null">
+				AND fechaRegistro BETWEEN #{fechaInicio} AND #{fechaFin} 
+			</if>
+			<if test="idLoteOriginal != null and idLoteOriginal != -1">
+				AND idLoteOriginal = #{idLoteOriginal} 
+			</if>
+		</where>
+	</select>
+	
+	<resultMap type="LotePP" id="mapLoteCompleto">
+		<id property="nIdLote" column="nIdLote"/>
+		<result property="nEstadoLote" column="nEstadoLote"/>
+		<result property="dFechaRegistro" column="dFechaRegistro"/>
+		<result property="dFechaModificacion" column="dFechaModificacion"/>
+		<result property="nInstancia" column="nInstancia"/>
+		<result property="nIdInstitucion" column="nIdInstitucion"/>
+		<result property="sNombreArchivo" column="sNombreArchivo"/>
+		<result property="nSecuencia" column="nSecuencia"/>
+		<result property="nTipoAfiliacion" column="nTipoAfiliacion"/>
+		<association property="clSubBin" javaType="ob.debitos.simp.model.mantenimiento.SubBin">
+			<result property="codigoBIN" column="vBin"/>
+			<result property="codigoSubBIN" column="vSubBin"/>
+		</association>
+		<association property="clCliente" javaType="ob.debitos.simp.model.mantenimiento.Cliente">
+			<result property="idCliente" column="vIdCliente"/>
+			<result property="idEmpresa" column="vIdEmpresa"/>
+			<result property="descripcion" column="vDescripcion"/>
+		</association>
+		<collection property="lstControlLote" javaType="List" ofType="ob.debitos.simp.model.prepago.ControlLotePP">
+			<id property="idControlLote" column="nIdControlLote"/>
+			<result property="idSecuencial" column="nIdSecuencial"/>
+			<result property="fecHora" column="vFecHora"/>
+			<result property="respCode" column="nRespCode"/>
+		</collection>
+	</resultMap>
+	
+</mapper>

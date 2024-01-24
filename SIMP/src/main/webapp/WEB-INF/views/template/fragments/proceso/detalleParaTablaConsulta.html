@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+	<div id="modalDetalleConsulta" class="row" th:fragment="modalDetalleConsulta" th:with="consulta=${consulta}">
+		<fieldset class="well">
+			<legend class="well-legend">Detalle de Consulta</legend>
+				<th:block th:replace="~{/template/fragments/consultas/detalleParaTablaConsulta :: ${consulta}}?:~{}"></th:block>
+		</fieldset>
+	</div>
+	
+	<div id="modalDetalleComision" class="row" th:fragment="modalDetalleComision">
+		<fieldset class="well">
+			<legend class="well-legend">Detalle Comision</legend>
+				<th:block th:replace="~{/template/fragments/consultas/detalleParaTablaConsulta :: detalleComision}"></th:block>
+		</fieldset>
+	</div>
+
+	<th:block th:fragment="txnsSwDmpLog">	
+	<form id="detalleSwDmpLog" class="form-horizontal">
+		<div class="row">
+			<div class="col-md-6">
+				<fieldset class="well">
+					<legend class="well-legend"><i class="fa fa-eye"></i> Filtros 1</legend>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Membresía</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionMembresia" name="descripcionMembresia" type="text" disabled="disabled"
+									class="form-control input-md">
+							</div>
+							<label class="col-sm-2 control-label">Clase de Servicio</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionClaseServicios" name="descripcionClaseServicios" type="text" disabled="disabled"
+									class="form-control input-md">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Rol Transacción</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionRol" name="descripcionRol" type="text" disabled="disabled"
+									class="form-control input-md">
+							</div>
+							<label class="col-sm-2 control-label">Canal</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionCanal" name="descripcionCanal" type="text" disabled="disabled"
+									class="form-control input-md">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Origen Transacción</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionOrigen" name="descripcionOrigen" type="text" disabled="disabled"
+									class="form-control input-md">
+							</div>
+							<label class="col-sm-2 control-label">Transacción</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionClaseTransacccion" name="descripcionClaseTransacccion" type="text" disabled="disabled"
+									class="form-control input-md">
+							</div>
+						</div>					
+				</fieldset>
+			</div>
+			    	
+			<div class="col-md-6">
+				<fieldset class="well">
+					<legend class="well-legend"><i class="fa fa-eye"></i> Filtros 2</legend>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Tipo Mensaje</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionRol" name="descripcionTipoMensajeOriginal" type="text" disabled="disabled"
+									class="form-control input-md">
+							</div>
+							<label class="col-sm-2 control-label">Trace</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionMembresia" name="descripcionNumeroTraceOriginal" type="text" disabled="disabled"
+									class="form-control input-md">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Fecha Transacción</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionClaseServicios" name="descripcionFechaTransaccionOriginal" type="text" disabled="disabled"
+									class="form-control input-md">
+							</div>
+							<label class="col-sm-2 control-label"> Institución Adquirente</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionOrigen" name="descripcionOriginalInstitucionAdquirente" type="text" disabled="disabled"
+									class="form-control input-md">
+							</div>
+						</div>
+						<div class="form-group">
+							
+							<label class="col-sm-2 control-label"> Institución Reenvío</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionClaseTransacccion" name="descripcionOriginalInstitucionReenvio" type="text" disabled="disabled"
+									class="form-control input-md">
+							</div>
+						</div>
+				</fieldset>
+			</div>
+			
+		</div>
+
+		<div class="row">
+			<div class="col-md-6">
+				<fieldset class="well">
+					<legend class="well-legend"><i class="fa fa-eye"></i> Filtros 3</legend>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Tipo Mensaje</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionMembresia" name="descripcionTipoMensaje" type="text" disabled="disabled"
+									class="form-control input-md">
+							</div>
+							<label class="col-sm-2 control-label">Ind Store & Forward</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionClaseServicios" name="descripcionStoreForward" type="text" disabled="disabled"
+									class="form-control input-md">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Número Tarjeta</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionRol" name="descripcionNumeroTarjeta" type="text" disabled="disabled"
+									class="form-control input-md">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Tipo Transacción</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionOrigen" name="descripcionTipoTransaccion" type="text" disabled="disabled"
+									class="form-control input-md">
+							</div>
+							<label class="col-sm-2 control-label">Monto Transacción</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionClaseTransacccion" name="descripcionMontoTransacccion" type="text" disabled="disabled"
+									class="form-control input-md">
+							</div>
+							
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Cuenta From </label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionClaseTransacccion" name="descripcionCuentaFrom" type="text" disabled="disabled"
+									class="form-control input-md">
+							</div>
+							<label class="col-sm-2 control-label">Cuenta To</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionOrigen" name="descripcionCuentaTo" type="text" disabled="disabled"
+									class="form-control input-md">
+							</div>							
+						</div>
+				</fieldset>
+			</div>
+
+			<div class="col-md-6">
+				<fieldset class="well">
+					<legend class="well-legend"><i class="fa fa-eye"></i> Filtros 4</legend>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Fecha Transacción</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionRol" name="descripcionFechaTransaccion" type="text" disabled="disabled"
+									class="form-control input-md">
+							</div>
+							<label class="col-sm-2 control-label">Fecha Procesado</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionMembresia" name="descripcionFechaProcesado" type="text" disabled="disabled"
+									class="form-control input-md">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Fecha Expiración</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionClaseServicios" name="descripcionFechaExpiracion" type="text" disabled="disabled"
+									class="form-control input-md">
+							</div>
+							<label class="col-sm-2 control-label"> Fecha Captura Switch</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionOrigen" name="descripcionFechaCapturaSwitch" type="text" disabled="disabled"
+									class="form-control input-md">
+							</div>
+						</div>
+						<div class="form-group">
+							
+							<label class="col-sm-2 control-label"> Terminal Adquirente</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionClaseTransacccion" name="descripcionTerminalAdquirente" type="text" disabled="disabled"
+									class="form-control input-md">
+							</div>
+							<label class="col-sm-2 control-label"> Descripcion Adquirente</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionClaseTransacccion" name="descripcionAdquirente" type="text" disabled="disabled"
+									class="form-control input-md">
+							</div>
+						</div>
+
+
+						<div class="form-group">
+							
+							<label class="col-sm-2 control-label"> Identificación Adquirente</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionClaseTransacccion" name="descripcionIdentificacionAdquirente" type="text" disabled="disabled"
+									class="form-control input-md">
+							</div>
+							<label class="col-sm-2 control-label"> Autorización</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionClaseTransacccion" name="descripcionAutorizacion" type="text" disabled="disabled"
+									class="form-control input-md">
+							</div>
+						</div>
+				</fieldset>
+			</div>
+			
+		</div>
+
+		<div class="row">
+			<div class="col-md-6">
+				<fieldset class="well">
+					<legend class="well-legend"><i class="fa fa-eye"></i> Filtros 5</legend>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Trace</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionMembresia" name="descripcionTrace" type="text" disabled="disabled"
+									class="form-control input-md">
+							</div>
+							<label class="col-sm-2 control-label">Giro Negocio</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionClaseServicios" name="descripcionGiroNegocio" type="text" disabled="disabled"
+									class="form-control input-md">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">POS Entry Mode</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionRol" name="descripcionPosEntryMode" type="text" disabled="disabled"
+									class="form-control input-md">
+							</div>
+							<label class="col-sm-2 control-label">POS Condition Code</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionCanal" name="descripcionPosConditionCode" type="text" disabled="disabled"
+									class="form-control input-md">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Respuesta</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionOrigen" name="descripcionRespuesta" type="text" disabled="disabled"
+									class="form-control input-md">
+							</div>
+
+							
+						</div>
+				</fieldset>
+			</div>
+			<div class="col-md-6">
+				<fieldset class="well">
+					<legend class="well-legend"><i class="fa fa-eye"></i> Filtros 6</legend>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Institución Solicitante</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionRol" name="descripcionInstitucionSolicitante" type="text" disabled="disabled"
+									class="form-control input-md">
+							</div>
+							<label class="col-sm-2 control-label">Institución Reenvío</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionMembresia" name="descripcionInstitucionReenvio" type="text" disabled="disabled"
+									class="form-control input-md">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Institución Adquirente</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionClaseServicios" name="descripcionInstitucionAdquirente" type="text" disabled="disabled"
+									class="form-control input-md">
+							</div>
+							<label class="col-sm-2 control-label"> Id Cuenta 1</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionOrigen" name="descripcionIdCuenta1" type="text" disabled="disabled"
+									class="form-control input-md">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label"> Id Cuenta 2</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionClaseTransacccion" name="descripcionIdCuenta2" type="text" disabled="disabled"
+									class="form-control input-md">
+							</div>
+						</div>
+				</fieldset>
+			</div>
+			
+		</div>
+	</form>
+	</th:block>
+	
+	
+	<th:block th:fragment="txnsCompensacion">
+		<form id="detalleCompensacion" class="form-horizontal">
+			<div class="row">
+				<div class="col-md-6">
+					<fieldset class="well">
+					<legend class="well-legend"><i class="fa fa-eye"></i> Filtros 1</legend>					
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Membresía</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionMembresia" name="descripcionMembresia" type="text" disabled="disabled"
+									class="form-control input-md">
+							</div>
+							<label class="col-sm-2 control-label">Clase de Servicio</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionClaseServicios" name="descripcionClaseServicio" type="text" disabled="disabled"
+									class="form-control input-md">
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Origen</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionMembresia" name="descripcionOrigen" type="text" disabled="disabled"
+									class="form-control input-md">
+							</div>
+							<label class="col-sm-2 control-label">Transaccion</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionClaseServicios" name="descripcionTransaccion" type="text" disabled="disabled"
+									class="form-control input-md">
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Emisor</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionMembresia" name="descripcionEmisor" type="text" disabled="disabled"
+									class="form-control input-md">
+							</div>
+							<label class="col-sm-2 control-label">Receptor</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionClaseServicios" name="descripcionReceptor" type="text" disabled="disabled"
+									class="form-control input-md">
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Bin</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionMembresia" name="descripcionBin" type="text" disabled="disabled"
+									class="form-control input-md">
+							</div>
+							<label class="col-sm-2 control-label">Sub Bin</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionClaseServicios" name="descripcionSubBin" type="text" disabled="disabled"
+									class="form-control input-md">
+							</div>
+						</div>
+					</fieldset>
+				</div>
+				
+				<div class="col-md-6">
+					<fieldset class="well">
+						<legend class="well-legend"><i class="fa fa-eye"></i> Filtros 2</legend>					
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Fecha Transaccion</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionMembresia" name="descripcionFechaTransaccion" type="text" disabled="disabled"
+									class="form-control input-md">
+							</div>
+							<label class="col-sm-2 control-label">Fecha Proceso</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionClaseServicios" name="descripcionFechaProceso" type="text" disabled="disabled"
+									class="form-control input-md">
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Fecha Afectacion</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionMembresia" name="descripcionFechaAfectacion" type="text" disabled="disabled"
+									class="form-control input-md">
+							</div>
+							<label class="col-sm-2 control-label">Valor Transaccion</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionClaseServicios" name="descripcionValorTransaccion" type="text" disabled="disabled"
+									class="form-control input-md">
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Valor Compensacion</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionMembresia" name="descripcionValorCompensacion" type="text" disabled="disabled"
+									class="form-control input-md">
+							</div>
+						</div>
+					</fieldset>
+				</div>
+			</div>
+			
+			<div class="row">
+				<div class="col-md-6">
+					<fieldset class="well">
+					<legend class="well-legend"><i class="fa fa-eye"></i> Filtros 3</legend>					
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Numero Tarjeta</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionMembresia" name="descripcionNumeroTarjeta" type="text" disabled="disabled"
+									class="form-control input-md">
+							</div>
+							<label class="col-sm-2 control-label">Numero Cuenta</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionMembresia" name="descripcionNumeroCuenta" type="text" disabled="disabled"
+									class="form-control input-md">
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Trace</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionMembresia" name="descripcionTrace" type="text" disabled="disabled"
+									class="form-control input-md">
+							</div>
+							<label class="col-sm-2 control-label">Autorizacion</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionMembresia" name="descripcionAutorizacion" type="text" disabled="disabled"
+									class="form-control input-md">
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Id Terminal</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionMembresia" name="descripcionCodigoTerminal" type="text" disabled="disabled"
+									class="form-control input-md">
+							</div>
+							<label class="col-sm-2 control-label">Establecimiento</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionMembresia" name="descripcionCodigoEstablecimiento" type="text" disabled="disabled"
+									class="form-control input-md">
+							</div>
+						</div>
+					</fieldset>
+				</div>
+				
+				<div class = "col-md-6">
+					<fieldset class="well">
+					<legend class="well-legend"><i class="fa fa-eye"></i> Filtros 3</legend>					
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Nombre Adquirente</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionMembresia" name="descripcionNombreAfiliado" type="text" disabled="disabled"
+									class="form-control input-md">
+							</div>
+							<label class="col-sm-2 control-label">Pais Adquirente</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionMembresia" name="descripcionPaisAfiliado" type="text" disabled="disabled"
+									class="form-control input-md">
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Ciudad Adquirente</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionMembresia" name="descripcionCiudadAfiliado" type="text" disabled="disabled"
+									class="form-control input-md">
+							</div>
+							<label class="col-sm-2 control-label">Referencia Adquirente</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionMembresia" name="descripcionReferenciaIntercambio" type="text" disabled="disabled"
+									class="form-control input-md">
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Porcentaje VisaNet</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionMembresia" name="descripcionPorcentajeVisanet" type="text" disabled="disabled"
+									class="form-control input-md">
+							</div>
+							<label class="col-sm-2 control-label">Cobro Tipo C/D</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionMembresia" name="descripcionAplicaCobroTipoC" type="text" disabled="disabled"
+									class="form-control input-md">
+							</div>
+						</div>
+					</fieldset>
+				</div>
+			</div>
+
+			<div class = "row">
+				<div class = "col-md-6">
+					<fieldset class="well">
+					<legend class="well-legend"><i class="fa fa-eye"></i> Filtros 3</legend>					
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Pais Emisor</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionMembresia" name="descripcionPaisEmisor" type="text" disabled="disabled"
+									class="form-control input-md">
+							</div>
+							<label class="col-sm-2 control-label">Region Emisor</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionMembresia" name="descripcionRegionEmisor" type="text" disabled="disabled"
+									class="form-control input-md">
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Pais Receptor</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionMembresia" name="descripcionPaisReceptor" type="text" disabled="disabled"
+									class="form-control input-md">
+							</div>
+							<label class="col-sm-2 control-label">Region Receptor</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionMembresia" name="descripcionRegionReceptor" type="text" disabled="disabled"
+									class="form-control input-md">
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Tipo Producto</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionMembresia" name="descripcionTipoProducto" type="text" disabled="disabled"
+									class="form-control input-md">
+							</div>
+							<label class="col-sm-2 control-label">Tipo Tarjeta</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionMembresia" name="descripcionTipoTarjeta" type="text" disabled="disabled"
+									class="form-control input-md">
+							</div>
+						</div>
+					</fieldset>			
+				</div>
+				
+				<div class = "col-md-6">
+						<fieldset class="well">
+						<legend class="well-legend"><i class="fa fa-eye"></i> Filtros 3</legend>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">Ind Pago Recurrente</label>
+								<div class="col-sm-4">
+									<input id="txtDescripcionMembresia" name="descripcionPagoRecurrente" type="text" disabled="disabled"
+										class="form-control input-md">
+								</div>
+								<label class="col-sm-2 control-label">Ind Moneda Internacional</label>
+								<div class="col-sm-4">
+									<input id="txtDescripcionMembresia" name="descripcionMonedaInternacional" type="text" disabled="disabled"
+										class="form-control input-md">
+								</div>
+							</div>
+							
+							<div class="form-group">
+								<label class="col-sm-2 control-label">Ind Compensacion</label>
+								<div class="col-sm-4">
+									<input id="txtDescripcionMembresia" name="descripcionIndCompensacion" type="text" disabled="disabled"
+										class="form-control input-md">
+								</div>
+								
+								<label class="col-sm-2 control-label">Respuesta</label>
+								<div class="col-sm-4">
+									<input id="txtDescripcionMembresia" name="descripcionRespuesta" type="text" disabled="disabled"
+										class="form-control input-md">
+								</div>
+							</div>
+							
+							<div class="form-group">
+								
+								<label class="col-sm-2 control-label">Codigo Proceso</label>
+								<div class="col-sm-4">
+									<input id="txtDescripcionMembresia" name="descripcionCodigoProceso" type="text" disabled="disabled"
+										class="form-control input-md">
+								</div>
+								
+								<label class="col-sm-2 control-label">Canal</label>
+								<div class="col-sm-4">
+									<input id="txtDescripcionMembresia" name="descripcionCanal" type="text" disabled="disabled"
+										class="form-control input-md">
+								</div>
+							</div>
+						</fieldset>
+					</div>
+			</div>
+
+			<div class="row">
+				<div class = "col-md-6">
+					<fieldset class="well">
+					<legend class="well-legend"><i class="fa fa-eye"></i> Filtros 3</legend>
+						
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Método Id THB</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionMembresia" name="descripcionMetodoIdThb" type="text" disabled="disabled"
+									class="form-control input-md">
+							</div>
+							<label class="col-sm-2 control-label">Ind Teléfono Correo</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionMembresia" name="descripcionIndCorreoTelefono" type="text" disabled="disabled"
+									class="form-control input-md">
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Glosa Regularización</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionMembresia" name="descripcionGlosaRegularizacion" type="text" disabled="disabled"
+									class="form-control input-md">
+							</div>
+							<label class="col-sm-2 control-label">Giro de Negocio</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionMembresia" name="descripcionGiroNegocio" type="text" disabled="disabled"
+									class="form-control input-md">
+							</div>
+						</div>
+					</fieldset>
+				</div>
+				
+				<div class = "col-md-6">
+					<fieldset class="well">
+					<legend class="well-legend"><i class="fa fa-eye"></i> Filtros 3</legend>							
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Modo Entrada POS</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionMembresia" name="descripcionModoEntradaPos" type="text" disabled="disabled"
+									class="form-control input-md">
+							</div>
+							<label class="col-sm-2 control-label">Terminal POS</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionMembresia" name="descripcionTerminalPos" type="text" disabled="disabled"
+									class="form-control input-md">
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Tipo Cuenta ATM</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionMembresia" name="descripcionTipoCuentaAtm" type="text" disabled="disabled"
+									class="form-control input-md">
+							</div>
+						</div>
+					</fieldset>
+				</div>
+			</div>
+			
+			<div class="row">
+				<div class = "col-md-6">
+				<fieldset class="well">
+					<legend class="well-legend"><i class="fa fa-eye"></i>Compensacion de Fondos</legend>
+					
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Fondos Cargo</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionMembresia" name="descripcionFondosCargo" type="text" disabled="disabled"
+									class="form-control input-md">
+							</div>
+							
+							<label class="col-sm-2 control-label">Fondos Abono</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionMembresia" name="descripcionFondosAbono" type="text" disabled="disabled"
+									class="form-control input-md">
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Nivel Compensación</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionMembresia" name="descripcionNivelCompensacion" type="text" disabled="disabled"
+									class="form-control input-md">
+							</div>
+							
+							<label class="col-sm-2 control-label">Valor CashBack</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionMembresia" name="descripcionValorCashBack" type="text" disabled="disabled"
+									class="form-control input-md">
+							</div>
+						</div>
+				</fieldset>					
+				</div>
+				
+				<div class = "col-md-6">
+					<fieldset class="well">
+					<legend class="well-legend"><i class="fa fa-eye"></i>Conciliación</legend>
+					
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Autorización</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionMembresia" name="descripcionConciliacionAutorizacion" type="text" disabled="disabled"
+									class="form-control input-md">
+							</div>
+							
+							<label class="col-sm-2 control-label">SwDmpLog</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionMembresia" name="descripcionSwDmpLog" type="text" disabled="disabled"
+									class="form-control input-md">
+							</div>
+						</div>
+				</fieldset>					
+				</div>
+			</div>
+		</form>
+	</th:block>
+	
+	<th:block th:fragment="detalleComision">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+								<h3>Comisiones</h3>
+			</div>
+			<div class="panel-body">
+				<table id="tablaDetalleComision" width="100%" class="table table-bordered table-condensed nowrap display table-hover">
+				</table>
+			</div>
+		</div>
+	</th:block>
+
+</body>
+</html>

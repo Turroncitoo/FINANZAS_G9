@@ -1,0 +1,650 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.4.3.final using JasperReports Library version 6.4.3  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rpt_canal" pageWidth="1220" pageHeight="595" orientation="Landscape" whenNoDataType="NoDataSection" columnWidth="1180" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="e2855748-40e6-4045-87b7-01b23977786d">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.report.description" value=""/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<parameter name="rolTransaccion" class="java.lang.Integer"/>
+	<parameter name="respuestaTransaccion" class="java.lang.Integer"/>
+	<parameter name="tipoMoneda" class="java.lang.Integer"/>
+	<parameter name="fechaInicio" class="java.util.Date"/>
+	<parameter name="fechaFin" class="java.util.Date"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="idCanal" class="java.lang.Integer"/>
+	<field name="descripcionCanal" class="java.lang.String"/>
+	<field name="cantidadCanal" class="java.lang.Integer"/>
+	<field name="montoCanal" class="java.lang.Integer"/>
+	<field name="comisionTHB" class="java.lang.Integer"/>
+	<field name="comisionINT" class="java.lang.Integer"/>
+	<field name="comisionGAS" class="java.lang.Integer"/>
+	<field name="comisionOPE" class="java.lang.Integer"/>
+	<field name="comisionOIF" class="java.lang.Integer"/>
+	<field name="comisionDIS" class="java.lang.Integer"/>
+	<field name="comisionTOTAL" class="java.lang.Integer"/>
+	<variable name="cantidadCanal1" class="java.lang.Integer" resetType="Page" calculation="Sum">
+		<variableExpression><![CDATA[$F{cantidadCanal}]]></variableExpression>
+	</variable>
+	<variable name="montoCanal1" class="java.lang.Integer" resetType="Page" calculation="Sum">
+		<variableExpression><![CDATA[$F{montoCanal}]]></variableExpression>
+	</variable>
+	<variable name="comisionTHB1" class="java.lang.Integer" resetType="Page" calculation="Sum">
+		<variableExpression><![CDATA[$F{comisionTHB}]]></variableExpression>
+	</variable>
+	<variable name="comisionINT1" class="java.lang.Integer" resetType="Page" calculation="Sum">
+		<variableExpression><![CDATA[$F{comisionINT}]]></variableExpression>
+	</variable>
+	<variable name="comisionGAS1" class="java.lang.Integer" resetType="Page" calculation="Sum">
+		<variableExpression><![CDATA[$F{comisionGAS}]]></variableExpression>
+	</variable>
+	<variable name="comisionOPE1" class="java.lang.Integer" resetType="Page" calculation="Sum">
+		<variableExpression><![CDATA[$F{comisionOPE}]]></variableExpression>
+	</variable>
+	<variable name="comisionOIF1" class="java.lang.Integer" resetType="Page" calculation="Sum">
+		<variableExpression><![CDATA[$F{comisionOIF}]]></variableExpression>
+	</variable>
+	<variable name="comisionDIS1" class="java.lang.Integer" resetType="Page" calculation="Sum">
+		<variableExpression><![CDATA[$F{comisionDIS}]]></variableExpression>
+	</variable>
+	<variable name="comisionTOTAL1" class="java.lang.Integer" resetType="Page" calculation="Sum">
+		<variableExpression><![CDATA[$F{comisionTOTAL}]]></variableExpression>
+	</variable>
+	<variable name="cantidadCanal2" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{cantidadCanal}]]></variableExpression>
+	</variable>
+	<variable name="montoCanal2" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{montoCanal}]]></variableExpression>
+	</variable>
+	<variable name="comisionTHB2" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{comisionTHB}]]></variableExpression>
+	</variable>
+	<variable name="comisionINT2" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{comisionINT}]]></variableExpression>
+	</variable>
+	<variable name="comisionGAS2" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{comisionGAS}]]></variableExpression>
+	</variable>
+	<variable name="comisionOPE2" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{comisionOPE}]]></variableExpression>
+	</variable>
+	<variable name="comisionOIF2" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{comisionOIF}]]></variableExpression>
+	</variable>
+	<variable name="comisionDIS2" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{comisionDIS}]]></variableExpression>
+	</variable>
+	<variable name="comisionTOTAL2" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{comisionTOTAL}]]></variableExpression>
+	</variable>
+	<variable name="comisionDIS3" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{comisionDIS}]]></variableExpression>
+	</variable>
+	<variable name="comisionTOTAL3" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{comisionTOTAL}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="32" splitType="Stretch">
+			<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.FreeLayout"/>
+			<textField>
+				<reportElement x="0" y="0" width="1170" height="30" uuid="7d49439c-1f79-400d-a7ad-47e915820375"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Segoe UI" size="15" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["REPORTE CONPENSACION EMISOR CANAL"]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="75" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<textField pattern="MMM d, yyyy h:mm:ss a">
+				<reportElement x="26" y="8" width="224" height="20" uuid="5e393668-7be0-49f7-aecd-e74c19a284fe"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Segoe UI" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["ROL TRANSACCION: " + ($P{rolTransaccion})]]></textFieldExpression>
+			</textField>
+			<textField pattern="MMM d, yyyy h:mm:ss a">
+				<reportElement x="20" y="50" width="290" height="20" uuid="854d92ae-d707-49ff-a3e6-ca987be098a9"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Segoe UI" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["RESPUESTA TRANSACCION: " + ($P{respuestaTransaccion})]]></textFieldExpression>
+			</textField>
+			<textField pattern="MMM d, yyyy h:mm:ss a">
+				<reportElement x="650" y="50" width="224" height="20" uuid="3f6a626a-a368-488e-86a8-a2fb8c343d67"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Segoe UI" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["TIPO MONEDA: " + ($P{tipoMoneda})]]></textFieldExpression>
+			</textField>
+			<textField pattern="MMM d, yyyy h:mm:ss a">
+				<reportElement x="650" y="10" width="224" height="20" uuid="cc37523e-2c4e-42f3-92a8-6ca715d0d455"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Segoe UI" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["FECHA INICIO: " + (($P{fechaInicio} != null)? new SimpleDateFormat("dd/MM/yyyy").format($P{fechaInicio}) : "-")]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="920" y="10" width="223" height="20" uuid="75f60f66-c9b8-4acb-9266-0143d51f1a73"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Segoe UI" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["FECHA FIN: " + (($P{fechaFin} != null)? new SimpleDateFormat("dd/MM/yyyy").format($P{fechaFin}) : "-")]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="68" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="37" width="100" height="30" forecolor="#FCFAFA" backcolor="#E38C8A" uuid="d73dd1b1-0559-4f38-8b72-97248761eb73">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="48139ef8-b444-4963-a36b-93a9f5d76934"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Segoe UI" size="10"/>
+				</textElement>
+				<text><![CDATA[Id Canal]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="100" y="37" width="170" height="30" forecolor="#FCFAFA" backcolor="#E38C8A" uuid="7bf102f6-fdb3-4cfa-ad40-5e47cfc4fd0f">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="2f948276-f847-48f8-814b-00015adc394f"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Segoe UI" size="10"/>
+				</textElement>
+				<text><![CDATA[Nombre Canal]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="270" y="37" width="100" height="30" forecolor="#FCFAFA" backcolor="#538DD5" uuid="d70b489d-09a8-4c5b-a506-fa83ca592663">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="3735983e-f760-472b-92f9-35ac86a11e9c"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Segoe UI" size="10"/>
+				</textElement>
+				<text><![CDATA[Cantidad Canal]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="370" y="37" width="100" height="30" forecolor="#FCFAFA" backcolor="#538DD5" uuid="ce0a6ed7-bc22-432d-b9ff-d58c0a9f88e5">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="9ce87d44-aedd-44ba-8ed0-fff293ad7afc"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Segoe UI" size="10"/>
+				</textElement>
+				<text><![CDATA[Monto Canal]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="470" y="37" width="100" height="30" forecolor="#FCFAFA" backcolor="#8FB349" uuid="1aed89ff-c3c1-44b3-80f0-bc90691fdc14">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="01b14353-138f-4c2c-8b75-79491ec7f4ff"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Segoe UI" size="10"/>
+				</textElement>
+				<text><![CDATA[THB]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="570" y="37" width="100" height="30" forecolor="#FCFAFA" backcolor="#8FB349" uuid="50f88539-b860-420c-a068-6814d7e7468a">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="04f1f548-669a-463c-9700-b221edf414ba"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Segoe UI" size="10"/>
+				</textElement>
+				<text><![CDATA[INT]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="670" y="37" width="100" height="30" forecolor="#FCFAFA" backcolor="#8FB349" uuid="96a930aa-9134-4702-a112-80aed27e0e0b">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="9165ddc8-beba-45a8-9bc1-d45cf10f93ac"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Segoe UI" size="10"/>
+				</textElement>
+				<text><![CDATA[GAS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="770" y="37" width="100" height="30" forecolor="#FCFAFA" backcolor="#8FB349" uuid="a27116a8-a04b-4cb1-8ae7-eacedd414ef5">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a9ebaa44-300f-41b5-9a38-9a899a9f5757"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Segoe UI" size="10"/>
+				</textElement>
+				<text><![CDATA[OPE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="870" y="37" width="100" height="30" forecolor="#FCFAFA" backcolor="#8FB349" uuid="1996afc5-f2e2-41c7-bd81-3d536bdcb99d">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="9f830a2f-2efe-434a-b312-13e1d9acf4ff"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Segoe UI" size="10"/>
+				</textElement>
+				<text><![CDATA[OIF]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="970" y="37" width="100" height="30" forecolor="#FCFAFA" backcolor="#8FB349" uuid="cf4e1b4b-86b1-458d-89d4-640c63e4ddce">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="7f3f7156-4706-433f-b796-2fea45bad57b"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Segoe UI" size="10"/>
+				</textElement>
+				<text><![CDATA[DIS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="1070" y="37" width="100" height="30" forecolor="#FCFAFA" backcolor="#8FB349" uuid="18748ccf-d41e-4759-9ff0-02f54a3813f8">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="844ba8da-e53e-4ad8-bcb7-810e9317d97d"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Segoe UI" size="10"/>
+				</textElement>
+				<text><![CDATA[TOTAL]]></text>
+			</staticText>
+			<textField>
+				<reportElement mode="Opaque" x="0" y="7" width="270" height="30" forecolor="#FCFAFA" backcolor="#974706" uuid="f6d7c18c-4ea5-4a29-ab1d-c6a3d2776321"/>
+				<box>
+					<pen lineWidth="1.0" lineStyle="Solid" lineColor="#000302"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Segoe UI" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Datos de Canal"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="270" y="7" width="200" height="30" forecolor="#FCFAFA" backcolor="#244062" uuid="92808dcd-40f6-4676-ad7a-4804c23e8d99"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Segoe UI" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Fondos"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="470" y="7" width="700" height="30" forecolor="#FCFAFA" backcolor="#4F6228" uuid="7194ae60-4ef9-4084-a819-2cdf2867ecc3"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Segoe UI" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Comisiones"]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="100" height="20" uuid="a66ab491-da85-4884-8a3a-b5f88f609b59">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="48139ef8-b444-4963-a36b-93a9f5d76934"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Segoe UI" size="9" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{idCanal}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="100" y="0" width="170" height="20" uuid="d9ddc5da-238e-42d9-a9aa-fbb856e51c1a">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="2f948276-f847-48f8-814b-00015adc394f"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Segoe UI" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{descripcionCanal}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="270" y="0" width="100" height="20" uuid="8f3a520d-7127-4a28-97ca-8fc5c08d3693">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="3735983e-f760-472b-92f9-35ac86a11e9c"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Segoe UI" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cantidadCanal}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="370" y="0" width="100" height="20" uuid="e698bae6-d0e5-445a-ba70-703c31e35d80">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="9ce87d44-aedd-44ba-8ed0-fff293ad7afc"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Segoe UI" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{montoCanal}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="470" y="0" width="100" height="20" uuid="94605d8a-bb5a-418d-b0e9-287b46404852">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="01b14353-138f-4c2c-8b75-79491ec7f4ff"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Segoe UI" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{comisionTHB}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="570" y="0" width="100" height="20" uuid="cbb10b16-3408-406a-bf96-8ac0b6bd547d">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="04f1f548-669a-463c-9700-b221edf414ba"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Segoe UI" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{comisionINT}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="670" y="0" width="100" height="20" uuid="743320ad-ffed-4e64-addb-f1ed5e0f735a">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="9165ddc8-beba-45a8-9bc1-d45cf10f93ac"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Segoe UI" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{comisionGAS}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="770" y="0" width="100" height="20" uuid="860b25e5-842b-4470-8f3b-c810037ba8b9">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a9ebaa44-300f-41b5-9a38-9a899a9f5757"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Segoe UI" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{comisionOPE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="870" y="0" width="100" height="20" uuid="27d72690-fd0f-40ac-882e-5ddf3d7ef1db">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="9f830a2f-2efe-434a-b312-13e1d9acf4ff"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Segoe UI" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{comisionOIF}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="970" y="0" width="100" height="20" uuid="b6c49a08-e32b-4e59-93c4-dce7339bbeb3">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="7f3f7156-4706-433f-b796-2fea45bad57b"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Segoe UI" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{comisionDIS}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="1070" y="0" width="100" height="20" uuid="116935a1-be57-48e6-8334-10c83d6f05d9">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="844ba8da-e53e-4ad8-bcb7-810e9317d97d"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Segoe UI" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{comisionTOTAL}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="20">
+			<textField>
+				<reportElement x="270" y="0" width="100" height="20" uuid="b1a36079-aa2a-4232-86c1-407d39d7a252"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{cantidadCanal2}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="370" y="0" width="100" height="20" uuid="a905c0fe-23b0-4c71-8f26-874d52e9bfe9"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{montoCanal2}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="470" y="0" width="100" height="20" uuid="e9bb7bc5-d9a7-4d41-969b-0f8770c2fc60"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{comisionTHB2}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="570" y="0" width="100" height="20" uuid="b93527b2-0e82-4fb8-96a7-e8cdbf592f11"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{comisionINT2}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="670" y="0" width="100" height="20" uuid="d304dd52-0466-40e0-a5eb-5f24dde1b679"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{comisionGAS2}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="770" y="0" width="100" height="20" uuid="99295774-7cff-4706-9027-4b511c37ea72"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{comisionOPE2}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="870" y="0" width="100" height="20" uuid="99cf2a21-9118-446c-a8e6-15780be3daf1"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{comisionOIF2}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="0" width="270" height="20" uuid="ba4519d1-2530-42c6-9682-297b64b34a81"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textFieldExpression><![CDATA[" Total "]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="970" y="0" width="100" height="20" uuid="fc32692c-d508-468c-b5c2-a513802a97e6"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{comisionDIS3}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="1070" y="0" width="100" height="20" uuid="fcb4cdcd-3a00-4c5b-b083-6caccbb3a23a"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{comisionTOTAL3}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

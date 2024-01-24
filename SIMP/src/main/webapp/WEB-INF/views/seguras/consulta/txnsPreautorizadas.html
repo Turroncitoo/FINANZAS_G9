@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" xmlns:layout="	"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+      layout:decorator="layout">
+<head>
+    <title th:text="|Consulta Transacciones Pre autorizadas|"></title>
+</head>
+<th:block layout:fragment="style">
+    <link th:href="@{/resources/css/dataTables.bootstrap.min.css}"
+          rel="stylesheet"/>
+    <link th:href="@{/resources/css/responsive.bootstrap.min.css}"
+          rel="stylesheet"/>
+    <link th:href="@{/resources/css/fixedColumns.dataTables.min.css}"
+          rel="stylesheet"/>
+    <link th:href="@{/resources/css/select2.min.css}" rel="stylesheet"/>
+    <link th:href="@{/resources/css/select2-bootstrap.min.css}"
+          rel="stylesheet"/>
+    <link th:href="@{/resources/css/daterangepicker.css}" rel="stylesheet"/>
+</th:block>
+<body>
+<th:block layout:fragment="content">
+    <div class="page-content-wrap">
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"
+                            th:text="|Consulta de Transacciones Pre autorizadas|"></h3>
+                    </div>
+                    <div class="panel-body">
+                        <div id="criterioBusquedaReporte" class="row">
+                            <fieldset class="well">
+                                <legend class="well-legend">Tipo Búsqueda</legend>
+                                <form id="formCriterioBusquedaConsulta" class="form-horizontal"
+                                      role="form">
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <div class="group">
+                                                <label for="fechaSolicitud"
+                                                       class="col-sm-1 col-md-1 control-label">Fecha Solicitud</label>
+                                                <div class="col-sm-3 col-md-3">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon"><i
+                                                                class="fa fa-calendar"></i></span>
+                                                        <input id="fechaSolicitud" class="form-control filtro"
+                                                               name="fechaSolicitud"
+                                                               readonly="readonly"
+                                                               type="text"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="group">
+                                                <label for="selectInstitucion"
+                                                       class="col-sm-1 col-md-1 control-label">Institución</label>
+                                                <div class="col-sm-3 col-md-3">
+                                                    <select id="selectInstitucion" name="idInstitucion"
+                                                            class="form-control select2 filtro">
+                                                        <option th:each="institucion : ${instituciones}"
+                                                                th:value="${institucion.codigoInstitucion}"
+                                                                th:text="|${institucion.codigoInstitucion} - ${institucion.descripcionCorta}|"></option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="group">
+                                                <label for="selectEmpresa"
+                                                       class="col-sm-1 col-md-1 control-label">Empresa</label>
+                                                <div class="col-sm-3 col-md-3">
+                                                    <select id="selectEmpresa" name="idEmpresa"
+                                                            class="form-control select2 filtro">
+                                                        <option value="-1" selected="selected">Seleccione una Empresa
+                                                        </option>
+                                                        <option th:each="empresa : ${empresas}"
+                                                                th:value="${empresa.idEmpresa}"
+                                                                th:text="|${empresa.idEmpresa} - ${empresa.descripcion}|"></option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="group">
+                                                <label for="selectCliente"
+                                                       class="col-sm-1 col-md-1 control-label">Cliente</label>
+                                                <div class="col-sm-3 col-md-3">
+                                                    <select id="selectCliente" name="clientes"
+                                                            class="select2 filtro"
+                                                            multiple="multiple"></select>
+                                                </div>
+                                            </div>
+                                            <div class="group">
+                                                <label for="selectEstado"
+                                                       class="col-sm-1 col-md-1 control-label">Estado</label>
+                                                <div class="col-sm-3 col-md-3">
+                                                    <select id="selectEstado" name="estados"
+                                                            class="select2 filtro"
+                                                            multiple="multiple">
+                                                        <option th:each="operacion : ${estados}"
+                                                                th:value="${operacion.idItem}"
+                                                                th:text="|${operacion.idItem} - ${operacion.descripcionItem}|"></option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="group">
+                                                <label for="numeroTarjeta"
+                                                       class="col-sm-1 col-md-1 control-label">Número Tarjeta</label>
+                                                <div class="col-sm-3 col-md-3">
+                                                    <input id="numeroTarjeta"
+                                                           class="form-control filtro numbersOnly" name="numeroTarjeta"
+                                                           maxlength="20"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="group">
+                                                <label for="codigoSeguimiento"
+                                                       class="col-sm-1 col-md-1 control-label">Código
+                                                    Seguimiento</label>
+                                                <div class="col-sm-3 col-md-3">
+                                                    <input id="codigoSeguimiento"
+                                                           class="form-control filtro" name="codigoSeguimiento"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <div class="col-lg-12 text-center">
+                                                <button id="buscarPorCriterio" type="button"
+                                                        class="btn btn-primary">
+                                                    <i class="fa fa-search"></i> Buscar
+                                                </button>
+                                                <button id="exportarPorCriterio" type="button"
+                                                        class="btn btn-success">
+                                                    <i class="fa fa-download"></i> Exportar
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </fieldset>
+                            <table id="tablaConsultaWS" width="100%"
+                                   class="table table-bordered table-condensed nowrap display table-hover">
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</th:block>
+
+<th:block layout:fragment="script">
+    <script th:src="@{/resources/js/datatables/jquery.dataTables.min.js}"></script>
+    <script th:src="@{/resources/js/datatables/dataTables.bootstrap.min.js}"></script>
+    <script th:src="@{/resources/js/datatables/dataTables.responsive.min.js}"></script>
+    <script th:src="@{/resources/js/datatables/dataTables.show.rows.js}"></script>
+    <script th:src="@{/resources/js/bootstrap/bootstrap-notify.min.js}"></script>
+    <script th:src="@{/resources/js/jquery/jquery.serializejson.min.js}"></script>
+    <script th:src="@{/resources/js/jquery/jquery.validate.min.js}"></script>
+    <script th:src="@{/resources/js/jquery/additional-methods.min.js}"></script>
+    <script th:src="@{/resources/js/jquery/jquery.animate.min.js}"></script>
+    <script th:src="@{/resources/js/jquery/select2.full.min.js}"></script>
+    <script th:src="@{/resources/js/jquery/moment.min.js}"></script>
+    <script th:src="@{/resources/js/jquery/daterangepicker.js}"></script>
+    <script th:src="@{/resources/js/util/formularioUtil.js}"></script>
+    <script th:src="@{/resources/js/pagina/consulta/movimiento/txnsPreautorizadas/txnsPreautorizadas.js}"></script>
+    <script th:src="@{/resources/js/pagina/consulta/movimiento/txnsPreautorizadas/txnsPreautorizadasFormulario.js}"></script>
+</th:block>
+</body>
+</html>

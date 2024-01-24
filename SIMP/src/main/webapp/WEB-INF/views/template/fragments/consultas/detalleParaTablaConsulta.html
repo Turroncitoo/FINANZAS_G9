@@ -1,0 +1,1829 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+	<div id="modalDetalleConsulta" class="row"
+		th:fragment="modalDetalleConsulta" th:with="consulta=${consulta}">
+		<div class="row">
+			<th:block
+				th:replace="~{/template/fragments/consultas/detalleParaTablaConsulta :: Navegador}"></th:block>
+		</div>
+		<fieldset class="well">
+			<legend class="well-legend">Detalle del Cliente</legend>
+			<th:block
+				th:replace="~{/template/fragments/consultas/detalleParaTablaConsulta :: Cliente}"></th:block>
+		</fieldset>
+
+		<fieldset class="well">
+			<legend class="well-legend">Detalle de Consulta</legend>
+			<th:block
+				th:replace="~{/template/fragments/consultas/detalleParaTablaConsulta :: ${consulta}}?:~{}"></th:block>
+		</fieldset>
+
+		<th:block
+			th:replace="~{/template/fragments/consultas/detalleParaTablaConsulta :: Navegador}"></th:block>
+	</div>
+
+	<div id="modalDetalleComision" class="row"
+		th:fragment="modalDetalleComision">
+		<fieldset class="well">
+			<legend class="well-legend">Datos de la Transacción</legend>
+			<th:block
+				th:replace="~{/template/fragments/consultas/detalleParaTablaConsulta :: seccionComisionesEncabezado}"></th:block>
+		</fieldset>
+		<fieldset class="well">
+			<th:block
+				th:replace="~{/template/fragments/consultas/detalleParaTablaConsulta :: detalleComision}"></th:block>
+		</fieldset>
+	</div>
+
+	<div id="modalDetalleComisionAutorizada" class="row"
+		th:fragment="modalDetalleComisionAutorizada">
+		<fieldset class="well">
+			<th:block
+				th:replace="~{/template/fragments/consultas/detalleParaTablaConsulta :: detalleComisionAutorizada}"></th:block>
+		</fieldset>
+	</div>
+
+	<div id="modalTxnsObservadasTrace" class="row"
+		th:fragment="modalTxnsObservadasTrace">
+		<fieldset class="well">
+			<th:block
+				th:replace="~{/template/fragments/consultas/detalleParaTablaConsulta :: txnsTraceObservadas}"></th:block>
+		</fieldset>
+	</div>
+
+	<div th:block th:fragment="seccionComisionesEncabezado">
+		<form id="detalleComisionEncabezado" class="form-horizontal">
+			<div class="row">
+				<div class="form-group">
+					<label class="col-sm-2 control-label">Secuencia Transacción</label>
+					<div class="col-sm-2">
+						<input id="txtSecuenciaTransaccion" name="secuenciaTransaccion"
+							type="text" disabled="disabled" class="form-control input-md"
+							data-tooltip="tooltip">
+					</div>
+					<label class="col-sm-2 control-label">Fecha Transacción</label>
+					<div class="col-sm-2">
+						<input id="txtFechaTransaccion" name="fechaTransaccion"
+							type="text" disabled="disabled" class="form-control input-md"
+							data-tooltip="tooltip">
+					</div>
+					<label class="col-sm-2 control-label">Número Cuenta</label>
+					<div class="col-sm-2">
+						<input id="txtNumeroCuenta" name="numeroCuenta" type="text"
+							disabled="disabled" class="form-control input-md"
+							data-tooltip="tooltip">
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="col-sm-2 control-label">Rol</label>
+					<div class="col-sm-2">
+						<input id="txtDescripcionRol" name="descripcionRol" type="text"
+							disabled="disabled" class="form-control input-md"
+							data-tooltip="tooltip">
+					</div>
+					<label class="col-sm-2 control-label">Canal</label>
+					<div class="col-sm-2">
+						<input id="txtDescripcionCanal" name="descripcionCanal"
+							type="text" disabled="disabled" class="form-control input-md"
+							data-tooltip="tooltip">
+					</div>
+					<label class="col-sm-2 control-label">Moneda</label>
+					<div class="col-sm-2">
+						<input id="txtDescMonedaTransaccion" name="descMonedaTransaccion"
+							type="text" disabled="disabled" class="form-control input-md"
+							data-tooltip="tooltip">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label">Autorización</label>
+					<div class="col-sm-2">
+						<input id="txtCodigoAutorizacion" name="codigoAutorizacion"
+							type="text" disabled="disabled" class="form-control input-md"
+							data-tooltip="tooltip">
+					</div>
+					<label class="col-sm-2 control-label">Número Trace</label>
+					<div class="col-sm-2">
+						<input id="txtNumeroVoucher" name="numeroVoucher" type="text"
+							disabled="disabled" class="form-control input-md"
+							data-tooltip="tooltip">
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+
+	<div th:block th:fragment="Cliente">
+		<form id="detalleCliente" class="form-horizontal">
+			<div class="row">
+				<div class="col-md-6">
+					<fieldset class="well">
+						<legend class="well-legend">
+							<i class="fa fa-user-o"></i> Datos Personales
+						</legend>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Nombres</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionNombres"
+									name="descripcionNombreCliente" type="text" disabled="disabled"
+									class="form-control input-md">
+							</div>
+
+							<label class="col-sm-2 control-label">Apellidos</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionApellidos"
+									name="descripcionApellidoCliente" type="text"
+									disabled="disabled" class="form-control input-md">
+							</div>
+						</div>
+					</fieldset>
+				</div>
+
+				<div class="col-md-6">
+					<fieldset class="well">
+						<legend class="well-legend">
+							<i class="fa fa-user-o"></i> Documento
+						</legend>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Tipo</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionTipoDocumento"
+									name="descripcionTipoDocumento" type="text" disabled="disabled"
+									class="form-control input-md">
+							</div>
+
+							<label class="col-sm-2 control-label">Número</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionNumeroDocumento"
+									name="descripcionNumeroDocumento" type="text"
+									disabled="disabled" class="form-control input-md">
+							</div>
+						</div>
+					</fieldset>
+				</div>
+			</div>
+		</form>
+	</div>
+
+	<th:block th:fragment="txnsSwDmpLog">
+		<form id="detalleSwDmpLog" class="form-horizontal">
+			<div class="row">
+				<div class="col-md-6">
+					<fieldset class="well">
+						<legend class="well-legend">
+							<i class="fa fa-user-o"></i> Datos 1
+						</legend>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Membresía</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionMembresia" name="descripcionMembresia"
+									type="text" disabled="disabled" class="form-control input-md"
+									data-tooltip="tooltip">
+							</div>
+							<label class="col-sm-2 control-label">Clase de Servicio</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionClaseServicios"
+									name="descripcionClaseServicios" type="text"
+									disabled="disabled" class="form-control input-md"
+									data-tooltip="tooltip">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Rol Transacción</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionRol" name="descripcionRol" type="text"
+									disabled="disabled" class="form-control input-md"
+									data-tooltip="tooltip">
+							</div>
+							<label class="col-sm-2 control-label">Canal</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionCanal" name="descripcionCanal"
+									type="text" disabled="disabled" class="form-control input-md"
+									data-tooltip="tooltip">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Origen Transacción</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionOrigen" name="descripcionOrigen"
+									type="text" disabled="disabled" class="form-control input-md"
+									data-tooltip="tooltip">
+							</div>
+							<label class="col-sm-2 control-label">Transacción</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionClaseTransacccion"
+									name="descripcionClaseTransacccion" type="text"
+									disabled="disabled" class="form-control input-md"
+									data-tooltip="tooltip">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Institución Emisora</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionInstitucionEmisora"
+									name="descripcionInstitucionEmisora" type="text"
+									disabled="disabled" class="form-control input-md"
+									data-tooltip="tooltip">
+							</div>
+							<label class="col-sm-2 control-label">Institución
+								Receptora</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionInstitucionReceptora"
+									name="descripcionInstitucionReceptora" type="text"
+									disabled="disabled" class="form-control input-md"
+									data-tooltip="tooltip">
+							</div>
+						</div>
+					</fieldset>
+				</div>
+				<div class="col-md-6">
+					<fieldset class="well">
+						<legend class="well-legend">
+							<i class="fa fa-user-o"></i> Datos Originales
+						</legend>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Tipo Mensaje</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionTipoMensajeOriginal"
+									name="descripcionTipoMensajeOriginal" type="text"
+									disabled="disabled" class="form-control input-md"
+									data-tooltip="tooltip">
+							</div>
+							<label class="col-sm-2 control-label">Trace</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionNumeroTraceOriginal"
+									name="descripcionNumeroTraceOriginal" type="text"
+									disabled="disabled" class="form-control input-md"
+									data-tooltip="tooltip">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Fecha Transacción</label>
+							<div class="col-sm-2">
+								<input id="txtDescripcionFechaTransaccionOriginal"
+									name="descripcionFechaTransaccionOriginal" type="text"
+									disabled="disabled" class="form-control input-md"
+									data-tooltip="tooltip">
+							</div>
+							<div class="col-sm-2">
+								<input id="txtDescripcionHoraTransaccionOriginal"
+									name="descripcionHoraTransaccionOriginal" type="text"
+									disabled="disabled" class="form-control input-md"
+									data-tooltip="tooltip">
+							</div>
+							<label class="col-sm-2 control-label">Institución
+								Adquirente</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionOriginalInstitucionAdquirente"
+									name="descripcionOriginalInstitucionAdquirente" type="text"
+									disabled="disabled" class="form-control input-md"
+									data-tooltip="tooltip">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Institución Reenvío</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionOriginalInstitucionReenvio"
+									name="descripcionOriginalInstitucionReenvio" type="text"
+									disabled="disabled" class="form-control input-md"
+									data-tooltip="tooltip">
+							</div>
+						</div>
+					</fieldset>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-6">
+					<fieldset class="well">
+						<legend class="well-legend">
+							<i class="fa fa-user-o"></i> Datos 2
+						</legend>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Tipo Mensaje</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionMembresia"
+									name="descripcionTipoMensaje" type="text" disabled="disabled"
+									class="form-control input-md" data-tooltip="tooltip">
+							</div>
+							<label class="col-sm-2 control-label">Ind Store &amp;
+								Forward</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionStoreForward"
+									name="descripcionStoreForward" type="text" disabled="disabled"
+									class="form-control input-md" data-tooltip="tooltip">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Número Tarjeta</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionNumeroTarjeta"
+									name="descripcionNumeroTarjeta" type="text" disabled="disabled"
+									class="form-control input-md" data-tooltip="tooltip">
+							</div>
+							<label class="col-sm-2 control-label">Monto Transacción</label>
+							<div class="col-sm-1">
+								<input id="txtDescripcionMonedaTransacccion"
+									name="descripcionMonedaTransacccion" type="text"
+									disabled="disabled" class="form-control input-md"
+									data-tooltip="tooltip">
+							</div>
+							<div class="col-sm-3">
+								<input id="txtDescripcionMontoTransacccion"
+									name="descripcionMontoTransacccion" type="text"
+									disabled="disabled" class="form-control input-md"
+									data-tooltip="tooltip">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Tipo Transacción</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionOrigen"
+									name="descripcionTipoTransaccion" type="text"
+									disabled="disabled" class="form-control input-md"
+									data-tooltip="tooltip">
+							</div>
+							<label class="col-sm-2 control-label">Cuenta From </label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionCuentaFrom"
+									name="descripcionCuentaFrom" type="text" disabled="disabled"
+									class="form-control input-md" data-tooltip="tooltip">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Cuenta To</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionCuentaTo" name="descripcionCuentaTo"
+									type="text" disabled="disabled" class="form-control input-md"
+									data-tooltip="tooltip">
+							</div>
+							<label class="col-sm-2 control-label">Número Documento</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionNumeroDocumentoSwDmpLog"
+									name="descripcionNumeroDocumentoSwDmpLog" type="text"
+									disabled="disabled" class="form-control input-md"
+									data-tooltip="tooltip">
+							</div>
+						</div>
+					</fieldset>
+				</div>
+				<div class="col-md-6">
+					<fieldset class="well">
+						<legend class="well-legend">
+							<i class="fa fa-user-o"></i> Datos 3
+						</legend>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Fecha Transacción</label>
+							<div class="col-sm-2">
+								<input id="txtDescripcionFechaTransaccion"
+									name="descripcionFechaTransaccion" type="text"
+									disabled="disabled" class="form-control input-md"
+									data-tooltip="tooltip">
+							</div>
+							<div class="col-sm-2">
+								<input id="txtDescripcionHoraTransaccion"
+									name="descripcionHoraTransaccion" type="text"
+									disabled="disabled" class="form-control input-md"
+									data-tooltip="tooltip">
+							</div>
+							<label class="col-sm-2 control-label">Fecha Proceso</label>
+							<div class="col-sm-2">
+								<input id="txtDescripcionFechaProcesado"
+									name="descripcionFechaProcesado" type="text"
+									disabled="disabled" class="form-control input-md"
+									data-tooltip="tooltip">
+							</div>
+							<div class="col-sm-2">
+								<input id="txtDescripcionHoraProceso"
+									name="descripcionHoraProceso" type="text" disabled="disabled"
+									class="form-control input-md" data-tooltip="tooltip">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Fecha Expiración</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionFechaExpiracion"
+									name="descripcionFechaExpiracion" type="text"
+									disabled="disabled" class="form-control input-md"
+									data-tooltip="tooltip">
+							</div>
+							<label class="col-sm-2 control-label">Fecha Captura
+								Switch</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionFechaCapturaSwitch"
+									name="descripcionFechaCapturaSwitch" type="text"
+									disabled="disabled" class="form-control input-md"
+									data-tooltip="tooltip">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Terminal Adquirente</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionTerminalAdquirente"
+									name="descripcionTerminalAdquirente" type="text"
+									disabled="disabled" class="form-control input-md"
+									data-tooltip="tooltip">
+							</div>
+							<label class="col-sm-2 control-label">Descripción
+								Adquirente</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionAdquirente"
+									name="descripcionAdquirente" type="text" disabled="disabled"
+									class="form-control input-md" data-tooltip="tooltip">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Identificación
+								Adquirente</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionIdentificacionAdquirente"
+									name="descripcionIdentificacionAdquirente" type="text"
+									disabled="disabled" class="form-control input-md"
+									data-tooltip="tooltip">
+							</div>
+							<label class="col-sm-2 control-label">Autorización</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionAutorizacion"
+									name="descripcionAutorizacion" type="text" disabled="disabled"
+									class="form-control input-md" data-tooltip="tooltip">
+							</div>
+						</div>
+					</fieldset>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-6">
+					<fieldset class="well">
+						<legend class="well-legend">
+							<i class="fa fa-user-o"></i> Datos 4
+						</legend>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Trace</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionTrace" name="descripcionTrace"
+									type="text" disabled="disabled" class="form-control input-md"
+									data-tooltip="tooltip">
+							</div>
+							<label class="col-sm-2 control-label">Giro Negocio</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionGiroNegocio"
+									name="descripcionGiroNegocio" type="text" disabled="disabled"
+									class="form-control input-md" data-tooltip="tooltip">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">POS Entry Mode</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionPosEntryMode"
+									name="descripcionPosEntryMode" type="text" disabled="disabled"
+									class="form-control input-md" data-tooltip="tooltip">
+							</div>
+							<label class="col-sm-2 control-label">POS Condition Code</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionPosConditionCode"
+									name="descripcionPosConditionCode" type="text"
+									disabled="disabled" class="form-control input-md"
+									data-tooltip="tooltip">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">PAN Entry Mode</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionPanEntryMode"
+									name="descripcionPanEntryMode" type="text" disabled="disabled"
+									class="form-control input-md" data-tooltip="tooltip">
+							</div>
+							<label class="col-sm-2 control-label">PIN Entry
+								Capability</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionPinEntryCapability"
+									name="descripcionPinEntryCapability" type="text"
+									disabled="disabled" class="form-control input-md"
+									data-tooltip="tooltip">
+							</div>
+						</div>
+					</fieldset>
+				</div>
+				<div class="col-md-6">
+					<fieldset class="well">
+						<legend class="well-legend">
+							<i class="fa fa-user-o"></i> Datos 5
+						</legend>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Institución
+								Respuesta</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionInstitucionSolicitante"
+									name="descripcionInstitucionSolicitante" type="text"
+									disabled="disabled" class="form-control input-md"
+									data-tooltip="tooltip">
+							</div>
+							<label class="col-sm-2 control-label">Institución Reenvío</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionInstitucionReenvio"
+									name="descripcionInstitucionReenvio" type="text"
+									disabled="disabled" class="form-control input-md"
+									data-tooltip="tooltip">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Institución
+								Adquirente</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionInstitucionAdquirente"
+									name="descripcionInstitucionAdquirente" type="text"
+									disabled="disabled" class="form-control input-md"
+									data-tooltip="tooltip">
+							</div>
+							<label class="col-sm-2 control-label">Id Cuenta 1</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionIdCuenta1" name="descripcionIdCuenta1"
+									type="text" disabled="disabled" class="form-control input-md"
+									data-tooltip="tooltip">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Id Cuenta 2</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionIdCuenta2" name="descripcionIdCuenta2"
+									type="text" disabled="disabled" class="form-control input-md"
+									data-tooltip="tooltip">
+							</div>
+							<label class="col-sm-2 control-label">Respuesta</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionRespuesta" name="descripcionRespuesta"
+									type="text" disabled="disabled" class="form-control input-md"
+									data-tooltip="tooltip">
+							</div>
+						</div>
+					</fieldset>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-6">
+					<fieldset class="well">
+						<legend class="well-legend">
+							<i class="fa fa-vcard-o"></i> Contabilización
+						</legend>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Cuenta Cargo</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionCuentaCargo"
+									name="descripcionCuentaCargo" type="text" disabled="disabled"
+									class="form-control input-md" data-tooltip="tooltip">
+							</div>
+							<label class="col-sm-2 control-label">Cuenta Abono</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionCuentaAbono"
+									name="descripcionCuentaAbono" type="text" disabled="disabled"
+									class="form-control input-md" data-tooltip="tooltip">
+							</div>
+						</div>
+					</fieldset>
+				</div>
+				<div class="col-md-6">
+					<fieldset class="well">
+						<legend class="well-legend">
+							<i class="fa fa-vcard-o"></i> Contabilización
+						</legend>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Código Analítico</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionCodigoAnalitico"
+									name="descripcionCodigoAnalitico" type="text"
+									disabled="disabled" class="form-control input-md"
+									data-tooltip="tooltip">
+							</div>
+						</div>
+					</fieldset>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-6">
+					<fieldset class="well">
+						<legend class="well-legend">
+							<i class="fa fa-handshake-o"></i> Conciliación
+						</legend>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Autorización</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionConciliacionAutorizacion"
+									name="descripcionConciliacionAutorizacion" type="text"
+									disabled="disabled" class="form-control input-md"
+									data-tooltip="tooltip">
+							</div>
+							<label class="col-sm-2 control-label">LogContable</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionConciliacionLogContable"
+									name="descripcionConciliacionLogContable" type="text"
+									disabled="disabled" class="form-control input-md"
+									data-tooltip="tooltip">
+							</div>
+						</div>
+					</fieldset>
+				</div>
+				<div class="col-md-6">
+					<fieldset class="well">
+						<legend class="well-legend">
+							<i class="fa fa-handshake-o"></i> Conciliación
+						</legend>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Fecha Concilia Log</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionFechaConciliaLog"
+									name="descripcionFechaConciliaLog" type="text"
+									disabled="disabled" class="form-control input-md"
+									data-tooltip="tooltip">
+							</div>
+						</div>
+					</fieldset>
+				</div>
+			</div>
+		</form>
+	</th:block>
+
+	<th:block th:fragment="txnsAutorizacion">
+		<form id="detalleAutorizacion" class="form-horizontal">
+			<div class="row">
+				<div class="col-md-6">
+					<fieldset class="well">
+						<legend class="well-legend">
+							<i class="fa fa-user-o"></i> Datos Originales
+						</legend>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Tipo Mansaje</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionMembresia"
+									name="descripcionTipoMensajeOriginal" type="text"
+									disabled="disabled" class="form-control input-md">
+							</div>
+
+							<label class="col-sm-2 control-label">Trace</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionMembresia"
+									name="descripcionNumeroTraceOriginal" type="text"
+									disabled="disabled" class="form-control input-md">
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Fecha Transaccion</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionMembresia"
+									name="descripcionFechaTransaccionOriginal" type="text"
+									disabled="disabled" class="form-control input-md">
+							</div>
+
+							<label class="col-sm-2 control-label">Institución
+								Adquirente</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionMembresia"
+									name="descripcionOriginalInstitucionAdquirente" type="text"
+									disabled="disabled" class="form-control input-md">
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Institucion Reenvio</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionMembresia"
+									name="descripcionOriginalInstitucionReenvio" type="text"
+									disabled="disabled" class="form-control input-md">
+							</div>
+						</div>
+					</fieldset>
+				</div>
+				<div class="col-md-6">
+					<fieldset class="well">
+						<legend class="well-legend">
+							<i class="fa fa-user-o"></i> Datos 1
+						</legend>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Origen de Archivo</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionMembresia"
+									name="descripcionOrigenArchivo" type="text" disabled="disabled"
+									class="form-control input-md">
+							</div>
+
+							<label class="col-sm-2 control-label">Rol</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionMembresia" name="descripcionRol"
+									type="text" disabled="disabled" class="form-control input-md">
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Canal</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionMembresia" name="descripcionCanal"
+									type="text" disabled="disabled" class="form-control input-md">
+							</div>
+
+							<label class="col-sm-2 control-label">Tipo de Mensaje</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionMembresia"
+									name="descripcionTipoMensaje" type="text" disabled="disabled"
+									class="form-control input-md">
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Número de Tarjeta</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionMembresia"
+									name="descripcionNumeroTarjeta" type="text" disabled="disabled"
+									class="form-control input-md">
+							</div>
+
+							<label class="col-sm-2 control-label">Tipo Transaccion</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionMembresia"
+									name="descripcionTipoTransaccion" type="text"
+									disabled="disabled" class="form-control input-md">
+							</div>
+						</div>
+					</fieldset>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-md-6">
+					<fieldset class="well">
+						<legend class="well-legend">
+							<i class="fa fa-user-o"></i> Datos 2
+						</legend>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Monto Transaccion</label>
+							<div class="col-sm-2">
+								<input id="txtDescripcionMonedaTransaccion"
+									name="descripcionMonedaTransaccion" type="text"
+									disabled="disabled" class="form-control input-md">
+							</div>
+							<div class="col-sm-2">
+								<input id="txtMontoTransaccion"
+									name="descripcionMontoTransaccion" type="text"
+									disabled="disabled" class="form-control input-md">
+							</div>
+							<label class="col-sm-2 control-label">Trace</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionMembresia" name="descripcionTrace"
+									type="text" disabled="disabled" class="form-control input-md">
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Fecha Transaccion</label>
+							<div class="col-sm-2">
+								<input id="txtDescripcionFechaTransaccion"
+									name="descripcionFechaTransaccion" type="text"
+									disabled="disabled" class="form-control input-md">
+							</div>
+							<div class="col-sm-2">
+								<input id="txtDescripcionHoraTransaccion"
+									name="descripcionHoraTransaccion" type="text"
+									disabled="disabled" class="form-control input-md">
+							</div>
+							<label class="col-sm-2 control-label">Fecha Procesador</label>
+							<div class="col-sm-2">
+								<input id="txtDescripcionFechaProceso"
+									name="descripcionFechaProcesado" type="text"
+									disabled="disabled" class="form-control input-md">
+							</div>
+							<div class="col-sm-2">
+								<input id="txtDescripcionHoraProceso"
+									name="descripcionHoraProceso" type="text" disabled="disabled"
+									class="form-control input-md">
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Fecha Expiración</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionMembresia"
+									name="descripcionFechaExpiracion" type="text"
+									disabled="disabled" class="form-control input-md">
+							</div>
+
+							<label class="col-sm-2 control-label">Fecha Captura
+								Switch</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionMembresia"
+									name="descripcionFechaCapturaSwitch" type="text"
+									disabled="disabled" class="form-control input-md">
+							</div>
+						</div>
+					</fieldset>
+				</div>
+
+				<div class="col-md-6">
+					<fieldset class="well">
+						<legend class="well-legend">
+							<i class="fa fa-user-o"></i> Datos 3
+						</legend>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Giro de Negocio</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionMembresia"
+									name="descripcionGiroNegocio" type="text" disabled="disabled"
+									class="form-control input-md" data-tooltip="tooltip">
+							</div>
+
+							<label class="col-sm-2 control-label">Respuesta</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionMembresia" name="descripcionRespuesta"
+									type="text" disabled="disabled" class="form-control input-md">
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-sm-2 control-label">POS Entry Mode</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionMembresia"
+									name="descripcionPosEntryMode" type="text" disabled="disabled"
+									class="form-control input-md">
+							</div>
+
+							<label class="col-sm-2 control-label">POS Condition Code</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionMembresia"
+									name="descripcionPosConditionCode" type="text"
+									disabled="disabled" class="form-control input-md">
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Id Cuenta 1</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionMembresia" name="descripcionIdCuenta1"
+									type="text" disabled="disabled" class="form-control input-md">
+							</div>
+
+							<label class="col-sm-2 control-label">Id Cuenta 2</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionMembresia" name="descripcionIdCuenta2"
+									type="text" disabled="disabled" class="form-control input-md">
+							</div>
+						</div>
+					</fieldset>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-md-6">
+					<fieldset class="well">
+						<legend class="well-legend">
+							<i class="fa fa-user-o"></i> Datos 4
+						</legend>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Terminal Adquirente</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionMembresia"
+									name="descripcionTerminalAdquirente" type="text"
+									disabled="disabled" class="form-control input-md">
+							</div>
+
+							<label class="col-sm-2 control-label">Descripción
+								Adquirente</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionMembresia" name="descripcionAdquirente"
+									type="text" disabled="disabled" class="form-control input-md">
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Identificación
+								Adquirente</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionMembresia"
+									name="descripcionIdentificacionAdquirente" type="text"
+									disabled="disabled" class="form-control input-md">
+							</div>
+
+							<label class="col-sm-2 control-label">Autorización</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionMembresia"
+									name="descripcionAutorizacion" type="text" disabled="disabled"
+									class="form-control input-md">
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Institución
+								Solicitante</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionMembresia"
+									name="descripcionInstitucionSolicitante" type="text"
+									disabled="disabled" class="form-control input-md">
+							</div>
+
+							<label class="col-sm-2 control-label">Institución
+								Adquirente</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionMembresia"
+									name="descripcionInstitucionAdquirente" type="text"
+									disabled="disabled" class="form-control input-md">
+							</div>
+						</div>
+					</fieldset>
+				</div>
+
+				<div class="col-md-6">
+					<fieldset class="well">
+						<legend class="well-legend">
+							<i class="fa fa-handshake-o"></i> Conciliación
+						</legend>
+
+						<div class="form-group">
+							<label class="col-sm-2 control-label">SwDmpLog</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionConciliacionSwDmpLog"
+									name="descripcionConciliacionSwDmpLog" type="text"
+									disabled="disabled" class="form-control input-md">
+							</div>
+							<label class="col-sm-2 control-label">Fecha SwDmpLog</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionFechaConciliaSwt"
+									name="descripcionFechaConciliaSwt" type="text"
+									disabled="disabled" class="form-control input-md">
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-sm-2 control-label">LogContable</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionConciliacionLogContable"
+									name="descripcionConciliacionLogContable" type="text"
+									disabled="disabled" class="form-control input-md">
+							</div>
+							<label class="col-sm-2 control-label">Fecha LogContable</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionFechaConciliaLog"
+									name="descripcionFechaConciliaLog" type="text"
+									disabled="disabled" class="form-control input-md">
+							</div>
+						</div>
+
+						<div class="form-group">
+
+							<label class="col-sm-2 control-label">Liberada</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionConciliacionLiberada"
+									name="descripcionConciliacionLiberada" type="text"
+									disabled="disabled" class="form-control input-md">
+							</div>
+							<label class="col-sm-2 control-label">Fecha Liberada</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionFechaConciliaLib"
+									name="descripcionFechaConciliaLib" type="text"
+									disabled="disabled" class="form-control input-md">
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Pendiente</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionConciliacionPendientes"
+									name="descripcionConciliacionPendientes" type="text"
+									disabled="disabled" class="form-control input-md">
+							</div>
+							<label class="col-sm-2 control-label">Fecha Pendiente</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionFechaConciliaPen"
+									name="descripcionFechaConciliaPen" type="text"
+									disabled="disabled" class="form-control input-md">
+							</div>
+						</div>
+					</fieldset>
+				</div>
+			</div>
+		</form>
+	</th:block>
+
+	<th:block th:fragment="txnsCompensacion">
+		<form id="detalleCompensacion" class="form-horizontal">
+			<div class="row">
+				<div class="col-md-6">
+					<fieldset class="well">
+						<legend class="well-legend">
+							<i class="fa fa-user-o"></i> Datos 1
+						</legend>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Membres&iacute;a</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionMembresia" name="descripcionMembresia"
+									type="text" disabled="disabled" class="form-control input-md"
+									data-tooltip="tooltip">
+							</div>
+							<label class="col-sm-2 control-label">Clase Servicio</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionClaseServicios"
+									name="descripcionClaseServicio" type="text" disabled="disabled"
+									class="form-control input-md" data-tooltip="tooltip">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Origen</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionOrigen" name="descripcionOrigen"
+									type="text" disabled="disabled" class="form-control input-md"
+									data-tooltip="tooltip">
+							</div>
+							<label class="col-sm-2 control-label">Clase
+								Transacci&oacute;n</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionTransaccion"
+									name="descripcionClaseTransaccion" type="text"
+									disabled="disabled" class="form-control input-md"
+									data-tooltip="tooltip">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">C&oacute;digo
+								Transacci&oacute;n</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionCodigoTransaccion"
+									name="descripcionCodigoTransaccion" type="text"
+									disabled="disabled" class="form-control input-md"
+									data-tooltip="tooltip">
+							</div>
+							<label class="col-sm-2 control-label">Emisor</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionEmisor" name="descripcionEmisor"
+									type="text" disabled="disabled" class="form-control input-md"
+									data-tooltip="tooltip">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Receptor</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionReceptor" name="descripcionReceptor"
+									type="text" disabled="disabled" class="form-control input-md"
+									data-tooltip="tooltip">
+							</div>
+							<label class="col-sm-2 control-label">Logo</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionBin" name="descripcionLogo" type="text"
+									disabled="disabled" class="form-control input-md"
+									data-tooltip="tooltip">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Producto</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionSubBin" name="descripcionProducto"
+									type="text" disabled="disabled" class="form-control input-md"
+									data-tooltip="tooltip">
+							</div>
+						</div>
+					</fieldset>
+				</div>
+				<div class="col-md-6">
+					<fieldset class="well">
+						<legend class="well-legend">
+							<i class="fa fa-user-o"></i> Datos 2
+						</legend>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Fecha
+								Transacci&oacute;n</label>
+							<div class="col-sm-2">
+								<input id="txtDescripcionFechaTransaccion"
+									name="descripcionFechaTransaccion" type="text"
+									disabled="disabled" class="form-control input-md"
+									data-tooltip="tooltip">
+							</div>
+							<div class="col-sm-2">
+								<input id="txtDescripcionHoraTransaccion"
+									name="descripcionHoraTransaccion" type="text"
+									disabled="disabled" class="form-control input-md"
+									data-tooltip="tooltip">
+							</div>
+							<label class="col-sm-2 control-label">Fecha Proceso</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionFechaProceso"
+									name="descripcionFechaProceso" type="text" disabled="disabled"
+									class="form-control input-md" data-tooltip="tooltip">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Fecha
+								Afectaci&oacute;n</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionFechaAfectacion"
+									name="descripcionFechaAfectacion" type="text"
+									disabled="disabled" class="form-control input-md"
+									data-tooltip="tooltip">
+							</div>
+							<label class="col-sm-2 control-label">Valor
+								Transacci&oacute;n</label>
+							<div class="col-sm-2">
+								<input id="txtDescripcionMonedaTransaccion"
+									name="descripcionMonedaTransaccion" type="text"
+									disabled="disabled" class="form-control input-md"
+									data-tooltip="tooltip">
+							</div>
+							<div class="col-sm-2">
+								<input id="txtDescripcionValorTransaccion"
+									name="descripcionValorTransaccion" type="text"
+									disabled="disabled" class="form-control input-md"
+									data-tooltip="tooltip">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Valor
+								Compensaci&oacute;n</label>
+							<div class="col-sm-2">
+								<input id="txtDescripcionMonedaCompensacion"
+									name="descripcionMonedaCompensacion" type="text"
+									disabled="disabled" class="form-control input-md"
+									data-tooltip="tooltip">
+							</div>
+							<div class="col-sm-2">
+								<input id="txtDescripcionValorCompensacion"
+									name="descripcionValorCompensacion" type="text"
+									disabled="disabled" class="form-control input-md"
+									data-tooltip="tooltip">
+							</div>
+							<label class="col-sm-2 control-label">Indicador
+								Regularizaci&oacute;n</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionIndicadorRegularizacion"
+									name="descripcionIndicadorRegularizacion" type="text"
+									disabled="disabled" class="form-control input-md"
+									data-tooltip="tooltip">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">C&oacute;digo
+								Reclamo</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionCodigoReclamo"
+									name="descripcionCodigoReclamo" type="text" disabled="disabled"
+									class="form-control input-md" data-tooltip="tooltip">
+							</div>
+							<label class="col-sm-2 control-label">Secuencia Original</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionSecuenciaOriginal"
+									name="descripcionSecuenciaOriginal" type="text"
+									disabled="disabled" class="form-control input-md"
+									data-tooltip="tooltip">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Valor Original</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionValorOriginal"
+									name="descripcionValorOriginal" type="text" disabled="disabled"
+									class="form-control input-md" data-tooltip="tooltip">
+							</div>
+						</div>
+					</fieldset>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-6">
+					<fieldset class="well">
+						<legend class="well-legend">
+							<i class="fa fa-user-o"></i> Datos 3
+						</legend>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">N&uacute;mero
+								Tarjeta</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionNumeroTarjeta"
+									name="descripcionNumeroTarjeta" type="text" disabled="disabled"
+									class="form-control input-md" data-tooltip="tooltip">
+							</div>
+							<label class="col-sm-2 control-label">N&uacute;mero
+								Cuenta</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionNumeroCuenta"
+									name="descripcionNumeroCuenta" type="text" disabled="disabled"
+									class="form-control input-md" data-tooltip="tooltip">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Trace</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionTrace" name="descripcionTrace"
+									type="text" disabled="disabled" class="form-control input-md"
+									data-tooltip="tooltip">
+							</div>
+							<label class="col-sm-2 control-label">Autorizaci&oacute;n</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionAutorizacion"
+									name="descripcionAutorizacion" type="text" disabled="disabled"
+									class="form-control input-md" data-tooltip="tooltip">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Id Terminal</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionCodigoTerminal"
+									name="descripcionCodigoTerminal" type="text"
+									disabled="disabled" class="form-control input-md"
+									data-tooltip="tooltip">
+							</div>
+							<label class="col-sm-2 control-label">Establecimiento</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionCodigoEstablecimiento"
+									name="descripcionCodigoEstablecimiento" type="text"
+									disabled="disabled" class="form-control input-md"
+									data-tooltip="tooltip">
+							</div>
+						</div>
+					</fieldset>
+				</div>
+				<div class="col-md-6">
+					<fieldset class="well">
+						<legend class="well-legend">
+							<i class="fa fa-user-o"></i> Datos 4
+						</legend>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Nombre Adquirente</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionMembresia"
+									name="descripcionNombreAfiliado" type="text"
+									disabled="disabled" class="form-control input-md"
+									data-tooltip="tooltip">
+							</div>
+							<label class="col-sm-2 control-label">Pais Adquirente</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionMembresia"
+									name="descripcionPaisAfiliado" type="text" disabled="disabled"
+									class="form-control input-md" data-tooltip="tooltip">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Ciudad Adquirente</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionMembresia"
+									name="descripcionCiudadAfiliado" type="text"
+									disabled="disabled" class="form-control input-md"
+									data-tooltip="tooltip">
+							</div>
+							<label class="col-sm-2 control-label">Referencia
+								Adquirente</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionMembresia"
+									name="descripcionReferenciaIntercambio" type="text"
+									disabled="disabled" class="form-control input-md"
+									data-tooltip="tooltip">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Porcentaje VisaNet</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionMembresia"
+									name="descripcionPorcentajeVisanet" type="text"
+									disabled="disabled" class="form-control input-md"
+									data-tooltip="tooltip">
+							</div>
+							<label class="col-sm-2 control-label">Cobro Tipo C/D</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionMembresia"
+									name="descripcionAplicaCobroTipoC" type="text"
+									disabled="disabled" class="form-control input-md"
+									data-tooltip="tooltip">
+							</div>
+						</div>
+					</fieldset>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-6">
+					<fieldset class="well">
+						<legend class="well-legend">
+							<i class="fa fa-user-o"></i> Datos 5
+						</legend>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Pais Emisor</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionPaisEmisor"
+									name="descripcionPaisEmisor" type="text" disabled="disabled"
+									class="form-control input-md" data-tooltip="tooltip">
+							</div>
+							<label class="col-sm-2 control-label">Region Emisor</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionRegionEmisor"
+									name="descripcionRegionEmisor" type="text" disabled="disabled"
+									class="form-control input-md" data-tooltip="tooltip">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Pais Receptor</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionPaisReceptor"
+									name="descripcionPaisReceptor" type="text" disabled="disabled"
+									class="form-control input-md" data-tooltip="tooltip">
+							</div>
+							<label class="col-sm-2 control-label">Region Receptor</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionRegionReceptor"
+									name="descripcionRegionReceptor" type="text"
+									disabled="disabled" class="form-control input-md"
+									data-tooltip="tooltip">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Tipo Producto</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionTipoProducto"
+									name="descripcionTipoProducto" type="text" disabled="disabled"
+									class="form-control input-md" data-tooltip="tooltip">
+							</div>
+							<label class="col-sm-2 control-label">Tipo Tarjeta</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionTipoTarjeta"
+									name="descripcionTipoTarjeta" type="text" disabled="disabled"
+									class="form-control input-md" data-tooltip="tooltip">
+							</div>
+						</div>
+					</fieldset>
+				</div>
+				<div class="col-md-6">
+					<fieldset class="well">
+						<legend class="well-legend">
+							<i class="fa fa-user-o"></i> Datos 6
+						</legend>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Ind Pago Recurrente</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionPagoRecurrente"
+									name="descripcionPagoRecurrente" type="text"
+									disabled="disabled" class="form-control input-md"
+									data-tooltip="tooltip">
+							</div>
+							<label class="col-sm-2 control-label">Ind Moneda
+								Internacional</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionMonedaInternacional"
+									name="descripcionMonedaInternacional" type="text"
+									disabled="disabled" class="form-control input-md"
+									data-tooltip="tooltip">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Ind
+								Compensaci&oacute;n</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionIndCompensacion"
+									name="descripcionIndCompensacion" type="text"
+									disabled="disabled" class="form-control input-md"
+									data-tooltip="tooltip">
+							</div>
+							<label class="col-sm-2 control-label">Respuesta</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionRespuesta" name="descripcionRespuesta"
+									type="text" disabled="disabled" class="form-control input-md"
+									data-tooltip="tooltip">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">C&oacute;digo
+								Proceso</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionMonedaTransaccion"
+									name="descripcionCodigoProceso" type="text" disabled="disabled"
+									class="form-control input-md" data-tooltip="tooltip">
+							</div>
+							<label class="col-sm-2 control-label">Canal</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionCanal" name="descripcionCanal"
+									type="text" disabled="disabled" class="form-control input-md"
+									data-tooltip="tooltip">
+							</div>
+						</div>
+
+					</fieldset>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-6">
+					<fieldset class="well">
+						<legend class="well-legend">
+							<i class="fa fa-user-o"></i> Datos 7
+						</legend>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">M&eacute;todo Id
+								THB</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionMetodoIdThb"
+									name="descripcionMetodoIdThb" type="text" disabled="disabled"
+									class="form-control input-md" data-tooltip="tooltip">
+							</div>
+							<label class="col-sm-2 control-label">Ind Tel&eacute;fono
+								Correo</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionIndCorreoTelefono"
+									name="descripcionIndCorreoTelefono" type="text"
+									disabled="disabled" class="form-control input-md"
+									data-tooltip="tooltip">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Glosa
+								Regularizaci&oacute;n</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionGlosaRegularizacion"
+									name="descripcionGlosaRegularizacion" type="text"
+									disabled="disabled" class="form-control input-md"
+									data-tooltip="tooltip">
+							</div>
+							<label class="col-sm-2 control-label">Giro Negocio</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionGiroNegocio"
+									name="descripcionGiroNegocio" type="text" disabled="disabled"
+									class="form-control input-md" data-tooltip="tooltip">
+							</div>
+						</div>
+					</fieldset>
+				</div>
+				<div class="col-md-6">
+					<fieldset class="well">
+						<legend class="well-legend">
+							<i class="fa fa-user-o"></i> Datos 8
+						</legend>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Modo Entrada POS</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionModoEntradaPos"
+									name="descripcionModoEntradaPos" type="text"
+									disabled="disabled" class="form-control input-md"
+									data-tooltip="tooltip">
+							</div>
+							<label class="col-sm-2 control-label">Terminal POS</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionTerminalPos"
+									name="descripcionTerminalPos" type="text" disabled="disabled"
+									class="form-control input-md" data-tooltip="tooltip">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Tipo Cuenta ATM</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionTipoCuentaAtm"
+									name="descripcionTipoCuentaAtm" type="text" disabled="disabled"
+									class="form-control input-md" data-tooltip="tooltip">
+							</div>
+							<label class="col-sm-2 control-label">N&uacute;mero
+								Documento</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionNumeroDocumento"
+									name="descripcionNumeroDocumento" type="text"
+									disabled="disabled" class="form-control input-md"
+									data-tooltip="tooltip">
+							</div>
+						</div>
+					</fieldset>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-6">
+					<fieldset class="well">
+						<legend class="well-legend">
+							<i class="fa fa-user-o"></i> Datos 9
+						</legend>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">C&oacute;digo Pago
+								Servicio</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionCodigoPagoServicios"
+									name="descripcionCodigoPagoServicios" type="text"
+									disabled="disabled" class="form-control input-md"
+									data-tooltip="tooltip">
+							</div>
+							<label class="col-sm-2 control-label">Comisi&oacute;n
+								Pago Servicio</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionComisionPagoServicios"
+									name="descripcionComisionPagoServicios" type="text"
+									disabled="disabled" class="form-control input-md"
+									data-tooltip="tooltip">
+							</div>
+						</div>
+					</fieldset>
+				</div>
+				<div class="col-md-6">
+					<fieldset class="well">
+						<legend class="well-legend">
+							<i class="fa fa-user-o"></i> Datos 10
+						</legend>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Comisi&oacute;n
+								Intercambio</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionComisionIntercambio"
+									name="descripcionComisionIntercambio" type="text"
+									disabled="disabled" class="form-control input-md"
+									data-tooltip="tooltip">
+							</div>
+							<label class="col-sm-2 control-label">Indicador Programa
+								Comision</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionIndicadorProgramaComision"
+									name="descripcionIndicadorProgramaComision" type="text"
+									disabled="disabled" class="form-control input-md"
+									data-tooltip="tooltip">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Cantidad
+								Instituciones</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionCantidadInstituciones"
+									name="descripcionCantidadInstituciones" type="text"
+									disabled="disabled" class="form-control input-md"
+									data-tooltip="tooltip">
+							</div>
+						</div>
+					</fieldset>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-md-6">
+					<fieldset class="well">
+						<legend class="well-legend">
+							<i class="fa fa-balance-scale"></i> Compensaci&oacute;n de Fondos
+						</legend>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Fondos Cargo</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionFondosCargo"
+									name="descripcionFondosCargo" type="text" disabled="disabled"
+									class="form-control input-md" data-tooltip="tooltip">
+							</div>
+							<label class="col-sm-2 control-label">Fondos Abono</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionFondosAbono"
+									name="descripcionFondosAbono" type="text" disabled="disabled"
+									class="form-control input-md" data-tooltip="tooltip">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Nivel
+								Compensaci&oacute;n</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionNivelCompensacion"
+									name="descripcionNivelCompensacion" type="text"
+									disabled="disabled" class="form-control input-md"
+									data-tooltip="tooltip">
+							</div>
+
+							<label class="col-sm-2 control-label">Valor Cashback</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionValorCashBack"
+									name="descripcionValorCashBack" type="text" disabled="disabled"
+									class="form-control input-md" data-tooltip="tooltip">
+							</div>
+						</div>
+					</fieldset>
+				</div>
+				<div class="col-md-6">
+					<fieldset class="well">
+						<legend class="well-legend">
+							<i class="fa fa-handshake-o"></i> Conciliaci&oacute;n
+						</legend>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Autorizaci&oacute;n</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionConciliacionAutorizacion"
+									name="descripcionConciliacionAutorizacion" type="text"
+									disabled="disabled" class="form-control input-md"
+									data-tooltip="tooltip">
+							</div>
+							<label class="col-sm-2 control-label">SwDmpLog</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionSwDmpLog" name="descripcionSwDmpLog"
+									type="text" disabled="disabled" class="form-control input-md"
+									data-tooltip="tooltip">
+							</div>
+						</div>
+					</fieldset>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-6">
+					<fieldset class="well">
+						<legend class="well-legend">
+							<i class="fa fa-vcard-o"></i> Contabilizaci&oacute;n
+						</legend>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Cuenta Cargo</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionCuentaCargo"
+									name="descripcionCuentaCargo" type="text" disabled="disabled"
+									class="form-control input-md" data-tooltip="tooltip">
+							</div>
+							<label class="col-sm-2 control-label">Cuenta Abono</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionCuentaAbono"
+									name="descripcionCuentaAbono" type="text" disabled="disabled"
+									class="form-control input-md" data-tooltip="tooltip">
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-sm-2 control-label">C&oacute;digo
+								Anal&iacute;tico</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionCodigoAnalitico"
+									name="descripcionCodigoAnalitico" type="text"
+									disabled="disabled" class="form-control input-md"
+									data-tooltip="tooltip">
+							</div>
+						</div>
+
+					</fieldset>
+				</div>
+				<div class="col-md-6">
+					<fieldset class="well">
+						<legend class="well-legend">
+							<i class="fa fa-file-text-o"></i> Facturaci&oacute;n
+						</legend>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">C&oacute;digo
+								Art&iacute;culo</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionCodigoArticulo"
+									name="descripcionCodigoArticulo" type="text"
+									disabled="disabled" class="form-control input-md"
+									data-tooltip="tooltip">
+							</div>
+							<label class="col-sm-2 control-label">Secuencia Documento</label>
+							<div class="col-sm-4">
+								<input id="txtDescripcionSecuenciaDocumento"
+									name="descripcionSecuenciaDocumento" type="text"
+									disabled="disabled" class="form-control input-md"
+									data-tooltip="tooltip">
+							</div>
+						</div>
+					</fieldset>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12">
+					<fieldset class="well">
+						<legend class="well-legend">
+							<i class="fa fa-th-large"></i> Miscel&aacute;neos
+						</legend>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">C&oacute;digo
+								Evento Marca Internacional</label>
+							<div class="col-sm-2">
+								<input id="txtDescripcionCodigoEventoMarcaInternacional"
+									name="descripcionCodigoEventoMarcaInternacional" type="text"
+									disabled="disabled" class="form-control input-md"
+									data-tooltip="tooltip">
+							</div>
+							<label class="col-sm-2 control-label">Distribuci&oacute;n
+								Cobro Marca Internacional</label>
+							<div class="col-sm-2">
+								<input id="txtDescripcionDistribucionCobroMarcaInternacional"
+									name="descripcionDistribucionCobroMarcaInternacional"
+									type="text" disabled="disabled" class="form-control input-md"
+									data-tooltip="tooltip">
+							</div>
+							<label class="col-sm-2 control-label">N&uacute;mero
+								Factura Marca</label>
+							<div class="col-sm-2">
+								<input id="txtDescripcionNumeroFacturaMarca"
+									name="descripcionNumeroFacturaMarca" type="text"
+									disabled="disabled" class="form-control input-md"
+									data-tooltip="tooltip">
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Tarifa Marca
+								Internacional</label>
+							<div class="col-sm-2">
+								<input id="txtDescripcionTarifaMarcaInternacional"
+									name="descripcionTarifaMarcaInternacional" type="text"
+									disabled="disabled" class="form-control input-md"
+									data-tooltip="tooltip">
+							</div>
+							<label class="col-sm-2 control-label">Total Unidades</label>
+							<div class="col-sm-2">
+								<input id="txtDescripcionTotalUnidades"
+									name="descripcionTotalUnidades" type="text" disabled="disabled"
+									class="form-control input-md" data-tooltip="tooltip">
+							</div>
+							<label class="col-sm-2 control-label">Indicador
+								Distribuci&oacute;n Cobro</label>
+							<div class="col-sm-2">
+								<input id="txtDescripcionIndicadorDistribucionCobro"
+									name="descripcionIndicadorDistribucionCobro" type="text"
+									disabled="disabled" class="form-control input-md"
+									data-tooltip="tooltip">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Indicador Unidades</label>
+							<div class="col-sm-2">
+								<input id="txtDescripcionIndicadorUnidades"
+									name="descripcionIndicadorUnidades" type="text"
+									disabled="disabled" class="form-control input-md"
+									data-tooltip="tooltip">
+							</div>
+							<label class="col-sm-2 control-label">Valor Factura Marca
+								Internacional</label>
+							<div class="col-sm-2">
+								<input id="txtDescripcionValorFacturaMarcaInternacional"
+									name="descripcionValorFacturaMarcaInternacional" type="text"
+									disabled="disabled" class="form-control input-md"
+									data-tooltip="tooltip">
+							</div>
+							<label class="col-sm-2 control-label">Secuencia Registro
+								Factura Marca</label>
+							<div class="col-sm-2">
+								<input id="txtDescripcionSecuenciaRegistroFacturaMarca"
+									name="descripcionSecuenciaRegistroFacturaMarca" type="text"
+									disabled="disabled" class="form-control input-md"
+									data-tooltip="tooltip">
+							</div>
+						</div>
+
+					</fieldset>
+				</div>
+			</div>
+		</form>
+	</th:block>
+
+
+	<th:block th:fragment="detalleComision">
+		<div class="panel panel-default">
+			<table id="tablaDetalleComision" width="100%"
+				class="table table-bordered table-condensed nowrap display table-hover">
+			</table>
+		</div>
+	</th:block>
+
+	<th:block th:fragment="detalleComisionAutorizada">
+		<div class="panel panel-default">
+			<table id="tablaDetalleComisionAutorizada" width="100%"
+				class="table table-bordered table-condensed nowrap display table-hover">
+			</table>
+		</div>
+	</th:block>
+
+	<th:block th:fragment="txnsTraceObservadas">
+		<form id="formTxnsTraceObservadas" class="form-horizontal">
+			<div class="row">
+				<div class="col-md-12">
+					<fieldset class="well">
+						<legend class="well-legend">
+							<i class="fa fa-user"></i> Ajuste del Trace
+						</legend>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Trace</label>
+							<div class="col-sm-10">
+								<input id="txtTrace" name="descripcionTrace" type="text"
+									class="form-control input-md">
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="col-lg-12 text-center">
+								<button id="btnActualizarTrace" type="button"
+									class="btn btn-success">
+									<i class="fa fa-floppy-o"></i> Actualizar
+								</button>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="col-sm-10">
+								<input id="idSecuencia" name="idSecuencia" type="text"
+									class="form-control input-md">
+							</div>
+						</div>
+					</fieldset>
+				</div>
+			</div>
+		</form>
+	</th:block>
+
+	<th:block th:fragment="Navegador">
+		<div id="botones">
+			<div class="btn-group pull-right" role="group">
+				<button type="button" class="btn btn-default btnPrimero">Primero</button>
+				<button type="button" class="btn btn-default btnAnterior">Anterior</button>
+				<button type="button" class="btn btn-default btnSiguiente">Siguiente</button>
+				<button type="button" class="btn btn-default btnUltimo">Ultimo</button>
+			</div>
+		</div>
+	</th:block>
+
+	<th:block th:fragment="txnsConsolidada">
+		<th:block
+			th:replace="~{/template/fragments/consultas/detalleParaTablaConsulta :: txnsSwDmpLog}"></th:block>
+		<th:block
+			th:replace="~{/template/fragments/consultas/detalleParaTablaConsulta :: txnsCompensacion}"></th:block>
+		<th:block
+			th:replace="~{/template/fragments/consultas/detalleParaTablaConsulta :: txnsAutorizacion}"></th:block>
+	</th:block>
+</body>
+</html>

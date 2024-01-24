@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ob.debitos.simp.mapper.ITxnsEmbossingMapper">
+
+	<select id="buscarPorCriterio" resultType="TxnsEmbossing">
+		SELECT *
+		FROM ConsultaTransaccionesEmbossing
+		<where>
+			<if test="fechaInicioProceso != null and fechaFinProceso != null">
+				AND fechaProceso BETWEEN #{fechaInicioProceso} AND #{fechaFinProceso}
+			</if>
+			<if test="numeroTarjeta != null and numeroTarjeta != ''">
+				AND numeroTarjeta = #{numeroTarjeta}
+			</if>
+			<if test="numeroDocumento != null and numeroDocumento != '' ">
+				AND numeroDocumento = #{numeroDocumento}
+			</if>
+		</where>
+	</select>
+		
+</mapper>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ob.debitos.simp.mapper.ITxnsPendientesMapper">
+	
+	<sql id = "fragmentoSelectBuscarTxnsPendientes">
+		SELECT
+			pendientes.idInstitucion 			AS idInstitucion,
+			pendientes.descripcionInstitucion 	AS descripcionInstitucion,
+			pendientes.tipoMensaje 				AS tipoMensaje,
+			pendientes.numeroTarjeta 			AS numeroTarjeta,
+			pendientes.codigoProcesamiento 	 	AS codigoProcesamiento,
+			pendientes.fechaTransaccion 		AS fechaTransaccion,
+			pendientes.horaTransaccion 			AS horaTransaccion,
+			pendientes.descripcionOrigen    	AS descripcionOrigen,
+			pendientes.traceTransaccion 		AS traceTransaccion,
+			pendientes.modoEntradaPos 			AS modoEntradaPos,
+			pendientes.fechaCaptura 			AS fechaCaptura,
+			pendientes.numeroReferencia     	AS numeroReferencia,
+			pendientes.codigoRespuesta      	AS codigoRespuesta,
+			pendientes.cuentaFrom 				AS cuentaFrom,
+			pendientes.cuentaTo             	AS cuentaTo,
+			pendientes.monedaAutorizacion 		AS monedaAutorizacion,
+			pendientes.valorAutorizacion 		AS valorAutorizacion,
+			pendientes.fechaProceso 			AS fechaProceso,
+			pendientes.descripcionProceso 		AS descripcionProceso,
+			pendientes.conciliacionAutorizacion AS conciliacionAutorizacion,
+			pendientes.descripcionCanal 		AS descripcionCanal,
+			pendientes.numeroDocumentoLiberada  AS numeroDocumentoLiberada,
+			pendientes.nombreAfiliado 			AS nombreAfiliado,	 
+			pendientes.estadoTarjeta 			AS estadoTarjeta
+		FROM ConsultaPendientes pendientes
+	</sql>
+	
+	<select id="buscarTxnsPendientes" resultType="TxnsPendientes">		
+		<include refid="fragmentoSelectBuscarTxnsPendientes" />		
+			WHERE pendientes.numeroDocumento = #{numeroDocumento} AND
+				  pendientes.tipoDocumento  = #{tipoDocumento}; 		
+	</select>
+	
+	<select id="filtrarTxnsPendientes" resultType="TxnsPendientes">
+		<include refid="fragmentoSelectBuscarTxnsPendientes" />	
+		<where>
+			<if test="numeroTarjeta != null and numeroTarjeta != ''">
+	   			 AND pendientes.numeroTarjeta = #{numeroTarjeta}   			
+	  		</if>
+	  		<if test="idCanal != null and idCanal != -1">
+	   			 AND pendientes.idCanal 	  = #{idCanal}
+	  		</if>
+	  		<if test="codigoProcesoSwitch != null and codigoProcesoSwitch != -1">
+	   			 AND pendientes.codigoProcesoSwitch = #{codigoProcesoSwitch}
+	  		</if>
+			<if test="fechaInicioTransaccion != null and fechaInicioTransaccion != ''">
+	   			 AND pendientes.fechaProceso &gt;= #{fechaInicioTransaccion}
+	  		</if>
+	  		<if test="fechaFinTransaccion != null and fechaFinTransaccion != ''">
+	   			 AND pendientes.fechaProceso &lt;= #{fechaFinTransaccion}
+	  		</if>
+	  		<if test="trace != null and trace != ''">
+	   			 AND pendientes.trace = #{trace}
+	  		</if>
+	  		<if test="idInstitucion != null and idInstitucion != -1">
+	   			 AND pendientes.idInstitucion = #{idInstitucion}
+	  		</if>
+	  		
+  		</where> 
+	</select>
+</mapper>

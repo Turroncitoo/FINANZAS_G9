@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+<meta charset="utf-8"></meta>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"></meta>
+<meta name="viewport" content="width=device-width, initial-scale=1"></meta>
+<meta th:name="${_csrf.parameterName}" th:content="${_csrf.token}"></meta>
+<meta name="root" th:content="@{/}"/>
+<title th:text="#{configuracion.layout.titulo}" layout:title-pattern="$DECORATOR_TITLE - $CONTENT_TITLE">
+</title>
+<link rel="stylesheet" th:href="@{/resources/css/bootstrap.min.css}" />
+<link rel="stylesheet" th:href="@{/resources/css/font-awesome.min.css}" />
+<link rel="stylesheet" th:href="@{/resources/css/jquery.mCustomScrollbar.css}" />
+<link rel="stylesheet" th:href="@{/resources/css/theme-white.css}" />
+<link rel="stylesheet" th:href="@{/resources/css/custom-datatable.css}" />
+<link th:href="@{/resources/css/jquery-confirm.min.css}" rel="stylesheet" />
+<link rel="icon" th:href="@{/resources/image/icono_institucion.ico}" type="image/x-icon" />
+<th:block layout:fragment="style"></th:block>
+</head>
+<body>
+	<div class="page-container">
+		<div th:replace="template/fragments/sidebar"></div>
+		<div class="page-content">
+			<div th:replace="template/fragments/header"></div>
+			<div layout:fragment="content"></div>
+		</div>
+	</div>
+
+	<script src="https://code.jquery.com/jquery-2.2.3.min.js"
+		integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo=" crossorigin="anonymous"></script>
+	<script>
+		/*<![CDATA[*/
+	    	window.jQuery || document.write('<script src="[[@{/resources/js/jquery/jquery-2.2.3.min.js}]]"><\/script>')
+	 	/*]]>*/
+	</script>
+	<script type="text/javascript" th:src="@{/resources/js/bootstrap/bootstrap.min.js}"></script>
+	<script type="text/javascript"
+		th:src="@{/resources/js/jquery/jquery.mCustomScrollbar.min.js}"></script>
+	<script type="text/javascript" th:src="@{/resources/js/jolie/settings.js}"></script>
+	<script type="text/javascript" th:src="@{/resources/js/jolie/plugins.js}"></script>
+	<script type="text/javascript" th:src="@{/resources/js/jolie/actions.js}"></script>
+	<script type="text/javascript" th:src="@{/resources/js/jquery/jquery.bestupper.min.js}"></script>
+	<script type="text/javascript" th:src="@{/resources/js/jquery/jquery-confirm.min.js}"></script>
+	<script type="text/javascript" th:src="@{/resources/js/util/util.js}"></script>
+	<th:block layout:fragment="script"></th:block>
+	<script type="text/javascript" th:src="@{/resources/js//datatables/dataTable.custom.js}"></script>
+</body>
+</html>

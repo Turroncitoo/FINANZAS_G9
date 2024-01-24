@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ob.debitos.simp.mapper.ITxnsLiberadasMapper">
+    <sql id="fragmentSelectConsultaLiberadas">
+        SELECT *
+        FROM ConsultaLiberadas consulta
+    </sql>
+
+    <sql id="fragmentOrderByConsultaLiberadas">
+        ORDER BY consulta.fechaProceso  DESC
+            ,consulta.codigoInstitucion ASC
+            ,consulta.idEmpresa         ASC
+            ,consulta.idCliente         ASC
+            ,consulta.rolTransaccion    ASC
+            ,consulta.origen            ASC
+            ,consulta.idCanal           ASC
+            ,consulta.proceso           ASC
+            ,consulta.codigoRespuesta   ASC
+            ,consulta.motivoLiberacion  ASC
+            ,consulta.fechaTransaccion  DESC;
+    </sql>
+
+    <select id="buscarTxnsLiberadas" resultType="TxnsLiberadas">
+        <include refid="fragmentSelectConsultaLiberadas"/>
+        <where>
+            <if test="tipoDocumento != null and tipoDocumento != ''">
+                consulta.tipoDocumento = #{tipoDocumento}
+            </if>
+            <if test="numeroDocumento != null and numeroDocumento != ''">
+                AND consulta.numeroDocumento = #{numeroDocumento}
+            </if>
+        </where>
+        <include refid="fragmentOrderByConsultaLiberadas"/>
+    </select>
+
+    <select id="filtrarTxnsLiberadas" resultType="TxnsLiberadas">
+        <include refid="fragmentSelectConsultaLiberadas"/>
+        <where>
+            <if test="(fechaInicioProceso != null and fechaInicioProceso != '') and (fechaFinProceso != null and fechaFinProceso != '')">
+                consulta.fechaProceso BETWEEN #{fechaInicioProceso} AND #{fechaFinProceso}
+            </if>
+            <if test="codigoInstitucion != null">
+                AND consulta.codigoInstitucion = #{codigoInstitucion}
+            </if>
+            <if test="idEmpresa != null and idEmpresa != -1">
+                AND consulta.idEmpresa = #{idEmpresa}
+            </if>
+            <if test="clientes != null and clientes.size() > 0">
+                AND consulta.idCliente IN
+                <foreach item="item" index="index" collection="clientes"
+                         open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="procesos != null and procesos.size() > 0">
+                AND consulta.proceso IN
+                <foreach item="item" index="index" collection="procesos"
+                         open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="canales != null and canales.size() > 0">
+                AND consulta.idCanal IN
+                <foreach item="item" index="index" collection="canales"
+                         open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="numeroTarjeta != null and numeroTarjeta != ''">
+                AND consulta.numeroTarjeta = #{numeroTarjeta}
+            </if>
+            <if test="trace != null and trace != ''">
+                AND consulta.trace = #{trace}
+            </if>
+        </where>
+        <include refid="fragmentOrderByConsultaLiberadas"/>
+    </select>
+</mapper>

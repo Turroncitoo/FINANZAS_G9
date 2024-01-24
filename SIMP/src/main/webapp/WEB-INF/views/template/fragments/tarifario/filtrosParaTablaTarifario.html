@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+	<div id="filtrosParaTablaTarifario" class="row hidden"
+		th:fragment="filtrosParaTablaTarifario" th:with="tipo=${tipo}">
+		<th:block
+			th:replace="~{template/fragments/tarifario/filtrosParaTablaTarifario :: ${tipo}}?:~{}">
+		</th:block>
+	</div>
+
+	<th:block th:fragment="tipoTarifa">
+		<th:block
+			th:replace="~{template/fragments/tarifario/filtrosParaTablaTarifario :: esquemas-filtroParaTablaTarifario}?:~{}">
+		</th:block>
+	</th:block>
+
+	<th:block th:fragment="escenario">
+		<th:block
+			th:replace="~{template/fragments/tarifario/filtrosParaTablaTarifario :: instituciones-filtroParaTablaTarifario}?:~{}">
+		</th:block>
+		<th:block
+			th:replace="~{template/fragments/tarifario/filtrosParaTablaTarifario :: membresias-filtroParaTablaTarifario}?:~{}">
+		</th:block>
+		<th:block
+			th:replace="~{template/fragments/tarifario/filtrosParaTablaTarifario :: origenes-filtroParaTablaTarifario}?:~{}">
+		</th:block>
+		<th:block
+			th:replace="~{template/fragments/tarifario/filtrosParaTablaTarifario :: claseTransacciones-filtroParaTablaTarifario}?:~{}">
+		</th:block>
+		<th:block
+			th:replace="~{template/fragments/tarifario/filtrosParaTablaTarifario :: tipoTarifas-filtroParaTablaTarifario}?:~{}">
+		</th:block>
+	</th:block>	
+	
+	<th:block th:fragment="tarifarioEmisor">
+		<th:block
+			th:replace="~{template/fragments/tarifario/filtrosParaTablaTarifario :: instituciones-filtroParaTablaTarifario}?:~{}">
+		</th:block>		
+		<th:block
+			th:replace="~{template/fragments/tarifario/filtrosParaTablaTarifario :: monedas-filtroParaTablaTarifario}?:~{}">
+		</th:block>
+		<th:block
+			th:replace="~{template/fragments/tarifario/filtrosParaTablaTarifario :: transacciones-filtroParaTablaTarifario}?:~{}">
+		</th:block>
+		<th:block
+			th:replace="~{template/fragments/tarifario/filtrosParaTablaTarifario :: tipoTarifas-filtroParaTablaTarifario}?:~{}">
+		</th:block>
+		<th:block
+			th:replace="~{template/fragments/tarifario/filtrosParaTablaTarifario :: gruposBin-filtroParaTablaTarifario}?:~{}">
+		</th:block>
+	</th:block>	
+	
+	<th:block th:fragment="tarifarioAdquirente">
+		<th:block
+			th:replace="~{template/fragments/tarifario/filtrosParaTablaTarifario :: instituciones-filtroParaTablaTarifario}?:~{}">
+		</th:block>		
+		<th:block
+			th:replace="~{template/fragments/tarifario/filtrosParaTablaTarifario :: monedas-filtroParaTablaTarifario}?:~{}">
+		</th:block>		
+		<th:block
+			th:replace="~{template/fragments/tarifario/filtrosParaTablaTarifario :: tipoTarifas-filtroParaTablaTarifario}?:~{}">
+		</th:block>
+	</th:block>	
+	
+	<th:block th:fragment="surcharge">
+		<th:block
+			th:replace="~{template/fragments/tarifario/filtrosParaTablaTarifario :: instituciones-filtroParaTablaTarifario}?:~{}">
+		</th:block>		
+		<th:block
+			th:replace="~{template/fragments/tarifario/filtrosParaTablaTarifario :: monedas-filtroParaTablaTarifario}?:~{}">
+		</th:block>		
+	</th:block>	
+
+	<th:block th:fragment="bines-filtroParaTablaTarifario">
+		<select id="bines-filtroParaTablaTarifario">
+			<option th:each="bin : ${bines}" th:attr="data-value=${bin.codigoBin}"
+				th:value="${bin.descripcion}" th:text="${bin.descripcion}"></option>
+		</select>
+	</th:block>
+
+	<th:block th:fragment="conceptoComisiones-filtroParaTablaTarifario">
+		<select id="conceptoComisiones-FiltroParaTablaTarifario">
+			<option th:each="conceptoComision : ${conceptoComisiones}"
+				th:value="|${conceptoComision.idConceptoComision} - ${conceptoComision.descripcion}|"
+				th:text="|${conceptoComision.idConceptoComision} - ${conceptoComision.descripcion}|"></option>
+		</select>
+	</th:block>
+
+	<th:block th:fragment="tipoTarifas-filtroParaTablaTarifario">
+		<select id="tipoTarifas-filtroParaTablaTarifario">
+			<option th:each="tipoTarifa : ${tipoTarifas}"
+				th:value="|${tipoTarifa.tipoTarifa} - ${tipoTarifa.descripcion}|"
+				th:text="|${tipoTarifa.tipoTarifa} - ${tipoTarifa.descripcion}|"></option>
+		</select>
+	</th:block>
+
+	<th:block th:fragment="claseTransacciones-filtroParaTablaTarifario">
+		<select id="claseTransacciones-filtroParaTablaTarifario">
+			<option th:each="claseTransaccion : ${clasesTxns}"
+				th:attr="data-value=${claseTransaccion.codigoClaseTransaccion}"
+				th:value="|${claseTransaccion.codigoClaseTransaccion} - ${claseTransaccion.descripcion}|"
+				th:text="|${claseTransaccion.codigoClaseTransaccion} - ${claseTransaccion.descripcion}|"></option>
+		</select>
+	</th:block>
+	
+	<th:block th:fragment="codigoTransacciones-filtroParaTablaTarifario">
+		<select id="codigoTransacciones-filtroParaTablaTarifario">
+			<option th:each="codigoTransaccion : ${codigoTxns}"
+				th:attr="data-value=${codigoTransaccion.codigoTransaccion}"
+				th:value="|${codigoTransaccion.codigoTransaccion} - ${codigoTransaccion.descripcion}|"
+				th:text="|${codigoTransaccion.codigoTransaccion} - ${codigoTransaccion.descripcion}|"></option>
+		</select>
+	</th:block>
+	
+	<th:block th:fragment="transacciones-filtroParaTablaTarifario">
+		<select id="codigoTransacciones-filtroParaTablaTarifario">
+			<option th:each="codigoTxn : ${codigoTxns}"
+				th:attr="data-value=${codigoTxn.codigoTransaccion}"
+				th:value="|${codigoTxn.codigoClaseTransaccion*100 + codigoTxn.codigoTransaccion} - ${codigoTxn.descripcion}||"
+				th:text="|${codigoTxn.codigoClaseTransaccion*100 + codigoTxn.codigoTransaccion} - ${codigoTxn.descripcion}|"></option>
+		</select>
+	</th:block>
+
+	<th:block th:fragment="empresas-filtroParaTablaTarifario">
+		<select id="empresas-filtroParaTablaTarifario">
+			<option th:each="empresa : ${empresas}" th:attr="data-value=${empresa.idEmpresa}"
+				th:value="${empresa.descripcion}"
+				th:text="|${empresa.idEmpresa} - ${empresa.descripcion}|"></option>
+		</select>
+	</th:block>
+
+	<th:block th:fragment="esquemas-filtroParaTablaTarifario">
+		<select id="esquemas-filtroParaTablaTarifario">
+			<option th:each="esquema : ${esquemas}"
+				th:attr="data-value=${esquema.codigoEsquema}"
+				th:value="${esquema.descripcion}"
+				th:text="|${esquema.codigoEsquema} - ${esquema.descripcion}|"></option>
+		</select>
+	</th:block>
+	
+	<th:block th:fragment="membresias-filtroParaTablaTarifario">
+		<select id="membresias-filtroParaTablaTarifario">
+			<option th:each="membresia : ${membresias}"
+				th:attr="data-value=${membresia.codigoMembresia}"
+				th:value="|${membresia.codigoMembresia} - ${membresia.descripcion}|"
+				th:text="|${membresia.codigoMembresia} - ${membresia.descripcion}|"></option>
+		</select>
+	</th:block>
+
+	<th:block th:fragment="monedas-filtroParaTablaTarifario">
+		<select id="monedas-filtroParaTablaTarifario">
+			<option th:each="moneda : ${monedas}" th:value="|${moneda.codigoMoneda} - ${moneda.descripcion}|"
+				th:text="|${moneda.codigoMoneda} - ${moneda.descripcion}|"></option>
+		</select>
+	</th:block>
+	
+	<th:block th:fragment="instituciones-filtroParaTablaTarifario">
+		<select id="instituciones-filtroParaTablaTarifario">
+			<option th:each="institucion : ${instituciones}" th:value="|${institucion.codigoInstitucion} - ${institucion.descripcionCorta}|"
+				th:text="|${institucion.codigoInstitucion} - ${institucion.descripcionCorta}|"></option>
+		</select>
+	</th:block>
+
+	<th:block th:fragment="origenes-filtroParaTablaTarifario">
+		<select id="origenes-filtroParaTablaTarifario">
+			<option th:each="origen : ${origenes}" th:value="|${origen.codigoOrigen} - ${origen.descripcion}|"
+				th:text="|${origen.codigoOrigen} - ${origen.descripcion}|"></option>
+		</select>
+	</th:block>
+
+	<th:block th:fragment="subBin-filtroParaTablaTarifario">
+		<select id="subBin-filtroParaTablaTarifario">
+			<option th:each="subBin : ${subBines}" th:attr="data-value=${subBin.codigoSubbin}"
+				th:value="${subBin.descripcion}" th:text="${subBin.descripcion}"></option>
+		</select>
+	</th:block>
+	
+	<th:block th:fragment="gruposBin-filtroParaTablaTarifario">
+		<select id="gruposBin-filtroParaTablaTarifario">
+			<option th:each="grupoBin : ${gruposBin}" th:value="|${grupoBin.grupoBin} - ${grupoBin.Bin}|"
+				th:text="|${grupoBin.grupoBin} - ${grupoBin.Bin}|"></option>
+		</select>
+	</th:block>
+</body>
+</html>

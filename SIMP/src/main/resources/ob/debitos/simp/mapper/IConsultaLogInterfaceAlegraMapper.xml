@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="ob.debitos.simp.mapper.IConsultaLogInterfaceAlegraMapper">
+
+	<select id="buscarInterfaceAlegra"
+		resultType="ConsultaLogInterfaceAlegra"
+		parameterType="CriterioBusquedaConsultaLogInterfaceAlegra">
+
+		SELECT * FROM ConsultaLogInterfaceAlegra consulta
+
+		<where>
+			<if
+				test="(fechaProcesoInicio != null and fechaProcesoInicio !='') and (fechaProcesoFin != null and fechaProcesoFin !='')">
+				AND consulta.fechaProceso BETWEEN #{fechaProcesoInicio} AND #{fechaProcesoFin}
+			</if>
+		</where>
+	</select>
+
+</mapper>

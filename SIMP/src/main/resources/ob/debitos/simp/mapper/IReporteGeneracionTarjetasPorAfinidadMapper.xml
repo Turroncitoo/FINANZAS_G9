@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ob.debitos.simp.mapper.IReporteGeneracionTarjetasPorAfinidadMapper">
+
+	<select id="generarResumenPorRangoFechas" resultType="ReporteGeneracionTarjetasPorAfinidad">
+		SELECT
+			A.idMembresia				AS "idMembresia",
+			A.descripcionMembresia		AS "descripcionMembresia",
+			A.idBin						AS "idBin",
+			A.descripcionBin			AS "descripcionBin",
+			A.idAfinidad				AS "idAfinidad",
+		    A.codigoAfinidad			AS "codigoAfinidad",
+			A.descripcionAfinidad		AS "descripcionAfinidad",
+			SUM(A.cantidadTarjetas)		AS "cantidadTarjetas"
+		FROM
+			ReporteGeneracionTarjetas	AS A
+		<where>
+			<if test="fechaInicial != null and fechaFinal != null">
+				A.fechaActivacion BETWEEN #{fechaInicial} AND #{fechaFinal}
+			</if>
+		    <if test="idsMembresias != null and idsMembresias.size() > 0">
+				AND A.idMembresia IN
+				<foreach item="item" index="index" collection="idsMembresias" open="(" separator="," close=")">
+					#{item}
+				</foreach>
+			</if>
+			<if test="idsBines != null and idsBines.size() > 0">
+				AND A.idBin IN
+				<foreach item="item" index="index" collection="idsBines" open="(" separator="," close=")">
+					#{item}
+				</foreach>
+			</if>
+		</where>
+		GROUP BY
+			A.idMembresia,
+			A.descripcionMembresia,
+			A.idBin,
+			A.descripcionBin,
+			A.idAfinidad,
+		    A.codigoAfinidad,
+			A.descripcionAfinidad;
+	</select>
+
+</mapper>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ob.debitos.simp.mapper.IReporteTarjetasVendidasMapper">
+
+	<select id="buscarResumenMensualTarjetasVendidas" parameterType="CriterioBusquedaTarjetasVendidas" 
+	statementType="CALLABLE" resultMap="mapReporteTarjetasVendidas">
+		{ call P_GENERA_REPORTE_TARJETAS_VENDIDAS
+			(
+				#{anioInicio, jdbcType = INTEGER, mode = IN},
+				#{mesInicio, jdbcType = INTEGER, mode = IN},
+				#{anioFin, jdbcType = INTEGER, mode = IN},
+				#{mesFin, jdbcType = INTEGER, mode = IN}
+			)
+		}
+	</select>
+	
+	<resultMap type="ReporteTarjetasVendidas" id="mapReporteTarjetasVendidas">
+		<id property="idInstitucion" column="idInstitucion"></id>
+		<id property="descripcionInstitucion" column="descripcionInstitucion"></id>
+		<id property="tarjetasEnUso" column="tarjetasEnUso"></id>
+		<id property="tarjetasActivadas" column="tarjetasActivadas"></id>
+		<id property="tarjetasRecargadas" column="tarjetasRecargadas"></id>
+		<id property="recargaPromedio" column="recargaPromedio"></id>
+		<id property="transaccionesPromedio" column="transaccionesPromedio"></id>
+	</resultMap>
+</mapper>

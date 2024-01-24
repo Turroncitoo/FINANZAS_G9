@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ob.debitos.simp.mapper.IReporteConciliacionSaldosDiariosMapper">
+
+	<select id="buscarResumenDiarioPorCriterios" resultType="ReporteConciliacionSaldos">
+		SELECT *
+		FROM ReporteConciliacionSaldosDiarios 
+		<where>
+			<if test="fechaTransaccion != null">
+				fechaTransaccion = #{fechaTransaccion}
+			</if>
+		</where>
+	</select>
+	
+	<select id="buscarResumenMensualPorCriterios" resultType="ReporteConciliacionSaldos">
+		SELECT *
+		FROM ReporteConciliacionSaldosMensual
+		<where>
+			<if test="mesTransaccion != null">
+				mesTransaccion = #{mesTransaccion}
+			</if>
+		</where>
+	</select>
+	
+</mapper>

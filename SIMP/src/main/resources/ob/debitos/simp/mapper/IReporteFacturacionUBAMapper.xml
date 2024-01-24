@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ob.debitos.simp.mapper.IReporteFacturacionUBAMapper">
+	
+	<resultMap type="ReporteMoneda" id="mapReporteResumen">
+		<id property="codigoMoneda" column="codigoMoneda"></id>
+		<id property="descripcionMoneda" column="descripcionMoneda"></id>
+		<collection property="facturacionResumen" javaType="List" ofType="ReporteFacturacionResumen">
+			<result property="fechaProceso" column="fechaProceso"></result>
+			<result property="codigoInstitucion" column="codigoInstitucion"></result>
+			<result property="descripcionInstitucion" column="descripcionInstitucion"></result>
+			<result property="idEmpresa" column="idEmpresa"></result>
+			<result property="descEmpresa" column="descEmpresa"></result>
+			<result property="idCliente" column="idCliente"></result>
+			<result property="descCliente" column="descCliente"></result>
+			<result property="idConceptoComision" column="idConceptoComision"></result>
+			<result property="descConceptoComision" column="descConceptoComision"></result>
+			<result property="aplicaComision" column="aplicaComision"></result>
+			<result property="idMembresia" column="idMembresia"></result>
+			<result property="descMembresia" column="descMembresia"></result>
+			<result property="idClaseServicio" column="idClaseServicio"></result>
+			<result property="descClaseServicio" column="descClaseServicio"></result>
+			<result property="codigoFacturacion" column="codigoFacturacion"></result>
+			<result property="descCodigoFacturacion" column="descCodigoFacturacion"></result>
+			<result property="cuentaCargo" column="cuentaCargo"></result>
+			<result property="cuentaAbono" column="cuentaAbono"></result>
+			<result property="cantidad" column="cantidad"></result>
+			<result property="comisionImporte" column="comisionImporte"></result>
+			<result property="comisionIGV" column="comisionIGV"></result>
+			<result property="comisionTotal" column="comisionTotal"></result>
+			<result property="comisionPromedio" column="comisionPromedio"></result>
+		</collection>
+	</resultMap>
+	
+	<select id="buscarResumen" statementType="CALLABLE" resultMap="mapReporteResumen"
+		parameterType="CriterioBusquedaReporteFacturacion">
+		{call REPORT_FACTURACION_UNIBANCA
+			(
+			#{verbo, 		 	  jdbcType = VARCHAR, mode = IN},
+			#{fechaInicio, 	 	  jdbcType = DATE, 	  mode = IN},
+			#{fechaFin, 	 	  jdbcType = DATE, 	  mode = IN},
+			#{codigoInstitucion,  jdbcType = INTEGER, mode = IN},
+			#{idEmpresa, 		  jdbcType = VARCHAR, mode = IN},
+			#{idCliente,  	  	  jdbcType = VARCHAR, mode = IN},
+			#{idConceptoComision, jdbcType = VARCHAR, mode = IN}
+			)
+		}
+	</select>
+	
+	<resultMap type="ReporteMoneda" id="mapReporteDetalle">
+		<id property="codigoMoneda" column="codigoMoneda"></id>
+		<id property="descripcionMoneda" column="descripcionMoneda"></id>
+		<collection property="facturacionDetalle" javaType="List" ofType="ReporteFacturacionDetalle">
+			<result property="fechaProceso" column="fechaProceso"></result>
+			<result property="codigoInstitucion" column="codigoInstitucion"></result>
+			<result property="descripcionInstitucion" column="descripcionInstitucion"></result>
+			<result property="idEmpresa" column="idEmpresa"></result>
+			<result property="descEmpresa" column="descEmpresa"></result>
+			<result property="idCliente" column="idCliente"></result>
+			<result property="descCliente" column="descCliente"></result>
+			<result property="rolTransaccion" column="rolTransaccion"></result>
+			<result property="descRolTransaccion" column="descRolTransaccion"></result>
+			<result property="idMembresia" column="idMembresia"></result>
+			<result property="descMembresia" column="descMembresia"></result>
+			<result property="idClaseServicio" column="idClaseServicio"></result>
+			<result property="descClaseServicio" column="descClaseServicio"></result>
+			<result property="codigoFacturacion" column="codigoFacturacion"></result>
+			<result property="descCodigoFacturacion" column="descCodigoFacturacion"></result>
+			<result property="cuentaCargo" column="cuentaCargo"></result>
+			<result property="cuentaAbono" column="cuentaAbono"></result>
+			<result property="cantidad" column="cantidad"></result>
+			<result property="comisionImporte" column="comisionImporte"></result>
+			<result property="comisionIGV" column="comisionIGV"></result>
+			<result property="comisionTotal" column="comisionTotal"></result>
+			<result property="comisionPromedio" column="comisionPromedio"></result>
+		</collection>
+	</resultMap>
+	 
+	<select id="buscarDetalle" statementType="CALLABLE" resultMap="mapReporteDetalle"
+		parameterType="CriterioBusquedaReporteFacturacion">
+		{call REPORT_FACTURACION_UNIBANCA
+			(
+			#{verbo, 		 	  jdbcType = VARCHAR, mode = IN},
+			#{fechaInicio, 	 	  jdbcType = DATE, 	  mode = IN},
+			#{fechaFin, 	 	  jdbcType = DATE, 	  mode = IN},
+			#{codigoInstitucion,  jdbcType = INTEGER, mode = IN},
+			#{idEmpresa, 		  jdbcType = VARCHAR, mode = IN},
+			#{idCliente, 		  jdbcType = VARCHAR, mode = IN},
+			#{idConceptoComision, jdbcType = VARCHAR, mode = IN}
+			)
+		}
+	</select>
+
+	<resultMap type="ReporteMoneda" id="mapReporteMiscelaneos">
+		<id property="codigoMoneda" column="codigoMoneda"></id>
+		<id property="descripcionMoneda" column="descripcionMoneda"></id>
+		<collection property="facturacionMiscelaneos" javaType="List" ofType="ReporteFacturacionMiscelaneos">
+			<id property="fechaProceso" column="fechaProceso"></id>
+			<id property="secuenciaTransaccion" column="secuenciaTransaccion"></id>
+			<result property="codigoInstitucion" column="codigoInstitucion"></result>
+			<result property="descripcionInstitucion" column="descripcionInstitucion"></result>
+			<result property="idEmpresa" column="idEmpresa"></result>
+			<result property="descEmpresa" column="descEmpresa"></result>
+			<result property="idCliente" column="idCliente"></result>
+			<result property="descCliente" column="descCliente"></result>
+			<result property="idMembresia" column="idMembresia"></result>
+			<result property="descMembresia" column="descMembresia"></result>
+			<result property="idClaseServicio" column="idClaseServicio"></result>
+			<result property="descClaseServicio" column="descClaseServicio"></result>
+			<result property="idOrigen" column="idOrigen"></result>
+			<result property="descOrigen" column="descOrigen"></result>
+			<result property="idClaseTransaccion" column="idClaseTransaccion"></result>
+			<result property="descClaseTransaccion" column="descClaseTransaccion"></result>
+			<result property="idCodigoTransaccion" column="idCodigoTransaccion"></result>
+			<result property="descCodigoTransaccion" column="descCodigoTransaccion"></result>
+			<result property="secuenciaTransaccion" column="secuenciaTransaccion"></result>
+			<result property="cuentaCargo" column="cuentaCargo"></result>
+			<result property="cuentaAbono" column="cuentaAbono"></result>
+			<result property="valorCompensacion" column="valorCompensacion"></result>
+			<result property="glosaRegularizacion" column="glosaRegularizacion"></result>
+			<result property="codigoEventoMarcaInternacional" column="codigoEventoMarcaInternacional"></result>
+			<result property="distribucionCobroMarcaInternacional" column="distribucionCobroMarcaInternacional"></result>
+			<result property="indicadorDistribucionCobro" column="indicadorDistribucionCobro"></result>
+			<result property="numeroFacturaMarca" column="numeroFacturaMarca"></result>
+			<result property="tarifaMarcaInternacional" column="tarifaMarcaInternacional"></result>
+			<result property="totalUnidades" column="totalUnidades"></result>
+			<result property="indicadorDistribucionCodigo" column="indicadorDistribucionCodigo"></result>
+			<result property="indicadorUnidades" column="indicadorUnidades"></result>
+			<result property="valorFacturaMarcaInternacional" column="valorFacturaMarcaInternacional"></result>
+			<result property="secuenciaRegistroFacturaMarca" column="secuenciaRegistroFacturaMarca"></result>
+		</collection>
+	</resultMap>
+
+	<select id="buscarMiscelaneos" statementType="CALLABLE" resultMap="mapReporteMiscelaneos"
+			parameterType="CriterioBusquedaReporteFacturacion">
+		{call REPORT_FACTURACION_UNIBANCA
+			(
+			#{verbo, 		 	  jdbcType = VARCHAR, mode = IN},
+			#{fechaInicio, 	 	  jdbcType = DATE, 	  mode = IN},
+			#{fechaFin, 	 	  jdbcType = DATE, 	  mode = IN},
+			#{codigoInstitucion,  jdbcType = INTEGER, mode = IN},
+			#{idEmpresa, 		  jdbcType = VARCHAR, mode = IN},
+			#{idCliente, 		  jdbcType = VARCHAR, mode = IN},
+			#{idConceptoComision, jdbcType = VARCHAR, mode = IN}
+			)
+		}
+	</select>
+</mapper>

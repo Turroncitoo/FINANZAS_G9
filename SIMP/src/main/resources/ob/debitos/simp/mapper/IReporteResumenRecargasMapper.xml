@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ob.debitos.simp.mapper.IReporteResumenRecargasMapper">
+
+	<select id="obtenerReporteResumenRecargas" statementType="CALLABLE" resultMap="mapReporteResumenRecargas" 
+		parameterType="CriterioBusquedaReporteResumenRecargas">
+		{ call P_GENERA_REPORTE_TARJETAS_NUEVAS
+			(
+				#{fecha, jdbcType = DATE, mode = IN}
+				
+			)
+		}
+	</select>
+
+	<resultMap type="ReporteResumenRecargas" id="mapReporteResumenRecargas">
+		<id property="idInstitucion" column="idInstitucion"></id>
+		<id property="descripcionInstitucion" column="descripcionInstitucion"></id>
+		<id property="idTipoTarjeta" column="idTipoTarjeta"></id>
+		<id property="descripcionTipoTarjeta" column="descripcionTipoTarjeta"></id>
+		<id property="codigoMoneda" column="codigoMoneda"></id>
+		<id property="descripcionMoneda" column="descripcionMoneda"></id>
+		<id property="montoRecarga" column="montoRecarga"></id>
+		<id property="totalRecarga" column="totalRecarga"></id>
+	</resultMap>
+</mapper>

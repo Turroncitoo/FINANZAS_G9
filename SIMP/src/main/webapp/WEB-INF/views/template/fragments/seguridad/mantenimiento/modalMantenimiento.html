@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+	<div id="modalMantenimiento" class="row" th:fragment="modalMantenimiento" th:with="tipo=${tipo}">
+		<fieldset class="well">
+			<legend class="well-legend"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Formulario de Mantenimiento</legend>
+			<form id="formMantenimiento" class="form-horizontal" role="form">
+				<th:block th:replace="~{template/fragments/seguridad/mantenimiento/modalMantenimiento :: ${tipo}}?:~{}">
+				</th:block>
+				<div id="botonesForm" class="form-group">
+					<div class="col-lg-12 text-center">
+						<button id="registrarMantenimiento" type="button" class="btn btn-success" th:if="${#vars.permisoRegistro}">
+							<i class="fa fa-floppy-o"></i> Registrar
+						</button>
+						<button id="actualizarMantenimiento" type="button" class="btn btn-primary hidden" th:if="${#vars.permisoActualizacion}">
+							<i class="fa fa-pencil-square"></i> Actualizar
+						</button>
+					</div>
+				</div>
+			</form>
+		</fieldset>
+	</div>
+
+	<th:block th:fragment="perfil">
+		<div class="form-group">
+			<label class="col-xs-2 control-label">Perfil</label>
+			<div class="col-xs-10">
+				<input type="text" class="form-control elemento-desactivable upperCase" name="idPerfil"></input>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-2 control-label">Descripcion</label>
+			<div class="col-xs-10">
+				<input type="text" class="form-control upperCase" name="descripcion"></input>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-2 control-label">Visualización del PAN</label>
+			<div class="col-xs-4">
+				<div class="checkbox">
+					<label>
+						<input type="checkbox" value="true" data-unchecked-value="false" name="visualizaPAN" />
+					</label>
+				</div>
+			</div>
+		</div>
+	</th:block>
+
+	<th:block th:fragment="politicaSeguridad">
+		<div class="form-group">
+			<label class="col-xs-2 control-label">Número de Intentos</label>
+			<div class="col-xs-10">
+				<input type="text" class="form-control" name="numeroMaximoIntentos" data-tooltip="tooltip" th:title="#{ayuda-numeroIntentos}"></input>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="group">
+				<label class="col-xs-2 control-label">Complejidad Contraseña</label>
+				<div class="col-xs-4">
+					<div class="checkbox">
+						<label>
+							<input type="checkbox" value="1" data-unchecked-value="0" name="complejidadContrasenia" />
+						</label>
+					</div>
+				</div>
+			</div>
+			<div class="group">
+				<label class="col-xs-2 control-label">Active Directory</label>
+				<div class="col-xs-4">
+					<div class="checkbox">
+						<label>
+							<input type="checkbox" value="1" data-unchecked-value="0" name="autenticacionActiveDirectory"
+								th:title="#{ayuda-activeDirectory}" data-tooltip="tooltip" />
+						</label>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="group">
+				<label class="col-xs-2 control-label">Cantidad Días</label>
+				<div class="col-xs-4">
+					<input type="number" class="form-control numbersOnly" name="cantidadDiasParaCaducidadContrasenia"
+						th:title="#{ayuda-cantidadDiasParaCaducidad}" data-tooltip="tooltip"></input>
+				</div>
+			</div>
+			<div class="group">
+				<label class="col-xs-2 control-label">Longitud Mínima</label>
+				<div class="col-xs-4">
+					<input type="number" class="form-control numbersOnly" name="longitudMinimaContrasenia"></input>
+				</div>
+			</div>
+		</div>
+	</th:block>
+
+	<th:block th:fragment="usuario">
+		<div class="form-group">
+			<label class="col-xs-2 control-label">Usuario</label>
+			<div class="col-xs-10">
+				<input id="idUsuario" name="idUsuario" class="form-control upperCase elemento-desactivable" maxlength="20"></input>
+			</div>
+		</div>
+		<div class="form-group">
+			<label id="label-contrasenia" class="col-xs-2 control-label">Contraseña</label>
+			<label id="label-nuevaContrasenia" class="col-xs-2 control-label hidden">Nueva Contraseña</label>
+			<div class="col-xs-10">
+				<div class="input-group">
+					<input id="contrasenia" type="password" name="contrasenia" class="form-control contrasenia"></input>
+					<span class="input-group-btn">
+						<button id="generarContrasenia" class="btn btn-default" type="button" data-tooltip="tooltip"
+							th:title="#{ayuda-generarContrasenia}">
+							<i class="fa fa-refresh"></i>
+						</button>
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-2 control-label">Confirmar contraseña</label>
+			<div class="col-xs-10">
+				<input type="password" name="contraseniaConfirmacion" class="form-control contrasenia"></input>
+			</div>
+		</div>
+		<div id="div-cambiarContrasenia" class="form-group hidden">
+			<label class="col-xs-2 control-label">Cambiar contraseña</label>
+			<div class="col-xs-10">
+				<div class="checkbox">
+					<label>
+						<input id="checkbox-cambioContrasenia" type="checkbox" value="true" data-unchecked-value="false" name="cambioContrasenia" />
+					</label>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-2 control-label">Perfil</label>
+			<div class="col-xs-10">
+				<select id="perfiles" class="form-control select2" name="idPerfil">
+					<option value="" disabled="disabled" selected="selected">Seleccione un Perfil</option>
+					<option th:each="perfil : ${perfiles}" th:value="${perfil.idPerfil}" th:text="|${perfil.idPerfil} - ${perfil.descripcion}|"
+							th:attr="data-puedeVisualizarTarjeta=${perfil.visualizaPAN}"></option>
+				</select>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="group">
+				<label class="col-xs-2 control-label">Activo</label>
+				<div class="col-xs-4">
+					<div class="checkbox">
+						<label>
+							<input type="checkbox" value="true" data-unchecked-value="false" name="activo" />
+						</label>
+					</div>
+				</div>
+			</div>
+			<div class="group">
+				<label class="col-xs-2 control-label">Visualización del PAN</label>
+				<div class="col-xs-4">
+					<div class="checkbox">
+						<label>
+							<input id="checkVisualizarTarjeta" type="checkbox" value="true"
+								   data-unchecked-value="false" name="visualizaPAN" />
+						</label>
+					</div>
+				</div>
+			</div>
+		</div>
+	</th:block>
+</body>
+</html>

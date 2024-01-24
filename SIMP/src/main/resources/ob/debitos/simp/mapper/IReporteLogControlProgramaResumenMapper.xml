@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ob.debitos.simp.mapper.IReporteLogControlProgramaResumenMapper">
+
+	<select id="buscarTodos" resultType="ReporteLogControlProgramaResumen">
+		SELECT *
+		FROM ConsultaLogControlProgramaResumen reporte
+	</select>
+	
+	<select id="filtrar" resultType="ReporteLogControlProgramaResumen">
+		SELECT *
+		FROM ConsultaLogControlProgramaResumen reporte 
+		<where>
+			<if test="idGrupo != null and idGrupo != ''">
+				reporte.idGrupo = #{idGrupo} 
+			</if>
+			<if test="idPrograma != null and idPrograma != ''">
+				AND reporte.idPrograma = #{idPrograma}
+			</if>
+			<if test="fechaInicio != null and fechaInicio != ''">
+				AND reporte.fechaProceso &gt;= #{fechaInicio} 
+			</if>
+			<if test="fechaFin != null and fechaFin != ''">
+				AND reporte.fechaProceso &lt;= #{fechaFin} 
+			</if>
+		</where>
+		ORDER BY reporte.fechaProceso DESC
+	</select>
+	
+	<select id="filtrarDetalle" resultType="ReporteLogControlProgramaResumenDetalle">
+		SELECT *
+		FROM ConsultaLogControlProgramaResumenDetalle reporte
+		WHERE
+			reporte.idGrupo = #{idGrupo}
+			AND reporte.idPrograma = #{idPrograma} 
+			AND reporte.fechaProceso = #{fechaProceso} 
+	</select>
+
+</mapper>

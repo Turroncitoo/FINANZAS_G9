@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+	layout:decorator="layout">
+<head>
+<title th:text="|Mant. de #{__${tarifario}__}|"></title>
+</head>
+<th:block layout:fragment="style">
+	<link th:href="@{/resources/css/dataTables.bootstrap.min.css}" rel="stylesheet" />
+	<link th:href="@{/resources/css/responsive.bootstrap.min.css}" rel="stylesheet" />
+	<link th:href="@{/resources/css/popupwindow.css}" rel="stylesheet" />
+	<link th:href="@{/resources/css/select2.min.css}" rel="stylesheet" />
+	<link th:href="@{/resources/css/select2-bootstrap.min.css}" rel="stylesheet" />
+</th:block>
+<body>
+	<th:block layout:fragment="content">
+		<div class="page-content-wrap">
+			<div class="row">
+				<div class="col-md-12 col-sm-12 col-xs-12">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h3 class="panel-title" th:text="|Tarifario - #{__${tarifario}__}|"></h3>
+							<ul class="panel-controls">
+								<li><button id="aniadirTarifario" class="btn btn-primary">
+										<i class="fa fa-plus"></i> <span th:text="|Añadir #{__|boton-${tarifario}|__}|"></span>
+									</button></li>
+							</ul>
+						</div>
+						<div class="panel-body">
+							<table id="tablaTarifario" width="100%"
+								class="table table-bordered table-condensed nowrap display table-hover">
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<th:block
+			th:replace="~{template/fragments/tarifario/filtrosParaTablaTarifario :: filtrosParaTablaTarifario(tipo=${tarifario})}?:~{}">
+		</th:block>
+		<th:block
+			th:replace="~{template/fragments/tarifario/modalTarifario :: modalTarifario(tipo=${tarifario})}?:~{}">
+		</th:block>
+	</th:block>
+	<th:block layout:fragment="script">
+		<script th:src="@{/resources/js/datatables/jquery.dataTables.min.js}"></script>
+		<script th:src="@{/resources/js/datatables/dataTables.bootstrap.min.js}"></script>
+		<script th:src="@{/resources/js/datatables/dataTables.responsive.min.js}"></script>
+		<script th:src="@{/resources/js/datatables/dataTables.show.rows.js}"></script>
+		<script th:src="@{/resources/js/bootstrap/bootstrap-notify.min.js}"></script>
+		<script th:src="@{/resources/js/jquery/popupwindow.min.js}"></script>
+		<script th:src="@{/resources/js/jquery/jquery.serializejson.min.js}"></script>
+		<script th:src="@{/resources/js/jquery/jquery.validate.min.js}"></script>
+		<script th:src="@{/resources/js/jquery/additional-methods.min.js}"></script>
+		<script th:src="@{/resources/js/jquery/jquery.animate.min.js}"></script>
+		<script th:src="@{/resources/js/jquery/select2.full.min.js}"></script>
+		<script th:src="@{/resources/js/util/formularioUtil.js}"></script>
+		<script
+			th:src="@{/resources/js/pagina/tarifario/{tarifario}/{tarifario}.js(tarifario = ${tarifario})}"></script>
+		<script
+			th:src="@{/resources/js/pagina/tarifario/{tarifario}/{tarifario}Formulario.js(tarifario = ${tarifario})}"></script>
+	</th:block>
+</body>
+</html>

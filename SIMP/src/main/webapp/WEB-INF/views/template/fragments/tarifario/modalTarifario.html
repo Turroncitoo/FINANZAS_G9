@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+	<div id="modalTarifario" class="row" th:fragment="modalTarifario" th:with="tipo=${tipo}">
+		<fieldset class="well">
+			<legend class="well-legend">Formulario de Tarifario</legend>
+			<form id="formTarifario" class="form-horizontal" role="form">
+				<th:block th:replace="~{template/fragments/tarifario/modalTarifario :: ${tipo}}?:~{}">
+				</th:block>
+				<div class="form-group">
+					<div class="col-lg-12 text-center">
+						<button id="registrarTarifario" type="button" class="btn btn-success">
+							<i class="fa fa-floppy-o"></i> Registrar
+						</button>
+						<button id="actualizarTarifario" type="button" class="btn btn-primary hidden">
+							<i class="fa fa-pencil-square"></i> Actualizar
+						</button>
+					</div>
+				</div>
+			</form>
+		</fieldset>
+		<th:block th:replace="~{template/fragments/tarifario/formularioAdicionalTarifario :: ${tipo}}?:~{}">
+		</th:block>
+	</div>
+
+	<th:block th:fragment="tipoTarifa">
+		<div class="form-group">
+			<label class="col-lg-2 control-label">Tipo de Tarifa</label>
+			<div class="col-lg-10">
+				<input class="form-control elemento-desactivable numbersOnly" name="tipoTarifa"/>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-lg-2 control-label">Descripción</label>
+			<div class="col-lg-10">
+				<input class="form-control upperCase" name="descripcion">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-lg-2 control-label">Esquema</label>
+			<div class="col-lg-10">
+				<select id="esquemas" class="form-control select2" name="codigoEsquema">
+					<option value="" selected="selected" disabled="disabled">Seleccione un Esquema</option>
+					<option th:each="esquema: ${esquemas}" th:value="|${esquema.codigoEsquema}|"
+						th:text="|${esquema.codigoEsquema} - ${esquema.descripcion}|"></option>
+				</select>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-lg-2 control-label">Aplica Grupo BIN</label>
+			<div class="col-lg-4">
+				<div class="checkbox">
+					<label> <input type="checkbox" name="aplicaBin" value="1" data-unchecked-value="0" />
+					</label>
+				</div>
+			</div>
+			<label class="col-lg-2 control-label">Diferencia Transacción</label>
+			<div class="col-lg-4">
+				<div class="checkbox">
+					<label> <input type="checkbox" name="diferenteTran" value="1" data-unchecked-value="0" />
+					</label>
+				</div>
+			</div>
+		</div>
+	</th:block>
+	<th:block th:fragment="escenario">
+		<div class="form-group">
+			<label class="col-lg-2 control-label">Institución</label>
+			<div class="col-lg-10">
+				<select class="form-control" disabled="disabled">
+					<option value="" disabled="disabled" selected="selected" th:each="institucion : ${instituciones}"
+						th:text="|${institucion.codigoInstitucion} - ${institucion.descripcionCorta}|"></option>
+				</select>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-lg-2 control-label">Membresía</label>
+			<div class="col-lg-10">
+				<select id="membresias" class="form-control select2 elemento-desactivable" name="codigoMembresia">
+					<option value="" selected="selected" disabled="disabled">Seleccione una Membresía</option>
+					<option th:each="membresia: ${membresias}" th:value="|${membresia.codigoMembresia}|"
+						th:text="|${membresia.codigoMembresia} - ${membresia.descripcion}|"></option>
+				</select>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-lg-2 control-label">Clase Servicio</label>
+			<div class="col-lg-10">
+				<select id="clasesServicio" class="form-control select2 elemento-desactivable" name="codigoClaseServicio">
+					<option value="" selected="selected" disabled="disabled">Seleccione una Clase de Servicio</option>
+				</select>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-lg-2 control-label">Origen</label>
+			<div class="col-lg-10">
+				<select id="origenes" class="form-control select2 elemento-desactivable" name="codigoOrigen">
+					<option value="" selected="selected" disabled="disabled">Seleccione un Origen</option>
+					<option th:each="origen: ${origenes}" th:value="|${origen.codigoOrigen}|"
+						th:text="|${origen.codigoOrigen} - ${origen.descripcion}|"></option>
+				</select>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-lg-2 control-label">Clase Transacción</label>
+			<div class="col-lg-10">
+				<select id="clasesTxns" class="form-control select2 elemento-desactivable" name="codigoClaseTransaccion">
+					<option value="" selected="selected" disabled="disabled">Seleccione una Clase de Transacción</option>
+					<option th:each="claseTxn: ${clasesTxns}" th:value="|${claseTxn.codigoClaseTransaccion}|"
+						th:text="|${claseTxn.codigoClaseTransaccion} - ${claseTxn.descripcion}|"></option>
+				</select>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-lg-2 control-label">Codigo de Transacción</label>
+			<div class="col-lg-10">
+				<select id="codigoTxns" class="form-control select2 elemento-desactivable" name="codigoTransaccion">
+					<option value="" selected="selected" disabled="disabled">Seleccione un Codigo de Transacción</option>
+				</select>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-lg-2 control-label">Tipo Tarifa</label>
+			<div class="col-lg-10">
+				<select id="tipoTarifas" class="form-control select2" name="codigoTipoTarifa">
+					<option value="" selected="selected" disabled="disabled">Seleccione un Tipo de Tarifa</option>
+					<option th:each="tipoTarifa: ${tipoTarifas}" th:value="|${tipoTarifa.tipoTarifa}|"
+						th:text="|${tipoTarifa.tipoTarifa} - ${tipoTarifa.descripcion}|"></option>
+				</select>
+			</div>
+		</div>
+	</th:block>
+	<th:block th:fragment="tarifarioEmisor">
+		<div class="form-group">
+			<label class="col-lg-2 control-label">Institución</label>
+			<div class="col-lg-10">
+				<select class="form-control" disabled="disabled">
+					<option value="" disabled="disabled" selected="selected" th:each="institucion : ${instituciones}"
+						th:text="|${institucion.codigoInstitucion} - ${institucion.descripcionCorta}|"></option>
+				</select>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-lg-2 control-label">Tipo Tarifa</label>
+			<div class="col-lg-10">
+				<select id="tipoTarifas" class="form-control select2 elemento-desactivable" name="codigoTipoTarifa">
+					<option value="" selected="selected" disabled="disabled">Seleccione un Tipo de Tarifa</option>
+					<option th:each="tipoTarifa: ${tipoTarifas}" th:value="|${tipoTarifa.tipoTarifa}|"
+						th:text="|${tipoTarifa.tipoTarifa} - ${tipoTarifa.descripcion}|"></option>
+				</select>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-lg-2 control-label">Grupo BIN</label>
+			<div class="col-lg-10">
+				<select id="gruposBin" class="form-control select2 elemento-desactivable" name="codigoGrupoBin">
+					<option selected="selected" disabled="disabled">Seleccione un Grupo BIN</option>
+					<option th:each="grupoBin: ${gruposBin}" th:value="|${grupoBin.grupoBin}|"
+						th:text="|${grupoBin.grupoBin} - ${grupoBin.Bin}|"></option>
+				</select>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-lg-2 control-label">Aplica Transación</label>
+			<div class="col-lg-6">
+				<div class="checkbox">
+					<label> <input id="aplicaTransaccion" class="elemento-desactivable" type="checkbox" name="aplicaTransaccion" 
+								value="1" data-unchecked-value="0" />
+					</label>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-lg-2 control-label">Transacción</label>
+			<div class="col-lg-10">
+				<select id="codigoTxns" disabled="disabled" class="form-control elemento-desactivable select2" name="transaccion">
+					<option value="" selected="selected" disabled="disabled">Seleccione una Transacción</option>
+					<option th:each="codigoTxn: ${codigoTxns}" th:value="|${codigoTxn.codigoClaseTransaccion*100 + codigoTxn.codigoTransaccion}|"
+						th:text="|${codigoTxn.codigoClaseTransaccion*100 + codigoTxn.codigoTransaccion} - ${codigoTxn.descripcion}|"></option>
+				</select>
+			</div>
+		</div>		
+		<div class="form-group">
+			<label class="col-lg-2 control-label">Nivel</label>
+			<div class="col-lg-10">
+				<input class="form-control elemento-desactivable numbersOnly" name="nivel" autofocus="autofocus" />
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="col-lg-2 control-label">Moneda</label>
+			<div class="col-lg-10">
+				<select id="monedas" class="form-control select2" name="codigoMoneda">
+					<option value="" selected="selected" disabled="disabled">Seleccione un Tipo de Tarifa</option>
+					<option th:each="moneda: ${monedas}" th:value="|${moneda.codigoMoneda}|"
+						th:text="|${moneda.codigoMoneda} - ${moneda.descripcion}|"></option>
+				</select>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="form-group col-lg-6">
+				<label class="col-lg-4 control-label">R. Inicial</label>
+				<div class="col-lg-8">
+					<input class="form-control numbersOnly" name="rangoInicial" autofocus="autofocus" />
+				</div>
+			</div>
+			<div class="form-group col-lg-6">
+				<label class="col-lg-4 control-label">R. Final</label>
+				<div class="col-lg-8">
+					<input class="form-control numbersOnly" name="rangoFinal" autofocus="autofocus" />
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="form-group col-lg-6">
+				<label class="col-lg-4 control-label">Tarifa Flat</label>
+				<div class="col-lg-8">
+					<input class="form-control" name="tarifaFlat" autofocus="autofocus" />
+				</div>
+			</div>
+			<div class="form-group col-lg-6">
+				<label class="col-lg-4 control-label">Tarifa %</label>
+				<div class="col-lg-8">
+					<input class="form-control" name="tarifaPorc" autofocus="autofocus" />
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-lg-2 control-label">Aplica IGV</label>
+			<div class="col-lg-6">
+				<div class="checkbox">
+					<label> <input type="checkbox" name="aplicaIgv" value="1" data-unchecked-value="0" />
+					</label>
+				</div>
+			</div>
+		</div>
+	</th:block>
+
+	<th:block th:fragment="tarifarioAdquirente">
+		<div class="form-group">
+			<label class="col-lg-2 control-label">Institución</label>
+			<div class="col-lg-10">
+				<select class="form-control" disabled="disabled">
+					<option value="" disabled="disabled" selected="selected" th:each="institucion : ${instituciones}"
+						th:text="|${institucion.codigoInstitucion} - ${institucion.descripcionCorta}|"></option>
+				</select>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-lg-2 control-label">Tipo Tarifa</label>
+			<div class="col-lg-10">
+				<select id="tipoTarifas" class="form-control select2 elemento-desactivable" name="codigoTipoTarifa">
+					<option value="" selected="selected" disabled="disabled">Seleccione un Tipo de Tarifa</option>
+					<option th:each="tipoTarifa: ${tipoTarifas}" th:value="|${tipoTarifa.tipoTarifa}|"
+						th:text="|${tipoTarifa.tipoTarifa} - ${tipoTarifa.descripcion}|"></option>
+				</select>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-lg-2 control-label">Nivel</label>
+			<div class="col-lg-10">
+				<input class="form-control numbersOnly elemento-desactivable" name="nivel" autofocus="autofocus" />
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="col-lg-2 control-label">Moneda</label>
+			<div class="col-lg-10">
+				<select id="monedas" class="form-control select2" name="codigoMoneda">
+					<option value="" selected="selected" disabled="disabled">Seleccione un Tipo de Tarifa</option>
+					<option th:each="moneda: ${monedas}" th:value="|${moneda.codigoMoneda}|"
+						th:text="|${moneda.codigoMoneda} - ${moneda.descripcion}|"></option>
+				</select>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="form-group col-lg-6">
+				<label class="col-lg-4 control-label">R. Inicial</label>
+				<div class="col-lg-8">
+					<input class="form-control numbersOnly" name="rangoInicial" autofocus="autofocus" />
+				</div>
+			</div>
+			<div class="form-group col-lg-6">
+				<label class="col-lg-4 control-label">R. Final</label>
+				<div class="col-lg-8">
+					<input class="form-control numbersOnly" name="rangoFinal" autofocus="autofocus" />
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="form-group col-lg-6">
+				<label class="col-lg-4 control-label">Tarifa Flat</label>
+				<div class="col-lg-8">
+					<input class="form-control" name="tarifaFlat" autofocus="autofocus" />
+				</div>
+			</div>
+			<div class="form-group col-lg-6">
+				<label class="col-lg-4 control-label">Tarifa %</label>
+				<div class="col-lg-8">
+					<input class="form-control" name="tarifaPorc" autofocus="autofocus" />
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-lg-2 control-label">Aplica IGV</label>
+			<div class="col-lg-2">
+				<div class="checkbox">
+					<label> <input type="checkbox" name="aplicaIgv" value="1" data-unchecked-value="0" />
+					</label>
+				</div>
+			</div>
+		</div>
+	</th:block>
+
+	<th:block th:fragment="surcharge">
+		<div class="form-group">
+			<label class="col-lg-2 control-label">Institución</label>
+			<div class="col-lg-10">
+				<select class="form-control" disabled="disabled">
+					<option value="" disabled="disabled" selected="selected" th:each="institucion : ${instituciones}"
+						th:text="|${institucion.codigoInstitucion} - ${institucion.descripcionCorta}|"></option>
+				</select>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-lg-2 control-label">Nivel</label>
+			<div class="col-lg-10">
+				<input class="form-control numbersOnly elemento-desactivable" name="nivel" autofocus="autofocus" />
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="col-lg-2 control-label">Moneda</label>
+			<div class="col-lg-10">
+				<select id="monedas" class="form-control select2" name="codigoMoneda">
+					<option value="" selected="selected" disabled="disabled">Seleccione un Tipo de Tarifa</option>
+					<option th:each="moneda: ${monedas}" th:value="|${moneda.codigoMoneda}|"
+						th:text="|${moneda.codigoMoneda} - ${moneda.descripcion}|"></option>
+				</select>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="form-group col-lg-6">
+				<label class="col-lg-4 control-label">R. Inicial</label>
+				<div class="col-lg-8">
+					<input class="form-control numbersOnly" name="rangoInicial" autofocus="autofocus" />
+				</div>
+			</div>
+			<div class="form-group col-lg-6">
+				<label class="col-lg-4 control-label">R. Final</label>
+				<div class="col-lg-8">
+					<input class="form-control numbersOnly" name="rangoFinal" autofocus="autofocus" />
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="form-group col-lg-6">
+				<label class="col-lg-4 control-label">Surcharge Flat</label>
+				<div class="col-lg-8">
+					<input class="form-control upperCase" name="surchargeFlat" autofocus="autofocus" />
+				</div>
+			</div>
+			<div class="form-group col-lg-6">
+				<label class="col-lg-4 control-label">Surcharge %</label>
+				<div class="col-lg-8">
+					<input class="form-control upperCase" name="surchargePorc" autofocus="autofocus" />
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-lg-2 control-label">Aplica IGV</label>
+			<div class="col-lg-2">
+				<div class="checkbox">
+					<label> <input type="checkbox" name="aplicaIgv" value="1" data-unchecked-value="0" />
+					</label>
+				</div>
+			</div>
+		</div>
+	</th:block>
+
+</body>
+</html>

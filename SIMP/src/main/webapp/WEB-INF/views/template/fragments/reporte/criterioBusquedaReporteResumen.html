@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+	<div id="criterioBusquedaReporte" class="row" th:fragment="criterioBusquedaReporteResumen" th:with="tipo=${tipo}">
+		<fieldset class="well">
+			<legend class="well-legend">Búsqueda</legend>
+			<form id="formCriterioBusquedaReporte" class="form-horizontal" role="form">
+				<th:block th:replace="~{template/fragments/reporte/criterioBusquedaReporteResumen :: ${tipo}}?:~{}">
+				</th:block>
+				<div class="form-group">
+					<div class="col-sm-offset-3 col-md-offset-3 col-lg-offset-4 col-sm-6 col-md-6 col-lg-4">
+						<button id="buscar" type="button" class="btn btn-primary" th:if="${#vars.permisoConsulta}">
+							<i class="fa fa-search"></i> Buscar
+						</button>
+						<th:block th:if="${tipo}=='comisionInstResumen'">
+							<button id="exportar" type="button" class="btn btn-success" th:if="${#vars.permisoReporte}">
+								<i class="fa fa-download"></i> Exportar
+							</button>
+						</th:block>
+					</div>
+				</div>
+			</form>
+		</fieldset>
+	</div>
+
+	<th:block th:fragment="comisionInstResumen">
+		<div class="form-group">
+			<div class="group">
+				<label class="col-md-1 control-label">Empresa</label>
+				<div class="col-md-3">
+					<select id="empresaSelect" class="form-control select2" name="idEmpresa">
+						<option selected="selected" value="ALL">TODOS</option>
+						<option th:each="empresa: ${empresas}" th:value="${empresa.idEmpresa}"
+							th:text="|${empresa.idEmpresa} - ${empresa.descripcion}|"></option>
+					</select>
+				</div>
+			</div>
+			<div class="group">
+				<label class="col-md-1 control-label">Cliente</label>
+				<div class="col-md-3">
+					<select id="clienteSelect" class="form-control select2" name="idCliente">
+						<option selected="selected" value="ALL">TODOS</option>
+					</select>
+				</div>
+			</div>
+			<div class="group">
+				<label class="col-md-1 control-label">Fecha Proceso</label>
+				<div class="col-md-3">
+					<div class="input-group">
+						<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+						<input id="rangoFechaBusqueda" type="text" class="form-control" readonly="readonly" />
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="group">
+				<label class="col-sm-1 col-md-1 control-label">Institución</label>
+				<div class="col-sm-3 col-md-3">
+					<select id="instituciones" name="codigoInstitucion" class="form-control select2 filtro">
+						<option value="" selected="selected">Seleccione Institución</option>
+						<option th:each="e : ${instituciones}" th:value="${e.codigoInstitucion}"
+							th:text="|${e.codigoInstitucion} - ${e.descripcionCorta}|"></option>
+					</select>
+				</div>
+			</div>
+		</div>
+	</th:block>
+</body>
+</html>

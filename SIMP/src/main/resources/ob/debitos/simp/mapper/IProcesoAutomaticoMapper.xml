@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ob.debitos.simp.mapper.IProcesoAutomaticoMapper">
+
+	<select id="mantener" parameterType="Parametro" resultType="ProcesoAutomatico" statementType="CALLABLE">
+		{ 
+		   CALL MANT_PROCESO_AUTOMATICO (
+			 #{verbo, jdbcType = VARCHAR, mode = IN}
+			,#{objeto.codigoGrupo, jdbcType = VARCHAR, mode = IN}
+			,#{objeto.descripcion, jdbcType = VARCHAR, mode = IN}
+			,#{objeto.horaProgramada, jdbcType = VARCHAR, mode = IN}
+			,#{objeto.habilitado, jdbcType = NUMERIC, mode = IN}
+			,#{objeto.ordenEjecucion, jdbcType = NUMERIC, mode = IN}
+			,#{objeto.estrictamenteSecuencial, jdbcType = NUMERIC, mode = IN}
+			,#{objeto.tipo, jdbcType = VARCHAR, mode = IN}
+			,#{userAudit, jdbcType =  VARCHAR, mode = IN}
+		   )
+		}
+	</select>
+	
+</mapper>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ob.debitos.simp.mapper.IPaisMapper">
+ 
+	<select id="buscarTodos" resultType="Pais"> 
+		  SELECT 
+			 nIdPais				AS idPais
+			,vDescripcion			AS descripcion
+			,vCodigoPaisIso3Alfa3	AS codigoPaisIso3Alfa3
+			,vCodigoCelular			AS codigoCelular
+			,vCodigoPaisIso3Alfa2	AS codigoPaisIso3Alfa2
+			,vCodigoMoneda			AS codigoMoneda
+		 FROM MaePaises
+	</select>	
+	
+</mapper>

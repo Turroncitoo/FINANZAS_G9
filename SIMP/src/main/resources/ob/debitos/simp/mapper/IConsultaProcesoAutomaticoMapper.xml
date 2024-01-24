@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ob.debitos.simp.mapper.IConsultaProcesoAutomaticoMapper">
+
+	<resultMap id="mapBuscarProcesosAutomaticos" type="ConsultaProcesoAutomatico">
+		<id property="codigoGrupo" column="codigoGrupo"></id>
+		<result property="descripcionGrupo" column="descripcionGrupo"></result>
+		<result property="ordenEjecucion" column="ordenEjecucion"></result>
+		<result property="tipo" column="tipo"></result>
+		<collection property="programas" javaType="List" ofType="ConsultaPrograma">
+			<id property="codigoPrograma" column="codigoPrograma"></id>
+			<id property="codigoSubModulo" column="codigoSubModulo"></id>
+			<result property="descripcionPrograma" column="descripcionPrograma"></result>
+			<result property="descripcionSubModulo" column="descripcionSubModulo"></result>
+			<result property="ordenEjecucion" column="ordenEjecucionPrograma"></result>
+			<result property="procedimiento" column="procedimiento"></result>
+			<result property="estado" column="estado"></result>
+			<result property="urlSistema" column="urlSistema"></result>
+		</collection>
+	</resultMap>
+
+	<select id="buscarProcesoAutomaticos" resultMap="mapBuscarProcesosAutomaticos">
+		{
+			call CONSULT_LOG_CONTROL_PROGRAMA_RESUMEN(
+				#{verbo, jdbcType = VARCHAR, mode =IN},
+				#{fechaProceso, jdbcType = DATE, mode = IN}
+			)
+		}
+	</select>
+	
+</mapper>

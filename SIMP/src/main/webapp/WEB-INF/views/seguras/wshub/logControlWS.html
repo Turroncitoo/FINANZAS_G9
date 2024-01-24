@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+      layout:decorator="layout">
+<head>
+    <title th:text="|Log Control WS|"></title>
+</head>
+<th:block layout:fragment="style">
+    <link th:href="@{/resources/css/dataTables.bootstrap.min.css}" rel="stylesheet"/>
+    <link th:href="@{/resources/css/responsive.bootstrap.min.css}" rel="stylesheet"/>
+    <link th:href="@{/resources/css/popupwindow.css}" rel="stylesheet"/>
+    <link th:href="@{/resources/css/select2.min.css}" rel="stylesheet"/>
+    <link th:href="@{/resources/css/select2-bootstrap.min.css}" rel="stylesheet"/>
+    <link th:href="@{/resources/css/daterangepicker.css}" rel="stylesheet"/>
+</th:block>
+<body>
+<th:block layout:fragment="content">
+    <div class="page-content-wrap">
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title" th:text="|Log de Control Web Services|"></h3>
+                        <ul class="panel-controls">
+                        </ul>
+                    </div>
+                    <div class="panel-body">
+                        <div id="tipoReporteContent"
+                             class="col-xs-12 col-md-12 col-lg-12">
+                            <fieldset class="well">
+                                <legend class="well-legend">Tipo de Búsqueda</legend>
+                                <form id="formTipoReporte" class="form-horizontal">
+                                    <div class="form-group">
+                                        <div class="col-sm-12">
+                                            <label class="radio-inline">
+                                                <input type="radio"
+                                                       name="tipoBusqueda"
+                                                       value="consultaEnLinea"
+                                                       checked="checked">
+                                                Consulta en línea
+                                            </label>
+                                            <label class="radio-inline">
+                                                <input type="radio"
+                                                       name="tipoBusqueda"
+                                                       value="historial">
+                                                Historial
+                                            </label>
+                                        </div>
+                                    </div>
+                                </form>
+                            </fieldset>
+                            <div id="criterios" class="col-xs-12">
+                                <div id="divConsultaEnLinea">
+                                    <div class="col-xs-12 col-md-12 col-lg-12 text-left"
+                                         style="padding-bottom: 15px !important;">
+                                        <i id="cargandoUltimaTxn" class="fa fa-spinner fa-pulse fa-fw"></i>
+                                        <label id="spanUltimaTxn"><b>Buscando transacciones ...</b></label>
+                                    </div>
+                                    <table id="tablaEnLinea"
+                                           class="table table-bordered table-condensed nowrap display table-hover">
+                                    </table>
+                                </div>
+                                <div class="hidden" id="divHistorial">
+                                    <div class="row">
+                                        <fieldset class="well">
+                                            <legend class="well-legend">Criterios</legend>
+                                            <form id="formBusqueda" class="form-horizontal">
+                                                <div class="form-group">
+                                                    <div class="group">
+                                                        <label for="fechaTransaccion"
+                                                               class="col-sm-1 col-md-1 control-label">Fecha
+                                                            Transacción</label>
+                                                        <div class="col-sm-3 col-md-3">
+                                                            <div class="input-group">
+                                                                <span class="input-group-addon"><i
+                                                                        class="fa fa-calendar"></i></span>
+                                                                <input id="fechaTransaccion" class="form-control filtro"
+                                                                       name="fechaTransaccion"
+                                                                       readonly="readonly"
+                                                                       type="text"/>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="group">
+                                                        <label for="selectInstitucion"
+                                                               class="col-sm-1 col-md-1 control-label">Institución</label>
+                                                        <div class="col-sm-3 col-md-3">
+                                                            <select id="selectInstitucion" name="idInstitucion"
+                                                                    class="form-control select2 filtro">
+                                                                <option th:each="institucion : ${instituciones}"
+                                                                        th:value="${institucion.codigoInstitucion}"
+                                                                        th:text="|${institucion.codigoInstitucion} - ${institucion.descripcionCorta}|"></option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="group">
+                                                        <label for="selectEmpresa"
+                                                               class="col-sm-1 col-md-1 control-label">Empresa</label>
+                                                        <div class="col-sm-3 col-md-3">
+                                                            <select id="selectEmpresa" name="idEmpresa"
+                                                                    class="form-control select2 filtro">
+                                                                <option value="-1" selected="selected">Seleccione una
+                                                                    Empresa
+                                                                </option>
+                                                                <option th:each="empresa : ${empresas}"
+                                                                        th:value="${empresa.idEmpresa}"
+                                                                        th:text="|${empresa.idEmpresa} - ${empresa.descripcion}|"></option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="group">
+                                                        <label for="selectCliente"
+                                                               class="col-sm-1 col-md-1 control-label">Cliente</label>
+                                                        <div class="col-sm-3 col-md-3">
+                                                            <select id="selectCliente" name="clientes"
+                                                                    class="select2 filtro"
+                                                                    multiple="multiple"></select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="group">
+                                                        <label for="selectOperacion"
+                                                               class="col-sm-1 col-md-1 control-label">Operación</label>
+                                                        <div class="col-sm-3 col-md-3">
+                                                            <select id="selectOperacion"
+                                                                    name="operaciones" class="select2 filtro"
+                                                                    multiple="multiple">
+                                                                <option th:each="operacion : ${operaciones}"
+                                                                        th:value="${operacion.descripcionItem}"
+                                                                        th:text="|${operacion.idItem} - ${operacion.descripcionItem}|"></option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="group">
+                                                        <label for="numeroTarjeta"
+                                                               class="col-sm-1 col-md-1 control-label">Número
+                                                            Tarjeta</label>
+                                                        <div class="col-sm-3 col-md-3">
+                                                            <input id="numeroTarjeta"
+                                                                   class="form-control filtro numbersOnly"
+                                                                   name="numeroTarjeta"
+                                                                   maxlength="20"/>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="group">
+                                                        <label for="codigoSeguimiento"
+                                                               class="col-sm-1 col-md-1 control-label">Código
+                                                            Seguimiento</label>
+                                                        <div class="col-sm-3 col-md-3">
+                                                            <input id="codigoSeguimiento"
+                                                                   class="form-control filtro"
+                                                                   name="codigoSeguimiento"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="group">
+                                                        <label for="numeroDocumento"
+                                                               class="col-sm-1 col-md-1 control-label">Número
+                                                            Documento</label>
+                                                        <div class="col-sm-3 col-md-3">
+                                                            <input id="numeroDocumento"
+                                                                   class="form-control filtro numbersOnly"
+                                                                   name="numeroDocumento"
+                                                                   maxlength="12"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="group">
+                                                        <label for="direccionIP"
+                                                               class="col-sm-1 col-md-1 control-label">Dirección
+                                                            IP</label>
+                                                        <div class="col-sm-3 col-md-3">
+                                                            <input id="direccionIP"
+                                                                   class="form-control filtro"
+                                                                   name="direccionIP"/>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="group">
+                                                        <label for="selectExitoCliente"
+                                                               class="col-sm-1 col-md-1 control-label">Éxito
+                                                            Cliente</label>
+                                                        <div class="col-lg-3 col-md-3">
+                                                            <select id="selectExitoCliente" name="exitoCliente"
+                                                                    class="form-control select2 filtro">
+                                                                <option value="" selected="selected">TODOS</option>
+                                                                <option value="1">SI</option>
+                                                                <option value="0">NO</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="group">
+                                                        <label for="selectExitoUBA"
+                                                               class="col-sm-1 col-md-1 control-label">Éxito UBA</label>
+                                                        <div class="col-lg-3 col-md-3">
+                                                            <select id="selectExitoUBA" name="exitoUBA"
+                                                                    class="form-control select2 filtro">
+                                                                <option value="" selected="selected">TODOS</option>
+                                                                <option value="1">SI</option>
+                                                                <option value="0">NO</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="group">
+                                                        <label for="selectExitoSIMP"
+                                                               class="col-sm-1 col-md-1 control-label">Éxito
+                                                            SIMP</label>
+                                                        <div class="col-lg-3 col-md-3">
+                                                            <select id="selectExitoSIMP" name="exitoSIMP"
+                                                                    class="form-control select2 filtro">
+                                                                <option value="" selected="selected">TODOS</option>
+                                                                <option value="1">SI</option>
+                                                                <option value="0">NO</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="col-lg-12 text-center">
+                                                        <button id="buscar" type="button" class="btn btn-primary"
+                                                                sec:authorize="hasPermission('WS_LOG_CONTROL','2')">
+                                                            <i class="fa fa-search"></i> Buscar
+                                                        </button>
+                                                        <button id="exportar" type="button" class="btn btn-success"
+                                                                sec:authorize="hasPermission('WS_LOG_CONTROL','5')">
+                                                            <i class="fa fa-download"></i> Exportar
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </fieldset>
+                                    </div>
+                                    <table id="tablaHistorica"
+                                           class="table table-bordered table-condensed nowrap display table-hover">
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="modalDatosExtra" class="row">
+            <fieldset class="well">
+                <legend class="well-legend">Datos</legend>
+                <form id="formDatosExtra" class="form-horizontal">
+                    <div class="form-group">
+                        <label class="col-lg-2 control-label">Fecha Transacción</label>
+                        <div class="col-lg-10">
+                            <input class="form-control" name="fechaTransaccion">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-2 control-label">Hora Transacción</label>
+                        <div class="col-lg-10">
+                            <input class="form-control" name="hora">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-2 control-label">Trace</label>
+                        <div class="col-lg-10">
+                            <input class="form-control" name="numeroTrace">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-2 control-label">Operación</label>
+                        <div class="col-lg-10">
+                            <input class="form-control" name="operacion">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-2 control-label">Exito UBA</label>
+                        <div class="col-lg-10">
+                            <input class="form-control" name="exitoUBATexto">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-2 control-label">Respuesta</label>
+                        <div class="col-lg-10">
+                            <input class="form-control" id="txtRespuesta">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-2 control-label">Exito SIMP</label>
+                        <div class="col-lg-10">
+                            <input class="form-control" name="exitoSIMPTexto">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-2 control-label">Respuesta SIMP</label>
+                        <div class="col-lg-10">
+                            <input class="form-control" id="txtRespuestaSIMP">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-2 control-label">Resquest Cliente</label>
+                        <div class="col-lg-10">
+                            <textarea id="txtJsonRequestClient" rows="5" class="form-control"
+                                      name="jsonRequestClient"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-2 control-label">Resquest UBA</label>
+                        <div class="col-lg-10">
+                            <textarea id="txtJsonResquestUBA" rows="5" class="form-control"
+                                      name="jsonResquestUBA"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-2 control-label">Response UBA</label>
+                        <div class="col-lg-10">
+                            <textarea id="txtJsonResponseUBA" rows="5" class="form-control"
+                                      name="jsonResponseUBA"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-2 control-label">Response Cliente</label>
+                        <div class="col-lg-10">
+                            <textarea id="txtJsonResponseClient" rows="5" class="form-control"
+                                      name="jsonResponseClient"></textarea>
+                        </div>
+                    </div>
+                </form>
+            </fieldset>
+        </div>
+    </div>
+
+</th:block>
+<th:block layout:fragment="script">
+    <script th:src="@{/resources/js/datatables/jquery.dataTables.min.js}"></script>
+    <script th:src="@{/resources/js/datatables/dataTables.bootstrap.min.js}"></script>
+    <script th:src="@{/resources/js/datatables/dataTables.responsive.min.js}"></script>
+    <script th:src="@{/resources/js/datatables/dataTables.show.rows.js}"></script>
+    <script th:src="@{/resources/js/datatables/dataTables.select.min.js}"></script>
+    <script th:src="@{/resources/js/bootstrap/bootstrap-notify.min.js}"></script>
+    <script th:src="@{/resources/js/jquery/popupwindow.min.js}"></script>
+    <script th:src="@{/resources/js/jquery/jquery.serializejson.min.js}"></script>
+    <script th:src="@{/resources/js/jquery/jquery.validate.min.js}"></script>
+    <script th:src="@{/resources/js/jquery/additional-methods.min.js}"></script>
+    <script th:src="@{/resources/js/jquery/select2.full.min.js}"></script>
+    <script th:src="@{/resources/js/jquery/moment.min.js}"></script>
+    <script th:src="@{/resources/js/jquery/daterangepicker.js}"></script>
+    <script th:src="@{/resources/js/bootstrap/bootstrap-datepicker.min.js}"></script>
+    <script th:src="@{/resources/js/pagina/consultaws/logControlWS/logControlWS.js}"></script>
+    <script th:src="@{/resources/js/pagina/consultaws/logControlWS/logControlWSFormulario.js}"></script>
+    <script th:src="@{/resources/js/util/formularioUtil.js}"></script>
+</th:block>
+
+</body>
+</html>

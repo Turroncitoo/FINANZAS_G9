@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" lang="es"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+</head>
+<body>
+	<ul class="x-navigation x-navigation-horizontal x-navigation-panel">
+		<li class="xn-icon-button"><a href="#"
+			class="x-navigation-minimize"> <span class="fa fa-dedent"></span>
+		</a></li>
+		<li style="padding-top: 5px;"><img
+			th:src="@{/resources/image/logo_simp.png}" class="img-responsive" /></li>
+		<li class="pull-right"><a class="dropdown-toggle"
+			data-toggle="dropdown"> <i class="fa fa-user"></i> <span
+				th:text="|Bienvenido: ${#httpSession.getAttribute('nombreUsuario')}|"
+				style="color: white;"></span> <span class=" fa fa-angle-down"></span>
+		</a>
+			<ul class="dropdown-menu">
+				<li><a th:href="@{/logout}"> <i
+						class="fa fa-sign-out pull-right"></i> Salir
+				</a></li>
+			</ul></li>
+		<li sec:authorize="hasPermission('CON_FECPROC','2')"
+			class="pull-right"><th:block
+				th:switch="${#authorization.expression('hasPermission(''MANT_PARAMGRAL'',''ANY'')')}">
+				<a th:case="${true}" target="_blank" th:href="@{/parametroGeneral}"
+					class="dropdown-toggle"> <i class="fa fa-calendar"></i> <span
+					id="navegacionFechaProceso" style="color: white;"></span>
+				</a>
+				<a th:case="${false}" class="dropdown-toggle"> <i
+					class="fa fa-calendar"></i> <span id="navegacionFechaProceso"
+					style="color: white;"></span>
+				</a>
+			</th:block></li>
+		<li class="pull-right"><a class="dropdown-toggle"><i
+				class="icon-code"></i> <span
+				th:text="|Versión: #{configuracion.version}|"></span> </a></li>
+	</ul>
+
+</body>
+</html>

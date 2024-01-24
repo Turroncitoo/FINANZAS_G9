@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ob.debitos.simp.mapper.ILogControlProgramaDetalleMapper">
+
+	<select id="mantener" statementType="CALLABLE"
+		parameterType="Parametro" resultType="LogControlProgramaDetalle">
+		{
+			CALL MANT_LOG_CONTROL_PROGRAMA_DETALLE
+			(
+				 #{verbo, 									jdbcType=VARCHAR, 	mode=IN}
+				,#{objeto.idItem, 							jdbcType=SMALLINT, 	mode=IN}
+				,#{objeto.idSecuenciaLogControlPrograma, 	jdbcType=INTEGER, 	mode=IN}
+				,#{objeto.descripcionItem, 					jdbcType=VARCHAR, 	mode=IN}
+				,#{objeto.mensaje, 							jdbcType=VARCHAR, 	mode=IN}
+				,#{objeto.estado, 							jdbcType=BIT, 		mode=IN}
+			)
+		}
+	</select>
+
+</mapper>

@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ob.debitos.simp.mapper.ITxnsCompensacionMapper">
+
+    <select id="buscarTxnsCompensacion" statementType="CALLABLE" resultType="TxnsCompensacion" parameterType="CriterioPaginacion">
+        {call CONSULTA_LOG_CONTABLE_TIPO_DOCUMENTO
+            (
+                #{criterioBusqueda.modo,			            jdbcType=VARCHAR, mode = IN},
+                #{criterioBusqueda.codigoInstitucion, 	        jdbcType=INTEGER, mode = IN},
+                #{criterioBusqueda.tipoDocumento, 		        jdbcType=INTEGER, mode = IN},
+                #{criterioBusqueda.numeroDocumento, 	        jdbcType=VARCHAR, mode = IN},
+                #{search.value, 			                    jdbcType=VARCHAR, mode = IN},
+                #{start, 							            jdbcType=INTEGER, mode = IN},
+                #{length, 							            jdbcType=INTEGER, mode = IN},
+                #{orderExpression, 					            jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.fechaProceso, 	            jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.institucion, 	            jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.empresa,                     jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.cliente, 		            jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.logo, 			            jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.producto, 	                jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.membresia,                   jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.servicio,                    jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.origen,                      jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.claseTransaccion,            jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.codigoTransaccion,           jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.rolTransaccion,              jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.institucionEmisora,          jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.institucionReceptora,        jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.codigoRespuesta,             jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.canal, 					    jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.tipoDocumento,               jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.numeroDocumento,             jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.secuenciaTransaccion,        jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.codigoSeguimiento,           jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.numeroTarjeta,               jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.numeroCuenta,                jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.estadoTarjeta, 	            jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.fechaTransaccion, 	        jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.numeroVoucher, 	            jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.codigoAutorizacion,          jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.monedaTransaccion,           jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.valorTransaccion,            jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.monedaAutorizacion,          jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.valorAutorizacion,           jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.monedaCompensacion,          jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.valorCompensacion,           jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.monedaCargadaThb,            jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.valorCargadoThb,             jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.tipoDeCambio,                jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.nombreAfiliado,              jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.numeroDocumentoCompensacion, jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.compensaFondos,              jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.compensaComisiones,          jdbcType=VARCHAR, mode = IN}
+            )
+            }
+    </select>
+
+    <select id="filtrarTxnsCompensacion" statementType="CALLABLE" resultType="TxnsCompensacion" parameterType="CriterioPaginacion">
+        {call CONSULTA_LOG_CONTABLE_CRITERIOS
+            (
+                #{criterioBusqueda.modo,			            jdbcType=VARCHAR, mode = IN},
+                #{criterioBusqueda.fechaProcesoInicio, 	        jdbcType=DATE, mode = IN},
+                #{criterioBusqueda.fechaProcesoFin, 	        jdbcType=DATE, mode = IN},
+                #{criterioBusqueda.fechaTransaccionInicio,      jdbcType=DATE, mode = IN},
+                #{criterioBusqueda.fechaTransaccionFin,         jdbcType=DATE, mode = IN},
+                #{criterioBusqueda.codigoInstitucion,           jdbcType=INTEGER, mode = IN},
+                #{criterioBusqueda.idEmpresa, 		            jdbcType=VARCHAR, mode = IN},
+                #{criterioBusqueda.clientesCadena, 		        jdbcType=VARCHAR, mode = IN},
+                #{criterioBusqueda.rolesTransaccionCadena,      jdbcType=VARCHAR, mode = IN},
+                #{criterioBusqueda.codigoMembresia,             jdbcType=VARCHAR, mode = IN},
+                #{criterioBusqueda.serviciosCadena,             jdbcType=VARCHAR, mode = IN},
+                #{criterioBusqueda.origenesCadena,              jdbcType=VARCHAR, mode = IN},
+                #{criterioBusqueda.idClaseTransaccion,          jdbcType=INTEGER, mode = IN},
+                #{criterioBusqueda.codigosTransaccionCadena,    jdbcType=VARCHAR, mode = IN},
+                #{criterioBusqueda.idLogo,                       jdbcType=VARCHAR, mode = IN},
+                #{criterioBusqueda.productosCadena,              jdbcType=VARCHAR, mode = IN},
+                #{criterioBusqueda.institucionesEmisorCadena,   jdbcType=VARCHAR, mode = IN},
+                #{criterioBusqueda.institucionesReceptorCadena, jdbcType=VARCHAR, mode = IN},
+                #{criterioBusqueda.codigosRespuestaCadena,      jdbcType=VARCHAR, mode = IN},
+                #{criterioBusqueda.canalesCadena, 		        jdbcType=VARCHAR, mode = IN},
+                #{criterioBusqueda.monedaTransaccion, 		    jdbcType=INTEGER, mode = IN},
+                #{criterioBusqueda.numeroTarjeta, 		        jdbcType=VARCHAR, mode = IN},
+                #{criterioBusqueda.numeroVoucher, 	            jdbcType=VARCHAR, mode = IN},
+                #{criterioBusqueda.codigoAutorizacion,          jdbcType=VARCHAR, mode = IN},
+                #{search.value, 			                    jdbcType=VARCHAR, mode = IN},
+                #{start, 							            jdbcType=INTEGER, mode = IN},
+                #{length, 							            jdbcType=INTEGER, mode = IN},
+                #{orderExpression, 					            jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.fechaProceso, 	            jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.institucion, 	            jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.empresa,                     jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.cliente, 		            jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.logo, 			            jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.producto,                    jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.membresia,                   jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.servicio,                    jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.origen,                      jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.claseTransaccion,            jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.codigoTransaccion,           jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.rolTransaccion,              jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.institucionEmisora,          jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.institucionReceptora,        jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.codigoRespuesta,             jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.canal, 					    jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.tipoDocumento,               jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.numeroDocumento,             jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.secuenciaTransaccion,        jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.codigoSeguimiento,           jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.numeroTarjeta,               jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.numeroCuenta,                jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.estadoTarjeta, 	            jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.fechaTransaccion, 	        jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.numeroVoucher, 	            jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.codigoAutorizacion,          jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.monedaTransaccion,           jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.valorTransaccion,            jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.monedaAutorizacion,          jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.valorAutorizacion,           jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.monedaCompensacion,          jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.valorCompensacion,           jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.monedaCargadaThb,            jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.valorCargadoThb,             jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.tipoDeCambio,                jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.nombreAfiliado,              jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.numeroDocumentoCompensacion, jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.compensaFondos,              jdbcType=VARCHAR, mode = IN},
+                #{filtrosDatatable.compensaComisiones,          jdbcType=VARCHAR, mode = IN}
+            )
+            }
+    </select>
+
+    <select id="buscarDetalleTxnCompensacion" resultType="TxnsCompensacionDetalle">
+		SELECT
+		  compensacion.descripcionMembresia                           AS descripcionMembresia
+		 ,compensacion.descripcionClaseServicio                       AS descripcionClaseServicio
+		 ,compensacion.descripcionOrigen                              AS descripcionOrigen
+		 ,CAST(compensacion.idClaseTransaccion AS VARCHAR) + ' - ' +
+		  compensacion.descripcionClaseTransaccion                    AS descripcionClaseTransaccion
+		 ,CAST(compensacion.idCodigoTransaccion AS VARCHAR) + ' - ' +
+		  compensacion.descripcionCodigoTransaccion                   AS descripcionCodigoTransaccion
+		 ,compensacion.descripcionEmisor                              AS descripcionEmisor
+		 ,compensacion.descripcionReceptor                            AS descripcionReceptor
+		 ,compensacion.descripcionLogo                                AS descripcionLogo
+		 ,compensacion.descripcionProducto                            AS descripcionProducto
+		 ,compensacion.descripcionFechaTransaccion                    AS descripcionFechaTransaccion
+		 ,compensacion.descripcionHoraTransaccion                     AS descripcionHoraTransaccion
+		 ,compensacion.descripcionFechaProceso                        AS descripcionFechaProceso
+		 ,compensacion.descripcionFechaAfectacion                     AS descripcionFechaAfectacion
+		 ,compensacion.descripcionMonedaTransaccion                   AS descripcionMonedaTransaccion
+		 ,compensacion.descripcionValorTransaccion                    AS descripcionValorTransaccion
+		 ,compensacion.descripcionMonedaCompensacion                  AS descripcionMonedaCompensacion
+		 ,compensacion.descripcionValorCompensacion                   AS descripcionValorCompensacion
+		 ,compensacion.codigoReclamo                                  AS descripcionCodigoReclamo
+		 ,compensacion.descripcionIndicadorRegularizacion             AS descripcionIndicadorRegularizacion
+		 ,compensacion.secuenciaOriginal                              AS descripcionSecuenciaOriginal
+		 ,compensacion.valorOriginal                                  AS descripcionValorOriginal
+		 ,compensacion.descripcionNumeroTarjeta                       AS descripcionNumeroTarjeta
+		 ,compensacion.descripcionNumeroCuenta                        AS descripcionNumeroCuenta
+		 ,compensacion.descripcionTrace                               AS descripcionTrace
+		 ,compensacion.descripcionAutorizacion                        AS descripcionAutorizacion
+		 ,compensacion.descripcionCodigoTerminal                      AS descripcionCodigoTerminal
+		 ,compensacion.descripcionCodigoEstablecimiento               AS descripcionCodigoEstablecimiento
+		 ,compensacion.descripcionNombreAfiliado                      AS descripcionNombreAfiliado
+		 ,compensacion.descripcionPaisAfiliado                        AS descripcionPaisAfiliado
+		 ,compensacion.descripcionCiudadAfiliado                      AS descripcionCiudadAfiliado
+		 ,compensacion.descripcionReferenciaIntercambio               AS descripcionReferenciaIntercambio
+		 ,compensacion.descripcionPorcentajeVisanet                   AS descripcionPorcentajeVisanet
+		 ,compensacion.descripcionAplicaCobroTipoC                    AS descripcionAplicaCobroTipoC
+		 ,compensacion.descripcionPaisEmisor                          AS descripcionPaisEmisor
+		 ,compensacion.descripcionRegionEmisor                        AS descripcionRegionEmisor
+		 ,compensacion.descripcionPaisReceptor                        AS descripcionPaisReceptor
+		 ,compensacion.descripcionRegionReceptor                      AS descripcionRegionReceptor
+		 ,compensacion.descripcionTipoProducto                        AS descripcionTipoProducto
+		 ,compensacion.descripcionTipoTarjeta                         AS descripcionTipoTarjeta
+		 ,compensacion.descripcionPagoRecurrente                      AS descripcionPagoRecurrente
+		 ,compensacion.descripcionMonedaInternacional                 AS descripcionMonedaInternacional
+		 ,compensacion.descripcionIndCompensacion                     AS descripcionIndCompensacion
+		 ,compensacion.descripcionRespuesta                           AS descripcionRespuesta
+		 ,compensacion.descripcionCodigoProceso                       AS descripcionCodigoProceso
+		 ,compensacion.descripcionCanal                               AS descripcionCanal
+		 ,compensacion.descripcionMetodoIdThb                         AS descripcionMetodoIdThb
+		 ,compensacion.descripcionIndCorreoTelefono                   AS descripcionIndCorreoTelefono
+		 ,compensacion.descripcionGlosaRegularizacion                 AS descripcionGlosaRegularizacion
+		 ,compensacion.descripcionGiroNegocio                         AS descripcionGiroNegocio
+		 ,compensacion.descripcionModoEntradaPos                      AS descripcionModoEntradaPos
+		 ,compensacion.descripcionTerminalPos                         AS descripcionTerminalPos
+		 ,compensacion.descripcionTipoCuentaAtm                       AS descripcionTipoCuentaAtm
+		 ,compensacion.descripcionTipoDocumento                       AS descripcionTipoDocumento
+		 ,compensacion.descripcionNumeroDocumento                     AS descripcionNumeroDocumento
+		 ,compensacion.descripcionNombreCliente                       AS descripcionNombreCliente
+		 ,compensacion.descripcionApellidoCliente                     AS descripcionApellidoCliente
+		 ,compensacion.codigoPagoServicios                            AS descripcionCodigoPagoServicios
+		 ,compensacion.comisionPagoServicios                          AS descripcionComisionPagoServicios
+		 ,compensacion.comisionIntercambio                            AS descripcionComisionIntercambio
+		 ,compensacion.indicadorProgramaComision                      AS descripcionIndicadorProgramaComision
+		 ,compensacion.cantidadInstituciones                          AS descripcionCantidadInstituciones
+		 ,compensacion.descripcionFondosCargo                         AS descripcionFondosCargo
+		 ,compensacion.descripcionFondosAbono                         AS descripcionFondosAbono
+		 ,compensacion.descripcionNivelCompensacion                   AS descripcionNivelCompensacion
+		 ,compensacion.descripcionValorCashBack                       AS descripcionValorCashBack
+		 ,compensacion.descripcionConciliacionAutorizacion            AS descripcionConciliacionAutorizacion
+		 ,compensacion.descripcionSwDmpLog                            AS descripcionSwDmpLog
+		 ,compensacion.descripcionCuentaCargo                         AS descripcionCuentaCargo
+		 ,compensacion.descripcionCuentaAbono                         AS descripcionCuentaAbono
+		 ,compensacion.descripcionCodigoAnalitico                     AS descripcionCodigoAnalitico
+		 ,compensacion.codigoArticulo                                 AS descripcionCodigoArticulo
+		 ,compensacion.secuenciaDocumento                             AS descripcionSecuenciaDocumento
+		 ,compensacion.codigoEventoMarcaInternacional                 AS descripcionCodigoEventoMarcaInternacional
+		 ,compensacion.descripcionDistribucionCobroMarcaInternacional AS descripcionDistribucionCobroMarcaInternacional
+		 ,compensacion.numeroFacturaMarca                             AS descripcionNumeroFacturaMarca
+		 ,compensacion.tarifaMarcaInternacional                       AS descripcionTarifaMarcaInternacional
+		 ,compensacion.totalUnidades                                  AS descripcionTotalUnidades
+		 ,compensacion.descripcionIndicadorDistribucionCobro          AS descripcionIndicadorDistribucionCobro
+		 ,compensacion.indicadorUnidades                              AS descripcionIndicadorUnidades
+		 ,compensacion.valorFacturaMarcaInternacional                 AS descripcionValorFacturaMarcaInternacional
+		 ,compensacion.secuenciaRegistroFacturaMarca                  AS descripcionSecuenciaRegistroFacturaMarca
+		FROM DetalleCompensacion compensacion
+        <where>
+            <if test="secuenciaTransaccion != null and secuenciaTransaccion != ''">
+                compensacion.secuenciaTransaccion = #{secuenciaTransaccion}
+            </if>
+            <if test="fechaTransaccion != null and fechaTransaccion != ''">
+                AND compensacion.fechaTransaccion = #{fechaTransaccion}
+            </if>
+            <if test="numeroVoucher != null and numeroVoucher != ''">
+                AND compensacion.descripcionTrace = #{numeroVoucher}
+            </if>
+            <if test="idInstitucion != null and idInstitucion != -1">
+                AND compensacion.codigoInstitucion = #{idInstitucion}
+            </if>
+        </where>
+    </select>
+
+    <select id="buscarComisionesPorCompensacion" resultType="TxnCompensacionComisiones">
+		SELECT
+		  *
+		FROM ComisionCompensacion
+		    WHERE secuenciaTransaccion = #{secuenciaTransaccion}
+		      AND codigoInstitucion = #{codigoInstitucion}
+		      AND fechaProceso = #{fechaProceso}
+		        ORDER BY fechaProceso         DESC
+		                ,codigoInstitucion    ASC
+		                ,secuenciaTransaccion ASC
+		                ,cuentaCompensacion   ASC
+		                ,idConceptoComision   ASC
+		                ,registroContable     ASC
+    </select>
+</mapper>

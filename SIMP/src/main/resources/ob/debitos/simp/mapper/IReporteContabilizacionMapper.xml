@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="ob.debitos.simp.mapper.IReporteContabilizacionMapper">
+	
+	<select id="buscarContabilizacionesEmisorMovimientoPorCriterio" resultType="ReporteContabilizacion">
+		SELECT *
+		FROM ReporteContabilizacionEmisorFondos reporte
+		<where>
+			<if test="fechaInicioProceso != null and fechaFinProceso != null">
+				AND reporte.fechaProceso BETWEEN #{fechaInicioProceso} AND #{fechaFinProceso}
+			</if>
+			<if test="codigoInstitucion != null">
+                AND reporte.codigoInstitucion = #{codigoInstitucion}
+            </if>
+			<if test="idEmpresa != null and idEmpresa != -1">
+                AND reporte.idEmpresa = #{idEmpresa}
+            </if>
+			<if test="clientes != null and clientes.size() > 0">
+                AND reporte.idCliente IN
+                <foreach item="item" index="index" collection="clientes"
+                         open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+			<if test="indicadoresContabilizacion != null and indicadoresContabilizacion.size() > 0">
+                AND reporte.indicadorContabilizacion IN
+                <foreach item="item" index="index" collection="indicadoresContabilizacion"
+                         open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+		</where>
+		ORDER BY reporte.fechaProceso             DESC
+                ,reporte.codigoInstitucion        ASC
+                ,reporte.idEmpresa                ASC
+                ,reporte.idCliente                ASC
+                ,reporte.idLogo                   ASC
+                ,reporte.codigoProducto           ASC
+                ,reporte.codigoMembresia          ASC
+                ,reporte.codigoClaseServicio      ASC
+                ,reporte.codigoOrigen             ASC
+                ,reporte.codigoClaseTransaccion   ASC
+                ,reporte.codigoTransaccion        ASC
+                ,reporte.indicadorContabilizacion ASC
+                ,reporte.codigoMonedaCompensacion ASC;
+	</select>
+		
+	<select id="buscarContabilizacionesEmisorComisionesPorCriterio" resultMap="mapBuscarContabilizacionesComisionesPorCriterio">
+		SELECT *
+		FROM ReporteContabilizacionEmisorComisiones reporte
+		<where>
+			<if test="fechaInicioProceso != null and fechaFinProceso != null">
+				AND reporte.fechaProceso BETWEEN #{fechaInicioProceso} AND #{fechaFinProceso}
+			</if>
+			<if test="codigoInstitucion != null and codigoInstitucion != -1">
+				AND reporte.codigoInstitucion = #{codigoInstitucion}
+			</if>
+			<if test="idEmpresa != null and idEmpresa != -1">
+                AND reporte.idEmpresa = #{idEmpresa}
+            </if>
+			<if test="clientes != null and clientes.size() > 0">
+                AND reporte.idCliente IN
+                <foreach item="item" index="index" collection="clientes"
+                         open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+			<if test="indicadoresContabilizacion != null and indicadoresContabilizacion.size() > 0">
+                AND reporte.indicadorContabilizacion IN
+                <foreach item="item" index="index" collection="indicadoresContabilizacion"
+                         open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+		</where>
+		ORDER BY reporte.fechaProceso             DESC
+                ,reporte.codigoInstitucion        ASC
+                ,reporte.idEmpresa                ASC
+                ,reporte.idCliente                ASC
+                ,reporte.idLogo                   ASC
+                ,reporte.codigoProducto           ASC
+                ,reporte.codigoMembresia          ASC
+                ,reporte.codigoClaseServicio      ASC
+                ,reporte.codigoOrigen             ASC
+                ,reporte.codigoClaseTransaccion   ASC
+                ,reporte.codigoTransaccion        ASC
+                ,reporte.indicadorContabilizacion ASC
+                ,reporte.codigoMonedaCompensacion ASC
+                ,reporte.idConceptoComision       ASC
+                ,reporte.registroContable         ASC;
+	</select>
+	
+	<resultMap id="mapBuscarContabilizacionesComisionesPorCriterio" type="ReporteContabilizacion">
+		<id property="fechaProceso" column="fechaProceso"></id>
+		<id property="codigoInstitucion" column="codigoInstitucion"></id>
+		<id property="descripcionInstitucion" column="descripcionInstitucion"></id>
+		<id property="idEmpresa" column="idEmpresa"></id>
+		<id property="descripcionEmpresa" column="descripcionEmpresa"></id>
+		<id property="idCliente" column="idCliente"></id>
+		<id property="descripcionCliente" column="descripcionCliente"></id>
+		<id property="idBin" column="idBin"></id>
+		<id property="idLogo" column="idLogo"></id>
+		<id property="descLogoBin" column="descLogoBin"></id>
+		<id property="descripcionLogo" column="descripcionLogo"></id>
+		<id property="codigoProducto" column="codigoProducto"></id>
+		<id property="descProducto" column="descProducto"></id>
+		<id property="codigoMembresia" column="codigoMembresia"></id>
+		<id property="descripcionMembresia" column="descripcionMembresia"></id>
+		<id property="codigoClaseServicio" column="codigoClaseServicio"></id>
+		<id property="descripcionClaseServicio" column="descripcionClaseServicio"></id>
+		<id property="codigoOrigen" column="codigoOrigen"></id>
+		<id property="descripcionOrigen" column="descripcionOrigen"></id>
+		<id property="codigoClaseTransaccion" column="codigoClaseTransaccion"></id>
+		<id property="descripcionClaseTransaccion" column="descripcionClaseTransaccion"></id>
+		<id property="codigoTransaccion" column="codigoTransaccion"></id>
+		<id property="descripcionCodigoTransaccion" column="descripcionCodigoTransaccion"></id>
+		<id property="indicadorContabilizacion" column="indicadorContabilizacion"></id>
+		<id property="descripcionIndicadorContabilizacion" column="descripcionIndicadorContabilizacion"></id>
+		<id property="cuentaCargo" column="cuentaCargo"></id>
+		<id property="cuentaAbono" column="cuentaAbono"></id>
+		<id property="codigoAnalitico" column="codigoAnalitico"></id>
+		<id property="codigoMonedaCompensacion" column="codigoMonedaCompensacion"></id>
+		<id property="descripcionMonedaCompensacion" column="descripcionMonedaCompensacion"></id>
+		<id property="cantidad" column="cantidad"></id>
+		<collection property="comisiones" ofType="ReporteComision" javaType="List">
+			<id property="idConceptoComision" column="idConceptoComision"></id>
+			<result property="descripcionConceptoComision" column="descripcionConceptoComision"/>
+			<result property="registroContable" column="registroContable"/>
+			<result property="comision" column="comision"/>
+		</collection>
+	</resultMap>
+	
+	<select id="buscarContabilizacionesEnCuentaDefault" resultType="ReporteContabilizacion">
+		SELECT *
+		FROM ReporteContabilizacionEnCuentaDefault reporte
+		<where>
+			<if test="codigoInstitucion != null and codigoInstitucion != -1">
+				AND reporte.codigoInstitucion = #{codigoInstitucion}
+			</if>
+			<if test="fechaInicioProceso != null and fechaFinProceso != null">
+				AND reporte.fechaProceso BETWEEN #{fechaInicioProceso} AND #{fechaFinProceso}
+			</if>
+			<if test="idEmpresa != null and idEmpresa != -1">
+                AND reporte.idEmpresa = #{idEmpresa}
+            </if>
+			<if test="clientes != null and clientes.size() > 0">
+                AND reporte.idCliente IN
+                <foreach item="item" index="index" collection="clientes"
+                         open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+		</where> 		
+		ORDER BY reporte.fechaProceso                             DESC
+                ,reporte.codigoInstitucion                        ASC
+                ,reporte.idEmpresa                                ASC
+                ,reporte.idCliente                                ASC
+                ,reporte.idLogo                                   ASC
+                ,reporte.codigoProducto							  ASC
+                ,reporte.idRolTransaccion                         ASC
+                ,reporte.codigoMembresia                          ASC
+                ,reporte.codigoClaseServicio                      ASC
+                ,reporte.codigoOrigen                             ASC
+                ,reporte.codigoClaseTransaccion                   ASC
+                ,reporte.codigoTransaccion                        ASC
+                ,reporte.tipoTransaccion                          ASC
+                ,reporte.secuenciaTransaccion                     ASC
+                ,reporte.registroContable                         ASC;
+	</select>
+	
+	<select id="buscarContabilizacionesMiscelaneoPorCriterio" resultType="ReporteContabilizacion">
+		SELECT *
+		FROM ReporteContabilizacionMiscelaneos reporte
+		<where>
+			<if test="fechaInicioProceso != null and fechaFinProceso != null">
+				AND reporte.fechaProceso BETWEEN #{fechaInicioProceso} AND #{fechaFinProceso}
+			</if>
+			<if test="codigoInstitucion != null">
+                AND reporte.codigoInstitucion = #{codigoInstitucion}
+            </if>
+			<if test="idEmpresa != null and idEmpresa != -1">
+                AND reporte.idEmpresa = #{idEmpresa}
+            </if>
+			<if test="clientes != null and clientes.size() > 0">
+                AND reporte.idCliente IN
+                <foreach item="item" index="index" collection="clientes"
+                         open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+			<if test="indicadoresContabilizacion != null and indicadoresContabilizacion.size() > 0">
+                AND reporte.indicadorContabilizacion IN
+                <foreach item="item" index="index" collection="indicadoresContabilizacion"
+                         open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+		</where>
+		ORDER BY reporte.fechaProceso           DESC
+                ,reporte.codigoInstitucion      ASC
+                ,reporte.idEmpresa              ASC
+                ,reporte.idCliente              ASC
+                ,reporte.codigoMembresia        ASC
+                ,reporte.codigoClaseServicio    ASC
+                ,reporte.codigoOrigen           ASC
+                ,reporte.codigoClaseTransaccion ASC
+                ,reporte.codigoTransaccion      ASC;
+	</select>
+</mapper>

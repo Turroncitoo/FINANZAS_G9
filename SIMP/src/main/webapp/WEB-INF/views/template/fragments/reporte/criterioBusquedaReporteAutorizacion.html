@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+	<div id="criterioBusquedaReporte" th:fragment="criterioBusquedaReporteAutorizacion" th:with="tipo=${tipo}">
+		<fieldset class="well">
+			<legend class="well-legend">Búsqueda</legend>
+			<form id="formCriterioBusquedaAutorizacion" class="form-horizontal" role="form">
+				<th:block
+					th:replace="~{template/fragments/reporte/criterioBusquedaReporteAutorizacion :: ${tipo}}?:~{}">
+				</th:block>
+				<div class="form-group">
+					<div class="col-lg-12 text-center">
+						<button id="buscar" type="button" class="btn btn-primary">
+							<i class="fa fa-search"></i> Buscar
+						</button>
+					</div>
+				</div>
+			</form>
+		</fieldset>
+	</div>
+
+	<th:block th:fragment="canal">
+		<div class="form-group">
+			<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+				<div class="form-group">
+					<label class="control-label col-lg-3 col-md-3">Rol Transacción</label>
+					<div class="col-lg-9 col-md-9">
+						<label class="radio-inline"> <input type="radio" checked="checked" name="rolTransaccion"
+							value="1">1 - Emisor
+						</label> <label class="radio-inline"> <input type="radio" name="rolTransaccion" value="3">3 -
+							Propio
+						</label> <label class="radio-inline"> <input type="radio" name="rolTransaccion" value="9999">Emisor/Propio
+						</label>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-lg-3 col-md-3">Respuesta Transacción</label>
+					<div class="col-lg-9 col-md-9">
+						<label class="radio-inline"> <input type="radio" checked="checked"
+							name="codigoRespuestaTransaccion" value="0">Aprobado
+						</label> <label class="radio-inline"> <input type="radio" name="codigoRespuestaTransaccion"
+							value="9998">Rechazado
+						</label> <label class="radio-inline"> <input type="radio" name="codigoRespuestaTransaccion"
+							value="9999">Todas
+						</label>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+				<div class="form-group">
+					<label class="control-label col-lg-2 col-md-3">Fecha Proceso</label>
+					<div class="col-lg-10 col-md-9 input-group">
+						<span class="input-group-addon"><i class="fa fa-calendar"></i></span> <input
+							id="rangoFechaBusqueda" type="text" class="form-control" readonly="readonly" name="fechas" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-lg-2 col-md-3">Presentación</label>
+					<div class="col-lg-10 col-md-9">
+						<label class="radio-inline"> <input type="radio" checked="checked"
+							name="tipoPresentacion" value="1">Por día
+						</label> <label class="radio-inline"> <input type="radio" name="tipoPresentacion" value="2">Por
+							Mes
+						</label>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-lg-2 control-label">Institución</label>
+				<div class="col-lg-4">
+				<select id="instituciones" class="form-control select2 elemento-desactivable" name="idInstitucion">
+					<option value="" selected="selected" disabled="disabled">Seleccione una Institución</option>
+					<option th:each="institucion : ${instituciones}" th:value="${institucion.codigoInstitucion}"
+						th:text="|${institucion.codigoInstitucion} - ${institucion.descripcionCorta}|"></option>
+				</select>
+			</div>
+		</div>
+	</th:block>
+
+	<th:block th:fragment="procesoSwitch">
+		<div class="form-group">
+			<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+				<div class="form-group">
+					<label class="control-label col-lg-3 col-md-3">Rol Transacción</label>
+					<div class="col-lg-9 col-md-9">
+						<label class="radio-inline"> <input type="radio" checked="checked" name="rolTransaccion"
+							value="1">1 - Emisor
+						</label> <label class="radio-inline"> <input type="radio" name="rolTransaccion" value="3">3 -
+							Propio
+						</label> <label class="radio-inline"> <input type="radio" name="rolTransaccion" value="9999">Emisor/Propio
+						</label>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-lg-3 col-md-3">Respuesta Transacción</label>
+					<div class="col-lg-9 col-md-9">
+						<label class="radio-inline"> <input type="radio" checked="checked"
+							name="codigoRespuestaTransaccion" value="0">Aprobado
+						</label> <label class="radio-inline"> <input type="radio" name="codigoRespuestaTransaccion"
+							value="9998">Rechazado
+						</label> <label class="radio-inline"> <input type="radio" name="codigoRespuestaTransaccion"
+							value="9999">Todas
+						</label>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+				<div class="form-group">
+					<label class="control-label col-lg-2 col-md-3">Fecha Proceso</label>
+					<div class="col-lg-10 col-md-9 input-group">
+						<span class="input-group-addon"><i class="fa fa-calendar"></i></span> <input
+							id="rangoFechaBusqueda" type="text" class="form-control" readonly="readonly" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-lg-2 col-md-3">Presentación</label>
+					<div class="col-lg-10 col-md-9">
+						<label class="radio-inline"> <input type="radio" checked="checked"
+							name="tipoPresentacion" value="1">Por día
+						</label> <label class="radio-inline"> <input type="radio" name="tipoPresentacion" value="2">Por
+							Mes
+						</label>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-lg-2 control-label">Institución</label>
+				<div class="col-lg-4">
+				<select id="instituciones" class="form-control select2 elemento-desactivable" name="idInstitucion">
+					<option value="" selected="selected" disabled="disabled">Seleccione una Institución</option>
+					<option th:each="institucion : ${instituciones}" th:value="${institucion.codigoInstitucion}"
+						th:text="|${institucion.codigoInstitucion} - ${institucion.descripcionCorta}|"></option>
+				</select>
+			</div>
+		</div>
+	</th:block>
+
+	<th:block th:fragment="respuestaSwitch">
+		<div class="form-group">
+			<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+				<div class="form-group">
+					<label class="control-label col-lg-3 col-md-3">Rol Transacción</label>
+					<div class="col-lg-9 col-md-9">
+						<label class="radio-inline"> <input type="radio" checked="checked" name="rolTransaccion"
+							value="1">1 - Emisor
+						</label> <label class="radio-inline"> <input type="radio" name="rolTransaccion" value="3">3 -
+							Propio
+						</label> <label class="radio-inline"> <input type="radio" name="rolTransaccion" value="9999">Emisor/Propio
+						</label>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-lg-3 col-md-3">Respuesta Transacción</label>
+					<div class="col-lg-9 col-md-9">
+						<label class="radio-inline"> <input type="radio" checked="checked"
+							name="codigoRespuestaTransaccion" value="0">Aprobado
+						</label> <label class="radio-inline"> <input type="radio" name="codigoRespuestaTransaccion"
+							value="9998">Rechazado
+						</label> <label class="radio-inline"> <input type="radio" name="codigoRespuestaTransaccion"
+							value="9999">Todas
+						</label>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+				<div class="form-group">
+					<label class="control-label col-lg-2 col-md-3">Fecha Proceso</label>
+					<div class="col-lg-10 col-md-9 input-group">
+						<span class="input-group-addon"><i class="fa fa-calendar"></i></span> <input
+							id="rangoFechaBusqueda" type="text" class="form-control" readonly="readonly" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-lg-2 col-md-3">Presentación</label>
+					<div class="col-lg-10 col-md-9">
+						<label class="radio-inline"> <input type="radio" checked="checked"
+							name="tipoPresentacion" value="1">Por día
+						</label> <label class="radio-inline"> <input type="radio" name="tipoPresentacion" value="2">Por
+							Mes
+						</label>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-lg-2 col-md-2 control-label">Institución</label>
+				<div class="col-lg-4 col-md-4">
+				<select id="instituciones" class="form-control select2 elemento-desactivable" name="idInstitucion">
+					<option value="" selected="selected" disabled="disabled">Seleccione una Institución</option>
+					<option th:each="institucion : ${instituciones}" th:value="${institucion.codigoInstitucion}"
+						th:text="|${institucion.codigoInstitucion} - ${institucion.descripcionCorta}|"></option>
+				</select>
+			</div>
+		</div>
+	</th:block>
+
+	<th:block th:fragment="atm">
+		<div class="form-group">
+			<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+				<div class="form-group">
+					<label class="control-label col-lg-3 col-md-3">Rol Transacción</label>
+					<div class="col-lg-9 col-md-9">
+						<label class="radio-inline"> <input type="radio" checked="checked" name="rolTransaccion"
+							value="1">1 - Emisor
+						</label><label class="radio-inline"> <input type="radio" name="rolTransaccion"
+							value="2">2 - Receptor
+						</label> <label class="radio-inline"> <input type="radio" name="rolTransaccion" value="3">3 -
+							Propio
+						</label> <label class="radio-inline"> <input type="radio" name="rolTransaccion" value="9999">Emisor/Propio
+						</label>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-lg-3 col-md-3">Respuesta Transacción</label>
+					<div class="col-lg-9 col-md-9">
+						<label class="radio-inline"> <input type="radio" checked="checked" name="codigoRespuestaTransaccion" value="0">Aprobado
+						</label> <label class="radio-inline"> <input type="radio" name="codigoRespuestaTransaccion"
+							value="9998">Rechazado
+						</label> <label class="radio-inline"> <input type="radio" name="codigoRespuestaTransaccion"
+							value="9999">Todas
+						</label>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+				<div class="form-group">
+					<label class="control-label col-lg-2 col-md-3">Fecha Proceso</label>
+					<div class="col-lg-10 col-md-9 input-group">
+						<span class="input-group-addon"><i class="fa fa-calendar"></i></span> <input
+							id="rangoFechaBusqueda" type="text" class="form-control" readonly="readonly" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-lg-2 col-md-3">Presentación</label>
+					<div class="col-lg-10 col-md-9">
+						<label class="radio-inline"> <input type="radio" checked="checked"
+							name="tipoPresentacion" value="1">Por día
+						</label> <label class="radio-inline"> <input type="radio" name="tipoPresentacion" value="2">Por
+							Mes
+						</label>
+					</div>
+				</div>
+			</div>
+		</div>
+	</th:block>
+
+</body>
+</html>

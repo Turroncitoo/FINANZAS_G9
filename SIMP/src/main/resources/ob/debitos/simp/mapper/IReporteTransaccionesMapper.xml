@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ob.debitos.simp.mapper.IReporteTransaccionesMapper">
+
+	<resultMap type="ReporteMoneda" id="mapReporte">
+		<id property="codigoMoneda" column="codigoMoneda"></id>
+		<id property="descripcionMoneda" column="descripcionMoneda"></id>
+		<collection property="detalleTransaccionesTarjetas" javaType="List" ofType="ReporteTransaccionesTarjetas">
+			<id property="idInstitucion" column="idInstitucion"></id>
+			<id property="descripcionInstitucion" column="descripcionInstitucion"></id>
+			<id property="idOperacion" column="idOperacion"></id>
+			<id property="descripcionOperacion" column="descripcionOperacion"></id>
+			<id property="numeroTarjetas" column="numeroTarjetas"></id>
+			<id property="numeroTransacciones" column="numeroTransacciones"></id>
+			<id property="montoPromedio" column="montoPromedio"></id>
+			<id property="montoTotal" column="montoTotal"></id>
+		</collection>
+	</resultMap>
+
+	<select id="buscarTransaccionesTarjetas" resultMap="mapReporte">
+		SELECT 
+			 A.nIdInstitucion					 AS idInstitucion
+			,D.vDescripcionCorta				 AS descripcionInstitucion
+			,B.vTxnsTarjeta						 AS idOperacion
+			,E.vDescripcionItem					 AS descripcionOperacion 
+			,A.nMonedaCompensacion				 AS codigoMoneda
+			,C.vDescripcion						 AS descripcionMoneda
+			,COUNT(DISTINCT A.vNumeroTarjeta)	 AS numeroTarjetas
+			,COUNT(A.nIdCodigoTransaccion)		 AS numeroTransacciones
+			,ROUND(AVG(A.nValorCompensacion),2)	 AS montoPromedio
+			,SUM(A.nValorCompensacion)			 AS montoTotal
+		FROM MovTxnsCompensacion A
+		LEFT JOIN MaeCodigosTransaccion			B ON B.nIdClaseTransaccion = A.nIdClaseTransaccion
+			AND B.nIdCodigoTransaccion = A.nIdCodigoTransaccion
+		LEFT JOIN MaeMonedas					C ON C.nCodigoMoneda = A.nMonedaCompensacion
+		LEFT JOIN MaeInstituciones				D ON D.nIdInstitucion = A.nIdInstitucion
+		INNER JOIN MaeMultitabDet				E ON E.vIdItem = B.vTxnsTarjeta
+			AND E.nIdTabla = 49
+		<where>
+			<if test="anio != null and mes != null">
+				YEAR(A.dFechaTransaccion) = #{anio}
+				AND MONTH(A.dFechaTransaccion) = #{mes}
+			</if>
+		</where> 
+		GROUP BY 
+			 A.nIdInstitucion
+			,D.vDescripcionCorta
+			,B.vTxnsTarjeta	 
+			,E.vDescripcionItem
+			,A.nMonedaCompensacion
+			,C.vDescripcion
+	</select>
+
+</mapper>

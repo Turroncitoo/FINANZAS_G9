@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+	<div id="criterioBusquedaReporte" th:fragment="criterioBusquedaReporteConciliacionesObservadas">
+		<fieldset class="well">
+			<legend class="well-legend">Búsqueda</legend>
+			<form id="formCriterioBusqueda" class="form-horizontal" role="form">
+				<th:block
+					th:replace="~{template/fragments/reporte/criterioBusquedaReporteConciliacionesObservadas:: conciliacionesObservadas}?:~{}">
+				</th:block>
+				<div class="form-group">
+					<div class="col-sm-offset-1 col-sm-12 col-md-offset-1 col-md-4">
+						<button id="buscarCriterios" type="button" class="btn btn-primary">
+							<i class="fa fa-search"></i> Buscar
+						</button>
+						<button id="exportar" type="button" class="btn btn-success">
+							<i class="glyphicon glyphicon-floppy-save"></i> &nbsp; Exportar
+						</button>
+					</div>
+				</div>
+			</form>
+		</fieldset>
+	</div>
+
+	<th:block th:fragment="conciliacionesObservadas">
+		<div class="form-group">
+			<div class="group">
+				<label class="col-md-1 control-label">Origen de Archivo</label>
+				<div class="col-md-2">
+					<select id="origenesArchivo" class="form-control select2" name="idOrigenArchivo">
+						<option th:each="origenArchivo : ${origenesArchivo}"
+							th:if="${origenArchivo.idItem == '3' or origenArchivo.idItem == '4' or origenArchivo.idItem == '5' or origenArchivo.idItem == '6'}"
+							th:value="${origenArchivo.idItem}"
+							th:text="|${origenArchivo.idItem} - ${origenArchivo.descripcionItem}|"></option>
+					</select>
+				</div>
+			</div>
+			<div class="group">
+				<label class="control-label col-md-1">Fecha de Conciliación</label>
+				<div class="col-md-3 input-group">
+					<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+					<input id="rangoFechaBusqueda" type="text" class="form-control" readonly="readonly"
+						name="fechas" />
+				</div>
+			</div>
+		</div>
+	</th:block>
+</body>
+</html>

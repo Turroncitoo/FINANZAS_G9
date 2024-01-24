@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ob.debitos.simp.mapper.ITxnsWebServicesMapper">
+    <sql id="fragmentSelectConsultaTransaccionesWebService">
+        SELECT *
+        FROM ConsultaTransaccionesWebService consulta
+    </sql>
+
+    <sql id="fragmentOrderByConsultaTransaccionesWebService">
+        ORDER BY consulta.idInstitucion ASC
+            ,consulta.idEmpresa         ASC
+            ,consulta.idCliente         ASC
+            ,consulta.idMembresia       ASC
+            ,consulta.idLogo            ASC
+            ,consulta.messageType       ASC
+            ,consulta.operacion         ASC
+            ,consulta.fechaTransaccion  DESC
+            ,consulta.horaTransaccion   DESC;
+    </sql>
+
+    <sql id="fragmentSelectConsultaTransaccionesPreAutorizadas">
+        SELECT *
+        FROM ConsultaTransaccionesPreAutorizadas consulta
+    </sql>
+
+    <sql id="fragmentOrderByConsultaTransaccionesPreAutorizadas">
+        ORDER BY consulta.idInstitucion ASC
+            ,consulta.idEmpresa         ASC
+            ,consulta.idCliente         ASC
+            ,consulta.operacion         ASC
+            ,consulta.tipoOperacion     ASC
+            ,consulta.fechaSolicitud    DESC
+            ,consulta.horaSolicitud     DESC;
+    </sql>
+
+    <select id="buscarPorCriterio" resultType="TxnsWebServices">
+        <include refid="fragmentSelectConsultaTransaccionesWebService"/>
+        <where>
+            <if test="(fechaInicio != null and fechaInicio != '') and (fechaFin != null and fechaFin != '')">
+                consulta.fechaTransaccion BETWEEN #{fechaInicio} AND #{fechaFin}
+            </if>
+            <if test="idInstitucion != null">
+                AND consulta.idInstitucion = #{idInstitucion}
+            </if>
+            <if test="idEmpresa != null and idEmpresa != -1">
+                AND consulta.idEmpresa = #{idEmpresa}
+            </if>
+            <if test="clientes != null and clientes.size() > 0">
+                AND consulta.idCliente IN
+                <foreach item="item" index="index" collection="clientes"
+                         open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="logo != null and logo != -1">
+                AND consulta.idLogo = #{logo}
+            </if>
+            <if test="operaciones != null and operaciones.size() > 0">
+                AND consulta.operacion IN
+                <foreach item="item" index="index" collection="operaciones"
+                         open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="numeroTarjeta != null and numeroTarjeta != ''">
+                AND consulta.numeroTarjeta = #{numeroTarjeta}
+            </if>
+            <if test="codigoSeguimiento != null and codigoSeguimiento != ''">
+                AND consulta.codigoSeguimiento = #{codigoSeguimiento}
+            </if>
+            <if test="numeroDocumento != null and numeroDocumento != ''">
+                AND consulta.numeroDocumento = #{numeroDocumento}
+            </if>
+        </where>
+        <include refid="fragmentOrderByConsultaTransaccionesWebService"/>
+    </select>
+
+    <select id="buscarPorId" resultType="TxnsWebServices" parameterType="String">
+        <include refid="fragmentSelectConsultaTransaccionesWebService"/>
+        WHERE idTransaccion = #{idTransaccion}
+    </select>
+
+    <select id="obtenerURLSIMPHub" resultType="ob.debitos.simp.model.mantenimiento.ParametroWS">
+        SELECT vPathBaseParaConsultaDesdeSIMPWeb AS pathBaseParaConsultaDesdeSIMPWeb
+        FROM MaeParametrosWS
+    </select>
+
+    <select id="mantenerAutorizacionWebServicePendiente"
+            parameterType="ob.debitos.simp.model.criterio.CriterioBusquedaAuthWSPendiente" statementType="CALLABLE">
+        {
+            CALL P_AUTH_WS_PENDIENTE(
+                #{modo,      			jdbcType=VARCHAR, mode=IN},
+                #{operacion,      		jdbcType=VARCHAR, mode=IN},
+                #{tipoOperacion,     	jdbcType=VARCHAR, mode=IN},
+                #{codigoSeguimiento,  	jdbcType=VARCHAR, mode=IN},
+                #{monedaTransaccion,    jdbcType=NUMERIC, mode=IN},
+                #{montoTransaccion,     jdbcType=NUMERIC, mode=IN},
+                #{pathOperacion,        jdbcType=VARCHAR, mode=IN},
+                #{jsonOperacion,        jdbcType=VARCHAR, mode=IN},
+                #{usuario,              jdbcType=VARCHAR, mode=IN},
+                #{exito,              	jdbcType=NUMERIC, mode=IN},
+                #{idTransaccion,        jdbcType=VARCHAR, mode=IN},
+                #{trace,              	jdbcType=VARCHAR, mode=IN},
+                #{codigoRespuesta,      jdbcType=VARCHAR, mode=IN},
+                #{descripcionRespuesta, jdbcType=VARCHAR, mode=IN},
+                #{fechaEnvioTxn,        jdbcType=VARCHAR, mode=IN},
+                #{fechaRecepcionTxn,    jdbcType=VARCHAR, mode=IN},
+                #{idGenerado,           jdbcType=NUMERIC, mode=INOUT}
+            )
+            }
+    </select>
+
+    <select id="buscarPreAutorizadasPorCriterio" resultType="TxnsPreAutorizadas">
+        <include refid="fragmentSelectConsultaTransaccionesPreAutorizadas"/>
+        <where>
+            <if test="(fechaInicio != null and fechaInicio != '') and (fechaFin != null and fechaFin != '')">
+                consulta.fechaSolicitud BETWEEN #{fechaInicio} AND #{fechaFin}
+            </if>
+            <if test="idInstitucion != null">
+                AND consulta.idInstitucion = #{idInstitucion}
+            </if>
+            <if test="idEmpresa != null and idEmpresa != -1">
+                AND consulta.idEmpresa = #{idEmpresa}
+            </if>
+            <if test="clientes != null and clientes.size() > 0">
+                AND consulta.idCliente IN
+                <foreach item="item" index="index" collection="clientes"
+                         open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="estados != null and estados.size() > 0">
+                AND consulta.estado IN
+                <foreach item="item" index="index" collection="estados"
+                         open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="numeroTarjeta != null and numeroTarjeta != ''">
+                AND consulta.numeroTarjeta = #{numeroTarjeta}
+            </if>
+            <if test="codigoSeguimiento != null and codigoSeguimiento != ''">
+                AND consulta.codigoSeguimiento = #{codigoSeguimiento}
+            </if>
+        </where>
+        <include refid="fragmentOrderByConsultaTransaccionesPreAutorizadas"/>
+    </select>
+
+    <select id="buscarPreAutorizadasPorId" resultType="TxnsPreAutorizadas" parameterType="Integer">
+        <include refid="fragmentSelectConsultaTransaccionesPreAutorizadas"/>
+        WHERE id = #{id}
+    </select>
+</mapper>

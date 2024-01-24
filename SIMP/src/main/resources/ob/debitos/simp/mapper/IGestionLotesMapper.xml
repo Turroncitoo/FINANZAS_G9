@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ob.debitos.simp.mapper.IGestionLotesMapper">
+
+	<select id="registroAfiliacionesLoteInnominadas" parameterType="Lote" statementType="CALLABLE">
+			{
+				call P_INSERT_LOTE_INNOMINADAS 
+				(
+					#{modo, 			jdbcType = VARCHAR, mode = IN},
+					#{idLote, 			jdbcType = INTEGER, mode = INOUT},
+					#{registros, 		jdbcType = INTEGER, mode = IN},
+					#{tipoAfiliacion, 	jdbcType = VARCHAR, mode = IN},
+					#{tipoTarjetas, 	jdbcType = VARCHAR, mode = IN},
+					#{idInstitucion, 	jdbcType = INTEGER, mode = IN},
+					#{idEmpresa, 		jdbcType = VARCHAR, mode = IN},
+					#{idCliente, 		jdbcType = VARCHAR, mode = IN},
+					#{idLogo, 			jdbcType = VARCHAR, mode = IN},
+					#{codigoProducto,	jdbcType = VARCHAR, mode = IN},
+					#{idAfinidad, 		jdbcType = VARCHAR, mode = IN},
+					#{idCategoria, 		jdbcType = VARCHAR, mode = IN},
+					#{usuario, 			jdbcType = VARCHAR, mode = IN}
+				)
+			}
+	</select>
+	
+	<select id="consultaLotesPorCriterios" parameterType="CriterioBusquedaLoteTarjetas" resultType="Lote" statementType="CALLABLE">
+	    SELECT
+	      *
+	    FROM ConsultaLote
+		<where>
+			<if  test="fechaProcesoInicio != null and fechaProcesoFin != null">
+				 fechaProceso BETWEEN #{fechaProcesoInicio}  AND #{fechaProcesoFin}
+			</if> 
+			<if  test="fechaRegistroInicio != null and fechaRegistroFin != null">
+				 AND fechaRegistro BETWEEN #{fechaRegistroInicio}  AND #{fechaRegistroFin}
+			</if>
+			<if test="tipoTarjetas != null and tipoTarjetas != '-1'">
+				AND tipoTarjetas = #{tipoTarjetas} 
+			</if>
+			<if test="idInstitucion != null and idInstitucion != '-1'">
+				AND idInstitucion = #{idInstitucion} 
+			</if>
+			<if test="idEmpresa != null and idEmpresa != '-1'">
+				AND idEmpresa = #{idEmpresa} 
+			</if>
+			<if  test="clientes !=null and clientes.size()>0">
+				AND idCliente IN 
+				<foreach item="item" index="index" collection="clientes" open ="(" separator="," close=")">
+					#{item}
+				</foreach>
+			</if>
+			<if test="idLogo != null and idLogo != '-1'">
+				AND idLogo = #{idLogo} 
+			</if>
+			<if  test="productos !=null and productos.size()>0">
+				AND codigoProducto IN 
+				<foreach item="item" index="index" collection="productos" open ="(" separator="," close=")">
+					#{item}
+				</foreach>
+			</if>
+			<if  test="idLote != null">
+				 AND idLote = #{idLote}
+			</if>
+		</where>
+		ORDER BY fechaProceso DESC, fechaRegistro DESC, horaRegistro DESC
+	</select>
+
+	<select id="consultaLotesDetalle" parameterType="CriterioBusquedaLoteTarjetas" resultType="LoteDetalle" statementType="CALLABLE">
+		SELECT *
+		FROM
+		<choose>
+			<when test="tipoDetalle == 'AF'">
+				ConsultaLoteDetalleAfiliacion
+			</when>
+			<otherwise>
+				ConsultaLoteDetalleRecargaDebito
+			</otherwise>
+		</choose>
+		WHERE idLote = #{idLote}
+		ORDER BY idLote, idDetalle
+	</select>
+	
+	<select id="consultaLoteAfiliacionPendiente" resultType="String" statementType="CALLABLE">
+		{
+			call P_GENERA_ARCHIVO_AFILIACION
+		}
+	</select>
+	
+	<select id="consultaLoteRecargasDebitosPendientes" resultType="String" statementType="CALLABLE">
+		{
+			call P_GENERA_ARCHIVO_RECARGA_DEBITO
+			(
+				#{operacion,	jdbcType = VARCHAR, mode = IN},
+				#{moneda, 		jdbcType = INTEGER, mode = IN}
+			)
+		}
+	</select>
+	
+	<select id="consultaLoteActivacionPendiente" parameterType="CriterioBusquedaLoteTarjetas" resultType="LoteDetalle" statementType="CALLABLE">
+		SELECT *
+		FROM ConsultaActivacionesPendientes
+		WHERE idInstitucion = #{idInstitucion}
+	</select>
+	
+	<select id="consultaLoteRecargaPendiente" parameterType="CriterioBusquedaLoteTarjetas" resultType="LoteDetalle" statementType="CALLABLE">
+		SELECT *
+		FROM ConsultaRecargasPendientes
+		WHERE idInstitucion = #{idInstitucion}
+	</select>
+		
+	<select id="mantenerLote" parameterType="Lote" statementType="CALLABLE">
+			{
+				call MANT_LOTE 
+				(
+					#{modo, 		jdbcType = VARCHAR, mode = IN},
+					#{idLote, 		jdbcType = INTEGER, mode = IN},
+					#{idAfinidad, 	jdbcType = VARCHAR, mode = IN},
+					#{idCategoria, 	jdbcType = VARCHAR, mode = IN},
+					#{tipoTarjetas,	jdbcType = VARCHAR, mode = IN},
+					#{usuario, 		jdbcType = VARCHAR, mode = IN}
+				)
+			}
+	</select>
+	
+	<select id="actualizarEstadoLoteProcesado" parameterType="LoteParametro" resultType="LoteParametro" statementType="CALLABLE">
+			{
+				call P_ACTUALIZAR_LOTE 
+				(
+					#{modo, 			jdbcType = VARCHAR, mode = IN},
+					#{idInstitucion, 	jdbcType = INTEGER, mode = IN}
+				)
+			}
+	</select>
+	
+	<select id="registroAfiliacionesLoteNominadas" parameterType="LoteParametro" resultType="LoteParametro" statementType="CALLABLE">
+			{
+				call P_INSERT_LOTE_NOMINADAS 
+				(
+					#{modo, 					jdbcType = VARCHAR, mode = IN},
+					#{idLote, 					jdbcType = INTEGER, mode = INOUT},
+					#{idInstitucion, 			jdbcType = INTEGER, mode = IN},
+					#{idEmpresa, 				jdbcType = VARCHAR, mode = IN},
+					#{idCliente, 				jdbcType = VARCHAR, mode = IN},
+					#{idLogo, 					jdbcType = VARCHAR, mode = IN},
+					#{codigoProducto, 			jdbcType = VARCHAR, mode = IN},
+					#{tipoAfiliacion, 			jdbcType = VARCHAR, mode = IN},
+					#{idAfinidad, 				jdbcType = VARCHAR, mode = IN},
+					#{idCategoria, 				jdbcType = VARCHAR, mode = IN},
+					#{tipoTarjetas, 			jdbcType = VARCHAR, mode = IN},
+					#{registros, 				jdbcType = INTEGER, mode = IN},
+					#{contador, 				jdbcType = INTEGER, mode = IN},
+					#{tipoDocumento, 			jdbcType = VARCHAR, mode = IN},
+					#{numeroDocumento, 			jdbcType = VARCHAR, mode = IN},
+					#{nombre, 					jdbcType = VARCHAR, mode = IN},
+					#{apellidoPaterno, 			jdbcType = VARCHAR, mode = IN},
+					#{apellidoMaterno, 			jdbcType = VARCHAR, mode = IN},
+					#{nombreEmbossing, 			jdbcType = VARCHAR, mode = IN},
+					#{ruc, 						jdbcType = VARCHAR, mode = IN},
+					#{nombreCliente, 			jdbcType = VARCHAR, mode = IN},
+					#{fechaVencimiento, 		jdbcType = VARCHAR, mode = IN},
+					#{direccion, 				jdbcType = VARCHAR, mode = IN},
+					#{telefonoMovil, 			jdbcType = VARCHAR, mode = IN},
+					#{sexo, 					jdbcType = VARCHAR, mode = IN},
+					#{fechaNacimiento, 			jdbcType = VARCHAR, mode = IN},
+					#{indicadorDistribucion,	jdbcType = INTEGER, mode = IN},
+					#{nacionalidad, 			jdbcType = VARCHAR, mode = IN},
+					#{nombreManda1, 			jdbcType = VARCHAR, mode = IN},
+					#{tipoManda1,				jdbcType = INTEGER, mode = IN},
+					#{numManda1, 				jdbcType = VARCHAR, mode = IN},
+					#{fonoMnada1, 				jdbcType = VARCHAR, mode = IN},
+					#{nombreManda2, 			jdbcType = VARCHAR, mode = IN},
+					#{tipoManda2,				jdbcType = INTEGER, mode = IN},
+					#{numManda2, 				jdbcType = VARCHAR, mode = IN},
+					#{fonoMnada2, 				jdbcType = VARCHAR, mode = IN}
+				)
+			}
+	</select>
+	
+	<select id="registrarLoteRecargas" parameterType="LoteParametro" resultType="LoteParametro" statementType="CALLABLE">
+			{
+				call P_INSERT_LOTE_RECARGA_DEBITO 
+				(
+					#{modo, 			jdbcType = VARCHAR, mode = IN},
+					#{idLote, 			jdbcType = INTEGER, mode = INOUT},
+					#{contador, 		jdbcType = INTEGER, mode = IN},
+					#{codigoSeguimiento,jdbcType = VARCHAR, mode = IN},
+					#{tipoDocumento,	jdbcType = VARCHAR, mode = IN},
+					#{numeroDocumento,	jdbcType = VARCHAR, mode = IN},
+					#{operacion,		jdbcType = VARCHAR, mode = IN},
+					#{codigoMoneda,		jdbcType = INTEGER, mode = IN},
+					#{monto, 			jdbcType = INTEGER, mode = IN},
+					#{registros, 		jdbcType = INTEGER, mode = IN},
+					#{usuario,			jdbcType = VARCHAR, mode = IN}
+				)
+			}
+	</select>
+	
+	<select id="registrarLoteActivaciones" parameterType="LoteParametro" resultType="LoteParametro" statementType="CALLABLE">
+			{
+				call P_INSERT_LOTE_ACTIVACION
+				(
+					#{modo, 			jdbcType = VARCHAR, mode = IN},
+					#{idLote, 			jdbcType = INTEGER, mode = INOUT},
+					#{idInstitucion, 	jdbcType = VARCHAR, mode = IN},
+					#{idEmpresa, 		jdbcType = VARCHAR, mode = IN},
+					#{idCliente, 		jdbcType = VARCHAR, mode = IN},
+					#{idLogo, 			jdbcType = VARCHAR, mode = IN},
+					#{codigoProducto, 	jdbcType = VARCHAR, mode = IN},
+					#{tipoAfiliacion, 	jdbcType = VARCHAR, mode = IN},
+					#{idAfinidad, 		jdbcType = VARCHAR, mode = IN},
+					#{idCategoria, 		jdbcType = VARCHAR, mode = IN},
+					#{tipoTarjetas, 	jdbcType = VARCHAR, mode = IN},
+					#{registros, 		jdbcType = INTEGER, mode = IN},
+					#{idLotePadre, 		jdbcType = INTEGER, mode = IN}
+				)
+			}
+	</select>
+	
+	<select id="consultaLoteUbaTarjetasFisicas" parameterType="Lote" resultType="Lote" statementType="CALLABLE">
+		SELECT *
+		FROM LoteUbaCantidad
+	</select>
+	
+	<select id="consultaValidacionAfil" resultType="AfiliacionesCarga" statementType="CALLABLE">
+		SELECT
+		  *
+		FROM ConsultaValidarAfiliaciones
+			ORDER BY tipoDocumento
+			        ,numeroDocumento
+    </select>
+    
+    <select id="consultaValidacionRecargaDebito" resultType="LoteRecargaDebito" statementType="CALLABLE">
+		SELECT
+		  *
+		FROM ConsultaValidarRecargaDebito
+			ORDER BY tipoDocumento
+			        ,numeroDocumento
+    </select>
+
+	<select id="obtenerTodosAuxiliares" parameterType="ob.debitos.simp.model.tarjetas.AuxLotes" resultType="ob.debitos.simp.model.tarjetas.AuxLotes" statementType="CALLABLE">
+		{
+		call P_ACTUALIZA_AUX_LOTES
+			(
+				#{verbo, jdbcType = VARCHAR, mode = IN},
+				#{valor, jdbcType = INTEGER, mode = IN}
+			)
+		}
+	</select>
+	
+</mapper>

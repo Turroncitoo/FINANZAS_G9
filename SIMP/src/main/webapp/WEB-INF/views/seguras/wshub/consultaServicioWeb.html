@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+	layout:decorator="layout">
+<head>
+<title th:text="|Consulta Servicios Web|"></title>
+</head>
+<th:block layout:fragment="style">
+	<link th:href="@{/resources/css/dataTables.bootstrap.min.css}"
+		rel="stylesheet" />
+	<link th:href="@{/resources/css/responsive.bootstrap.min.css}"
+		rel="stylesheet" />
+	<link th:href="@{/resources/css/popupwindow.css}" rel="stylesheet" />
+	<link th:href="@{/resources/css/select2.min.css}" rel="stylesheet" />
+	<link th:href="@{/resources/css/select2-bootstrap.min.css}"
+		rel="stylesheet" />
+	<link th:href="@{/resources/css/daterangepicker.css}" rel="stylesheet" />
+</th:block>
+<body>
+	<th:block layout:fragment="content">
+		<div class="page-content-wrap">
+			<div class="row">
+				<div class="col-md-12 col-sm-12 col-xs-12">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h3 class="panel-title" th:text="|Consulta Servicios Web|"></h3>
+						</div>
+						<div class="panel-body">
+
+							<fieldset class="well">
+								<legend class="well-legend">Búsqueda</legend>
+								<form id="formCriterioBusqueda" class="form-horizontal"
+									role="form">
+									<div class="col-lg-12">
+										<div class="form-group">
+											<div class="group">
+												<label class="control-label col-lg-1 col-md-1">Estado
+													Extorno</label>
+												<div class="col-lg-3 col-md-3">
+													<select id="estadosExtornos" name="idEstadoExtorno"
+														class="form-control select2">
+														<option value="-1" selected="selected">TODOS</option>
+														<option th:each="estadoExtorno : ${estadosExtornos}"
+															th:value="${estadoExtorno.idItem}"
+															th:text="|${estadoExtorno.idItem} - ${estadoExtorno.descripcionItem}|"></option>
+													</select>
+												</div>
+											</div>
+											<div class="group">
+												<label class="col-sm-1 control-label">Secuencia</label>
+												<div class="col-lg-3 col-md-3">
+													<input id="numSecuencia" name="secuencia" type="number"
+														placeholder="" class="form-control input-md numSecuencia">
+												</div>
+											</div>
+											<div class="group">
+												<label class="control-label col-lg-1 col-md-1">Fecha
+													IN</label>
+												<div class="col-lg-3 col-md-3 input-group">
+													<span class="input-group-addon"><i
+														class="fa fa-calendar"></i></span> <input
+														id="rangoFechaBusquedaIN" type="text" class="form-control"
+														readonly="readonly" name="fechasIN" />
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="form-group">
+										<div class="group">
+											<label class="control-label col-lg-1 col-md-1 text-center">Código
+												Error UBA</label>
+											<div class="col-lg-3 col-md-3">
+												<select id="UBAErroresCode" name="UBAErrorCode"
+													class="form-control select2">
+													<option value="-1" selected="selected">TODOS</option>
+													<option th:each="UBAErrorCode : ${UBAErroresCode}"
+														th:value="${UBAErrorCode.codigoRespuestaSwitch}"
+														th:text="|${UBAErrorCode.codigoRespuestaSwitch} - ${UBAErrorCode.descripcion}|"></option>
+												</select>
+											</div>
+										</div>
+										<div class="group">
+											<label class="control-label col-lg-1 col-md-1 text-center">Código
+												Error Local</label>
+											<div class="col-lg-3 col-md-3">
+												<select id="localErroresCode" name="localErrorCode"
+													class="form-control select2">
+													<option value="-1" selected="selected">TODOS</option>
+													<option th:each="localErrorCode : ${localErroresCode}"
+														th:value="${localErrorCode.codigoRespuestaSwitch}"
+														th:text="|${localErrorCode.codigoRespuestaSwitch} - ${localErrorCode.descripcion}|"></option>
+												</select>
+											</div>
+										</div>
+
+										<div class="group">
+											<label class="control-label col-lg-1 col-md-1">Nombre
+												Servicio</label>
+											<div class="col-lg-3 col-md-3">
+												<select id="operaciones" name="nombreServicio"
+													class="form-control select2">
+													<option value="-1" selected="selected">TODOS</option>
+													<option
+														th:each="operFinanciera : ${operacionesFinancieras}"
+														th:value="${operFinanciera .descripcionItem}"
+														th:text="|${operFinanciera .descripcionItem}|"></option>
+												</select>
+											</div>
+										</div>
+
+									</div>
+									<div class="form-group">
+										<div class="col-lg-12 text-center">
+											<button id="buscar" type="button" class="btn btn-primary" sec:authorize="hasPermission('WS_CON_SERVICIO_WEB','2')">
+												<i class="fa fa-search"></i> Buscar
+											</button>
+											<button id="exportar" type="button" class="btn btn-success" sec:authorize="hasPermission('WS_CON_SERVICIO_WEB','5')" >
+									<i class="fa fa-download"></i> Exportar
+								</button>
+										</div>
+									</div>
+								</form>
+							</fieldset>
+							<div id="resultadoBusquedaConsultaServicioWeb" class="col-xs-12">
+								<table id="tablaConsultaServicioWeb" width="100%"
+									class="table table-bordered table-condensed nowrap display table-hover ">
+
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+
+		<div id="modalConsultaServicioWeb" class="row">
+			<fieldset class="well">
+				<legend class="well-legend">Detalle Consulta Servicio Web</legend>
+				<form id="formConsultaServicioWeb" class="form-horizontal"
+					role="form">
+					<div class="form-group">
+						<div class="group">
+							<label class="col-lg-1 control-label">Código Evento</label>
+							<div class="col-sm-5">
+								<input class="form-control input-md numbersOnly"
+									id="txtIdEvento" name="idEvento" type="number"
+									disabled="disabled">
+							</div>
+						</div>
+						<div class="group">
+							<label class="col-lg-1 control-label">Secuencia</label>
+							<div class="col-lg-5">
+								<input class="form-control input-md numbersOnly"
+									id="txtSecuencia" name="secuencia" type="number"
+									disabled="disabled">
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="group">
+							<label class="col-lg-1 control-label">Nombre Contexto</label>
+							<div class="col-lg-5">
+								<input class="form-control input-md" id="txtNombreConexto"
+									name="nombreContexto" type="text" disabled="disabled">
+							</div>
+						</div>
+						<div class="group">
+							<label class="col-lg-1 control-label">Nombre Servicio</label>
+							<div class="col-lg-5">
+								<input class="form-control input-md" id="txtNombreServicio"
+									name="nombreServicio" type="text" disabled="disabled">
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="group">
+							<label class="col-lg-1 control-label">Fecha IN</label>
+							<div class="col-lg-5">
+								<input class="form-control input-md" id="txtFechaHoraIN"
+									name="fechaHoraIN" type="text" disabled="disabled">
+							</div>
+						</div>
+						<div class="group">
+							<label class="col-lg-1 control-label">FECHA OUT </label>
+							<div class="col-lg-5">
+								<input class="form-control input-md" id="txtFechaHoraOUT"
+									name="fechaHoraOUT" type="text" disabled="disabled">
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-lg-2 control-label">Extornada</label>
+						<div class="col-lg-10">
+							<input class="form-control input-md" id="txtExtornada"
+								name="extornada" type="text" disabled="disabled">
+						</div>
+					</div>
+					<div class="form-group">
+						<fieldset class="well">
+							<legend class="well-legend">
+								<i class="fa fa-handshake-o"></i> Request
+							</legend>
+							<div class="form-group">
+								<label class="col-lg-1 control-label">Fecha Hora </label>
+								<div class="col-lg-11">
+									<input class="form-control input-md" id="txtFechaHoraRequest"
+										name="fechaHoraRequest" type="text" disabled="disabled">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-lg-1 control-label">Hash </label>
+								<div class="col-lg-11">
+									<input class="form-control input-md" id="txtRequestHash"
+										name="requestHash" type="text" disabled="disabled">
+								</div>
+
+							</div>
+							<div class="form-group">
+								<label class="col-lg-1 control-label">Json </label>
+								<div class="col-lg-11">
+									<textarea  class="form-control input-md"  rows="4" id="txtRequestJSON"
+										name="requestJSON" type="text" disabled="disabled">
+									</textarea>
+								</div>
+
+							</div>
+
+						</fieldset>
+					</div>
+					<div class="form-group">
+						<fieldset class="well">
+							<legend class="well-legend">
+								<i class="fa fa-handshake-o"></i> Response
+							</legend>
+							<div class="form-group">
+								<label class="col-lg-1 control-label">Fecha Hora </label>
+								<div class="col-lg-11">
+									<input class="form-control input-md" id="txtFechaHoraResponse"
+										name="fechaHoraResponse" type="text" disabled="disabled">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-lg-1 control-label">Hash </label>
+								<div class="col-lg-11">
+									<input class="form-control input-md" id="txtResponseHash"
+										name="responseHash" type="text" disabled="disabled">
+								</div>
+
+							</div>
+							<div class="form-group">
+								<label class="col-lg-1 control-label">Json </label>
+								<div class="col-lg-11">
+									<textarea class="form-control input-md" id="txtResponseJSON"
+										name="responseJSON" type="text" disabled="disabled">
+									</textarea>
+								</div>
+
+							</div>
+
+						</fieldset>
+					</div>
+					
+						<div class="form-group">
+						<fieldset class="well">
+							<legend class="well-legend">
+								<i class="fa fa-handshake-o"></i> Errores
+							</legend>
+							<div class="form-group">
+								<label class="col-lg-1 control-label">Código Error UBA </label>
+								<div class="col-lg-11">
+									<input class="form-control input-md" id="txtUBAErrorCode"
+										name="UBAErrorCode" type="text" disabled="disabled">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-lg-1 control-label">Código Error Local </label>
+								<div class="col-lg-11">
+									<input class="form-control input-md" id="txtLocalErrorCode"
+										name="localErrorCode" type="text" disabled="disabled">
+								</div>
+
+							</div>
+							
+						</fieldset>
+					</div>
+					
+
+				</form>
+			</fieldset>
+		</div>
+
+	</th:block>
+
+	<th:block layout:fragment="script">
+		<script th:src="@{/resources/js/datatables/jquery.dataTables.min.js}"></script>
+		<script
+			th:src="@{/resources/js/datatables/dataTables.bootstrap.min.js}"></script>
+		<script
+			th:src="@{/resources/js/datatables/dataTables.responsive.min.js}"></script>
+		<script th:src="@{/resources/js/datatables/dataTables.show.rows.js}"></script>
+		<script th:src="@{/resources/js/datatables/dataTables.select.min.js}"></script>
+		<script th:src="@{/resources/js/bootstrap/bootstrap-notify.min.js}"></script>
+		<script th:src="@{/resources/js/jquery/popupwindow.min.js}"></script>
+		<script th:src="@{/resources/js/jquery/jquery.serializejson.min.js}"></script>
+		<script th:src="@{/resources/js/jquery/jquery.validate.min.js}"></script>
+		<script th:src="@{/resources/js/jquery/additional-methods.min.js}"></script>
+		<script th:src="@{/resources/js/jquery/select2.full.min.js}"></script>
+		<script th:src="@{/resources/js/jquery/moment.min.js}"></script>
+		<script th:src="@{/resources/js/jquery/daterangepicker.js}"></script>
+		<script
+			th:src="@{/resources/js/bootstrap/bootstrap-datepicker.min.js}"></script>
+		<script
+			th:src="@{/resources/js/pagina/consultaws/consultaServicioWeb/consultaServicioWeb.js}"></script>
+		<script th:src="@{/resources/js/util/formularioUtil.js}"></script>
+	</th:block>
+</body>
+</html>

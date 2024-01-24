@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ob.debitos.simp.mapper.ICuentaContableEmisorMapper">
+
+	<resultMap id="mapCuentaContableEmisor" type="CuentaContableEmisor">
+		<id property="codigoInstitucion" column="codigoInstitucion" />
+		<id property="idCliente" column="idCliente" />
+		<id property="codigoMoneda" column="codigoMoneda" />
+		<id property="codigoMembresia" column="codigoMembresia" />
+		<id property="codigoClaseServicio" column="codigoClaseServicio" />
+		<id property="idLogo" column="idLogo" />
+		<id property="codigoBIN" column="idBIN" />
+		<id property="codigoProducto" column="codigoProducto" />
+		<id property="codigoOrigen" column="codigoOrigen" />
+		<id property="codigoClaseTransaccion" column="codigoClaseTransaccion" />
+		<id property="codigoTransaccion" column="codigoTransaccion" />
+		<id property="idRolTransaccion" column="idRolTransaccion" />
+		<id property="idEmpresa" column="idEmpresa" />
+		<result property="descripcionInstitucion" column="descripcionInstitucion"/>
+		<result property="descripcionEmpresa" column="descripcionEmpresa" />
+		<result property="descripcionCliente" column="descripcionCliente" />
+		<result property="descripcionMoneda" column="descripcionMoneda" />
+		<result property="descripcionMembresia" column="descripcionMembresia" />
+		<result property="descripcionClaseServicio" column="descripcionClaseServicio" />
+		<result property="descripcionBIN" column="descripcionBIN" />
+		<result property="descripcionProducto" column="descripcionProducto" />
+		<result property="descripcionOrigen" column="descripcionOrigen" />
+		<result property="descripcionClaseTransaccion" column="descripcionClaseTransaccion" />
+		<result property="descripcionCodigoTransaccion" column="descripcionCodigoTransaccion" />
+		<result property="descripcionRolTransaccion" column="descripcionRolTransaccion" />
+		<result property="descripcionLogo" column="descripcionLogo" />
+		<collection property="contabConceptosCuentas" javaType="List"
+			ofType="ContabConceptoCuenta">
+			<result property="idConceptoComision" column="idConceptoComision"></result>
+			<result property="descripcionConceptoComision" column="descripcionConceptoComision"></result>
+			<result property="cuentaCargo" column="cuentaCargo"></result>
+			<result property="cuentaAbono" column="cuentaAbono"></result>
+			<result property="codigoAnalitico" column="codigoAnalitico"></result>
+			<result property="tipoCompensacion" column="tipoCompensacion"></result>
+		</collection>
+	</resultMap>
+
+	<select id="mantener" statementType="CALLABLE" resultMap="mapCuentaContableEmisor"
+		parameterType="Parametro">
+		{
+			call MANT_CONTAB_EMISOR 
+			( 
+				#{verbo, jdbcType = VARCHAR, mode = IN},
+				#{objeto.codigoInstitucion, jdbcType = INTEGER, mode = IN},
+				#{objeto.idCliente, jdbcType = VARCHAR, mode = IN},
+				#{objeto.idEmpresa, jdbcType = VARCHAR, mode = IN},
+				#{objeto.codigoMoneda, jdbcType = INTEGER, mode = IN},
+				#{objeto.codigoMembresia, jdbcType = VARCHAR, mode = IN},
+				#{objeto.codigoClaseServicio, jdbcType = VARCHAR, mode = IN},
+				#{objeto.idLogo, jdbcType = VARCHAR, mode = IN},
+				#{objeto.codigoProducto, jdbcType = INTEGER, mode = IN},
+				#{objeto.codigoOrigen, jdbcType = INTEGER, mode = IN},
+				#{objeto.codigoClaseTransaccion, jdbcType = INTEGER, mode = IN},
+				#{objeto.codigoTransaccion, jdbcType = INTEGER, mode = IN},
+				#{objeto.idRolTransaccion, jdbcType = INTEGER, mode = IN},
+				#{objeto.idConceptoComision, jdbcType = INTEGER, mode = IN},
+				#{objeto.cuentaCargo, jdbcType = VARCHAR, mode = IN},
+				#{objeto.cuentaAbono, jdbcType = VARCHAR, mode = IN},
+				#{objeto.codigoAnalitico, jdbcType = VARCHAR, mode = IN},
+				#{userAudit, jdbcType = VARCHAR, mode = IN}
+			)
+		}
+	</select>
+</mapper>

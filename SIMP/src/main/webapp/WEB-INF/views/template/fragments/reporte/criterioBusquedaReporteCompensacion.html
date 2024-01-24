@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+	<div id="criterioBusquedaReporte" class="row" th:fragment="criterioBusquedaReporteCompensacion"
+		th:with="tipo=${tipo}">
+		<fieldset class="well">
+			<legend class="well-legend">Búsqueda</legend>
+			<form id="formCriterioBusquedaReporte" class="form-horizontal" role="form">
+				<th:block
+					th:replace="~{template/fragments/reporte/criterioBusquedaReporteCompensacion :: ${tipo}}?:~{}">
+				</th:block>
+				<div class="form-group">
+					<div class="col-lg-12 text-center">
+						<button id="buscar" type="button" class="btn btn-primary" th:if="${#vars.permisoConsulta}">
+							<i class="fa fa-search"></i> Buscar
+						</button>
+						<button id="exportar" type="button" class="btn btn-success" th:if="${#vars.permisoReporte}">
+							<i class="fa fa-download"></i> Exportar
+						</button>
+					</div>
+				</div>
+			</form>
+		</fieldset>
+	</div>
+
+	<th:block th:fragment="canal">
+		<div class="form-group">
+			<div class="row">
+				<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+					<div class="form-group">
+						<label class="control-label col-lg-3 col-md-3">Rol Transacción</label>
+						<div class="col-lg-9 col-md-9">
+							<label class="radio-inline">
+								<input type="radio" class="rolTransaccion" name="rolTransaccion" value="1">
+								1 - Emisor
+							</label>
+							<label class="radio-inline">
+								<input type="radio" class="rolTransaccion" name="rolTransaccion" value="3">
+								3 - Propio
+							</label>
+							<label class="radio-inline">
+								<input type="radio" class="rolTransaccion" checked="checked" name="rolTransaccion" value="9999">
+								Emisor/Propio
+							</label>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-lg-3 col-md-3">Respuesta Transacción</label>
+						<div class="col-lg-9 col-md-9">
+							<label class="radio-inline">
+								<input type="radio" class="codigoRespuestaTransaccion" name="codigoRespuestaTransaccion" value="0">
+								Aprobado
+							</label>
+							<label class="radio-inline">
+								<input type="radio" class="codigoRespuestaTransaccion" name="codigoRespuestaTransaccion"
+									value="9998">
+								Rechazado
+							</label>
+							<label class="radio-inline">
+								<input type="radio" class="codigoRespuestaTransaccion" checked="checked" name="codigoRespuestaTransaccion"
+									value="9999">
+								Todas
+							</label>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+					<div class="form-group">
+						<label for="rangoFechaBusquedaCanal" class="control-label col-lg-2 col-md-3">Fecha Proceso</label>
+						<div class="col-lg-10 col-md-9 input-group">
+							<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+							<input id="rangoFechaBusquedaCanal" type="text" class="form-control" readonly="readonly" name="fechas" />
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-lg-2 col-md-3">Moneda</label>
+						<div class="col-lg-10 col-md-9">
+							<label class="radio-inline">
+								<input type="radio" class="tipoMoneda" checked="checked" name="tipoMoneda" value="604">
+								604 - Soles
+							</label>
+							<label class="radio-inline">
+								<input type="radio" class="tipoMoneda" name="tipoMoneda" value="840">
+								840 - Dólares
+							</label>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="row">
+				<div class="group">
+					<label for="selectInstitucionCanal" class="control-label col-sm-1 col-md-1">Institución</label>
+					<div class="col-sm-3 col-md-3">
+						<select id="selectInstitucionCanal" class="form-control select2" name="idInstitucion">
+							<option th:each="institucion : ${instituciones}" 
+									th:value="${institucion.codigoInstitucion}"
+									th:text="|${institucion.codigoInstitucion} - ${institucion.descripcionCorta}|"></option>
+						</select>
+					</div>
+					<label for="selectEmpresaCanal" class="control-label col-sm-1 col-md-1">Empresa</label>
+					<div class="col-sm-3 col-md-3">
+						<select id="selectEmpresaCanal" class="form-control select2 filtro" name="idEmpresa">
+							<option value="-1" selected="selected">Seleccione una Empresa</option>
+							<option th:each="empresa : ${empresas}" 
+									th:value="${empresa.idEmpresa}"
+									th:text="|${empresa.idEmpresa} - ${empresa.descripcion}|"></option>
+						</select>
+					</div>
+					<label for="selectClienteCanal" class="control-label col-sm-1 col-md-1">Cliente</label>
+					<div class="col-sm-3 col-md-3">
+						<select id="selectClienteCanal" class="select2 filtro" name="clientes" multiple="multiple">
+						</select>
+					</div>
+				</div>
+			</div>
+		</div>
+	</th:block>
+
+	<th:block th:fragment="institucion">
+		<div class="form-group">
+			<div class="row">
+				<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+					<div class="form-group">
+						<label class="control-label col-lg-3 col-md-3">Rol Transacción</label>
+						<div class="col-lg-9 col-md-9">
+							<label class="radio-inline">
+								<input type="radio" class="rolTransaccion" name="rolTransaccion" value="1">
+								1 - Emisor
+							</label>
+							<label class="radio-inline">
+								<input type="radio" class="rolTransaccion" name="rolTransaccion" value="3">
+								3 - Propio
+							</label>
+							<label class="radio-inline">
+								<input type="radio" class="rolTransaccion" checked="checked" name="rolTransaccion" value="9999">
+								Emisor/Propio
+							</label>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-lg-3 col-md-3">Respuesta Transacción</label>
+						<div class="col-lg-9 col-md-9">
+							<label class="radio-inline">
+								<input type="radio" class="codigoRespuestaTransaccion"
+									name="codigoRespuestaTransaccion" value="0">
+								Aprobado
+							</label>
+							<label class="radio-inline">
+								<input type="radio" class="codigoRespuestaTransaccion" name="codigoRespuestaTransaccion"
+									value="9998">
+								Rechazado
+							</label>
+							<label class="radio-inline">
+								<input type="radio" class="codigoRespuestaTransaccion" checked="checked" name="codigoRespuestaTransaccion"
+									value="9999">
+								Todas
+							</label>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+					<div class="form-group">
+						<label class="control-label col-lg-2 col-md-3">Fecha Proceso</label>
+						<div class="col-lg-10 col-md-9 input-group">
+							<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+							<input id="rangoFechaBusqueda" type="text" class="form-control" readonly="readonly"
+								name="fechas" />
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-lg-2 col-md-3">Moneda</label>
+						<div class="col-lg-10 col-md-9">
+							<label class="radio-inline">
+								<input type="radio" class="tipoMoneda" checked="checked" name="tipoMoneda" value="604">
+								604 - Soles
+							</label>
+							<label class="radio-inline">
+								<input type="radio" class="tipoMoneda" name="tipoMoneda" value="840">
+								840 - Dólares
+							</label>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="group">
+					<label class="control-label col-sm-1 col-md-1">Institución</label>
+					<div class="col-sm-3 col-md-3">
+						<select id="instituciones" class="form-control select2 filtro" name="idInstitucion">
+							<option th:each="institucion : ${instituciones}" 
+									th:value="${institucion.codigoInstitucion}"
+									th:text="|${institucion.codigoInstitucion} - ${institucion.descripcionCorta}|"></option>
+						</select>
+					</div>
+					<label class="control-label col-sm-1 col-md-1">Empresa</label>
+					<div class="col-sm-3 col-md-3">
+						<select id="empresas" name="idEmpresa" class="form-control select2 filtro">
+							<option value="-1" selected="selected">Seleccione una Empresa</option>
+							<option th:each="empresa : ${empresas}" 
+									th:value="${empresa.idEmpresa}"
+									th:text="|${empresa.idEmpresa} - ${empresa.descripcion}|"></option>
+						</select>
+					</div>
+					<label class="control-label col-sm-1 col-md-1">Cliente</label>
+					<div class="col-sm-3 col-md-3">
+						<select id="clientes" class="select2 filtro" name="idCliente" multiple="multiple">
+						</select>
+					</div>
+				</div>
+			</div>
+		</div>
+	</th:block>
+
+	<th:block th:fragment="receptor">
+		<div class="form-group">
+			<div class="group">
+				<label class="control-label col-lg-2 col-md-2">Respuesta de Transacción</label>
+				<div class="col-lg-4 col-md-4">
+					<label class="radio-inline">
+						<input type="radio" checked="checked" class="codigoRespuestaTransaccion" name="codigoRespuestaTransaccion" value="0">
+						Aprobado
+					</label>
+					<label class="radio-inline">
+						<input type="radio" class="codigoRespuestaTransaccion" name="codigoRespuestaTransaccion" value="998">
+						Rechazado
+					</label>
+					<label class="radio-inline">
+						<input type="radio" class="codigoRespuestaTransaccion" name="codigoRespuestaTransaccion" value="999">
+						Todas
+					</label>
+				</div>
+			</div>
+			<div class="group">
+				<label class="control-label col-lg-2 col-md-2">Fecha de Transacción</label>
+				<div class="col-lg-4 col-md-4 input-group">
+					<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+					<input id="rangoFechaBusqueda" type="text" class="form-control" readonly="readonly" />
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-lg-2 col-md-2 control-label">Moneda</label>
+			<div class="col-lg-4 col-md-4">
+				<label class="radio-inline">
+					<input type="radio" class="tipoMoneda" checked="checked" name="tipoMoneda" value="604">
+					604 - Soles
+				</label>
+				<label class="radio-inline">
+					<input type="radio" class="tipoMoneda" name="tipoMoneda" value="840">
+					840 - Dólares
+				</label>
+			</div>
+		</div>
+	</th:block>
+	
+	<th:block th:fragment="giroDeNegocio">
+		<div class="form-group">
+			<div class="group">
+				<label for="rangoFechaBusquedaGiroNegocio" class="control-label col-sm-1 col-md-1">Fecha Proceso</label>
+				<div class="col-sm-3 col-md-3">
+					<div class="input-group">
+						<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+						<input id="rangoFechaBusquedaGiroNegocio" type="text" class="form-control" readonly="readonly" name="fechas" />
+					</div>
+				</div>
+			</div>
+			<div class="group">
+				<label for="selectInstitucionGiroNegocio" class="control-label col-sm-1 col-md-1">Institución</label>
+				<div class="col-sm-3 col-md-3">
+					<select id="selectInstitucionGiroNegocio" class="form-control select2" name="idInstitucion">
+						<option th:each="institucion : ${instituciones}" 
+								th:value="${institucion.codigoInstitucion}"
+								th:text="|${institucion.codigoInstitucion} - ${institucion.descripcionCorta}|"></option>
+					</select>
+				</div>
+			</div>
+			<div class="group">
+				<label for="selectEmpresaGiroNegocio" class="control-label col-sm-1 col-md-1">Empresa</label>
+				<div class="col-sm-3 col-md-3">
+					<select id="selectEmpresaGiroNegocio" name="idEmpresa" class="form-control select2 filtro">
+						<option value="-1" selected="selected">Seleccione una Empresa</option>
+						<option th:each="empresa : ${empresas}"
+								th:value="${empresa.idEmpresa}"
+								th:text="|${empresa.idEmpresa} - ${empresa.descripcion}|"></option>
+					</select>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="group">
+				<label for="selectClienteGiroNegocio" class="control-label col-sm-1 col-md-1">Clientes</label>
+				<div class="col-sm-3 col-md-3">
+					<select id="selectClienteGiroNegocio" name="clientes" class="select2 filtro" multiple="multiple">
+					</select>
+				</div>
+			</div>
+		</div>
+	</th:block>
+	
+</body>
+</html>

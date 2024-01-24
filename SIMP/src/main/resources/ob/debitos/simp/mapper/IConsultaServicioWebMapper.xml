@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ob.debitos.simp.mapper.IConsultaServicioWebMapper">
+    <sql id="fragmentSelectConsultaControlWSHistorico">
+        SELECT *
+        FROM ConsultaControlWSHistorico consulta
+    </sql>
+
+    <sql id="fragmentOrderByConsultaControlWSHistorico">
+        ORDER BY consulta.fechaTransaccion DESC
+                ,consulta.hora             DESC;
+    </sql>
+
+    <sql id="fragmentSelectConsultaControlWSEnLinea">
+        SELECT *
+        FROM ConsultaControlWSEnLinea consulta
+    </sql>
+
+    <sql id="fragmentOrderByConsultaControlWSEnLinea">
+        ORDER BY consulta.fechaTransaccion DESC
+                ,consulta.hora             DESC;
+    </sql>
+
+    <select id="buscarTodos" resultType="ConsultaServicioWeb">
+        SELECT idEvento                  AS idEvento,
+               nombreServicio            AS nombreServicio,
+               secuencia                 AS secuencia,
+               fechaHoraIN               AS fechaHoraIN,
+               fechaHoraOUT              AS fechaHoraOUT,
+               UBAErrorCode              AS UBAErrorCode,
+               descripcionUBAErrorCode   AS descripcionUBAErrorCode,
+               localErrorCode            AS localErrorCode,
+               descripcionLocalErrorCode AS descripcionLocalErrorCode,
+               extornada                 AS extornada,
+               descripcionExtornada      AS descripcionExtornada
+        FROM ConsultaServicioWeb
+        WHERE CONVERT(date, fechaHoraIN) = CONVERT(date, SYSDATETIME());
+    </select>
+
+    <select id="buscarPorCriterios" resultType="ConsultaServicioWeb"
+            parameterType="CriterioBusquedaConsultaServicioWeb">
+        SELECT
+        idEvento AS idEvento,
+        nombreContexto AS nombreContexto,
+        nombreServicio AS nombreServicio,
+        secuencia AS secuencia,
+        fechaHoraIN AS fechaHoraIN,
+        fechaHoraRequest AS fechaHoraRequest,
+        fechaHoraResponse AS fechaHoraResponse,
+        fechaHoraTimeout AS fechaHoraTimeout,
+        fechaHoraOUT AS fechaHoraOUT,
+        UBAErrorCode AS UBAErrorCode,
+        descripcionUBAErrorCode AS descripcionUBAErrorCode,
+        localErrorCode AS localErrorCode,
+        descripcionLocalErrorCode AS descripcionLocalErrorCode,
+        extornada AS extornada,
+        descripcionExtornada AS descripcionExtornada,
+        requestHash AS requestHash,
+        responseHash AS responseHash,
+        requestJSON AS requestJSON,
+        responseJSON AS responseJSON
+        FROM ConsultaServicioWeb
+        <where>
+            <if test="nombreServicio != null and nombreServicio !='' and nombreServicio !='-1'">
+                nombreServicio = #{nombreServicio}
+            </if>
+            <if test="secuencia != null and secuencia !=-1">
+                AND secuencia = #{secuencia}
+            </if>
+            <if test="fechaInicioIN != null and fechaFinIN != null">
+                AND fechaHoraIN BETWEEN #{fechaInicioIN} AND
+                #{fechaFinIN}
+            </if>
+            <if test="fechaInicioOUT != null and fechaFinOUT != null">
+                AND fechaHoraOUT BETWEEN #{fechaInicioOUT} AND
+                #{fechaFinOUT}
+            </if>
+            <if test="UBAErrorCode != null and UBAErrorCode != -1">
+                AND UBAErrorCode = #{UBAErrorCode}
+            </if>
+            <if test="localErrorCode != null and localErrorCode !=-1">
+                AND localErrorCode = #{localErrorCode}
+            </if>
+            <if test="extornada != null and extornada !=-1">
+                AND extornada = #{extornada}
+            </if>
+        </where>
+    </select>
+
+    <select id="buscarPorEvento" resultType="ConsultaServicioWeb"
+            parameterType="CriterioBusquedaConsultaServicioWeb">
+        SELECT
+        idEvento AS idEvento,
+        nombreContexto AS nombreContexto,
+        nombreServicio AS nombreServicio,
+        secuencia AS secuencia,
+        fechaHoraIN AS fechaHoraIN,
+        fechaHoraRequest AS fechaHoraRequest,
+        fechaHoraResponse AS fechaHoraResponse,
+        fechaHoraTimeout AS fechaHoraTimeout,
+        fechaHoraOUT AS fechaHoraOUT,
+        UBAErrorCode AS UBAErrorCode,
+        descripcionUBAErrorCode AS descripcionUBAErrorCode,
+        localErrorCode AS localErrorCode,
+        descripcionLocalErrorCode AS descripcionLocalErrorCode,
+        extornada AS extornada,
+        descripcionExtornada AS descripcionExtornada,
+        requestHash AS requestHash,
+        responseHash AS responseHash,
+        requestJSON AS requestJSON,
+        responseJSON AS responseJSON
+        FROM ConsultaServicioWeb
+        <where>
+            <if test="idEvento != null and idEvento == null">
+                idEvento = #{idEvento}
+            </if>
+        </where>
+    </select>
+
+    <select id="buscarLogControlEnLinea" resultType="LogControlWS">
+        <include refid="fragmentSelectConsultaControlWSEnLinea"/>
+        <where>
+            <if test="modo != null">
+                secuencia > #{numeroSecuencia}
+            </if>
+        </where>
+        <include refid="fragmentOrderByConsultaControlWSEnLinea"/>
+    </select>
+
+    <select id="buscarLogControlHistorico" resultType="LogControlWS">
+        <include refid="fragmentSelectConsultaControlWSHistorico"/>
+        <where>
+            <if test="(fechaTransaccionInicio != null and fechaTransaccionInicio != '') and (fechaTransaccionFin != null and fechaTransaccionFin != '')">
+                consulta.fechaTransaccion BETWEEN #{fechaTransaccionInicio} AND #{fechaTransaccionFin}
+            </if>
+            <if test="idInstitucion != null">
+                AND consulta.idInstitucion = #{idInstitucion}
+            </if>
+            <if test="idEmpresa != null and idEmpresa != -1">
+                AND consulta.idEmpresa = #{idEmpresa}
+            </if>
+            <if test="clientes != null and clientes.size() > 0">
+                AND consulta.idCliente IN
+                <foreach item="item" index="index" collection="clientes"
+                         open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="operaciones != null and operaciones.size() > 0">
+                AND consulta.operacion IN
+                <foreach item="item" index="index" collection="operaciones"
+                         open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="numeroTarjeta != null and numeroTarjeta != ''">
+                AND consulta.numeroTarjeta = #{numeroTarjeta}
+            </if>
+            <if test="codigoSeguimiento != null and codigoSeguimiento != ''">
+                AND consulta.codigoSeguimiento = #{codigoSeguimiento}
+            </if>
+            <if test="numeroDocumento != null and numeroDocumento != ''">
+                AND consulta.numeroDocumento = #{numeroDocumento}
+            </if>
+            <if test="direccionIP != null and direccionIP != ''">
+                AND consulta.direccionIP = #{direccionIP}
+            </if>
+            <if test="exitoCliente != null and exitoCliente != ''">
+                AND consulta.exitoCliente = #{exitoCliente}
+            </if>
+            <if test="exitoUBA != null and exitoUBA != ''">
+                AND consulta.exitoUBA = #{exitoUBA}
+            </if>
+            <if test="exitoSIMP != null and exitoSIMP != ''">
+                AND consulta.exitoSIMP = #{exitoSIMP}
+            </if>
+        </where>
+        <include refid="fragmentOrderByConsultaControlWSHistorico"/>
+    </select>
+</mapper>

@@ -1,0 +1,382 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ob.debitos.simp.mapper.IReporteResumenMovimientoMapper">
+
+	<select id="buscarResumenAutorizaciones" resultType="ReporteResumenAutorizacion">
+		SELECT *
+		FROM ReporteResumenAutorizacion reporte
+		<where>
+			<if test="fechaInicio != null and fechaFin != null">
+				reporte.fechaTransaccion BETWEEN #{fechaInicio} AND
+				#{fechaFin}
+			</if>
+			<if test="rolTransaccion != -1">
+				AND reporte.rolTransaccion = #{rolTransaccion}
+			</if>
+			<if test="idCanal != -1">
+				AND reporte.idCanal = #{idCanal}
+			</if>
+			<if test="codigoProceso != -1">
+				AND reporte.codigoProceso = #{codigoProceso}
+			</if>
+		</where>
+		ORDER BY 1,2,3,5,7,9,11,13
+	</select>
+
+	<select id="buscarResumenSwDmpLogs" resultType="ReporteResumenSwDmpLog">
+		SELECT *
+		FROM ReporteResumenSwDmpLog reporte
+		<where>
+			<if test="fechaInicio != null and fechaFin != null">
+				reporte.fechaProceso BETWEEN #{fechaInicio} AND
+				#{fechaFin}
+			</if>
+			<if test="idInstitucion != -1 and idInstitucion != null">
+				AND reporte.idInstitucion = #{idInstitucion}
+			</if>
+			<if test="idEmpresa != null and idEmpresa != -1">
+                AND reporte.idEmpresa = #{idEmpresa}
+            </if>
+			<if test="clientes != null and clientes.size() > 0">
+                AND reporte.idCliente IN
+                <foreach item="item" index="index" collection="clientes"
+                         open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+			<if test="rolesTransaccion != null and rolesTransaccion.size() > 0">
+                AND reporte.rolTransaccion IN
+                <foreach item="item" index="index" collection="rolesTransaccion"
+                         open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+			<if test="procesos != null and procesos.size() > 0">
+                AND reporte.codigoProceso IN
+                <foreach item="item" index="index" collection="procesos"
+                         open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+			<if test="canales != null and canales.size() > 0">
+                AND reporte.idCanal IN
+                <foreach item="item" index="index" collection="canales"
+                         open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+		</where>
+		ORDER BY reporte.fechaProceso      DESC
+				,reporte.idInstitucion     ASC
+				,reporte.idEmpresa         ASC
+				,reporte.idCliente         ASC
+				,reporte.rolTransaccion    ASC
+				,reporte.codigoProceso     ASC
+				,reporte.codigoRespuesta   ASC
+				,reporte.idCanal           ASC
+				,reporte.codigoGiroNegocio ASC
+				,reporte.tipoMensaje       ASC
+				,reporte.codigoMoneda      ASC;
+	</select>
+
+	<select id="buscarResumenTransaccionesAprobadasAgencia"
+		resultType="ReporteResumenTransaccionAprobadaAgencia">
+		SELECT *
+		FROM ReporteResumenTransaccionAprobadaPorAgencia reporte
+		<where>
+			<if test="fechaInicio != null and fechaFin != null">
+				reporte.fechaTransaccion BETWEEN #{fechaInicio} AND
+				#{fechaFin}
+			</if>
+			<if test="idAgencia != -1">
+				AND reporte.idAgencia = #{idAgencia}
+			</if>
+			<if test="idSexo != ''">
+				AND reporte.idSexo = #{idSexo}
+			</if>
+			<if test="idEstadoCivil != ''">
+				AND reporte.idEstadoCivil = #{idEstadoCivil}
+			</if>
+		</where>
+	</select>
+
+	<select id="buscarResumenLogContableEmisor" resultMap="mapBuscarResumenLogContableEmisor">
+		SELECT *
+		FROM ReporteResumenLogContableEmisor reporte
+		<where>
+			<if test="fechaInicioProceso != null and fechaFinProceso != null">
+				AND reporte.fechaProceso BETWEEN #{fechaInicioProceso} AND #{fechaFinProceso}
+			</if>
+			<if test="idInstitucion != -1 and idInstitucion != null">
+				AND reporte.idInstitucion = #{idInstitucion}
+			</if>
+			<if test="idEmpresa != null and idEmpresa != -1">
+                AND reporte.idEmpresa = #{idEmpresa}
+            </if>
+			<if test="clientes != null and clientes.size() > 0">
+                AND reporte.idCliente IN
+                <foreach item="item" index="index" collection="clientes"
+                         open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+			<if test="rolTransaccion != null and rolTransaccion != -1">
+				AND reporte.rolTransaccion = #{rolTransaccion}
+			</if>
+			<if test="codigoMembresia != null and codigoMembresia != ''">
+				AND reporte.codigoMembresia = #{codigoMembresia}
+			</if>
+			<if test="servicios != null and servicios.size() > 0">
+                AND reporte.codigoClaseServicio IN
+                <foreach item="item" index="index" collection="servicios"
+                         open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+			<if test="origenes != null and origenes.size() > 0">
+                AND reporte.codigoOrigen IN
+                <foreach item="item" index="index" collection="origenes"
+                         open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+			<if test="claseTransaccion != null and claseTransaccion != -1">
+				AND reporte.claseTransaccion = #{claseTransaccion}
+			</if>
+			<if test="codigosTransaccion != null and codigosTransaccion.size() > 0">
+                AND reporte.codigoTransaccion IN
+                <foreach item="item" index="index" collection="codigosTransaccion"
+                         open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+			<if test="canales != null and canales.size() > 0">
+                AND reporte.idCanal IN
+                <foreach item="item" index="index" collection="canales"
+                         open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+		</where>
+		ORDER BY reporte.fechaProceso              DESC
+                ,reporte.idInstitucion             ASC
+                ,reporte.idEmpresa                 ASC
+                ,reporte.idCliente                 ASC
+                ,reporte.idLogo                    ASC
+                ,reporte.codigoProducto            ASC
+                ,reporte.rolTransaccion            ASC
+                ,reporte.codigoMembresia           ASC
+                ,reporte.codigoClaseServicio       ASC
+                ,reporte.codigoOrigen              ASC
+                ,reporte.claseTransaccion          ASC
+                ,reporte.codigoTransaccion         ASC
+                ,reporte.codigoRespuesta           ASC
+                ,reporte.idCanal                   ASC
+                ,reporte.codigoGiroNegocio         ASC
+                ,reporte.codigoInstitucionReceptor ASC
+                ,reporte.codigoMoneda              ASC
+                ,reporte.idConceptoComision        ASC
+                ,reporte.registroContable          ASC;
+	</select>
+
+	<resultMap id="mapBuscarResumenLogContableEmisor" type="ReporteResumenLogContableEmisor">
+		<id property="fechaProceso" column="fechaProceso"></id>
+		<id property="idInstitucion" column="idInstitucion"></id>
+		<id property="idEmpresa" column="idEmpresa"></id>
+		<id property="descEmpresa" column="descEmpresa"></id>
+		<id property="idCliente" column="idCliente"></id>
+		<id property="descCliente" column="descCliente"></id>
+		<id property="idLogo" column="idLogo"></id>
+		<id property="descLogoBin" column="descLogoBin"></id>
+		<id property="descripcionLogo" column="descripcionLogo"></id>
+		<id property="codigoBIN" column="codigoBIN"></id>
+		<id property="codigoProducto" column="codigoProducto"></id>
+		<id property="descProducto" column="descProducto"></id>
+		<id property="rolTransaccion" column="rolTransaccion"></id>
+		<id property="descripcionRolTransaccion" column="descripcionRolTransaccion"></id>
+		<id property="codigoMembresia" column="codigoMembresia"></id>
+		<id property="codigoMembresiaCadena" column="codigoMembresiaCadena"></id>
+		<id property="descripcionMembresia" column="descripcionMembresia"></id>
+		<id property="codigoClaseServicio" column="codigoClaseServicio"></id>
+		<id property="descripcionClaseServicio" column="descripcionClaseServicio"></id>
+		<id property="codigoOrigen" column="codigoOrigen"></id>
+		<id property="descripcionOrigen" column="descripcionOrigen"></id>
+		<id property="claseTransaccion" column="claseTransaccion"></id>
+		<id property="descripcionClaseTransaccion" column="descripcionClaseTransaccion"></id>
+		<id property="codigoTransaccion" column="codigoTransaccion"></id>
+		<id property="descripcionCodigoTransaccion" column="descripcionCodigoTransaccion"></id>
+		<id property="codigoRespuesta" column="codigoRespuesta"></id>
+		<id property="descripcionCodigoRespuesta" column="descripcionCodigoRespuesta"></id>
+		<id property="idCanal" column="idCanal"></id>
+		<id property="descripcionCanal" column="descripcionCanal"></id>
+		<id property="codigoGiroNegocio" column="codigoGiroNegocio"></id>
+		<id property="descripcionGiroNegocio" column="descripcionGiroNegocio"></id>
+		<id property="codigoInstitucionReceptor" column="codigoInstitucionReceptor"></id>
+		<id property="descripcionInstitucionReceptor" column="descripcionInstitucionReceptor"></id>
+		<id property="codigoMoneda" column="codigoMoneda"></id>
+		<id property="descripcionMoneda" column="descripcionMoneda"></id>
+		<id property="cantidad" column="cantidad"></id>
+		<id property="monto" column="monto"></id>
+		<collection property="comisiones" javaType="List"
+			ofType="ReporteComision">
+			<id property="idConceptoComision" column="idConceptoComision"></id>
+			<result property="descripcionConceptoComision" column="descripcionConceptoComision"></result>
+			<result property="registroContable" column="registroContable"></result>
+			<result property="comision" column="comision"></result>
+		</collection>
+	</resultMap>
+
+	<!-- <resultMap type="ReporteMoneda" id="mapBuscarResumenLogContableEmisor">
+		<id property="codigoMoneda" column="codigoMoneda"></id>
+		<id property="descripcionMoneda" column="descripcionMoneda"></id>
+		<collection property="resumenesLogContableEmisor" javaType="List"
+				ofType="ReporteResumenLogContableEmisor">
+			<id property="fechaProceso" column="fechaProceso"></id>
+			<id property="codigoMembresia" column="codigoMembresia"></id>
+			<id property="descripcionMembresia" column="descripcionMembresia"></id>
+			<id property="codigoClaseServicio" column="codigoClaseServicio"></id>
+			<id property="descripcionClaseServicio" column="descripcionClaseServicio"></id>
+			<id property="rolTransaccion" column="rolTransaccion"></id>
+			<id property="descripcionRolTransaccion" column="descripcionRolTransaccion"></id>
+			<id property="idCanal" column="idCanal"></id>
+			<id property="descripcionCanal" column="descripcionCanal"></id>
+			<id property="codigoOrigen" column="codigoOrigen"></id>
+			<id property="descripcionOrigen" column="descripcionOrigen"></id>
+			<id property="codigoBIN" column="codigoBIN"></id>
+			<id property="descripcionBIN" column="descripcionBIN"></id>
+			<id property="codigoSubBIN" column="codigoSubBIN"></id>
+			<id property="descripcionSubBIN" column="descripcionSubBIN"></id>
+			<id property="codigoClaseTransaccion" column="codigoClaseTransaccion"></id>
+			<id property="descripcionClaseTransaccion" column="descripcionClaseTransaccion"></id>
+			<id property="codigoTransaccion" column="codigoTransaccion"></id>
+			<id property="descripcionCodigoTransaccion" column="descripcionCodigoTransaccion"></id>
+			<id property="codigoGiroNegocio" column="codigoGiroNegocio"></id>
+			<id property="descripcionGiroNegocio" column="descripcionGiroNegocio"></id>
+			<id property="codigoInstitucionReceptor" column="codigoInstitucionReceptor"></id>
+			<id property="descripcionInstitucionReceptor" column="descripcionInstitucionReceptor"></id>
+			<id property="codigoRespuesta" column="codigoRespuesta"></id>
+			<id property="descripcionCodigoRespuesta" column="descripcionCodigoRespuesta"></id>
+			<id property="cantidad" column="cantidad"></id>
+			<id property="monto" column="monto"></id>
+			<collection property="comisiones" javaType="List"
+				ofType="ReporteComision">
+				<id property="idConceptoComision" column="idConceptoComision"></id>
+				<result property="descripcionConceptoComision" column="descripcionConceptoComision"></result>
+				<result property="registroContable" column="registroContable"></result>
+				<result property="comision" column="comision"></result>
+			</collection>
+		</collection>
+	</resultMap> -->
+
+	<select id="buscarResumenLogContableReceptor" resultMap="mapBuscarResumenLogContableReceptor">
+		SELECT *
+		FROM ReporteResumenLogContableReceptor reporte
+		<where>
+			<if
+				test="(fechaInicioProceso != null and fechaInicioProceso != '') and (fechaFinProceso != null and fechaFinProceso != '')">
+				reporte.fechaProceso BETWEEN #{fechaInicioProceso} AND
+				#{fechaFinProceso}
+			</if>
+			<if test="codigoMembresia != ''">
+				AND reporte.codigoMembresia = #{codigoMembresia}
+			</if>
+			<if test="codigoClaseServicio != ''">
+				AND reporte.codigoClaseServicio = #{codigoClaseServicio}
+			</if>
+			<if test="rolTransaccion != -1">
+				AND reporte.rolTransaccion = #{rolTransaccion}
+			</if>
+			<if test="idCanal != -1">
+				AND reporte.idCanal = #{idCanal}
+			</if>
+			<if test="idAtm != -1">
+				AND reporte.idAtm = #{idAtm}
+			</if>
+			<if test="codigoTransaccion != -1">
+				AND reporte.codigoTransaccion = #{codigoTransaccion}
+			</if>
+		</where>
+		ORDER BY 1,2,3,6,8,10,12,14,16,18,20,22,26,28;
+	</select>
+	
+	<resultMap type="ReporteMoneda" id="mapBuscarResumenLogContableEmisorExp">
+		<id property="codigoMoneda" column="codigoMoneda"></id>
+		<id property="descripcionMoneda" column="descripcionMoneda"></id>
+		<collection property="resumenesLogContableEmisor" javaType="List"
+				ofType="ReporteResumenLogContableEmisor">
+			<result property="fechaProceso" column="fechaProceso"></result>
+			<result property="codigoMembresia" column="codigoMembresia"></result>
+			<result property="descripcionMembresia" column="descripcionMembresia"></result>
+			<result property="codigoClaseServicio" column="codigoClaseServicio"></result>
+			<result property="descripcionClaseServicio" column="descripcionClaseServicio"></result>
+			<result property="rolTransaccion" column="rolTransaccion"></result>
+			<result property="descripcionRolTransaccion" column="descripcionRolTransaccion"></result>
+			<result property="idCanal" column="idCanal"></result>
+			<result property="descripcionCanal" column="descripcionCanal"></result>
+			<result property="codigoOrigen" column="codigoOrigen"></result>
+			<result property="descripcionOrigen" column="descripcionOrigen"></result>
+			<result property="codigoBIN" column="codigoBIN"></result>
+			<result property="descripcionBIN" column="descripcionBIN"></result>
+			<result property="codigoSubBIN" column="codigoSubBIN"></result>
+			<result property="descripcionSubBIN" column="descripcionSubBIN"></result>
+			<result property="claseTransaccion" column="claseTransaccion"></result>
+			<result property="descripcionClaseTransaccion" column="descripcionClaseTransaccion"></result>
+			<result property="codigoTransaccion" column="codigoTransaccion"></result>
+			<result property="descripcionCodigoTransaccion" column="descripcionCodigoTransaccion"></result>
+			<result property="codigoGiroNegocio" column="codigoGiroNegocio"></result>
+			<result property="descripcionGiroNegocio" column="descripcionGiroNegocio"></result>
+			<result property="codigoInstitucionReceptor" column="codigoInstitucionReceptor"></result>
+			<result property="descripcionInstitucionReceptor" column="descripcionInstitucionReceptor"></result>
+			<result property="codigoRespuesta" column="codigoRespuesta"></result>
+			<result property="descripcionCodigoRespuesta" column="descripcionCodigoRespuesta"></result>
+			<result property="cantidad" column="cantidad"></result>
+			<result property="monto" column="monto"></result>
+			<result property="comision1" column="comision1"></result>
+			<result property="comision2" column="comision2"></result>
+			<result property="comision3" column="comision3"></result>
+			<result property="comision4" column="comision4"></result>
+			<result property="comision5" column="comision5"></result>
+			<result property="comision6" column="comision6"></result>
+			<result property="comision10" column="comision10"></result>
+			<result property="comision11" column="comision11"></result>
+			<result property="comision12" column="comision12"></result>
+			<result property="comision14" column="comision14"></result>
+		</collection>
+	</resultMap>
+
+	<resultMap id="mapBuscarResumenLogContableReceptor" type="ReporteResumenLogContableReceptor">
+		<id property="fechaProceso" column="fechaProceso"></id>
+		<id property="codigoMembresia" column="codigoMembresia"></id>
+		<id property="descripcionMembresia" column="descripcionMembresia"></id>
+		<id property="codigoClaseServicio" column="codigoClaseServicio"></id>
+		<id property="descripcionClaseServicio" column="descripcionClaseServicio"></id>
+		<id property="rolTransaccion" column="rolTransaccion"></id>
+		<id property="descripcionRolTransaccion" column="descripcionRolTransaccion"></id>
+		<id property="idCanal" column="idCanal"></id>
+		<id property="descripcionCanal" column="descripcionCanal"></id>
+		<id property="codigoOrigen" column="codigoOrigen"></id>
+		<id property="descripcionOrigen" column="descripcionOrigen"></id>
+		<id property="codigoTransaccion" column="codigoTransaccion"></id>
+		<id property="descripcionCodigoTransaccion" column="descripcionCodigoTransaccion"></id>
+		<id property="codigoGiroNegocio" column="codigoGiroNegocio"></id>
+		<id property="descripcionGiroNegocio" column="descripcionGiroNegocio"></id>
+		<id property="codigoInstitucionEmisor" column="codigoInstitucionEmisor"></id>
+		<id property="descripcionInstitucionEmisor" column="descripcionInstitucionEmisor"></id>
+		<id property="idAtm" column="idAtm"></id>
+		<id property="descripcionAtm" column="descripcionAtm"></id>
+		<id property="codigoRespuesta" column="codigoRespuesta"></id>
+		<id property="descripcionCodigoRespuesta" column="descripcionCodigoRespuesta"></id>
+		<id property="codigoMoneda" column="codigoMoneda"></id>
+		<id property="descripcionMoneda" column="descripcionMoneda"></id>
+		<id property="cantidad" column="cantidad"></id>
+		<id property="monto" column="monto"></id>
+		<collection property="comisiones" javaType="List"
+			ofType="ReporteComision">
+			<id property="idConceptoComision" column="idConceptoComision"></id>
+			<result property="descripcionConceptoComision" column="descripcionConceptoComision"></result>
+			<result property="registroContable" column="registroContable"></result>
+			<result property="comision" column="comision"></result>
+		</collection>
+	</resultMap>
+
+</mapper>

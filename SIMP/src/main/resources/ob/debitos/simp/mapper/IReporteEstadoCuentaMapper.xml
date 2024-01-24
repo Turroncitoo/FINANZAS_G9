@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ob.debitos.simp.mapper.IReporteEstadoCuentaMapper">
+
+<!-- 	<select id="buscarPorCriterio" resultMap="mapReporteEstadoCuentaPrepago"> -->
+<!-- 		{call -->
+<!-- 			REPORT_ESTADO_CUENTA( -->
+<!-- 			#{fechaInicio, jdbcType = DATE, mode = IN},    -->
+<!-- 			#{fechaFin, jdbcType = DATE, mode = IN}, -->
+<!-- 			#{idEmpresa, jdbcType = VARCHAR, mode= IN},   -->
+<!-- 			#{idCliente, jdbcType = VARCHAR, mode = IN}, -->
+<!-- 			#{numeroTarjeta, jdbcType = VARCHAR, mode = IN} -->
+<!-- 			) -->
+<!-- 		} -->
+<!-- 	</select> -->
+	
+	<select id="buscarPorNumeroDocumento" resultMap="mapReporteEstadoCuentaPrepago">
+		SELECT * FROM ConsultaEstadoCuenta	consulta																	
+		WHERE 
+			consulta.numeroDocumento= #{numeroDocumento} AND
+			consulta.tipoDocumento = #{tipoDocumento}
+	</select>	
+	
+	
+	<select id="buscarPorCriterio" resultMap="mapReporteEstadoCuentaPrepago">
+		SELECT * FROM ConsultaEstadoCuenta	consulta															
+		<where>
+			<if test="idEmpresa != null and idEmpresa != '-1'">
+	   			 consulta.idEmpresa = #{idEmpresa}   			
+	  		</if>
+			<if test="idCliente != null and idCliente != '-1'">
+	   			 AND consulta.idCliente = #{idCliente}   			
+	  		</if>
+			<if test="numeroTarjeta != null and numeroTarjeta != ''">
+	   			 AND consulta.numeroTarjeta = #{numeroTarjeta}   			
+	  		</if>
+			<if test="fechaInicio != null and fechaInicio != ''">
+	   			 AND consulta.fechaTransaccion &gt;= #{fechaInicio}
+	  		</if>
+	  		<if test="fechaFin != null and fechaFin != ''">
+	   			 AND consulta.fechaTransaccion &lt;= #{fechaFin}
+	  		</if>
+  		</where> 
+	</select>
+
+	
+	<resultMap id="mapReporteEstadoCuentaPrepago" type="ReporteEstadoCuentaPrepago">
+		
+		<id property="numeroTarjeta" column="numeroTarjeta"/>
+		<id property="nombreCompleto" column="nombreCompleto"/>
+		<id property="saldoDisponible" column="saldoDisponible"/>
+		<id property="descripcionEstadoTarjeta" column="descripcionEstadoTarjeta"/>
+		<id property="fechaActivacionFmt" column="fechaActivacionFmt"/>
+		<id property="fechaBloqueoFmt" column="fechaBloqueoFmt"/>
+		
+		<collection property="movimientos" javaType="List" ofType="ReporteEstadoCuentaPrepagoMovimiento">
+			<result property="fechaTransaccionFmt" column="fechaTransaccion"/>
+			<result property="horaTransaccion" column="horaTransaccion"/>
+			<result property="trace" column="trace"/>
+			<result property="descripcionCodigoTransaccion" column="descripcionCodigoTransaccion"/>
+			<result property="nombreAfiliado" column="nombreAfiliado"/>
+			<result property="monedaTransaccion" column="monedaTransaccion"/>
+			<result property="valorTransaccionCargo" column="valorTransaccionCargo"/>
+			<result property="valorTransaccionAbono" column="valorTransaccionAbono" />
+			<result property="monedaSoles" column="monedaSoles" />
+			<result property="valorSoles" column="valorSoles"/>
+			<result property="tipoCambio" column="tipoCambio"/>
+		</collection>
+	</resultMap>
+
+</mapper>

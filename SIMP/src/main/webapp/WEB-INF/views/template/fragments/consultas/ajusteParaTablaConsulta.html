@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+	<div th:fragment="txnsObservadas">
+		<div id="modal-esquemaAjuste">
+			<div class="col-xs-12">
+				<fieldset class="well">
+					<legend class="well-legend">Esquema Ajuste</legend>
+					<div id="criterios">
+						<form id="formTxnsTraceObservadas" class="form-horizontal">
+							<div class="form-group">
+								<label class="control-label col-xs-2">Número de Trace</label>
+								<div class="col-xs-10">
+									<input type="text" name="numeroTrace" class="form-control" />
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="col-lg-12 text-center">
+									<button id="btnActualizarTrace" type="button" class="btn btn-primary">
+										<i class="fa fa-search"></i> Ajustar
+									</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</fieldset>
+			</div>
+		</div>
+
+		<div id="modal-indExtDev">
+			<div class="col-xs-12">
+				<fieldset class="well">
+					<legend class="well-legend">Actualizar Extorno / Devolucion</legend>
+					<div id="criterios">
+						<form id="formTxnsObservadasExtDev" class="form-horizontal">
+							<div id="indicadorDevolucionCampo" class="form-group hidden">
+								<label class="control-label col-lg-2">Indicador Devolución</label>
+								<div class="col-lg-10">
+									<select id="indicadoresDevolucionAjuste" class="form-control select2"
+										name="idIndicadorDevolucion">
+										<option value="">Seleccione el Indicador</option>
+										<option th:each="indicadorDevolucion : ${indicadoresDevolucion}"
+											th:if="${indicadorDevolucion.idItem == '2'}" th:value="${indicadorDevolucion.idItem}"
+											th:text="|${indicadorDevolucion.idItem} - ${indicadorDevolucion.descripcionItem}|"></option>
+									</select>
+								</div>
+							</div>
+							<div id="indicadorExtornoCampo" class="form-group hidden">
+								<label class="control-label col-lg-2">Indicador Extorno</label>
+								<div class="col-lg-10">
+									<select id="indicadoresExtornoAjuste" class="form-control select2" name="idIndicadorExtorno">
+										<option value="">Seleccione el Indicador</option>
+										<option th:each="indicadorExtorno : ${indicadoresExtorno}"
+											th:if="${indicadorExtorno.idItem == '2' or indicadorExtorno.idItem == '3'}"
+											th:value="${indicadorExtorno.idItem}"
+											th:text="|${indicadorExtorno.idItem} - ${indicadorExtorno.descripcionItem}|"></option>
+									</select>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-lg-2 control-label">Fecha de Actualización</label>
+								<div class="col-lg-10">
+									<div class="input-group">
+										<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+										<input id="fechaActualizacion" type="text" class="form-control" readonly="readonly" name="fechaActualizacion" />
+									</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-lg-2">Comentario </label>
+								<div class="col-lg-10">
+									<textarea class="form-control upperCase" rows="4" cols="50" name="comentario"></textarea>
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="col-lg-12 text-center">
+									<button id="btnActualizarIndExtDev" type="button" class="btn btn-primary">
+										<i class="fa fa-pencil-square"></i> Actualizar
+									</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</fieldset>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

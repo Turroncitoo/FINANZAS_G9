@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layout">
+<head>
+<title th:text="Perfiles"></title>
+</head>
+<th:block layout:fragment="style">
+
+</th:block>
+<body>
+	<th:block layout:fragment="content">
+		<div class="page-content-wrap">
+			<div class="row">
+				<div class="col-md-12 col-sm-12 col-xs-12">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h3 class="panel-title">Cambio de Contraseña</h3>
+						</div>
+						<div class="panel-body">
+							<div class="row">
+								<fieldset class="well">
+									<legend class="well-legend">Formulario</legend>
+									<form id="formContrasenia" class="form-horizontal" role="form">
+										<div class="form-group">
+											<label class="col-sm-4 control-label">Contraseña Actual</label>
+											<div class="col-sm-4">
+												<input type="password" class="form-control" name="contraseniaActual" autocomplete="off" autofocus="autofocus"></input>
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-4 control-label">Nueva Contraseña</label>
+											<div class="col-sm-4">
+												<input id="contrasenia" type="password" class="form-control" name="contrasenia"></input>
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-4 control-label">Confirmar Contraseña</label>
+											<div class="col-sm-4">
+												<input type="password" class="form-control" name="contraseniaConfirmacion"></input>
+											</div>
+										</div>
+										<div class="form-group">
+											<div class="col-lg-12 text-center">
+												<button id="actualizarContrasenia" type="button" class="btn btn-primary">
+													<i class="fa fa-pencil-square"></i> Actualizar
+												</button>
+											</div>
+										</div>
+									</form>
+								</fieldset>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</th:block>
+	<th:block layout:fragment="script">
+		<script th:src="@{/resources/js/jquery/jquery.serializejson.min.js}"></script>
+		<script th:src="@{/resources/js/bootstrap/bootstrap-notify.min.js}"></script>
+		<script th:src="@{/resources/js/jquery/jquery.validate.min.js}"></script>
+		<script th:src="@{/resources/js/jquery/additional-methods.min.js}"></script>
+		<script th:src="@{/resources/js/util/formularioUtil.js}"></script>
+		<script th:src="@{/resources/js/pagina/seguridad/contrasenia/contrasenia.js}"></script>
+		<script th:src="@{/resources/js/pagina/seguridad/contrasenia/contraseniaFormulario.js}"></script>
+	</th:block>
+</body>
+</html>

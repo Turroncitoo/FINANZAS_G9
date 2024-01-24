@@ -1,0 +1,354 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.19.0.final using JasperReports Library version 6.19.0-646c68931cebf1a58bc65c4359d1f0ca223c5e94  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ReporteBalanceContablePorPeriodo" pageWidth="595" pageHeight="842" whenNoDataType="NoDataSection" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="f0ebc062-6c63-4e2c-823c-7c0a630682b7">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<property name="ireport.zoom" value="1.9487171000000014"/>
+	<property name="ireport.x" value="443"/>
+	<property name="ireport.y" value="63"/>
+	<parameter name="titulo" class="java.lang.String"/>
+	<parameter name="descripcionFechas" class="java.lang.String"/>
+	<parameter name="descripcionInstitucion" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="cuentaContable" class="java.lang.String"/>
+	<field name="descripcionCuenta" class="java.lang.String"/>
+	<field name="montoDebito" class="java.lang.Double"/>
+	<field name="montoCredito" class="java.lang.Double"/>
+	<field name="codigoMoneda" class="java.lang.Integer"/>
+	<field name="descripcionMoneda" class="java.lang.String"/>
+	<variable name="totalDebito" class="java.lang.Double" resetType="Group" resetGroup="GrupoMoneda" calculation="Sum">
+		<variableExpression><![CDATA[$F{montoDebito}]]></variableExpression>
+		<initialValueExpression><![CDATA[0.00]]></initialValueExpression>
+	</variable>
+	<variable name="totalCredito" class="java.lang.Double" resetType="Group" resetGroup="GrupoMoneda" calculation="Sum">
+		<variableExpression><![CDATA[$F{montoCredito}]]></variableExpression>
+		<initialValueExpression><![CDATA[0.00]]></initialValueExpression>
+	</variable>
+	<group name="GrupoMoneda">
+		<groupExpression><![CDATA[$F{codigoMoneda}]]></groupExpression>
+		<groupHeader>
+			<band height="17">
+				<textField>
+					<reportElement positionType="Float" mode="Opaque" x="0" y="1" width="544" height="16" backcolor="#F5F5F5" uuid="d4ecdc68-98c7-458d-a1ae-f108c4b3f849"/>
+					<box>
+						<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[" " + $F{codigoMoneda} + " - " + $F{descripcionMoneda}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="16">
+				<textField>
+					<reportElement positionType="FixRelativeToBottom" x="350" y="0" width="98" height="16" uuid="bc640252-be15-4c97-a286-d8665cf0c3e0"/>
+					<box>
+						<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="8" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{totalDebito} == null ? 0.00 :  (new java.text.DecimalFormat("#,##0.00").format($V{totalDebito}))]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement positionType="FixRelativeToBottom" x="448" y="0" width="96" height="16" uuid="d8f6a474-8c9a-4993-8c04-204e43339560"/>
+					<box>
+						<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="8" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{totalCredito} == null ? 0.00 : (new java.text.DecimalFormat("#,##0.00").format($V{totalCredito}))]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement positionType="Float" x="0" y="0" width="350" height="16" uuid="3f269a39-7eef-404c-976c-9d4100c01bf4"/>
+					<box>
+						<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Total]]></text>
+				</staticText>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="80" splitType="Stretch">
+			<textField evaluationTime="Page">
+				<reportElement positionType="FixRelativeToBottom" x="-20" y="0" width="595" height="80" uuid="11f8875a-e130-4f04-9df1-471c7ccc804e"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="18" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{titulo}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="32" splitType="Stretch">
+			<textField>
+				<reportElement positionType="FixRelativeToBottom" x="280" y="0" width="265" height="27" uuid="c0015d12-66eb-462c-bd19-0112252143ff"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" isBold="true"/>
+					<paragraph lineSpacing="AtLeast"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Fechas: " + $P{descripcionFechas}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="38" y="2" width="232" height="25" uuid="19216205-2d52-4d0e-a9eb-3ca433cdaef5"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="10" isBold="true"/>
+					<paragraph lineSpacing="AtLeast"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Institución: " + $P{descripcionInstitucion}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="36" splitType="Stretch">
+			<staticText>
+				<reportElement positionType="FixRelativeToBottom" mode="Opaque" x="0" y="0" width="119" height="31" forecolor="#FFFFFF" backcolor="#1D58B8" uuid="ccd39dfd-e972-4bd7-94f4-38d9daa8c685">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="0a5cd7e7-318d-46b8-9ad7-48eb105c0bb9"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cuenta Contable]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="FixRelativeToBottom" mode="Opaque" x="119" y="0" width="231" height="31" forecolor="#FFFFFF" backcolor="#1D58B8" uuid="dda6e67a-f41b-4edd-96eb-112149aec3fe">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="6108c874-b3c5-4b68-877e-a20e5422cb14"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Descripción Cuenta]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="FixRelativeToBottom" mode="Opaque" x="350" y="0" width="98" height="31" forecolor="#FFFFFF" backcolor="#1D58B8" uuid="d0d99d88-f819-4a89-8740-7a2876477614">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="c2c6aef7-5fe9-47c1-ae07-4af20b72b764"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Monto Débito]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="FixRelativeToBottom" mode="Opaque" x="448" y="0" width="96" height="31" forecolor="#FFFFFF" backcolor="#1D58B8" uuid="fde240a4-9858-46b7-b4d9-3bec54e7d247">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="8f9dcbdc-4bfb-46d5-ac12-3328f92f46ae"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Monto Crédito]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="15" splitType="Stretch">
+			<textField>
+				<reportElement positionType="FixRelativeToBottom" x="119" y="0" width="231" height="15" uuid="76fd2b4f-4178-40ff-bf01-f73c85a98c64">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="6108c874-b3c5-4b68-877e-a20e5422cb14"/>
+				</reportElement>
+				<box leftPadding="0" bottomPadding="0" rightPadding="0">
+					<pen lineWidth="0.5" lineStyle="Solid"/>
+					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($F{descripcionCuenta} == null)? "":" "+$F{descripcionCuenta}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="FixRelativeToBottom" x="350" y="0" width="98" height="15" uuid="a504fbcd-04a1-4523-8ab1-722b5445d6f8">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="c2c6aef7-5fe9-47c1-ae07-4af20b72b764"/>
+				</reportElement>
+				<box leftPadding="0" bottomPadding="0" rightPadding="0">
+					<pen lineWidth="0.5" lineStyle="Solid"/>
+					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{montoDebito} == null? 0.00 : (new java.text.DecimalFormat("#,##0.00").format($F{montoDebito}))]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="FixRelativeToBottom" x="448" y="0" width="96" height="15" uuid="0bf000b7-f128-4e6a-bf9c-de29e108f1d1">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="8f9dcbdc-4bfb-46d5-ac12-3328f92f46ae"/>
+				</reportElement>
+				<box leftPadding="0" bottomPadding="0" rightPadding="0">
+					<pen lineWidth="0.5" lineStyle="Solid"/>
+					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{montoCredito} == null ? 0.00 : (new java.text.DecimalFormat("#,##0.00").format($F{montoCredito}))]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="0" width="119" height="15" uuid="e07d4b4c-dff7-4890-969e-12a718f651be">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="0a5cd7e7-318d-46b8-9ad7-48eb105c0bb9"/>
+				</reportElement>
+				<box leftPadding="0" bottomPadding="0" rightPadding="0">
+					<pen lineWidth="0.5" lineStyle="Solid"/>
+					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($F{cuentaContable} == null)?"":" "+$F{cuentaContable}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<noData>
+		<band height="222">
+			<textField>
+				<reportElement x="-20" y="1" width="595" height="91" uuid="aee80b37-6aeb-4d97-978b-0d124f1ef96b"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="18" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{titulo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="35" y="94" width="232" height="25" uuid="27d22dde-893e-464d-9fe4-258a8521e9ea"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="10" isBold="true"/>
+					<paragraph lineSpacing="AtLeast"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Institución: " + $P{descripcionInstitucion}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="FixRelativeToBottom" x="277" y="92" width="265" height="27" uuid="27533d2d-eb6d-41db-ba08-c50d1faf48b4"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" isBold="true"/>
+					<paragraph lineSpacing="AtLeast"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Fechas: " + $P{descripcionFechas}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="FixRelativeToBottom" mode="Opaque" x="1" y="126" width="119" height="31" forecolor="#FFFFFF" backcolor="#1D58B8" uuid="569fab59-61be-42fb-81d7-5333bac6fbaa">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="0a5cd7e7-318d-46b8-9ad7-48eb105c0bb9"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cuenta Contable]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="FixRelativeToBottom" mode="Opaque" x="120" y="126" width="231" height="31" forecolor="#FFFFFF" backcolor="#1D58B8" uuid="32f67175-df15-448b-b014-c2bf01ec769c">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="6108c874-b3c5-4b68-877e-a20e5422cb14"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Descripción Cuenta]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="FixRelativeToBottom" mode="Opaque" x="351" y="126" width="98" height="31" forecolor="#FFFFFF" backcolor="#1D58B8" uuid="62eb481c-bdf3-4f44-b3ca-d2f222288c97">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="c2c6aef7-5fe9-47c1-ae07-4af20b72b764"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Monto Débito]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="FixRelativeToBottom" mode="Opaque" x="449" y="126" width="96" height="31" forecolor="#FFFFFF" backcolor="#1D58B8" uuid="365a9e85-c6e4-4db9-8685-ac21752d1e86">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="8f9dcbdc-4bfb-46d5-ac12-3328f92f46ae"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Monto Crédito]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="0" y="158" width="544" height="31" uuid="1eaf8858-ed3f-4ef8-b229-8522758b41ad"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<pen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans"/>
+				</textElement>
+				<textFieldExpression><![CDATA["No hay registros encontrados."]]></textFieldExpression>
+			</textField>
+		</band>
+	</noData>
+</jasperReport>

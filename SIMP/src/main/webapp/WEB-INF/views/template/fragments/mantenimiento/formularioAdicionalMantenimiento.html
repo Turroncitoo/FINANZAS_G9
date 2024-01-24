@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+
+	<div id="formularioAdicionalMantenimiento" class="hidden"
+		th:fragment="cliente"
+		th:with="permisoConsulta=${#authorization.expression('hasPermission(''MANT_SUBBINCLTE'',''2'')')}, permisoRegistro=${#authorization.expression('hasPermission(''MANT_SUBBINCLTE'',''1'')')}, permisoActualizacion=${#authorization.expression('hasPermission(''MANT_SUBBINCLTE'',''3'')')}, permisoEliminacion=${#authorization.expression('hasPermission(''MANT_SUBBINCLTE'',''4'')')}">
+		<div th:if="${permisoConsulta}" class="col-xs-12"
+			th:classappend="${permisoActualizacion or permisoRegistro} ? 'col-sm-6 col-md-6 col-lg-6':''">
+			<fieldset class="well">
+				<legend class="well-legend">Productos asociados al Cliente</legend>
+				<table id="tablaSubBinesAsociados" width="100%"
+					class="table table-bordered dt-responsive table-condensed nowrap display table-hover"
+					th:attr="data-permiso-actualizacion=${permisoActualizacion}, data-permiso-eliminacion=${permisoEliminacion}">
+				</table>
+			</fieldset>
+		</div>
+		<div th:if="${permisoActualizacion or permisoRegistro}"
+			id="div-formularioSubBinCliente" class="col-xs-12"
+			th:classappend="${permisoConsulta} ? 'col-sm-6 col-md-6 col-lg-6':''">
+			<fieldset class="well">
+				<legend class="well-legend">Asociar BIN/Producto al Cliente</legend>
+				<form id="formAsociacionSubBin" class="form-horizontal" role="form">
+					<div class="form-group">
+						<label class="col-lg-2 control-label">Institución</label>
+						<div class="col-lg-10">
+							<select id="instituciones" class="form-control"
+								name="codigoInstitucion" disabled="disabled">
+								<option th:each="institucion : ${institucion}" value=""
+									selected="selected"
+									th:text="|${institucion.codigoInstitucion} - ${institucion.descripcionCorta}|"></option>
+							</select>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-lg-2 control-label">BIN</label>
+						<div class="col-lg-10">
+							<select id="bines" name="idBin" class="form-control select2">
+								<option value="" disabled="disabled" selected="selected">Seleccione
+									un BIN</option>
+								<option th:each="bin : ${bines}" th:value="${bin.codigoBIN}"
+									th:text="|${bin.codigoBIN} - ${bin.descripcion}|"></option>
+							</select>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-lg-2 control-label">Producto</label>
+						<div class="col-lg-10">
+							<select id="producto" name="codigoProducto"
+								class="form-control select2">
+								<option value="" disabled="disabled" selected="selected">Seleccione
+									un Producto</option>
+							</select>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-lg-offset-2 col-lg-10">
+							<button id="asociarSubBin" type="button" class="btn btn-success"
+								th:if="${permisoRegistro}">
+								<i class="fa fa-random"></i> Asociar
+							</button>
+							<div id="botonesActualizacion" class="hidden"
+								th:if="${permisoActualizacion}">
+								<button id="actualizarAsociacionSubBin" type="button"
+									class="btn btn-primary">
+									<i class="fa fa-random"></i> Actualizar asociación
+								</button>
+								<button id="cancelarActualizacionAsociacionSubBin" type="button"
+									class="btn btn-default">
+									<i class="fa fa-close"></i> Cancelar
+								</button>
+							</div>
+						</div>
+					</div>
+				</form>
+			</fieldset>
+		</div>
+	</div>
+
+	<div id="cuentasContables" th:fragment="cuentaContableEmisor">
+		<fieldset class="well">
+			<legend class="well-legend">Cuentas Contables</legend>
+			<div class="tabs">
+				<ul class="nav nav-tabs">
+					<li class="ocultable comisiones hidden"><a id="a-comisiones"
+						data-toggle="tab" href="#comisiones">Comisiones</a></li>
+					<li class="ocultable fondos hidden"><a id="a-fondos"
+						data-toggle="tab" href="#fondos">Fondos</a></li>
+				</ul>
+				<div class="tab-content">
+					<div id="comisiones" class="tab-pane fade in comisiones ocultable">
+						<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+							<table id="tablaCuentaComisiones" width="100%"
+								class="table table-bordered table-condensed nowrap display table-hover">
+							</table>
+						</div>
+						<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+							<fieldset class="well">
+								<legend class="well-legend">Formulario de Comisiones</legend>
+								<div class="form-group">
+									<div class="row">
+										<div class="col-xs-12">
+											<form id="formComisiones" class="form-horizontal" role="form">
+												<div class="form-group">
+													<label class="col-lg-2 control-label">Concepto de
+														Comisión</label>
+													<div class="col-lg-10">
+														<select id="conceptoComisiones"
+															class="form-control select2 elemento-desactivable"
+															name="idConceptoComision">
+															<option value="" disabled="disabled" selected="selected">Seleccione
+																un Concepto de Comisión</option>
+															<option th:each="conceptoComision: ${conceptoComisiones}"
+																th:value="${conceptoComision.idConceptoComision}"
+																th:attr="descripcion=${conceptoComision.descripcion}"
+																th:text="|${conceptoComision.idConceptoComision} - ${conceptoComision.descripcion}|"></option>
+														</select>
+													</div>
+												</div>
+												<div class="form-group">
+													<label class="col-lg-2 control-label">Cuenta Cargo</label>
+													<div class="col-lg-10">
+														<input class="form-control upperCase" name="cuentaCargo" />
+													</div>
+												</div>
+												<div class="form-group">
+													<label class="col-lg-2 control-label">Cuenta Abono</label>
+													<div class="col-lg-10">
+														<input class="form-control upperCase" name="cuentaAbono" />
+													</div>
+												</div>
+												<div class="form-group">
+													<label class="col-lg-2 control-label">Código
+														Analítico</label>
+													<div class="col-lg-10">
+														<input class="form-control upperCase"
+															name="codigoAnalitico" />
+													</div>
+												</div>
+												<div class="form-group">
+													<div class="col-lg-offset-2 col-lg-10">
+														<button id="aniadirCuentaComision" type="button"
+															class="btn btn-success">
+															<i class="fa fa-plus"></i> Añadir Cuenta Comisión
+														</button>
+														<div id="botonesActualizacion" class="hidden">
+															<button id="actualizarCuentaComision" type="button"
+																class="btn btn-primary">
+																<i class="fa fa-pencil-square"></i> Actualizar Cuenta
+																Comisión
+															</button>
+															<button id="cancelarCuentaComision" type="button"
+																class="btn btn-default">
+																<i class="fa fa-close"></i> Cancelar
+															</button>
+														</div>
+													</div>
+												</div>
+											</form>
+										</div>
+									</div>
+								</div>
+							</fieldset>
+						</div>
+					</div>
+					<div id="fondos" class="tab-pane fade in fondos ocultable">
+						<fieldset class="well">
+							<legend class="well-legend">Fondos</legend>
+							<form id="formFondo" class="form-horizontal" role="form">
+								<div class="form-group">
+									<label class="col-lg-2 control-label">Cuenta Cargo</label>
+									<div class="col-lg-10">
+										<input class="form-control upperCase" name="cuentaCargo" />
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-lg-2 control-label">Cuenta Abono</label>
+									<div class="col-lg-10">
+										<input class="form-control upperCase" name="cuentaAbono" />
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-lg-2 control-label">Código Analítico</label>
+									<div class="col-lg-10">
+										<input class="form-control upperCase" name="codigoAnalitico" />
+									</div>
+								</div>
+							</form>
+						</fieldset>
+					</div>
+				</div>
+			</div>
+		</fieldset>
+	</div>
+
+	<div id="cuentasContables" th:fragment="cuentaContableReceptor">
+		<fieldset class="well">
+			<legend class="well-legend">Cuentas Contables</legend>
+			<div class="tabs">
+				<ul class="nav nav-tabs">
+					<li class="ocultable comisiones hidden"><a id="a-comisiones"
+						data-toggle="tab" href="#comisiones">Comisiones</a></li>
+					<li class="ocultable fondos hidden"><a id="a-fondos"
+						data-toggle="tab" href="#fondos">Fondos</a></li>
+				</ul>
+				<div class="tab-content">
+					<div id="comisiones" class="tab-pane fade in comisiones ocultable">
+						<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+							<table id="tablaCuentaComisiones" width="100%"
+								class="table table-bordered table-condensed nowrap display table-hover">
+							</table>
+						</div>
+						<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+							<fieldset class="well">
+								<legend class="well-legend">Comisiones</legend>
+								<div class="form-group">
+									<div class="row">
+										<div class="col-xs-12">
+											<form id="formComisiones" class="form-horizontal" role="form">
+												<div class="form-group">
+													<label class="col-lg-2 control-label">Concepto de
+														Comisión</label>
+													<div class="col-lg-10">
+														<select id="conceptoComisiones"
+															class="form-control select2 elemento-desactivable"
+															name="idConceptoComision">
+															<option value="" disabled="disabled" selected="selected">Seleccione
+																un Concepto de Comisión</option>
+															<option th:each="conceptoComision: ${conceptoComisiones}"
+																th:value="${conceptoComision.idConceptoComision}"
+																th:attr="descripcion=${conceptoComision.descripcion}"
+																th:text="|${conceptoComision.idConceptoComision} - ${conceptoComision.descripcion}|"></option>
+														</select>
+													</div>
+												</div>
+												<div class="form-group">
+													<label class="col-lg-2 control-label">Cuenta Cargo</label>
+													<div class="col-lg-10">
+														<input class="form-control upperCase" name="cuentaCargo" />
+													</div>
+												</div>
+												<div class="form-group">
+													<label class="col-lg-2 control-label">Cuenta Abono</label>
+													<div class="col-lg-10">
+														<input class="form-control upperCase" name="cuentaAbono" />
+													</div>
+												</div>
+												<div class="form-group">
+													<label class="col-lg-2 control-label">Código
+														Analítico</label>
+													<div class="col-lg-10">
+														<input class="form-control upperCase"
+															name="codigoAnalitico" />
+													</div>
+												</div>
+												<div class="form-group">
+													<div class="col-lg-offset-2 col-lg-10">
+														<button id="aniadirCuentaComision" type="button"
+															class="btn btn-success">
+															<i class="fa fa-random"></i> Añadir
+														</button>
+														<div id="botonesActualizacion" class="hidden">
+															<button id="actualizarCuentaComision" type="button"
+																class="btn btn-primary">
+																<i class="fa fa-random"></i> Actualizar Cuenta Comisión
+															</button>
+															<button id="cancelarCuentaComision" type="button"
+																class="btn btn-default">
+																<i class="fa fa-close"></i> Cancelar
+															</button>
+														</div>
+													</div>
+												</div>
+											</form>
+										</div>
+									</div>
+								</div>
+							</fieldset>
+						</div>
+					</div>
+					<div id="fondos" class="tab-pane fade in fondos ocultable">
+						<fieldset class="well">
+							<legend class="well-legend">Fondos</legend>
+							<form id="formFondo" class="form-horizontal" role="form">
+								<div class="form-group">
+									<label class="col-lg-2 control-label">Cuenta Cargo</label>
+									<div class="col-lg-10">
+										<input class="form-control upperCase" name="cuentaCargo" />
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-lg-2 control-label">Cuenta Abono</label>
+									<div class="col-lg-10">
+										<input class="form-control upperCase" name="cuentaAbono" />
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-lg-2 control-label">Cuenta ATM</label>
+									<div class="col-lg-10">
+										<input class="form-control upperCase" name="cuentaAtm" />
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-lg-2 control-label">Código Analítico</label>
+									<div class="col-lg-10">
+										<input class="form-control upperCase" name="codigoAnalitico" />
+									</div>
+								</div>
+							</form>
+						</fieldset>
+					</div>
+				</div>
+			</div>
+		</fieldset>
+	</div>
+
+	<div id="formularioAdicionalMantenimiento" th:fragment="producto">
+		<div class="col-sm-7 col-md-7 col-lg-7">
+			<fieldset class="well">
+				<legend class="well-legend" id="legend">Clientes asociados al Producto</legend>
+				<table id="tablaClienteProductoAsociados" width="100%"
+					class="table table-bordered dt-responsive table-condensed nowrap display table-hover">
+				</table>
+			</fieldset>
+		</div>
+		<div id="div-formularioSubBinCliente" class="col-sm-5 col-md-5 col-lg-5">
+			<fieldset class="well">
+				<legend class="well-legend">Asociar Cliente al Producto</legend>
+				<form id="formAsociacionClienteProducto" class="form-horizontal" role="form">
+					<div class="form-group">
+						<label class="col-sm-2 control-label">Empresa</label>
+						<div class="col-sm-10">
+							<select id="empresas" class="form-control select2"
+								name="idEmpresa">
+								<option value="" disabled="disabled" selected="selected">Seleccione
+									una Empresa</option>
+								<option th:each="empresas,iter: ${empresas}"
+									th:value="${empresas.idEmpresa}"
+									th:text="|${empresas.idEmpresa} - ${empresas.descripcion}|"></option>
+							</select>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">Cliente</label>
+						<div class="col-sm-10">
+							<select id="cliente" class="form-control select2" name="idCliente">
+								<option value="" disabled="disabled" selected="selected">Seleccione
+									un Cliente</option>
+							</select>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-lg-offset-2 col-lg-10">
+							<button id="asociarClienteProducto" type="button" class="btn btn-success">
+								<i class="fa fa-random"></i> Asociar
+							</button>
+						</div>
+					</div>
+				</form>
+			</fieldset>
+		</div>
+	</div>
+
+</body>
+</html>

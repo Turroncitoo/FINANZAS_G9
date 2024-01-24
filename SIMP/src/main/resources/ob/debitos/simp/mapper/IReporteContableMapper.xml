@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ob.debitos.simp.mapper.IReporteContableMapper">
+
+	<select id="buscarResumenContable" statementType="CALLABLE" resultMap="mapReporteResumenContable" 
+		parameterType="CriterioBusquedaResumenContable">
+		{ call P_GENERA_RESUMEN_CONTABLE_TPP
+			(
+				#{tipoReporte, jdbcType = VARCHAR, mode = IN},
+				#{fechaInicio, jdbcType = DATE, mode = IN},
+				#{fechaFin, jdbcType = DATE, mode = IN},
+				#{idInstitucion, jdbcType = INTEGER, mode = IN}
+			)
+		}
+	</select>
+
+	<resultMap type="ReporteMoneda" id="mapReporteResumenContable">
+		<id property="codigoMoneda" column="codigoMoneda"></id>
+		<id property="descripcionMoneda" column="descripcionMoneda"></id>
+		<collection property="cuentas" javaType="List" ofType="ReporteResumenContable">
+			<result property="fechaProceso" column="fechaProceso"></result>
+			<result property="cuentaContable" column="cuentaContable"></result>
+			<result property="descripcionCuenta" column="descripcionCuenta"></result>
+			<result property="montoDebito" column="montoDebito"></result>
+			<result property="montoCredito" column="montoCredito"></result>
+		</collection>
+	</resultMap>
+
+	<select id="buscarDetalleContable" statementType="CALLABLE" resultMap="mapReporteDetalleContable" 
+		parameterType="CriterioBusquedaDetalleContable">
+		{call REPORT_CONTABLE
+			(
+			#{verbo, jdbcType = VARCHAR, mode =IN},
+			#{fechaInicio, jdbcType = DATE, mode = IN},
+			#{fechaFin, jdbcType = DATE, mode = IN},
+			#{idInstitucion, jdbcType = INTEGER, mode = IN}
+			)
+		}
+	</select>
+	
+	<resultMap type="ReporteMoneda" id="mapReporteDetalleContable">
+		<id property="codigoMoneda" column="codigoMoneda"></id>
+		<id property="descripcionMoneda" column="descripcionMoneda"></id>
+		<collection property="cuentasDetalle" javaType="List" ofType="ReporteItemDetalleContable">
+			<result property="fechaProceso" column="dFechaProceso"></result>
+			<result property="cuentaContable" column="cuentaContable"></result>
+			<result property="descripcionCuenta" column="descripcionCuenta"></result>
+			<result property="descripcionMembresia" column="descripcionMembresia"></result>
+			<result property="descripcionServicio" column="descripcionServicio"></result>
+			<result property="descripcionComision" column="descripcionComision"></result>
+			<result property="descripcionOrigen" column="descripcionOrigen"></result>
+			<result property="montoDebito" column="montoDebito"></result>
+			<result property="montoCredito" column="montoCredito"></result>
+			<result property="codigoEventoMarcaInternacional" column="codigoEventoMarcaInternacional"></result>
+			<result property="distribucionCobroMarcaInternacional" column="distribucionCobroMarcaInternacional"></result>
+			<result property="numeroFacturaMarca" column="numeroFacturaMarca"></result>
+			<result property="tarifaMarcaInternacional" column="tarifaMarcaInternacional"></result>
+			<result property="totalUnidades" column="totalUnidades"></result>
+			<result property="indicadorDistribucionCobro" column="indicadorDistribucionCobro"></result>
+			<result property="indicadorUnidades" column="indicadorUnidades"></result>
+			<result property="valorFacturaMarcaInternacional" column="valorFacturaMarcaInternacional"></result>
+			<result property="secuenciaRegistroFacturaMarca" column="secuenciaRegistroFacturaMarca"></result>
+			<result property="idClaseTransaccion" column="idClaseTransaccion"></result>
+			<result property="descripcionClaseTransaccion" column="descripcionClaseTransaccion"></result>
+			<result property="idCodigoTransaccion" column="idCodigoTransaccion"></result>
+			<result property="descripcionCodigoTransaccion" column="descripcionCodigoTransaccion"></result>
+		</collection>
+	</resultMap>
+
+
+	<select id="buscarResumenPorPeriodoContable" statementType="CALLABLE"
+		resultMap="mapReporteResumenPorPeriodoContable" parameterType="CriterioBusquedaResumenContable">
+		{ call P_GENERA_RESUMEN_CONTABLE_TPP
+			(
+				#{tipoReporte, jdbcType = VARCHAR, mode = IN},
+				#{fechaInicio, jdbcType = DATE, mode = IN},
+				#{fechaFin, jdbcType = DATE, mode = IN},
+				#{idInstitucion, jdbcType = INTEGER, mode = IN}
+			)
+		}
+	</select>
+	
+	<resultMap type="ReporteMoneda" id="mapReporteResumenPorPeriodoContable">
+		<id property="codigoMoneda" column="codigoMoneda"></id>
+		<id property="descripcionMoneda" column="descripcionMoneda"></id>
+		<collection property="cuentas" javaType="List" ofType="ReporteResumenContable">
+			<result property="cuentaContable" column="cuentaContable"></result>
+			<result property="descripcionCuenta" column="descripcionCuenta"></result>
+			<result property="montoDebito" column="montoDebito"></result>
+			<result property="montoCredito" column="montoCredito"></result>
+		</collection>
+	</resultMap>
+	
+	<select id="buscarResumenPorPeriodoContableParaReporte" statementType="CALLABLE"
+		resultType="ReporteResumenContable" parameterType="CriterioBusquedaResumenContable">
+		{ call P_GENERA_RESUMEN_CONTABLE_TPP
+			(
+				#{tipoReporte, jdbcType = VARCHAR, mode = IN},
+				#{fechaInicio, jdbcType = DATE, mode = IN},
+				#{fechaFin, jdbcType = DATE, mode = IN},
+				#{idInstitucion, jdbcType = INTEGER, mode = IN}
+			)
+		}
+	</select>
+</mapper>

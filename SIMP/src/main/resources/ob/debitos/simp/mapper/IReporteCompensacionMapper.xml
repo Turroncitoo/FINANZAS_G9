@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ob.debitos.simp.mapper.IReporteCompensacionMapper">
+
+	<resultMap id="mapBuscarCompensaciones" type="ReporteCompensacionReceptor">
+		<id property="idMembresia" column="idMembresia" />
+		<result property="descripcionMembresia" column="descripcionMembresia" />
+		<collection property="atms" javaType="List" ofType="ReporteAtm">
+			<id property="idAtm" column="idAtm"></id>
+			<result property="descripcionAtm" column="descripcionAtm"></result>
+			<result property="cantidad" column="cantidad"></result>
+			<result property="monto" column="monto"></result>
+			<result property="comisionInt" column="comisionInt"></result>
+			<result property="comisionGas" column="comisionGas"></result>
+			<result property="comisionOpe" column="comisionOpe"></result>
+			<result property="comisionSur" column="comisionSur"></result>
+			<result property="totalComision" column="totalComision"></result>
+		</collection>
+	</resultMap>
+
+	<resultMap id="mapBuscarCompensacionesReporte" type="ReporteCompensacionExportacion">
+		<id property="idAtm" column="idAtm" />
+		<id property="descripcionAtm" column="descripcionAtm" />
+		<id property="idMembresia" column="idMembresia"></id>
+		<result property="descripcionMembresia" column="descripcionMembresia"></result>
+		<result property="cantidad" column="cantidad"></result>
+		<result property="monto" column="monto"></result>
+		<result property="comisionInt" column="comisionInt"></result>
+		<result property="comisionGas" column="comisionGas"></result>
+		<result property="comisionOpe" column="comisionOpe"></result>
+		<result property="comisionSur" column="comisionSur"></result>
+		<result property="totalMembresia" column="totalMembresia"></result>
+	</resultMap>
+
+	<select id="buscarCompensaciones" statementType="CALLABLE" resultMap="mapBuscarCompensaciones" parameterType="CriterioBusquedaCompensacion">
+		{call REPORT_GESTION_COMPENSACIONES_RECEPTOR
+			(
+				#{verbo, 						jdbcType = VARCHAR, mode = IN},
+				#{codigoRespuestaTransaccion, 	jdbcType = INTEGER, mode = IN},
+				#{tipoMoneda, 					jdbcType = INTEGER, mode = IN},
+				#{fechaInicio, 					jdbcType = DATE, 	mode = IN},
+				#{fechaFin, 					jdbcType = DATE, 	mode = IN}
+			)
+		}
+	</select>
+
+	<select id="buscarCompensacionesReporte" statementType="CALLABLE" resultMap="mapBuscarCompensacionesReporte" parameterType="CriterioBusquedaCompensacion">
+		{call REPORT_GESTION_COMPENSACIONES_RECEPTOR
+			(
+				#{verbo, 						jdbcType = VARCHAR, mode = IN},
+				#{codigoRespuestaTransaccion, 	jdbcType = INTEGER, mode = IN},
+				#{tipoMoneda, 					jdbcType = INTEGER, mode = IN},
+				#{fechaInicio, 					jdbcType = DATE, 	mode = IN},
+				#{fechaFin, 					jdbcType = DATE, 	mode = IN}
+			)
+		}
+	</select>
+	
+	<select id="reporteCanal" statementType="CALLABLE" resultType="ReporteCompensacionCanal" parameterType="CriterioBusquedaCompensacion">
+		{call REPORT_GESTION_COMPENSACIONES_EMISOR
+			(
+				#{verbo,                         jdbcType = VARCHAR, mode = IN},
+				#{rolTransaccion,                jdbcType = INTEGER, mode = IN},
+				#{codigoRespuestaTransaccion,    jdbcType = INTEGER, mode = IN},
+				#{tipoMoneda,                    jdbcType = INTEGER, mode = IN},
+				#{fechaInicio,                   jdbcType = DATE,    mode = IN},
+				#{fechaFin,                      jdbcType = DATE,    mode = IN},
+				#{idInstitucion,                 jdbcType = INTEGER, mode = IN},
+				#{idEmpresa,                     jdbcType = VARCHAR, mode = IN},
+				#{idCliente,                     jdbcType = VARCHAR, mode = IN}
+			)
+		}
+	</select>
+	
+	<select id="reporteInstitucion" statementType="CALLABLE" resultType="ReporteCompensacionInstitucion" parameterType="CriterioBusquedaCompensacion">
+		{call REPORT_GESTION_COMPENSACIONES_EMISOR
+			(
+				#{verbo,                         jdbcType = VARCHAR, mode = IN},
+				#{rolTransaccion,                jdbcType = INTEGER, mode = IN},
+				#{codigoRespuestaTransaccion,    jdbcType = INTEGER, mode = IN},
+				#{tipoMoneda,                    jdbcType = INTEGER, mode = IN},
+				#{fechaInicio,                   jdbcType = DATE,    mode = IN},
+				#{fechaFin,                      jdbcType = DATE,    mode = IN},
+				#{idInstitucion,                 jdbcType = INTEGER, mode = IN},
+				#{idEmpresa,                     jdbcType = VARCHAR, mode = IN},
+				#{idCliente,                     jdbcType = VARCHAR, mode = IN}
+			)
+		}
+	</select>
+
+	<select id="buscarCompensacionEmisorPorPorGiroDeNegocio" resultType="ReporteCompensacionPorGiroDeNegocio">
+		SELECT *
+		FROM ReporteCompensacionEmisorPorGiroDeNegocio
+		<where>
+			<if test="fechaInicioProceso != null and fechaFinProceso != null">
+				fechaProceso BETWEEN #{fechaInicioProceso} AND #{fechaFinProceso}
+			</if>
+			<if test="idInstitucion != null and idInstitucion != -1">
+				AND idInstitucion = #{idInstitucion}
+			</if>
+			<if test="idEmpresa != null and idEmpresa != -1">
+                AND idEmpresa = #{idEmpresa}
+            </if>
+			<if test="clientes != null and clientes.size() > 0">
+                AND idCliente IN
+                <foreach item="item" index="index" collection="clientes"
+                         open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+		</where>
+		ORDER BY fechaProceso       DESC
+                ,idInstitucion      ASC
+                ,idEmpresa          ASC
+                ,idCliente          ASC
+                ,giroNegocio        ASC
+                ,idLogo             ASC
+                ,codigoProducto     ASC
+                ,idMembresia        ASC
+                ,idClaseServicio    ASC
+                ,idOrigen           ASC
+                ,monedaCompensacion ASC;
+	</select>
+</mapper>

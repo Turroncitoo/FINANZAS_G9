@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ob.debitos.simp.mapper.ILogControlProgramaMapper">
+
+	<select id="buscarPorCriterioBusqueda" resultType="LogControlPrograma">
+		SELECT 	*
+		FROM 	ConsultaLogControlPrograma logControlPrograma
+		WHERE 	
+				fechaProceso = #{fechaProceso}
+			<if test="idUsuario != null and idUsuario != ''">
+				AND idUsuario = #{idUsuario}
+			</if>
+			<if test="tipoEjecucion != null and tipoEjecucion != ''">
+				AND tipoEjecucion = #{tipoEjecucion}
+			</if>
+		ORDER BY idSecuencia DESC
+	</select>
+</mapper>

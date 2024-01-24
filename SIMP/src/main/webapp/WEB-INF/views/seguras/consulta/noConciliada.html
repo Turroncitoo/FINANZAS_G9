@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+	layout:decorator="layout">
+<head>
+<title th:text="|Consulta de #{__|consulta-noconciliada-${consulta}|__}|"></title>
+</head>
+<th:block layout:fragment="style">
+	<link th:href="@{/resources/css/dataTables.bootstrap.min.css}" rel="stylesheet" />
+	<link th:href="@{/resources/css/responsive.bootstrap.min.css}" rel="stylesheet" />
+	<link th:href="@{/resources/css/popupwindow.css}" rel="stylesheet" />
+	<link th:href="@{/resources/css/select2.min.css}" rel="stylesheet" />
+	<link th:href="@{/resources/css/select2-bootstrap.min.css}" rel="stylesheet" />
+	<link th:href="@{/resources/css/daterangepicker.css}" rel="stylesheet" />
+	<link th:href="@{/resources/css/amChart/export.min.css}" rel="stylesheet" />
+
+	<link th:href="@{/resources/css/buttons.dataTables.min.css}" rel="stylesheet" />
+</th:block>
+<body>
+	<th:block layout:fragment="content"
+		th:with="permisoConsulta=${#authorization.expression('hasPermission(''CON_MOVNOCONCIL'', ''2'')')}, permisoReporte=${#authorization.expression('hasPermission(''CON_MOVNOCONCIL'', ''5'')')}">
+		<div class="page-content-wrap">
+			<div class="row">
+				<div class="col-md-12 col-sm-12 col-xs-12">
+
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h3 class="panel-title" th:text="|Consulta de #{__|consulta-noconciliada-${consulta}|__}|"></h3>
+							<ul class="panel-controls">
+							</ul>
+						</div>
+						<div class="panel-body">
+							<div id="tipoBusqueda" class="col-xs-12 col-md-5 col-lg-4">
+
+								<fieldset class="well">
+									<legend class="well-legend">Tipo de Búsqueda</legend>
+									<form id="formTipoBusqueda" class="form-horizontal">
+										<div class="form-group">
+											<div class="col-sm-12">
+												<label class="radio-inline">
+													<input type="radio" checked="checked" name="tipoBusquedaCriterio" value="numeroDias">
+													Por Número de Días
+												</label>
+												<label class="radio-inline">
+													<input type="radio" name="tipoBusquedaCriterio" value="fechaCorte">
+													Por Fecha de Corte
+												</label>
+											</div>
+										</div>
+									</form>
+								</fieldset>
+							</div>
+
+							<div id="criterios" class=" col-xs-12">
+								<fieldset class="well">
+									<legend class="well-legend">Criterios de Busqueda</legend>
+
+									<div id="numeroDias">
+										<form id="formTipoBusquedaNumeroDias" class="form-horizontal">
+											<div class="form-group">
+												<div class="group">
+													<label class="control-label col-sm-1 col-lg-1">Origen Conciliación</label>
+													<div class="col-sm-3 col-lg-3">
+														<label class="radio-inline">
+															<input type="radio" checked="checked" name="tipoBusqueda" value="logContable">
+															Log Contable
+														</label>
+													</div>
+												</div>
+
+												<div class="group">
+
+													<label class="control-label col-sm-1 col-lg-1">Número de Días</label>
+													<div class=" col-sm-3 col-lg-3">
+														<input class="form-control" name="numeroDias" />
+
+													</div>
+												</div>
+
+											</div>
+
+											<div class="form-group">
+												<div class="group">
+													<label class="col-sm-1 control-label">Empresa</label>
+													<div class="col-sm-3">
+														<select id="empresaSelectNumeroDias" class="form-control select2">
+															<option selected="selected" value="-1">TODOS</option>
+															<option th:each="empresa: ${empresas}" th:value="${empresa.idEmpresa}"
+																th:text="|${empresa.idEmpresa} - ${empresa.descripcion}|"></option>
+														</select>
+													</div>
+												</div>
+												<div class="group">
+													<label class="col-sm-1 control-label">Cliente</label>
+													<div class="col-sm-3">
+														<select id="clienteSelectNumeroDias" class="form-control select2">
+															<option selected="selected" value="-1">TODOS</option>
+														</select>
+													</div>
+												</div>
+											</div>
+
+											<div class="form-group">
+												<div class="col-sm-12 col-lg-12 text-center">
+													<button id="buscarCriteriosNumeroDias" type="button" class="btn btn-primary" th:if="${permisoConsulta}">
+														<i class="fa fa-search"></i> Buscar
+													</button>
+													<button id="exportarCriterioNumeroDias" type="button" class="btn btn-success" th:if="${permisoReporte}">
+														<i class="fa fa-download"></i> Exportar
+													</button>
+												</div>
+											</div>
+										</form>
+									</div>
+
+									<div id="fechaCorteCriterio" class="hidden">
+										<form id="formTipoBusquedaFechaCorte" class="form-horizontal">
+											<div class="form-group">
+												<div class="group">
+													<label class="control-label col-sm-1 col-lg-1">Origen Conciliación</label>
+													<div class="col-sm-3 col-lg-3">
+														<label class="radio-inline">
+															<input type="radio" checked="checked" name="tipoBusqueda" value="logContable">
+															Log Contable
+														</label>
+													</div>
+												</div>
+
+
+												<div class="group">
+													<label class="control-label col-lg-1 col-sm-1" for="fechaCumpleanios">Fecha de Corte</label>
+													<div class="col-sm-3 col-lg-3 input-group">
+														<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+														<input id="fechaCorte" type="text" class="form-control filtro" readonly="readonly" name="fechaCorte">
+													</div>
+												</div>
+											</div>
+
+											<div class="form-group">
+												<div class="group">
+													<label class="col-sm-1 control-label">Empresa</label>
+													<div class="col-sm-3">
+														<select id="empresaSelectFechaCorte" class="form-control select2">
+															<option selected="selected" value="-1">TODOS</option>
+															<option th:each="empresa: ${empresas}" th:value="${empresa.idEmpresa}"
+																th:text="|${empresa.idEmpresa} - ${empresa.descripcion}|"></option>
+														</select>
+													</div>
+												</div>
+												<div class="group">
+													<label class="col-sm-1 control-label">Cliente</label>
+													<div class="col-sm-3">
+														<select id="clienteSelectFechaCorte" class="form-control select2">
+															<option selected="selected" value="-1">TODOS</option>
+														</select>
+													</div>
+												</div>
+											</div>
+
+
+											<div class="form-group">
+												<div class="col-sm-12 col-lg-12 text-center">
+													<button id="buscarCriteriosFechaCorte" type="button" class="btn btn-primary" th:if="${permisoConsulta}">
+														<i class="fa fa-search"></i> Buscar
+													</button>
+													<button id="exportarCriterioFechaCorte" type="button" class="btn btn-success" th:if="${permisoReporte}">
+														<i class="fa fa-download"></i>Exportar
+													</button>
+												</div>
+											</div>
+										</form>
+									</div>
+								</fieldset>
+
+							</div>
+
+						</div>
+					</div>
+					<div id="resultadoBusqueda" class="panel panel-default">
+						<div class="panel-heading">
+							<h3 class="panel-title" th:text="|Resultados de #{__|consulta-noconciliada-${consulta}|__}|"></h3>
+						</div>
+						<div class="panel-body">
+							<div class="col-xs-12 tabs ">
+								<ul class="nav nav-tabs">
+									<li class="active"><a id="navTabla" data-toggle="tab" href="#tabla">Tabla total</a></li>
+									<li class="graficoOcultable tablaPorDia "><a data-toggle="tab" href="#tablaPorDia">Tabla por día</a></li>
+									<li class="graficoOcultable resumenPorDia "><a data-toggle="tab" href="#resumenPorDia">Resumen por día</a></li>
+								</ul>
+								<div class="tab-content">
+									<div id="tabla" class="tab-pane fade in active">
+										<br></br>
+										<table id="tablaConsulta" width="100%" class="table table-bordered table-condensed nowrap display table-hover">
+										</table>
+									</div>
+									<div id="tablaPorDia" class="tab-pane fade graficoOcultable tablaPorDia ">
+										<br></br>
+										<table id="tablaConsultaPorDia" width="100%" class="table table-bordered table-condensed nowrap display table-hover">
+										</table>
+									</div>
+									<div id="resumenPorDia" class="tab-pane fade graficoOcultable resumenPorDia ">
+										<div id="graficoLogAutorizacionesNoConciliadas" style="width: 100%; height: 700px; font-size: 11px;"></div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</th:block>
+
+	<th:block layout:fragment="script">
+		<script th:src="@{/resources/js/datatables/jquery.dataTables.min.js}"></script>
+		<script th:src="@{/resources/js/datatables/dataTables.bootstrap.min.js}"></script>
+		<script th:src="@{/resources/js/datatables/dataTables.responsive.min.js}"></script>
+		<script th:src="@{/resources/js/bootstrap/bootstrap-notify.min.js}"></script>
+		<script th:src="@{/resources/js/jquery/popupwindow.min.js}"></script>
+		<script th:src="@{/resources/js/jquery/jquery.serializejson.min.js}"></script>
+		<script th:src="@{/resources/js/jquery/jquery.validate.min.js}"></script>
+		<script th:src="@{/resources/js/jquery/additional-methods.min.js}"></script>
+		<script th:src="@{/resources/js/jquery/select2.full.min.js}"></script>
+		<script th:src="@{/resources/js/bootstrap/bootstrap-datepicker.min.js}"></script>
+		<script th:src="@{/resources/js/util/formularioUtil.js}"></script>
+		<script th:src="@{/resources/js/jquery/moment.min.js}"></script>
+		<script th:src="@{/resources/js/jquery/daterangepicker.js}"></script>
+		<script th:src="@{/resources/js/bootstrap/bootstrap-datepicker.min.js}"></script>
+		<script th:src="@{/resources/js/pagina/consulta/noconciliada/{consulta}.js(consulta = ${consulta})}"></script>
+		<script th:src="@{/resources/js/pagina/consulta/noconciliada/{consulta}Formulario.js(consulta = ${consulta})}"></script>
+		<script th:src="@{/resources/js/amChart/amcharts.js}"></script>
+		<script th:src="@{/resources/js/amChart/serial.js}"></script>
+		<script th:src="@{/resources/js/amChart/export.min.js}"></script>
+		<script th:src="@{/resources/js/amChart/light.js}"></script>
+
+		<script th:src="@{/resources/js/jquery/moment.min.js}"></script>
+		<script th:src="@{/resources/js/jquery/daterangepicker.js}"></script>
+		<script th:src="@{/resources/js/bootstrap/bootstrap-datepicker.min.js}"></script>
+
+		<script th:src="@{/resources/js/datatables/export/dataTables.buttons.min.js}"></script>
+		<script th:src="@{/resources/js/datatables/export/buttons.flash.min.js}"></script>
+		<script th:src="@{/resources/js/datatables/export/jszip.min.js}"></script>
+		<script th:src="@{/resources/js/datatables/export/pdfmake.min.js}"></script>
+		<script th:src="@{/resources/js/datatables/export/vfs_fonts.js}"></script>
+		<script th:src="@{/resources/js/datatables/export/buttons.html5.min.js}"></script>
+		<script th:src="@{/resources/js/datatables/export/buttons.print.min.js}"></script>
+		<script th:src="@{/resources/js/datatables/export/dataTables.tableTools.nightly.js}"></script>
+
+
+	</th:block>
+
+</body>
+</html>

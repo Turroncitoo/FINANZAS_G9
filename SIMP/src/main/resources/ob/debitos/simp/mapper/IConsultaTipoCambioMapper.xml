@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ob.debitos.simp.mapper.IConsultaTipoCambioMapper">
+
+	<select id="buscarTiposCambio" resultType="TipoCambio">
+		SELECT *
+		FROM
+		<choose>
+			<when test="tipo == 'visa'">
+				ConsultaTipoCambioVisa
+			</when>
+			<otherwise>
+				ConsultaTipoCambioSbs
+			</otherwise>
+		</choose>
+		consulta
+		<where>
+			<if test="fechaInicio != null and fechaFin != null">
+				consulta.fechaProceso BETWEEN #{fechaInicio} AND #{fechaFin}
+			</if>
+		</where>
+		ORDER BY fechaProceso DESC
+	</select>
+</mapper>

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+	<div id="modalDetalleMantenimiento" class="row"
+		th:fragment="modalDetalleMantenimiento">
+		<!-- 		<div class="col-md-12 col-sm-5 col-xs-5"> -->
+		<div class="col-xs-12">
+			<fieldset class="well">
+				<form id="formDetalleControlLote" class="form-horizontal"
+					role="form">
+					<div class="form-group">
+						<div class="group">
+							<label id="lbTipoDocumento"
+								class="col-sm-2 col-md-2 control-label">Tipo de
+								documento *</label>
+							<div class="col-sm-4 col-md-4">
+								<select id="tipoDocumento" name="tipoDocumento"
+									class="form-control select2"></select>
+							</div>
+						</div>
+						<div class="group">
+							<label id="lbNumDocumento"
+								class="col-sm-2 col-md-2 control-label">Numero de
+								documento *</label>
+							<div class="col-sm-4 col-md-4">
+								<input id="numDocumento" name="numDocumento"
+									class="form-control upperCase">
+							</div>
+						</div>
+
+					</div>
+
+					<div class="form-group">
+						<div class="group">
+							<label id="lbNombres" class="col-sm-2 col-md-2 control-label">Nombres*</label>
+							<div class="col-sm-4 col-md-4">
+								<input id="nombres" name="nombres"
+									class="form-control upperCase">
+							</div>
+						</div>
+						<div class="group">
+							<label id="lbApellidos" class="col-sm-2 col-md-2 control-label">Apellidos
+								*</label>
+							<div class="col-sm-4 col-md-4">
+								<input id="apellidos" name="apellidos"
+									class="form-control upperCase">
+							</div>
+						</div>
+					</div>
+
+
+					<div class="form-group">
+						<div class="group">
+							<label id="lbNombreEnTarjeta"
+								class="col-sm-2 col-md-2 control-label">Nombre en la
+								tarjeta</label>
+							<div class="col-sm-4 col-md-4">
+								<input id="nombreEnTarjeta" name="nombreEnTarjeta"
+									class="form-control upperCase">
+							</div>
+						</div>
+						<div class="group">
+							<label id="lbMontoRecarga"
+								class="col-sm-2 col-md-2 control-label">Monto de Recarga
+								*</label>
+							<div class="col-sm-4 col-md-4">
+								<input id="montoRecarga" name="montoRecarga"
+									class="form-control upperCase">
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="group">
+							<label id="lbVigenciaTarjeta"
+								class="col-sm-2 col-md-2 control-label">Vigencia de la
+								tarjeta</label>
+							<div class="col-sm-4 col-md-4">
+								<input id="vigenciaTarjeta" name="vigenciaTarjeta"
+									class="form-control upperCase">
+							</div>
+						</div>
+						<div class="group">
+							<label id="lbCorreoElectronico"
+								class="col-sm-2 col-md-2 control-label">Correo
+								electronico</label>
+							<div class="col-sm-4 col-md-4">
+								<input id="correoElectronico" name="correoELectronico"
+									type="email" class="form-control">
+							</div>
+						</div>
+					</div>
+
+
+					<div class="form-group">
+						<div class="group">
+							<label class="col-sm-2 col-md-2 control-label">Direccion</label>
+							<div class="col-sm-4 col-md-4">
+								<input id="direccion" name="direccion"
+									class="form-control upperCase">
+							</div>
+						</div>
+						<div class="group">
+							<label class="col-sm-2 col-md-2 control-label">Telefono
+								fijo</label>
+							<div class="col-sm-4 col-md-4">
+								<input id="telefonoFijo" name="telefonoFijo"
+									class="form-control upperCase">
+							</div>
+						</div>
+					</div>
+
+
+					<div class="form-group">
+						<div class="group">
+							<label class="col-sm-2 col-md-2 control-label">Telefono
+								Movil</label>
+							<div class="col-sm-4 col-md-4">
+								<input id="telefonoMovil" name="telefonoMovil"
+									class="form-control upperCase">
+							</div>
+						</div>
+
+						<div class="group">
+							<label id="lbNacionalidad"
+								class="col-sm-2 col-md-2 control-label">Nacionalidad</label>
+							<div class="col-sm-4 col-md-4">
+								<select id="nacionalidad" name="nacionalidad"
+									class="form-control select2"></select>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-lg-12 text-center">
+							<button id="actualizarControlLote" type="button"
+								class="btn btn-primary ">
+								<i class="fa fa-pencil-square"></i> Actualizar
+							</button>
+						</div>
+					</div>
+
+				</form>
+			</fieldset>
+		</div>
+	</div>
+</body>
+</html>

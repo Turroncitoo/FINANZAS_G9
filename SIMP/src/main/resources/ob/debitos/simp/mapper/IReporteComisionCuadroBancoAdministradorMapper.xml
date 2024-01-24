@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ob.debitos.simp.mapper.IReporteComisionCuadroBancoAdministradorMapper">
+
+	<resultMap type="ReporteMoneda" id="mapReportComisionInstResumen">
+		<id property="codigoMoneda" column="id_moneda" />
+		<result property="descripcionMoneda" column="descripcion_moneda" />
+		<collection property="transacciones" javaType="List" ofType="ReporteTransaccion">
+			<id property="codigoMembresia" column="codigoMembresia" />
+			<id property="codigoClaseServicio" column="codigoClaseServicio" />
+			<id property="codigoOrigen" column="codigoOrigen" />
+			<id property="claseTransaccion" column="clase_transaccion" />
+			<id property="codigoTransaccion" column="codigo_transaccion" />
+			<id property="monto" column="monto" />
+			<id property="cantidadTransaccion" column="cantidad" />
+			<id property="idEmpresa" column="idEmpresa"/>
+			<id property="idCliente" column="idCliente"/>
+			<result property="descripcionClaseTransaccion" column="descripcion_clase_transaccion" />
+			<result property="descripcionCodigoTransaccion" column="descripcion_codigo_transaccion" />
+			<result property="descripcionMembresia" column="descripcionMembresia" />
+			<result property="descripcionClaseServicio" column="descripcionClaseServicio" />
+			<result property="descripcionOrigen" column="descripcionOrigen" />
+			<result property="descripcionEmpresa" column="descripcionEmpresa" />
+			<result property="descripcionCliente" column="descripcionCliente" />
+			<collection property="comisiones" javaType="List" ofType="ReporteComision">
+				<result property="idConceptoComision" column="id_concepto_comision" />
+				<result property="descripcionConceptoComision" column="descripcion_concepto_comision" />
+				<result property="registroContable" column="registro_contable" />
+				<result property="comision" column="comision" />
+			</collection>
+		</collection>
+	</resultMap>
+
+	<select id="buscarComisionesCuadroBancoAdministrador" statementType="CALLABLE"
+		resultMap="mapReportComisionInstResumen" parameterType="CriterioBusquedaResumen">
+		{call
+			REPORT_COMISION(
+			#{verbo, jdbcType = VARCHAR, mode =IN},
+			#{codigoInstitucion, jdbcType = INTEGER, mode = IN},
+			#{idCliente, jdbcType = VARCHAR, mode = IN},
+			#{idEmpresa, jdbcType = VARCHAR, mode= IN},
+			#{fechaProceso, jdbcType = DATE, mode = IN},
+			#{codigoMoneda, jdbcType = INTEGER, mode = IN}
+			)
+		}
+	</select>
+	
+	<select id="buscarSumarioCompensacion" parameterType="CriterioBusquedaResumen" resultMap="mapBuscarSumarioCompensacion">
+		SELECT 	
+				idInstitucion, 
+				descripcionInstitucion, 
+				idMoneda,
+				descripcionMoneda,
+				codigoMembresia,
+				descripcionMembresia,
+				codigoClaseServicio,
+				descripcionClaseServicio,
+				cantidad,
+				montoFondoDeudor,
+				montoFondoAcreedor,
+				montoComisionDeudor,
+				montoComisionAcreedor,
+				montoMiscelaneoDeudor,
+				montoMiscelaneoAcreedor
+		FROM VIE_REP_SUMARIO_COMPENSACION
+		<where>
+			<if test="fechaProceso != null">
+				fechaProceso = #{fechaProceso}
+			</if>
+			<if test="codigoInstitucion != null and codigoInstitucion != -1">
+				AND idInstitucion = #{codigoInstitucion} 
+			</if>
+		</where>
+		ORDER BY 1, 3, 4, 6 DESC
+	</select>
+	
+	<resultMap type="ReporteMoneda" id="mapBuscarSumarioCompensacion">
+		<id property="codigoMoneda" column="idMoneda"/>
+		<result property="descripcionMoneda" column="descripcionMoneda" />
+		<collection property="sumarioCompensaciones" javaType="List" ofType="ReporteSumarioCompensacion">
+			<result property="idInstitucion" column="idInstitucion"></result>
+			<result property="descripcionInstitucion" column="descripcionInstitucion"></result>
+			<result property="codigoMembresia" column="codigoMembresia" />
+			<result property="codigoClaseServicio" column="codigoClaseServicio" />
+			<result property="descripcionMembresia" column="descripcionMembresia" />
+			<result property="descripcionClaseServicio" column="descripcionClaseServicio" />
+			<result property="montoFondoDeudor" column="montoFondoDeudor" />
+			<result property="montoFondoAcreedor" column="montoFondoAcreedor" />
+			<result property="montoComisionDeudor" column="montoComisionDeudor" />
+			<result property="montoComisionAcreedor" column="montoComisionAcreedor" />
+			<result property="montoMiscelaneoDeudor" column="montoMiscelaneoDeudor" />
+			<result property="montoMiscelaneoAcreedor" column="montoMiscelaneoAcreedor" />
+			<result property="cantidad" column="cantidad" />
+		</collection>
+	</resultMap>
+
+</mapper>
